@@ -1,30 +1,23 @@
 <script lang="ts">
-    import Map from '$lib/components/map.svelte';
-    import { world, winterfell, kingsLanding } from '$lib/tempData';
-    import type { CustomMap} from "$lib/types/mapTypes";
-
-	let state: CustomMap | null = $state(world);
+	import Inventory from "$lib/features/inventory/inventory.svelte";
+	let resources: {
+		iron: number,
+		coin: number
+	} = $state({iron: 0, coin: 0});
 </script>
 
-{#if state}
-	<h3>{state.map?.name}</h3>
-	{#if state.previous}
-		<button
-			onclick={() => {
-				if (state?.previous) {
-					state = state.previous;
-				}
-			}}>Back</button
-		>
-	{/if}
-    <Map bind:state={state}></Map>
-{:else}
-	<p>No map chosen</p>
-	{#each [world, winterfell, kingsLanding] as map}
-		<button
-			onclick={() => {
-				state = map;
-			}}>{map.map?.name}</button
-		>
-	{/each}
-{/if}
+<div class="container">
+	<h1>Welcome</h1>
+
+	<h3 class="mt-5">Resources</h3>
+	<div class="row">
+		<div class="col-auto">
+			<h4><i class="bi bi-coin"></i> {resources.coin}</h4>
+		</div>
+		<div class="col-auto">
+			<h4><i class="bi bi-minecart-loaded"></i> {resources.iron}</h4>
+		</div>
+	</div>
+	<h3 class="mt-5">Inventory</h3>
+	<Inventory></Inventory>
+</div>

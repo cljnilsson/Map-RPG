@@ -9,28 +9,36 @@ const wo: MapType = {
 const winterfellO: MapType = {
 	name: 'Winterfell',
 	type: 'city',
-	imagePath: '/map2.webp'
+	imagePath: '/map3.webp'
 };
 
 const kingsLandingO: MapType = {
 	name: "King's Landing",
 	type: 'city',
-	imagePath: '/map3.webp'
+	imagePath: '/map2.webp'
 };
+
+const starkKeepO: MapType = {
+	name: "Winterfeel Keep",
+	type: 'building',
+	imagePath: "starkKeep.webp"
+}
 
 export const world: CustomMap = {
 	map: wo,
 	previous: null,
 	contains: [
-		{ map: winterfellO, clickBox: { x: 730, y: 2190, width: 100, height: 80 } },
-		{ map: kingsLandingO, clickBox: { x: 500, y: 1050, width: 120, height: 90 } }
+		{ map: kingsLandingO, clickBox: { x: 730, y: 2190, width: 100, height: 80, rotation: 0 } },
+		{ map: winterfellO, clickBox: { x: 500, y: 1050, width: 120, height: 90, rotation: 0 } }
 	]
 };
 
 export const winterfell: CustomMap = {
 	map: winterfellO,
 	previous: world,
-	contains: []
+	contains: [
+		{ map: starkKeepO, clickBox: { x: 800, y: 200, width: 400, height: 220, rotation: 45 } }
+	]
 };
 
 export const kingsLanding: CustomMap = {
@@ -39,4 +47,10 @@ export const kingsLanding: CustomMap = {
 	contains: []
 };
 
-export const maps: CustomMap[] = [world, winterfell, kingsLanding];
+export const starkKeep: CustomMap = {
+	map: starkKeepO,
+	previous: winterfell,
+	contains: []
+};
+
+export const maps: CustomMap[] = [world, winterfell, kingsLanding, starkKeep];

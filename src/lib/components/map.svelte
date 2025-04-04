@@ -15,21 +15,22 @@
 	}
 </script>
 
-<img src={state.map?.imagePath} alt="test" />
+<img src={state.map?.imagePath} class={state.map.type} alt="test" />
 {#each state.contains as rect}
-    <div
+    <button
         class="overlay-rect"
         type="button"
-        role="button"
-        tabindex="1"
         style="
             left: {rect.clickBox.x}px;
             top: {rect.clickBox.y}px;
             width: {rect.clickBox.width}px;
             height: {rect.clickBox.height}px;
+            transform: rotate({rect.clickBox.rotation}deg);
         "
         onclick={() => handleClick(rect)}
-    ></div>
+        onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClick(rect)}
+        aria-label={`Clickable area for ${rect.map.name}`}
+    ></button>
 {/each}
 
 <style>
@@ -39,4 +40,9 @@
 		background-color: rgba(255, 0, 0, 0.2);
 		cursor: pointer;
 	}
+
+    img.city, img.building {
+        height: 93vh;
+        width: 99vw;
+    }
 </style>

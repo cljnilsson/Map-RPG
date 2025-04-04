@@ -9,6 +9,7 @@ type ClickBox = {
     y: number;
     width: number;
     height: number;
+    rotation: number;
 }
 
 type MapWithClickBox = {
