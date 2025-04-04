@@ -28,8 +28,8 @@ export const world: CustomMap = {
 	map: wo,
 	previous: null,
 	contains: [
-		{ map: kingsLandingO, clickBox: { x: 730, y: 2190, width: 100, height: 80, rotation: 0 } },
-		{ map: winterfellO, clickBox: { x: 500, y: 1050, width: 120, height: 90, rotation: 0 } }
+		{ map: kingsLandingO, clickBox: { x: 715, y: 2130, width: 100, height: 80, rotation: 0 } },
+		{ map: winterfellO, clickBox: { x: 500, y: 1000, width: 120, height: 90, rotation: 0 } }
 	]
 };
 

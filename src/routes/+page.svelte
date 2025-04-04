@@ -2,8 +2,9 @@
 	import Inventory from "$lib/features/inventory/inventory.svelte";
 	let resources: {
 		iron: number,
-		coin: number
-	} = $state({iron: 0, coin: 0});
+		coin: number,
+		lumber: number
+	} = $state({iron: 0, coin: 0, lumber: 0});
 </script>
 
 <div class="container">
@@ -16,6 +17,9 @@
 		</div>
 		<div class="col-auto">
 			<h4><i class="bi bi-minecart-loaded"></i> {resources.iron}</h4>
+		</div>
+		<div class="col-auto">
+			<h4><i class="bi bi-tree"></i> {resources.iron}</h4>
 		</div>
 	</div>
 	<h3 class="mt-5">Inventory</h3>
