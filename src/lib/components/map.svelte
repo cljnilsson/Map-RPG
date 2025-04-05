@@ -36,14 +36,17 @@
 </script>
 
 <div class="map-container">
-	<img src={currentMapState.map?.imagePath} class={currentMapState.map.type} alt="test" />
+	<img src={currentMapState.map?.imagePath} class={currentMapState.map.type} alt="test" draggable="false" />
 	{#each currentMapState.contains as rect}
 		<Draggable
-			x={rect.clickBox.x}
-			y={rect.clickBox.y}
+			bind:x={rect.clickBox.x}
+			bind:y={rect.clickBox.y}
 			{editMode}
 			containerWrapper=".map-container"
 			onDragStart={() => (selectedBox = rect)}
+			onDrag={() => {
+				console.log("IS DRAGGING");
+			}}
 			onDragEnd={(wasDragged) => {
 				if (!wasDragged) handleClick(rect);
 			}}
@@ -67,9 +70,11 @@
 					width={rect.clickBox.width}
 					height={rect.clickBox.height}
 					rotation={rect.clickBox.rotation}
-					resizeBoxBy={(width, height) => {
+					resizeBoxBy={(width, height, direction, newX, newY) => {
 						rect.clickBox.width = width;
 						rect.clickBox.height = height;
+						rect.clickBox.x = newX;
+						rect.clickBox.y = newY;
 					}}
 				/>
 			{/if}

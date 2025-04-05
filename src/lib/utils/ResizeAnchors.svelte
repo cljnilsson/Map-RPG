@@ -14,7 +14,13 @@
 		height: number;
 		rotation?: number;
 		minSize?: number;
-		resizeBoxBy: (width: number, height: number, direction: string) => void;
+		resizeBoxBy: (
+			width: number,
+			height: number,
+			direction: string,
+			newX: number,
+			newY: number
+		) => void;
 	} = $props();
 
 	let startX: number;
@@ -35,16 +41,34 @@
 
 			let newWidth = startWidth;
 			let newHeight = startHeight;
+			let newX = x;
+			let newY = y;
 
-			if (direction.includes('e')) newWidth += dx;
-			if (direction.includes('s')) newHeight += dy;
-			if (direction.includes('w')) newWidth -= dx;
-			if (direction.includes('n')) newHeight -= dy;
+			if (direction.includes('e')) {
+				newWidth = startWidth + dx; // Increase width based on mouse movement
+			}
+			if (direction.includes('s')) {
+				newHeight = startHeight + dy; // Increase height based on mouse movement
+			}
+			if (direction.includes('w')) {
+				const newWidthAttempt = startWidth - dx; // Shrink width based on mouse movement
+				newWidth = Math.max(minSize, newWidthAttempt);
+				newX = x + (startWidth - newWidth); // Adjust the x position as width decreases
+			}
+			if (direction.includes('n')) {
+				const newHeightAttempt = startHeight - dy; // Shrink height based on mouse movement
+				newHeight = Math.max(minSize, newHeightAttempt);
+				newY = y + (startHeight - newHeight); // Adjust the y position as height decreases
+			}
 
-			newWidth = Math.max(minSize, newWidth);
-			newHeight = Math.max(minSize, newHeight);
+			// Update start values after repositioning the box
+			startX = e.clientX;
+			startY = e.clientY;
+			startWidth = newWidth;
+			startHeight = newHeight;
 
-			resizeBoxBy(newWidth, newHeight, direction);
+			// Call resizeBoxBy with updated dimensions and position
+			resizeBoxBy(newWidth, newHeight, direction, newX, newY);
 		};
 
 		const onUp = () => {
@@ -57,10 +81,17 @@
 	}
 </script>
 
+<!-- Corners -->
 <div class="anchor nw" onmousedown={(e) => onMouseDown(e, 'nw')} role="button" tabindex="0"></div>
 <div class="anchor ne" onmousedown={(e) => onMouseDown(e, 'ne')} role="button" tabindex="0"></div>
 <div class="anchor sw" onmousedown={(e) => onMouseDown(e, 'sw')} role="button" tabindex="0"></div>
 <div class="anchor se" onmousedown={(e) => onMouseDown(e, 'se')} role="button" tabindex="0"></div>
+
+<!-- Edges -->
+<div class="anchor w" onmousedown={(e) => onMouseDown(e, 'w')} role="button" tabindex="0"></div>
+<div class="anchor e" onmousedown={(e) => onMouseDown(e, 'e')} role="button" tabindex="0"></div>
+<div class="anchor n" onmousedown={(e) => onMouseDown(e, 'n')} role="button" tabindex="0"></div>
+<div class="anchor s" onmousedown={(e) => onMouseDown(e, 's')} role="button" tabindex="0"></div>
 
 <style>
 	.anchor {
@@ -92,5 +123,37 @@
 		cursor: nwse-resize;
 		bottom: -5px;
 		right: -5px;
+	}
+	.anchor.e {
+		cursor: nwse-resize;
+		bottom: calc(50% - 5px);
+		right: -5px;
+	}
+	.anchor.w {
+		cursor: nwse-resize;
+		bottom: calc(50% - 5px);
+		left: -5px;
+	}
+	.anchor.n {
+		cursor: nwse-resize;
+		top: -5px;
+		right: calc(50% - 5px);
+	}
+	.anchor.s {
+		cursor: nwse-resize;
+		bottom: -5px;
+		right: calc(50% - 5px);
+	}
+	.anchor.n {
+		cursor: ns-resize;
+	}
+	.anchor.s {
+		cursor: ns-resize;
+	}
+	.anchor.e {
+		cursor: ew-resize;
+	}
+	.anchor.w {
+		cursor: ew-resize;
 	}
 </style>

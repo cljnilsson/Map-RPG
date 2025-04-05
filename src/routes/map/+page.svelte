@@ -65,11 +65,12 @@
 					selectedBox = null;
 				}}>Delete</button
 			>
+			<!--
 			<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.height} />
 			<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.width} />
 			<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.rotation} />
 			<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.x} />
-			<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.y} />
+			<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.y} />-->
 		{/if}
 	{/if}
     <Map bind:currentMapState={mapState} bind:selectedBox={selectedBox} {editMode}></Map>
