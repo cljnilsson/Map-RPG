@@ -28,6 +28,18 @@
 	let startWidth: number;
 	let startHeight: number;
 
+	/*
+	function rotatePoint(x: number, y: number, angle: number): { x: number; y: number } {
+		// Convert angle to radians
+		const radians = angle * (Math.PI / 180);
+
+		// Rotate the point (x, y) around the origin (0, 0)
+		const rotatedX = x * Math.cos(radians) + y * Math.sin(radians);
+		const rotatedY = -x * Math.sin(radians) + y * Math.cos(radians);
+
+		return { x: rotatedX, y: rotatedY };
+	}*/
+
 	function onMouseDown(event: MouseEvent, direction: string) {
 		event.stopPropagation();
 		startX = event.clientX;
