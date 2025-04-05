@@ -14,7 +14,7 @@
 	);
 </script>
 
-<div class="container">
+<div class="container mt-3">
 	<h1>Welcome</h1>
 	<h3 class="mt-5">Resources</h3>
 	<div class="row">
@@ -32,3 +32,12 @@
 	<h3 class="mt-5">Inventory</h3>
 	<Inventory></Inventory>
 </div>
+
+<style>
+	.container {
+		background: rgba(255, 255, 255, 0.4);
+		border-radius: 10px;
+		padding-top: 0.75rem;
+		padding-bottom: 0.75rem;
+	}
+</style>

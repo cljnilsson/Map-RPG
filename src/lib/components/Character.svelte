@@ -7,12 +7,12 @@
 
 <div class="row mt-5">
 	<div class="col-4">
-		<img src="/char.jpg" alt="Iron" class="img-fluid" />
+		<img src="/char.jpg" alt="Your character" />
 	</div>
 	<div class="col">
 		<h3>{character.name}</h3>
 		<div class="row">
-			<div class="col-6">
+			<div class="col-xl-2 col-md-6">
 				<CharacterStat name="Strength" value={character.stats.str}></CharacterStat>
 				<CharacterStat name="Int" value={character.stats.int}></CharacterStat>
                 <CharacterStat name="Vitality" value={character.stats.vit}></CharacterStat>

@@ -13,7 +13,17 @@
 	<script src={scriptSrc}></script>
 </svelte:head>
 
-<div class="container-fluid">
+<div class="container-fluid p-0">
     <Nav></Nav>
     {@render children()}
 </div>
+
+<style>
+    .container-fluid {
+		background-image: url('/bg.jpg');
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-size: cover;
+	}
+</style>
