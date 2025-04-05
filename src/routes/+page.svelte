@@ -35,7 +35,7 @@
 
 <style>
 	.container {
-		background: rgba(255, 255, 255, 0.4);
+		background: rgba(235, 235, 235, 0.6);
 		border-radius: 10px;
 		padding-top: 0.75rem;
 		padding-bottom: 0.75rem;

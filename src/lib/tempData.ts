@@ -37,7 +37,7 @@ export const winterfell: CustomMap = {
 	map: winterfellO,
 	previous: world,
 	contains: [
-		{ map: starkKeepO, clickBox: { x: 800, y: 200, width: 400, height: 220, rotation: 45 } }
+		{ map: starkKeepO, clickBox: { x: 830, y: 110, width: 400, height: 220, rotation: 50 } }
 	]
 };
 

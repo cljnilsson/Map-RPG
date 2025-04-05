@@ -3,6 +3,8 @@
 	import { maps } from '$lib/tempData';
 	import Draggable from '$lib/utils/Draggable.svelte';
 	import ResizeAnchors from '$lib/utils/ResizeAnchors.svelte';
+	import MapClickBox from './MapClickBox.svelte';
+	import { handle } from '../../hooks.server';
 
 	let {
 		currentMapState = $bindable(),
@@ -14,8 +16,10 @@
 		editMode: boolean;
 	} = $props();
 
+	$inspect(currentMapState);
+
 	function handleClick(rect: MapWithClickBox) {
-		console.log(rect);
+		console.log('reee', rect);
 
 		const found = maps.find((map) => map.map?.name === rect.map.name);
 
@@ -36,49 +40,49 @@
 </script>
 
 <div class="map-container">
-	<img src={currentMapState.map?.imagePath} class={currentMapState.map.type} alt="test" draggable="false" />
+	<img
+		src={currentMapState.map?.imagePath}
+		class={currentMapState.map.type}
+		alt="test"
+		draggable="false"
+	/>
 	{#each currentMapState.contains as rect}
-		<Draggable
-			bind:x={rect.clickBox.x}
-			bind:y={rect.clickBox.y}
-			{editMode}
-			containerWrapper=".map-container"
-			onDragStart={() => (selectedBox = rect)}
-			onDrag={() => {
-				console.log("IS DRAGGING");
-			}}
-			onDragEnd={(wasDragged) => {
-				if (!wasDragged) handleClick(rect);
-			}}
-		>
-			<button
-				class="overlay-rect"
-				class:overlay-rect-editing={selectedBox?.map.name === rect.map.name}
-				type="button"
-				style="
-			width: {rect.clickBox.width}px;
-			height: {rect.clickBox.height}px;
-			transform: rotate({rect.clickBox.rotation}deg);
-			position: relative;
-		"
-				aria-label={`Clickable area for ${rect.map.name}`}
-			></button>
-			{#if editMode && selectedBox?.map.name === rect.map.name}
-				<ResizeAnchors
-					x={rect.clickBox.x}
-					y={rect.clickBox.y}
-					width={rect.clickBox.width}
-					height={rect.clickBox.height}
-					rotation={rect.clickBox.rotation}
-					resizeBoxBy={(width, height, direction, newX, newY) => {
-						rect.clickBox.width = width;
-						rect.clickBox.height = height;
-						rect.clickBox.x = newX;
-						rect.clickBox.y = newY;
-					}}
-				/>
-			{/if}
-		</Draggable>
+		{#if editMode}
+			<Draggable
+				bind:x={rect.clickBox.x}
+				bind:y={rect.clickBox.y}
+				{editMode}
+				containerWrapper=".map-container"
+				onDragStart={() => (selectedBox = rect)}
+				onDrag={() => {
+					console.log('IS DRAGGING');
+				}}
+				onDragEnd={(wasDragged) => {
+					if (!wasDragged) handleClick(rect);
+				}}
+			>
+				<MapClickBox {rect} {selectedBox} onClickCallback={() => {}}></MapClickBox>
+				{#if editMode && selectedBox?.map.name === rect.map.name}
+					<ResizeAnchors
+						x={rect.clickBox.x}
+						y={rect.clickBox.y}
+						width={rect.clickBox.width}
+						height={rect.clickBox.height}
+						rotation={rect.clickBox.rotation}
+						resizeBoxBy={(width, height, direction, newX, newY) => {
+							rect.clickBox.width = width;
+							rect.clickBox.height = height;
+							rect.clickBox.x = newX;
+							rect.clickBox.y = newY;
+						}}
+					/>
+				{/if}
+			</Draggable>
+		{:else}
+			<div style="position: absolute; left: {rect.clickBox.x}px; top: {rect.clickBox.y}px;">
+				<MapClickBox {rect} {selectedBox} onClickCallback={handleClick}></MapClickBox>
+			</div>
+		{/if}
 	{/each}
 </div>
 
