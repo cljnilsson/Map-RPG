@@ -1,12 +1,12 @@
 <script lang="ts">
 	let {
-		x,
-		y,
-		width,
-		height,
+		x = $bindable(),
+		y = $bindable(),
+		width = $bindable(),
+		height = $bindable(),
 		rotation = 0,
 		minSize = 10,
-		resizeBoxBy
+		resizeBoxBy = () => {}
 	}: {
 		x: number;
 		y: number;
@@ -14,7 +14,7 @@
 		height: number;
 		rotation?: number;
 		minSize?: number;
-		resizeBoxBy: (
+		resizeBoxBy?: (
 			width: number,
 			height: number,
 			direction: string,
@@ -78,6 +78,12 @@
 			startY = e.clientY;
 			startWidth = newWidth;
 			startHeight = newHeight;
+
+			// Update
+			x = newX;
+			y = newY;
+			width = newWidth;
+			height = newHeight;
 
 			// Call resizeBoxBy with updated dimensions and position
 			resizeBoxBy(newWidth, newHeight, direction, newX, newY);

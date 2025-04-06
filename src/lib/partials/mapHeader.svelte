@@ -1,21 +1,15 @@
 <script lang="ts">
-	import type { CustomMap, MapWithClickBox } from '$lib/types/mapTypes';
-
-	let {
-		mapState = $bindable(),
-		editMode = $bindable(),
-		selectedBox = $bindable()
-	}: { mapState: CustomMap | null; selectedBox: MapWithClickBox | null; editMode: boolean } =
-		$props();
+	import type { MapWithClickBox } from '$lib/types/mapTypes';
+	import MapStore from '$lib/stores/map.svelte';
 
 	function onBack() {
-		if (mapState?.previous) {
-			mapState = mapState.previous;
+		if (MapStore.currentMapState?.previous) {
+			MapStore.currentMapState = MapStore.currentMapState.previous;
 		}
 	}
 
 	function newZone() {
-		if (!mapState) {
+		if (!MapStore.currentMapState) {
 			return;
 		}
 
@@ -34,37 +28,42 @@
 			}
 		};
 
-		mapState.contains = [...mapState.contains, newObj];
+		MapStore.currentMapState.contains = [...MapStore.currentMapState.contains, newObj];
 
-		editMode = true;
-		selectedBox = newObj;
+		MapStore.editMode = true;
+		MapStore.selectedBox = newObj;
 	}
 
 	function toggleEditMode() {
-		editMode = !editMode;
-		if (editMode === false) {
-			selectedBox = null;
+		MapStore.editMode = !MapStore.editMode;
+		if (MapStore.editMode === false) {
+			MapStore.selectedBox = null;
 		}
-		console.log(editMode);
+		console.log(MapStore.editMode);
 	}
 </script>
 
-{#if mapState}
-	<h3>{mapState.map?.name}</h3>
-	{#if mapState.previous}
+{#if MapStore.currentMapState}
+	<h3>{MapStore.currentMapState.map?.name}</h3>
+	{#if MapStore.currentMapState.previous}
 		<button onclick={onBack}>Back</button>
 	{/if}
 	<button onclick={newZone}>New</button>
 	<button onclick={toggleEditMode}>Edit Mode</button>
-	{#if editMode && selectedBox}
-		{@const found = mapState.contains.find((map) => map.map?.name === selectedBox?.map.name)}
+	{#if MapStore.editMode && MapStore.selectedBox}
+		{@const found = MapStore.currentMapState.contains.find((map) => map.map?.name === MapStore.selectedBox?.map.name)}
 		{#if found}
 			<button
 				onclick={() => {
-					mapState.contains = mapState?.contains.filter(
-						(map) => map.map?.name !== selectedBox?.map.name
-					);
-					selectedBox = null;
+					if(MapStore.currentMapState) {
+						MapStore.currentMapState.contains = MapStore.currentMapState?.contains.filter(
+							(map) => map.map?.name !== MapStore.selectedBox?.map.name
+						);
+						MapStore.selectedBox = null;
+					} else {
+						console.error('No current map state found');
+					}
+					
 				}}>Delete</button
 			>
 			<!--
