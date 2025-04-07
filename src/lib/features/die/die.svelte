@@ -1,30 +1,30 @@
-<script>
-	import Blank from './Blank.svelte';
-	import Dot from './Dot.svelte';
+<script lang="ts">
+	let { dots = randomNumber() }: { dots?: number } = $props();
+	let flip: boolean = $state(false);
 
-	export let dots = randomNumber();
-	let flip = false;
-
-	function randomNumber() {
-		return Math.floor(Math.random() * 6) + 1;
+	function randomNumber(dieSize: number = 6): number {
+		return Math.floor(Math.random() * dieSize) + 1;
 	}
 
-	function roll() {
+	export async function roll() {
 		if (flip) {
 			return;
 		}
 		flip = true;
 
-		setTimeout(() => {
-			dots = randomNumber();
-		}, 600);
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				dots = randomNumber();
+				resolve(dots);
+			}, 600);
+		});
 	}
 
 	function rollComplete() {
 		flip = false;
 	}
 
-	function onEnter(event) {
+	function onEnter(event: KeyboardEvent) {
 		if (event.key === 'Enter' || event.key === ' ') {
 			roll();
 		}
@@ -34,52 +34,30 @@
 <div
 	onclick={roll}
 	class="face"
-	class:animated={flip}
-	class:flip
+	class:animate__animated={flip}
+	class:animate__flip={flip}
 	onanimationend={rollComplete}
 	tabindex="0"
 	role="button"
 	onkeydown={onEnter}
 >
-	{#if dots == 1}
-		<Blank /><Blank /><Blank />
-		<Blank /><Dot /><Blank />
-		<Blank /><Blank /><Blank />
-	{:else if dots == 2}
-		<Blank /><Blank /><Dot />
-		<Blank /><Blank /><Blank />
-		<Dot /><Blank /><Blank />
-	{:else if dots == 3}
-		<Blank /><Blank /><Dot />
-		<Blank /><Dot /><Blank />
-		<Dot /><Blank /><Blank />
-	{:else if dots == 4}
-		<Dot /><Blank /><Dot />
-		<Blank /><Blank /><Blank />
-		<Dot /><Blank /><Dot />
-	{:else if dots == 5}
-		<Dot /><Blank /><Dot />
-		<Blank /><Dot /><Blank />
-		<Dot /><Blank /><Dot />
-	{:else if dots == 6}
-		<Dot /><Blank /><Dot />
-		<Dot /><Blank /><Dot />
-		<Dot /><Blank /><Dot />
-	{/if}
+	<span>{dots}</span>
 </div>
 
 <style>
 	.face {
 		width: 5rem;
 		height: 5rem;
-		border-style: solid;
-		border-width: 1px;
-		border-color: black;
+		border: 1px solid black;
 		border-radius: 10px;
-		display: grid;
-		grid-template-columns: auto auto auto;
-		justify-items: center;
+		display: flex;
+		justify-content: center;
 		align-items: center;
 		padding: 10px;
+		box-sizing: border-box;
+		span {
+			text-align: center;
+			font-size: 2rem;
+		}
 	}
 </style>

@@ -1,14 +1,21 @@
 <script lang="ts">
-  import Die from '$lib/features/die/die.svelte';
+	import DieCollection from '$lib/features/die/dieCollection.svelte';
+
+	let diceRef: DieCollection;
+
+	async function roll() {
+		let result = await diceRef?.roll();
+		console.log(result);
+	}
 </script>
 
-<svelte:head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-</svelte:head>
-
-<div class="wrapper mt-5 mx-5 px-5">
-    <Die/>
-    <Die/>
+<div class="wrapper mt-5 mx-5 px-3">
+	<DieCollection num={2} bind:this={diceRef}>
+		<h2 class="text-center mb-5">Roll!</h2>
+	</DieCollection>
+	<div class="text-center mt-5">
+		<button class="btn btn-outline-dark" onclick={roll}>Roll</button>
+	</div>
 </div>
 
 <style>
