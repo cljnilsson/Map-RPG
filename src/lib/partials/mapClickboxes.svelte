@@ -32,9 +32,6 @@
 				editMode={MapStore.editMode}
 				containerWrapper=".map-container"
 				onDragStart={() => (MapStore.selectedBox = rect)}
-				onDrag={() => {
-					console.log('IS DRAGGING');
-				}}
 				onDragEnd={(wasDragged) => {
 					if (!wasDragged) handleClick(rect);
 				}}
