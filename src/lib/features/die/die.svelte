@@ -1,6 +1,7 @@
 <script lang="ts">
 	let { dots = randomNumber() }: { dots?: number } = $props();
 	let flip: boolean = $state(false);
+	let grow: boolean = $state(false);
 
 	function randomNumber(dieSize: number = 6): number {
 		return Math.floor(Math.random() * dieSize) + 1;
@@ -22,6 +23,12 @@
 
 	function rollComplete() {
 		flip = false;
+		grow = true;
+
+		// Reset after animation completes (e.g., 0.5s grow + 0.5s shrink = 1s total)
+		setTimeout(() => {
+			grow = false;
+		}, 500);
 	}
 
 	function onEnter(event: KeyboardEvent) {
@@ -41,7 +48,7 @@
 	role="button"
 	onkeydown={onEnter}
 >
-	<span>{dots}</span>
+	<span class:grow-shrink={grow}>{dots}</span>
 </div>
 
 <style>
@@ -59,5 +66,20 @@
 			text-align: center;
 			font-size: 2rem;
 		}
+	}
+	@keyframes growAndShrink {
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(2);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+
+	.grow-shrink {
+		animation: growAndShrink 0.5s ease-in-out;
 	}
 </style>
