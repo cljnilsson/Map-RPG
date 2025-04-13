@@ -1,20 +1,24 @@
-type CharSprite = {
-    name: string;
-    image: string;
+export type CharSprite = {
+	name: string;
+	image: string;
 };
 
-type TextMessage = {
-    type: 'text';
-    text: string;
-    from: CharSprite;
+export type TextMessage = {
+	type: 'text';
+	text: string;
+	from: CharSprite;
+	next?: number; // index of the next message
 };
 
-type ChoiceMessage = {
-    type: 'choice';
-    choices: string[];
-    from: CharSprite;
+export type ChoiceOption = {
+	text: string;
+	next: number; // index of the message this choice leads to
 };
 
-type Message = TextMessage | ChoiceMessage;
+export type ChoiceMessage = {
+	type: 'choice';
+	choices: ChoiceOption[];
+	from: CharSprite;
+};
 
-export type { Message, TextMessage, ChoiceMessage, CharSprite };
+export type Message = TextMessage | ChoiceMessage;

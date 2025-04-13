@@ -1,24 +1,31 @@
 <script lang="ts">
-	import type {Message, TextMessage, ChoiceMessage, CharSprite} from '$lib/types/message';
+	import type {
+		Message,
+		TextMessage,
+		ChoiceMessage,
+		CharSprite,
+		ChoiceOption
+	} from '$lib/types/message';
 
-	let alice: CharSprite = { name: "Alice", image: "alice.png" };
-	let bob: CharSprite = { name: "Bob", image: "bob.png" };
-	let you: CharSprite = { name: "You", image: "char.jpg" };
+	let alice: CharSprite = { name: 'Alice', image: 'alice.png' };
+	let bob: CharSprite = { name: 'Bob', image: 'bob.png' };
+	let you: CharSprite = { name: 'You', image: 'char.jpg' };
 
 	let msgs: Message[] = [
-		{ type: 'text', text: 'Hello, how are you?', from: alice },
-		{ type: 'text', text: "I'm good, thanks! How about you?", from: bob },
+		{ type: 'text', text: 'Hello, how are you?', from: alice, next: 1 },
+		{ type: 'text', text: "I'm good, thanks! How about you?", from: bob, next: 2 },
 		{
 			type: 'choice',
+			from: you,
 			choices: [
-				"I'm doing well!",
-				"Pretty busy lately.",
-				"Could be better.",
-				"All good here."
-			],
-			from: you
+				{ text: "I'm doing well!", next: 3 },
+				{ text: 'Pretty busy lately.', next: 4 },
+				{ text: 'Could be better.', next: 4 },
+				{ text: 'All good here.', next: 3 }
+			]
 		},
-		{ type: 'text', text: 'That sounds interesting! What kind of projects?', from: bob },
+		{ type: 'text', text: 'That sounds interesting! What kind of projects?', from: bob, next: 5 },
+		{ type: 'text', text: 'I hope things ease up for you soon.', from: bob, next: 5 },
 		{ type: 'text', text: 'Just some web development stuff. You know how it is.', from: alice }
 	];
 
@@ -28,16 +35,19 @@
 		if (current > 0) current--;
 	}
 
-	function next() {
-		if (current < msgs.length - 1) current++;
+	function selectChoice(choice: ChoiceOption) {
+		const nextIndex = choice.next;
+		msgs[current] = { type: 'text', text: choice.text, from: you, next: nextIndex };
+		current = nextIndex;
 	}
 
-	function selectChoice(choice: string) {
-		msgs[current] = { type: 'text', text: choice, from: you };
-		next();
+	function next() {
+		const msg = msgs[current];
+		if (msg.type === 'text' && msg.next !== undefined) {
+			current = msg.next;
+		}
 	}
 </script>
-
 
 <div class="mt-5 mx-5 px-3">
 	<div class="row justify-content-center">
@@ -59,10 +69,10 @@
 				<div class="choices-grid">
 					{#each (msgs[current] as ChoiceMessage).choices as choice}
 						<button
-							class="choice-btn btn btn-outline-primary"
+							class="choice-btn btn btn-sm btn-outline-primary"
 							on:click={() => selectChoice(choice)}
 						>
-							{choice}
+							{choice.text}
 						</button>
 					{/each}
 				</div>
@@ -83,7 +93,8 @@
 		background: rgba(235, 235, 235, 0.6);
 		border-radius: 10px;
 		padding-top: 0.75rem;
-		padding-bottom: 2.5rem; /* Extra space for button overlap */
+		padding-bottom: 0.5rem; /* Extra space for button overlap */
+		min-height: 10rem; /* attempt to have the box same size always */
 		position: relative;
 		overflow: visible;
 	}
