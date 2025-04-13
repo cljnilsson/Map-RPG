@@ -1,37 +1,56 @@
 <script lang="ts">
+    type CharSprite = {
+        name: string;
+        image: string;
+    }
 	type Message = {
 		text: string;
-		from: string;
+		from: CharSprite;
 	};
 
+    let alice = {
+        name: "Alice",
+        image: "alice.png"
+    }
+
+    let bob = {
+        name: "Bob",
+        image: "bob.png"
+    }
+
 	let msgs: Message[] = [
-		{ text: 'Hello, how are you?', from: 'Alice' },
-		{ text: "I'm good, thanks! How about you?", from: 'Bob' },
-		{ text: "I'm doing well, just working on some projects.", from: 'Alice' },
-		{ text: 'That sounds interesting! What kind of projects?', from: 'Bob' },
-		{ text: 'Just some web development stuff. You know how it is.', from: 'Alice' }
+		{ text: 'Hello, how are you?', from: alice },
+		{ text: "I'm good, thanks! How about you?", from: bob },
+		{ text: "I'm doing well, just working on some projects.", from: alice },
+		{ text: 'That sounds interesting! What kind of projects?', from: bob },
+		{ text: 'Just some web development stuff. You know how it is.', from: alice }
 	];
 
 	let current = 0;
 
 	function prev() {
-		current = current > 0 ? current - 1 : msgs.length - 1;
+		current = current - 1;
 	}
 
 	function next() {
-		current = (current + 1) % msgs.length;
+		current = (current + 1);
 	}
 </script>
 
 <div class="mt-5 mx-5 px-3">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <img src={msgs[current].from.image} alt={msgs[current].from.name} class="img-fluid" style="max-width: 200px; max-height: 200px;" />
+        </div>
+    </div>
 	<div class="row justify-content-center">
 		<div class="col-6 wrapper position-relative">
-			<h5>{msgs[current].from}</h5>
+			<h5>{msgs[current].from.name} ({current})</h5>
 			<p>{msgs[current].text}</p>
 
 			<div class="button-container">
-				<button class="btn btn-dark" on:click={prev}>Previous</button>
-				<button class="btn btn-dark" on:click={next}>Next</button>
+				<button class="btn btn-dark" on:click={prev} disabled={current === 0}>Previous</button>
+				<button class="btn btn-dark" on:click={next} disabled={current === msgs.length - 1}>Next</button>
 			</div>
 		</div>
 	</div>
