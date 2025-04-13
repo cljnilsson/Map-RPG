@@ -1,14 +1,22 @@
 <script lang="ts">
 	import type { Message } from '$lib/types/message';
 
-	let { current = $bindable(), msgs, onEnd }: { current: number; msgs: Message[], onEnd: () => void } = $props();
+	let {
+		current = $bindable(),
+		msgs,
+		onEnd
+	}: { current: number; msgs: Message[]; onEnd: () => void } = $props();
 
 	function next() {
 		const msg = msgs[current];
-		if (msg.type === 'text' && msg.next !== undefined) {
-			current = msg.next;
-			if(onEnd) {
-				onEnd();
+		if (msg.type === 'text') {
+			if (!msg.next) {
+				current += 1;
+			} else {
+				current = msg.next;
+				if (onEnd) {
+					onEnd();
+				}
 			}
 		}
 	}

@@ -12,7 +12,7 @@ export type TextMessage = {
 
 export type ChoiceOption = {
 	text: string;
-	next: number;
+	next?: number;
 	onChoice?: () => void; // optional callback when this choice is selected
 };
 
