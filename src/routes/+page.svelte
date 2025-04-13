@@ -10,7 +10,7 @@
 	} = $state({iron: 0, coin: 0, lumber: 0});
 
 	let character: Character = $state(
-		{stats: {str: 5, int: 8, vit: 10, char: 7, dex: 5}, name:"Alice", age: 22, gender: "Female", race: "Human", conditions: []}
+		{stats: {str: 5, int: 8, vit: 10, char: 7, dex: 5}, name:"Alice", health: 25, maxHealth: 100, age: 22, gender: "Female", race: "Human", conditions: []}
 	);
 </script>
 

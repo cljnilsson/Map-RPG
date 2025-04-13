@@ -6,6 +6,7 @@
 {#if MapStore.currentMapState}
 	<div class="map-container">
 		<img
+			loading="lazy"
 			src={MapStore.currentMapState.map?.imagePath}
 			class={MapStore.currentMapState.map.type}
 			alt="test"
