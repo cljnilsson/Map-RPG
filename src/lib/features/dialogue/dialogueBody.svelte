@@ -10,13 +10,20 @@
 	let {
 		msgs = $bindable(),
 		player,
-		current = $bindable()
-	}: { msgs: Message[]; player: CharSprite; current: number } = $props();
+		current = $bindable(),
+		onEnd,
+	}: { msgs: Message[]; player: CharSprite; current: number, onEnd?: () => void } = $props();
 
 	function selectChoice(choice: ChoiceOption) {
-		const nextIndex = choice.next;
-		msgs[current] = { type: 'text', text: choice.text, from: player, next: nextIndex };
-		current = nextIndex;
+		if (choice.onChoice) {
+			choice.onChoice();
+		}
+		msgs[current] = { type: 'text', text: choice.text, from: player, next: choice.next };
+		current = choice.next;
+
+		if(onEnd) {
+			onEnd();
+		}
 	}
 </script>
 

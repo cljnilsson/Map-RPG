@@ -3,8 +3,20 @@
 	import DialogueButtons from '$lib/features/dialogue/dialogueButtons.svelte';
 	import DialogueBody from '$lib/features/dialogue/dialogueBody.svelte';
 
-	let { msgs, player }: { msgs: Message[]; player: CharSprite } = $props();
+	let { msgs, player, onEnd }: { msgs: Message[]; player: CharSprite; onEnd?: () => void } =
+		$props();
 	let current: number = $state(0);
+
+	function checkEnd() {
+		const nextMsg = msgs[current];
+		if (!nextMsg || (nextMsg.type === 'text' && nextMsg.next === undefined)) {
+			if (onEnd) {
+				onEnd();
+			}
+		} else {
+			console.warn('Premature end?');
+		}
+	}
 </script>
 
 <div class="row justify-content-center">
@@ -20,8 +32,8 @@
 <div class="row justify-content-center">
 	<div class="col-6 wrapper position-relative">
 		<h5>{msgs[current].from.name} ({current})</h5>
-		<DialogueBody {player} bind:current bind:msgs></DialogueBody>
-		<DialogueButtons {msgs} bind:current></DialogueButtons>
+		<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd}></DialogueBody>
+		<DialogueButtons {msgs} bind:current onEnd={checkEnd}></DialogueButtons>
 	</div>
 </div>
 

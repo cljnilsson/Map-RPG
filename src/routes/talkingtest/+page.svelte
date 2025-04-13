@@ -21,10 +21,14 @@
 		},
 		{ type: 'text', text: 'That sounds interesting! What kind of projects?', from: bob, next: 5 },
 		{ type: 'text', text: 'I hope things ease up for you soon.', from: bob, next: 5 },
-		{ type: 'text', text: 'Just some web development stuff. You know how it is.', from: alice }
+		{ type: 'text', text: 'Just some web development stuff. You know how it is.', from: alice}
 	];
+
+    function onEnd() {
+        console.log('Dialogue ended');
+    }
 </script>
 
 <div class="mt-5 mx-5 px-3">
-	<Dialogue {msgs} player={you}></Dialogue>
+	<Dialogue {msgs} player={you} onEnd={onEnd}></Dialogue>
 </div>
