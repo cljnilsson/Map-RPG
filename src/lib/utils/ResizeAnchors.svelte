@@ -4,7 +4,7 @@
 		y = $bindable(),
 		width = $bindable(),
 		height = $bindable(),
-		rotation = 0,
+		rotation = $bindable(),
 		minSize = 10,
 		resizeBoxBy = () => {}
 	}: {
@@ -23,22 +23,51 @@
 		) => void;
 	} = $props();
 
+	// Resizing
 	let startX: number;
 	let startY: number;
 	let startWidth: number;
 	let startHeight: number;
 
-	/*
-	function rotatePoint(x: number, y: number, angle: number): { x: number; y: number } {
-		// Convert angle to radians
-		const radians = angle * (Math.PI / 180);
+	// Rotation
+	let rotating = false;
+	let centerX: number;
+	let centerY: number;
+	let startRotation: number;
+	let startAngle: number;
 
-		// Rotate the point (x, y) around the origin (0, 0)
-		const rotatedX = x * Math.cos(radians) + y * Math.sin(radians);
-		const rotatedY = -x * Math.sin(radians) + y * Math.cos(radians);
+	function startRotate(event: MouseEvent) {
+		event.stopPropagation();
+		rotating = true;
 
-		return { x: rotatedX, y: rotatedY };
-	}*/
+		// Center of the box
+		centerX = x + width / 2;
+		centerY = y + height / 2;
+
+		const dx = event.clientX - centerX;
+		const dy = event.clientY - centerY;
+		startAngle = Math.atan2(dy, dx) * (180 / Math.PI); // mouse angle relative to center
+		startRotation = rotation ?? 0; // record the starting rotation
+
+		window.addEventListener('mousemove', onRotate);
+		window.addEventListener('mouseup', stopRotate);
+	}
+
+	function onRotate(event: MouseEvent) {
+		if (!rotating) return;
+		const dx = event.clientX - centerX;
+		const dy = event.clientY - centerY;
+		const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+		// rotation = initial rotation + difference in angles
+		rotation = startRotation + (currentAngle - startAngle) * -1;
+	}
+
+	function stopRotate() {
+		rotating = false;
+		window.removeEventListener('mousemove', onRotate);
+		window.removeEventListener('mouseup', stopRotate);
+	}
 
 	function onMouseDown(event: MouseEvent, direction: string) {
 		event.stopPropagation();
@@ -111,7 +140,23 @@
 <div class="anchor n" onmousedown={(e) => onMouseDown(e, 'n')} role="button" tabindex="0"></div>
 <div class="anchor s" onmousedown={(e) => onMouseDown(e, 's')} role="button" tabindex="0"></div>
 
+<!-- Rotation -->
+<div class="rotate-handle" onmousedown={startRotate} role="button" tabindex="0"></div>
+
 <style>
+	.rotate-handle {
+		width: 12px;
+		height: 12px;
+		background: blue;
+		border-radius: 50%;
+		position: absolute;
+		top: -30px; /* Distance above box */
+		left: 50%;
+		transform: translateX(-50%);
+		cursor: grab;
+		z-index: 20;
+	}
+
 	.anchor {
 		width: 10px;
 		height: 10px;

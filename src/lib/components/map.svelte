@@ -22,6 +22,11 @@
 		display: inline-block;
 	}
 
+	img {
+		pointer-events: none;
+		user-select: none;
+ 		-webkit-user-select: none; /* for Safari */
+	}
 	img.city,
 	img.building {
 		height: 93vh;

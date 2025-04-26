@@ -7,12 +7,13 @@
     import MapStore from '$lib/stores/map.svelte';
 
 	function toggleSelection(rect: MapWithClickBox) {
-		MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
+		//MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
+		MapStore.selectedBox = {...rect};
 	}
 
 	function handleClick(rect: MapWithClickBox) {
-		console.log('reee', rect);
 		const found = maps.find((map) => map.map?.name === rect.map.name);
+		console.log('reee', rect.map.name, found, MapStore.editMode);
 		if (!found) return;
 
 		if (MapStore.editMode) {
@@ -21,6 +22,10 @@
 			MapStore.currentMapState = found;
 		}
 	}
+	$effect(() => {
+		console.log(MapStore.selectedBox?.map.name);
+		//$inspect(MapStore.selectedBox);
+	});
 </script>
 
 {#if MapStore.currentMapState}
@@ -43,7 +48,7 @@
 						bind:y={rect.clickBox.y}
 						bind:width={rect.clickBox.width}
 						bind:height={rect.clickBox.height}
-						rotation={rect.clickBox.rotation}
+						bind:rotation={rect.clickBox.rotation}
 					/>
 				{/if}
 			</Draggable>
