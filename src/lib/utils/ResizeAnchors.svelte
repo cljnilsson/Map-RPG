@@ -34,20 +34,40 @@
 	let centerX: number;
 	let centerY: number;
 	let startRotation: number;
-	let startAngle: number;
+	let startMouseAngle: number;
+
+	$effect(() => {
+		//console.log(rotation);
+	});
+
+	
+	function r2d(r: number) {
+		return r * (180 / Math.PI);
+	}
+
+	function atan2ToDegreesPositive(dy: number, dx: number): number {
+		let radians = Math.atan2(dy, dx);
+		let degrees = r2d(radians);
+
+		if (degrees < 0) {
+			degrees += 360;
+		}
+
+		return degrees;
+	}
 
 	function startRotate(event: MouseEvent) {
 		event.stopPropagation();
 		rotating = true;
 
-		// Center of the box
 		centerX = x + width / 2;
 		centerY = y + height / 2;
 
 		const dx = event.clientX - centerX;
 		const dy = event.clientY - centerY;
-		startAngle = Math.atan2(dy, dx) * (180 / Math.PI); // mouse angle relative to center
-		startRotation = rotation ?? 0; // record the starting rotation
+
+		startMouseAngle = Math.atan2(dy, dx);
+		startRotation = rotation ?? 0;
 
 		window.addEventListener('mousemove', onRotate);
 		window.addEventListener('mouseup', stopRotate);
@@ -55,12 +75,15 @@
 
 	function onRotate(event: MouseEvent) {
 		if (!rotating) return;
+
 		const dx = event.clientX - centerX;
 		const dy = event.clientY - centerY;
-		const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+		const currentMouseAngle = Math.atan2(dy, dx);
+		console.log(atan2ToDegreesPositive(dx, dy));
 
-		// rotation = initial rotation + difference in angles
-		rotation = startRotation + (currentAngle - startAngle) * -1;
+		let deltaAngle = (currentMouseAngle - startMouseAngle) * (180 / Math.PI); // radians to degrees
+
+		rotation = startRotation + deltaAngle;
 	}
 
 	function stopRotate() {
