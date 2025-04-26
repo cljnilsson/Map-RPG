@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ImageUploader from "$lib/components/ImageUploader.svelte";
+
     let name: string;
     let age: number;
     let str: number, int: number, vitality: number, charisma: number, dex: number;
@@ -9,6 +11,11 @@
     <h3 class="text-center">Create your character!</h3>
     <div class="row justify-content-center my-5">
         <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    <ImageUploader />
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <input class="form-control my-1" type="text" placeholder="Name" bind:value={name} />
