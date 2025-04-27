@@ -31,6 +31,14 @@
             <CreatorStat name="Charisma" min={min} max={max} total={total} totalMax={totalMax} bind:stat={charisma} />
         </div>
     </div>
+    <div class="row justify-content-center my-5">
+        <div class="col-xl-2 col-md-4">
+            <input class="form-control" placeholder="Name" type="text" bind:value={name}>
+        </div>
+        <div class="col-xl-1 col-md-2">
+            <input class="form-control" placeholder="Age" type="number" bind:value={age}>
+        </div>
+    </div>
     <div class="text-center">
         <button class="btn btn-lg btn-primary">Create!</button>
     </div>
