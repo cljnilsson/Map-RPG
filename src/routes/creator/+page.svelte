@@ -1,10 +1,13 @@
 <script lang="ts">
 	import ImageUploader from "$lib/components/ImageUploader.svelte";
+	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 
-    let name: string;
-    let age: number;
-    let str: number, int: number, vitality: number, charisma: number, dex: number;
-    const min: number = 3, max: number = 20;
+    let name: string = $state("");
+    let age: number = $state(18);
+    let str: number = $state(5), int: number = $state(5), vitality: number = $state(5), charisma: number = $state(5), dex: number = $state(5);
+    let total = $derived(str + int + vitality + charisma + dex);
+    const min: number = 3, max: number = 20, totalMax: number = 30;
+    let totalLeft = $derived(totalMax - total);
 </script>
 
 <div class="wrapper mt-5 mx-5 px-3">
@@ -17,24 +20,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                    <input class="form-control my-1" type="text" placeholder="Name" bind:value={name} />
-                </div>
-                <div class="col-4">
-                    <input class="form-control my-1" type="text" placeholder="Age" bind:value={age} />
+                <div class="col text-center">
+                    Points left: {totalLeft}
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col">
-                    <input class="form-control my-1" type="number" placeholder="Strength" bind:value={str} min={min} max={max} />
-                    <input class="form-control my-1" type="number" placeholder="Dex" bind:value={dex} min={min} max={max} />
-                    <input class="form-control my-1" type="number" placeholder="Int" bind:value={int} min={min} max={max} />
-                </div>
-                <div class="col">
-                    <input class="form-control my-1" type="number" placeholder="Charisma" bind:value={charisma} min={min} max={max} />
-                    <input class="form-control my-1" type="number" placeholder="Vitality" bind:value={vitality} min={min} max={max} />
-                </div>
-            </div>
+            <CreatorStat name="Str" min={min} max={max} total={total} totalMax={totalMax} bind:stat={str} />
+            <CreatorStat name="Dex" min={min} max={max} total={total} totalMax={totalMax} bind:stat={dex} />
+            <CreatorStat name="Int" min={min} max={max} total={total} totalMax={totalMax} bind:stat={int} />
+            <CreatorStat name="Vit" min={min} max={max} total={total} totalMax={totalMax} bind:stat={vitality} />
+            <CreatorStat name="Charisma" min={min} max={max} total={total} totalMax={totalMax} bind:stat={charisma} />
         </div>
     </div>
     <div class="text-center">
