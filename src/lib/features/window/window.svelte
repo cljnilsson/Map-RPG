@@ -5,9 +5,7 @@
 	import Footer from '$lib/features/window/windowFooter.svelte';
 	import DraggableHandle from '$lib/utils/DraggableHandle.svelte';
 
-	let {title, body, footer, width, height}: {title: Snippet, body: Snippet, footer: Snippet, width: number, height: number} = $props();
-	let x: number = $state(200);
-	let y: number = $state(200);
+	let {title, body, footer, width, height, x, y}: {title: Snippet, body: Snippet, footer: Snippet, width: number, height: number, x: number, y: number} = $props();
 </script>
 
 <div class="overlay-rect" style="left: {x}px; top: {y}px; width: {width}px; height: {height}px;">

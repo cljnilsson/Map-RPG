@@ -4,6 +4,7 @@
 	import { world, winterfell, kingsLanding } from '$lib/tempData';
 	import MapStore from '$lib/stores/map.svelte';
 	import UnitWindow from '$lib/components/windows/unit/unitWindow.svelte';
+	import NavigationWindow from '$lib/components/windows/navigator/navigator.svelte';
 </script>
 
 <div class="map-wrapper mt-3">
@@ -19,6 +20,9 @@
 			</div>
 			{#if MapStore.currentMapState.map.type === "city"}
 				<UnitWindow />
+			{/if}
+			{#if MapStore.currentMapState.contains.length > 0}
+				<NavigationWindow />
 			{/if}
 		</div>
 	{:else}
