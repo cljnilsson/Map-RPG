@@ -28,7 +28,7 @@
 
 		window.addEventListener('mousemove', handleMouseMove);
 		window.addEventListener('mouseup', handleMouseUp);
-		console.log("START")
+		console.log('START');
 	}
 
 	function handleMouseMove(event: MouseEvent) {
@@ -58,6 +58,6 @@
 </script>
 
 <!-- The handle itself -->
-<div onmousedown={handleMouseDown} style="cursor: grab;">
+<div onmousedown={handleMouseDown} style="cursor: grab;" role="button" tabindex="0">
 	{@render children()}
 </div>

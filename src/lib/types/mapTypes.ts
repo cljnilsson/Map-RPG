@@ -2,6 +2,7 @@ type MapType = {
     name: string;
     type: 'city' | 'world' | 'building';
     imagePath: string;
+    unlocked: boolean;
 };
 
 type ClickBox = {

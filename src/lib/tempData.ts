@@ -3,25 +3,29 @@ import type { CustomMap, MapType } from '$lib/types/mapTypes';
 const wo: MapType = {
 	name: 'Westeros',
 	type: 'world',
-	imagePath: '/map1.jpg'
+	imagePath: '/map1.jpg',
+	unlocked: true // useless but required with current types, might be worth fixing at some point but functionally its fine for now
 };
 
 const winterfellO: MapType = {
 	name: 'Winterfell',
 	type: 'city',
-	imagePath: '/map3.webp'
+	imagePath: '/map3.webp',
+	unlocked: true
 };
 
 const kingsLandingO: MapType = {
 	name: "King's Landing",
 	type: 'city',
-	imagePath: '/map2.webp'
+	imagePath: '/map2.webp',
+	unlocked: true
 };
 
 const starkKeepO: MapType = {
 	name: "Winterfeel Keep",
 	type: 'building',
-	imagePath: "starkKeep.webp"
+	imagePath: "starkKeep.webp",
+	unlocked: true
 }
 
 export const world: CustomMap = {
