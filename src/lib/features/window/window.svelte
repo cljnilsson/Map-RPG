@@ -29,7 +29,7 @@
 		position: absolute;
 		border: 2px solid black;
 		border-radius: 10px;
-		background-color: rgba(0, 0, 0, 0.2);
-		cursor: pointer;
+		background-color: rgba(0, 0, 0, 0.6);
+		color: white;
 	}
 </style>

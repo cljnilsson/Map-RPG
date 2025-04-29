@@ -20,7 +20,7 @@
 			{#if MapStore.currentMapState.map.type === "city"}
 				<Window height={300} width={400}>
 					{#snippet title()}
-						<p>yo1</p>
+						<h5 class="my-2">Management</h5>
 					{/snippet}
 					{#snippet body()}
 						<p>yo2</p>

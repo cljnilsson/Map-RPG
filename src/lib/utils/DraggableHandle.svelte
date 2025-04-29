@@ -5,13 +5,14 @@
 		onDragStart = () => {},
 		onDragEnd = () => {},
 		onDrag = () => {},
-		containerWrapper
+		containerWrapper,
+		children
 	} = $props();
 
-	let offsetX = 0;
-	let offsetY = 0;
-	let dragging = false;
-	let didDrag = false;
+	let offsetX = $state(0);
+	let offsetY = $state(0);
+	let dragging = $state(false);
+	let didDrag = $state(false);
 
 	function handleMouseDown(event: MouseEvent) {
 		const container = document.querySelector(containerWrapper) as HTMLElement;
@@ -32,7 +33,7 @@
 
 	function handleMouseMove(event: MouseEvent) {
 		if (!dragging) return;
-		
+
 		didDrag = true;
 		const container = document.querySelector(containerWrapper) as HTMLElement;
 		if (!container) return;
@@ -58,5 +59,5 @@
 
 <!-- The handle itself -->
 <div onmousedown={handleMouseDown} style="cursor: grab;">
-	<slot />
+	{@render children()}
 </div>
