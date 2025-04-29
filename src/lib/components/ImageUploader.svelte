@@ -46,11 +46,10 @@
 </script>
 
 <div id="app">
-	<h1>Upload Image</h1>
-
 	{#if avatar}
 		<img class="avatar" src={avatar} alt="profile pic" />
 	{:else}
+		<h5>Upload Image</h5>
 		<img
 			class="avatar"
 			src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
