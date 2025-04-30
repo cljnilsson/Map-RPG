@@ -12,6 +12,7 @@
 		body,
 		footer,
 		width,
+		height,
 		x,
 		y
 	}: {
@@ -19,17 +20,13 @@
 		body: Snippet;
 		footer: Snippet;
 		width: number;
+		height: number;
 		x: number;
 		y: number;
 	} = $props();
 
 	let expanded = $state(true);
-	const fullHeight = 300; // adjust to match full height of content
-	const tweenHeight = new Tween(fullHeight, {duration: 300, easing: cubicOut});
-	/*const tweenHeight = tweened(fullHeight, {
-		duration: 300,
-		easing: cubicOut
-	});*/
+	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
 
 	$effect(() => {
 		console.log(tweenHeight);
@@ -37,39 +34,28 @@
 
 	function toggle() {
 		expanded = !expanded;
-		tweenHeight.set(expanded ? fullHeight : 0);
+		tweenHeight.set(expanded ? height : 0);
 	}
 </script>
 
-<div
-	class="overlay-rect"
-	style="left: {x}px; top: {y}px; width: {width}px;"
->
-<DraggableHandle bind:x bind:y containerWrapper=".overlay-rect">
-	<Title>
-		<div class="row align-items-center">
-			<div class="col-10">
-				{@render title()}
+<div class="overlay-rect" style="left: {x}px; top: {y}px; width: {width}px;">
+	<DraggableHandle bind:x bind:y containerWrapper=".overlay-rect">
+		<Title>
+			<div class="row align-items-center">
+				<div class="col-10">
+					{@render title()}
+				</div>
+				<div class="col-2 text-end">
+					<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
+						<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
+					</button>
+				</div>
 			</div>
-			<div class="col-2 text-end">
-				<button
-					class="btn btn-sm btn-outline-secondary"
-					aria-label="Minimize"
-					onclick={toggle}
-				>
-					<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
-				</button>
-			</div>
-		</div>
-	</Title>
-</DraggableHandle>
-
+		</Title>
+	</DraggableHandle>
 
 	<!-- Manually animated height using tween -->
-	<div
-		class="content-wrapper"
-		style="height: {tweenHeight.current}px;"
-	>
+	<div class="content-wrapper" style="height: {tweenHeight.current}px;">
 		<div class="inner">
 			<Body>{@render body()}</Body>
 			<Footer>{@render footer()}</Footer>

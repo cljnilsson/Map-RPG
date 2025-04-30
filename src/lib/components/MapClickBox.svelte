@@ -1,4 +1,5 @@
 <script lang="ts">
+	import  MapStore  from '$lib/stores/map.svelte';
 	import type { MapWithClickBox } from '$lib/types/mapTypes';
 
 	let {
@@ -15,6 +16,7 @@
 <button
 	class="overlay-rect"
 	class:overlay-rect-editing={selectedBox?.map.name === rect.map.name}
+	class:overlay-rect-navigation={MapStore.currentNavigationHover?.map.name === rect.map.name}
 	type="button"
 	onclick={() => onClickCallback(rect)}
 	style="
@@ -38,5 +40,10 @@
 	.overlay-rect-editing {
 		border-color: green;
 		background-color: rgba(0, 255, 0, 0.2);
+	}
+
+	.overlay-rect-navigation {
+		border-color: yellow !important;
+		background-color: rgba(255, 255, 0, 0.2) !important;
 	}
 </style>
