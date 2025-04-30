@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tweened } from 'svelte/motion';
+	import { Tween } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
 	import type { Snippet } from 'svelte';
 	import Title from '$lib/features/window/windowTitle.svelte';
@@ -25,9 +25,14 @@
 
 	let expanded = $state(true);
 	const fullHeight = 300; // adjust to match full height of content
-	const tweenHeight = tweened(fullHeight, {
+	const tweenHeight = new Tween(fullHeight, {duration: 300, easing: cubicOut});
+	/*const tweenHeight = tweened(fullHeight, {
 		duration: 300,
 		easing: cubicOut
+	});*/
+
+	$effect(() => {
+		console.log(tweenHeight);
 	});
 
 	function toggle() {
@@ -63,7 +68,7 @@
 	<!-- Manually animated height using tween -->
 	<div
 		class="content-wrapper"
-		style="height: {$tweenHeight}px;"
+		style="height: {tweenHeight.current}px;"
 	>
 		<div class="inner">
 			<Body>{@render body()}</Body>
