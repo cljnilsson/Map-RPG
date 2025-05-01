@@ -32,7 +32,6 @@
 	} = $props();
 
 	let expanded = $state(true);
-	let visible = $state(true);
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
 
 	$effect(() => {
@@ -46,7 +45,7 @@
 
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === toggleKey) {
-			visible = !visible;
+			visibility = !visibility;
 		}
 	}
 
@@ -65,7 +64,7 @@
 	});
 </script>
 
-<div class="overlay-rect" style="left: {x}px; top: {y}px; width: {width}px;" class:d-none={!visible}>
+<div class="overlay-rect" style="left: {x}px; top: {y}px; width: {width}px;" class:d-none={!visibility}>
 	<DraggableHandle bind:x bind:y containerWrapper=".overlay-rect">
 		<Title>
 			<div class="row align-items-center">
