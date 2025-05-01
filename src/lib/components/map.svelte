@@ -19,7 +19,6 @@
 <style>
 	.map-container {
 		position: relative;
-		display: inline-block;
 	}
 
 	img {
@@ -29,8 +28,8 @@
 	}
 	img.city,
 	img.building {
-		height: 93vh;
-		width: 99vw;
+		height: 90vh;
+		width: 100%;
 		display: block;
 	}
 </style>

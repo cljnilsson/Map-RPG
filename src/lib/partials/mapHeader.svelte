@@ -24,7 +24,8 @@
 			map: {
 				name: 'New Zone',
 				imagePath: '',
-				type: 'city'
+				type: 'city',
+				unlocked: true
 			}
 		};
 

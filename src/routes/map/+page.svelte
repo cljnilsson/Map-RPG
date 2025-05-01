@@ -9,15 +9,16 @@
 
 <div class="map-wrapper mt-3">
 	{#if MapStore.currentMapState}
-		<div class="row">
+		<div class="row mx-0">
 			<div class="col">
 				<MapHeader></MapHeader>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row mx-0">
 			<div class="col">
 				<Map></Map>
 			</div>
+
 			{#if MapStore.currentMapState.map.type === "city"}
 				<UnitWindow />
 			{/if}
