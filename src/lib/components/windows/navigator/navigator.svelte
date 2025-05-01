@@ -11,7 +11,7 @@
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
-<Window height={300} width={300} x={800} y={700}>
+<Window height={300} width={300} x={800} y={700} toggleKey="n">
 	{#snippet title()}
 		<h4 class="my-2">Navigation</h4>
 	{/snippet}

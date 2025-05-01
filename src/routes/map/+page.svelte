@@ -5,6 +5,7 @@
 	import MapStore from '$lib/stores/map.svelte';
 	import UnitWindow from '$lib/components/windows/unit/unitWindow.svelte';
 	import NavigationWindow from '$lib/components/windows/navigator/navigator.svelte';
+	import LogWindow from '$lib/components/windows/logger/logger.svelte';
 </script>
 
 <div class="map-wrapper mt-3">
@@ -25,6 +26,7 @@
 			{#if MapStore.currentMapState.contains.length > 0}
 				<NavigationWindow />
 			{/if}
+			<LogWindow />
 		</div>
 	{:else}
 		<p>No map chosen</p>

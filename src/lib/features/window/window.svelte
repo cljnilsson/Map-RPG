@@ -2,10 +2,12 @@
 	import { Tween } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
 	import type { Snippet } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import Title from '$lib/features/window/windowTitle.svelte';
 	import Body from '$lib/features/window/windowBody.svelte';
 	import Footer from '$lib/features/window/windowFooter.svelte';
 	import DraggableHandle from '$lib/utils/DraggableHandle.svelte';
+	import { browser } from '$app/environment';
 
 	let {
 		title,
@@ -14,7 +16,9 @@
 		width,
 		height,
 		x,
-		y
+		y,
+		toggleKey,
+		visibility = $bindable(true),
 	}: {
 		title: Snippet;
 		body: Snippet;
@@ -23,9 +27,12 @@
 		height: number;
 		x: number;
 		y: number;
+		toggleKey?: string;
+		visibility?: boolean
 	} = $props();
 
 	let expanded = $state(true);
+	let visible = $state(true);
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
 
 	$effect(() => {
@@ -36,9 +43,29 @@
 		expanded = !expanded;
 		tweenHeight.set(expanded ? height : 0);
 	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === toggleKey) {
+			visible = !visible;
+		}
+	}
+
+	onMount(() => {
+		if (toggleKey && window) {
+			window.addEventListener('keydown', handleKeydown);
+		}
+	});
+
+	onDestroy(() => {
+		if(browser) {
+			if (toggleKey) {
+				window.removeEventListener('keydown', handleKeydown);
+			}
+		}
+	});
 </script>
 
-<div class="overlay-rect" style="left: {x}px; top: {y}px; width: {width}px;">
+<div class="overlay-rect" style="left: {x}px; top: {y}px; width: {width}px;" class:d-none={!visible}>
 	<DraggableHandle bind:x bind:y containerWrapper=".overlay-rect">
 		<Title>
 			<div class="row align-items-center">
