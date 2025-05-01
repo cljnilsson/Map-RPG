@@ -2,7 +2,7 @@
     let {children} = $props();
 </script>
 
-<div class="row">
+<div class="row mt-auto">
     <div class="col">
         {@render children()}
     </div>

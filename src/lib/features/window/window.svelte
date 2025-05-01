@@ -82,7 +82,7 @@
 
 	<!-- Manually animated height using tween -->
 	<div class="content-wrapper" style="height: {tweenHeight.current}px;">
-		<div class="inner">
+		<div class="inner d-flex flex-column h-100">
 			<Body>{@render body()}</Body>
 			<Footer>{@render footer()}</Footer>
 		</div>
