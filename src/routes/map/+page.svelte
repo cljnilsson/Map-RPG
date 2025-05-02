@@ -6,6 +6,7 @@
 	import UnitWindow from "$lib/components/windows/unit/unitWindow.svelte";
 	import NavigationWindow from "$lib/components/windows/navigator/navigator.svelte";
 	import LogWindow from "$lib/components/windows/logger/logger.svelte";
+	import ResourceWindow from "$lib/components/windows/resources/resources.svelte";
 </script>
 
 <div class="map-wrapper mt-3">
@@ -22,6 +23,7 @@
 
 			{#if MapStore.currentMapState.map.type === "city"}
 				<UnitWindow />
+				<ResourceWindow />
 			{/if}
 			{#if MapStore.currentMapState.contains.length > 0}
 				<NavigationWindow />

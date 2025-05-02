@@ -1,14 +1,14 @@
-import type { RequestHandler } from './$types';
-import fs from 'fs';
-import path from 'path';
-import { randomUUID } from 'crypto';
+import type { RequestHandler } from "./$types";
+import fs from "fs";
+import path from "path";
+import { randomUUID } from "crypto";
 
 export const POST: RequestHandler = async ({ request }) => {
 	const data = await request.formData();
-	const file = data.get('image') as File;
+	const file = data.get("image") as File;
 
-	if (!file || !file.type.startsWith('image/')) {
-		return new Response('Invalid file type', { status: 400 });
+	if (!file || !file.type.startsWith("image/")) {
+		return new Response("Invalid file type", { status: 400 });
 	}
 
 	// Convert Blob to buffer
@@ -17,7 +17,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	// Save to static/uploads/
 	const filename = `${randomUUID()}-${file.name}`;
-	const uploadDir = path.resolve('static/uploads');
+	const uploadDir = path.resolve("static/uploads");
 	const filepath = path.join(uploadDir, filename);
 
 	// Ensure directory exists
@@ -26,6 +26,6 @@ export const POST: RequestHandler = async ({ request }) => {
 	fs.writeFileSync(filepath, buffer);
 
 	return new Response(JSON.stringify({ path: `/uploads/${filename}` }), {
-		headers: { 'Content-Type': 'application/json' },
+		headers: { "Content-Type": "application/json" }
 	});
 };
