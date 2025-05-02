@@ -10,17 +10,17 @@
 		<div class="col-auto">
 			<h1>Login/Register</h1>
 			<form method="post" action="?/login" use:enhance>
-				<div>	
-					<label>
+				<div class="mb-3">
+					<label class="form-label" for="username">
 						Username
-						<input class="form-control" name="username" />
 					</label>
+					<input class="form-control text-center" id="username" name="username" />
 				</div>
-				<div>
-					<label>
+				<div class="mb-3">
+					<label class="form-label" for="password">
 						Password
-						<input class="form-control" type="password" name="password" />
 					</label>
+					<input class="form-control text-center" id="password" type="password" name="password" />
 				</div>
 				<div class="mt-3 text-center">
 					<button class="btn btn-primary">Login</button>

@@ -5,6 +5,7 @@
 	import type { QueueItem } from '$lib/types/queueItem';
 	import { onDestroy } from 'svelte';
 	import dayjs from 'dayjs';
+	import WindowStore from '$lib/stores/windows.svelte';
 
 	let queue: QueueItem[] = $state([
 		{
@@ -39,7 +40,7 @@
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
-<Window height={600} width={400} x={200} y={200} toggleKey="u">
+<Window height={600} width={400} x={200} y={200} toggleKey="u" bind:visibility={WindowStore.unitVisibility}>
 	{#snippet title()}
 		<h4 class="my-2">Management</h4>
 	{/snippet}

@@ -2,13 +2,14 @@
 	import dayjs  from 'dayjs';
     import LogStore from '$lib/stores/logs.svelte';
 	import Window from '$lib/features/window/window.svelte';
-	let visibility = $state(false);
+	import WindowStore from '$lib/stores/windows.svelte';
+	
 	let currentLogs = $derived(LogStore.logs.slice((LogStore.currentPage - 1) * 8, (LogStore.currentPage * 8)));
 	let tempTest = 0;
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
-<Window height={400} width={700} x={50} y={900} toggleKey="l" bind:visibility>
+<Window height={400} width={700} x={50} y={900} toggleKey="l" bind:visibility={WindowStore.loggerVisibility}>
 	{#snippet title()}
 		<h4 class="my-2">Log</h4>
 	{/snippet}
