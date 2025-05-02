@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { Tween } from 'svelte/motion';
-	import { cubicOut } from 'svelte/easing';
-	import type { Snippet } from 'svelte';
-	import { onMount, onDestroy } from 'svelte';
-	import Title from '$lib/features/window/windowTitle.svelte';
-	import Body from '$lib/features/window/windowBody.svelte';
-	import Footer from '$lib/features/window/windowFooter.svelte';
-	import DraggableHandle from '$lib/utils/DraggableHandle.svelte';
-	import { browser } from '$app/environment';
+	import { Tween } from "svelte/motion";
+	import { cubicOut } from "svelte/easing";
+	import type { Snippet } from "svelte";
+	import { onMount, onDestroy } from "svelte";
+	import Title from "$lib/features/window/windowTitle.svelte";
+	import Body from "$lib/features/window/windowBody.svelte";
+	import Footer from "$lib/features/window/windowFooter.svelte";
+	import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
+	import { browser } from "$app/environment";
 
 	let {
 		title,
@@ -18,7 +18,7 @@
 		x,
 		y,
 		toggleKey,
-		visibility = $bindable(true),
+		visibility = $bindable(true)
 	}: {
 		title: Snippet;
 		body: Snippet;
@@ -28,7 +28,7 @@
 		x: number;
 		y: number;
 		toggleKey?: string;
-		visibility?: boolean
+		visibility?: boolean;
 	} = $props();
 
 	let expanded = $state(true);
@@ -51,20 +51,24 @@
 
 	onMount(() => {
 		if (toggleKey && window) {
-			window.addEventListener('keydown', handleKeydown);
+			window.addEventListener("keydown", handleKeydown);
 		}
 	});
 
 	onDestroy(() => {
-		if(browser) {
+		if (browser) {
 			if (toggleKey) {
-				window.removeEventListener('keydown', handleKeydown);
+				window.removeEventListener("keydown", handleKeydown);
 			}
 		}
 	});
 </script>
 
-<div class="overlay-rect" style="left: {x}px; top: {y}px; width: {width}px;" class:d-none={!visibility}>
+<div
+	class="overlay-rect"
+	style="left: {x}px; top: {y}px; width: {width}px;"
+	class:d-none={!visibility}
+>
 	<DraggableHandle bind:x bind:y containerWrapper=".overlay-rect">
 		<Title>
 			<div class="row align-items-center">
@@ -72,8 +76,12 @@
 					{@render title()}
 				</div>
 				<div class="col-2 text-end">
-					<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
-						<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
+					<button
+						class="btn btn-sm btn-outline-secondary"
+						aria-label="Minimize"
+						onclick={toggle}
+					>
+						<i class="bi {expanded ? "bi-dash" : "bi-plus"}"></i>
 					</button>
 				</div>
 			</div>
@@ -91,7 +99,7 @@
 
 <style>
 	.overlay-rect {
-		position: absolute;
+		position: fixed;
 		border: 2px solid black;
 		border-radius: 10px;
 		background-color: rgba(0, 0, 0, 0.6);

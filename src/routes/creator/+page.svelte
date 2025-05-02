@@ -1,8 +1,8 @@
 <script lang="ts">
-	import ImageUploader from '$lib/components/ImageUploader.svelte';
-	import CreatorStat from '$lib/features/creator/creatorStat.svelte';
+	import ImageUploader from "$lib/components/ImageUploader.svelte";
+	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 
-	let name: string = $state('');
+	let name: string = $state("");
 	let age: number = $state(18);
 	let str: number = $state(5),
 		int: number = $state(5),

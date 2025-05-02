@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { MapWithClickBox } from '$lib/types/mapTypes';
-	import { maps } from '$lib/tempData';
-	import Draggable from '$lib/utils/Draggable.svelte';
-	import ResizeAnchors from '$lib/utils/ResizeAnchors.svelte';
-	import MapClickBox from '$lib/components/MapClickBox.svelte';
-    import MapStore from '$lib/stores/map.svelte';
+	import type { MapWithClickBox } from "$lib/types/mapTypes";
+	import { maps } from "$lib/tempData";
+	import Draggable from "$lib/utils/Draggable.svelte";
+	import ResizeAnchors from "$lib/utils/ResizeAnchors.svelte";
+	import MapClickBox from "$lib/components/MapClickBox.svelte";
+	import MapStore from "$lib/stores/map.svelte";
 
 	function toggleSelection(rect: MapWithClickBox) {
 		//MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
-		MapStore.selectedBox = {...rect};
+		MapStore.selectedBox = { ...rect };
 	}
 
 	function handleClick(rect: MapWithClickBox) {
 		const found = maps.find((map) => map.map?.name === rect.map.name);
-		console.log('reee', rect.map.name, found, MapStore.editMode);
+		console.log("reee", rect.map.name, found, MapStore.editMode);
 		if (!found) return;
 
 		if (MapStore.editMode) {
@@ -41,7 +41,8 @@
 					if (!wasDragged) handleClick(rect);
 				}}
 			>
-				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={() => {}}></MapClickBox>
+				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={() => {}}
+				></MapClickBox>
 				{#if MapStore.editMode && MapStore.selectedBox?.map.name === rect.map.name}
 					<ResizeAnchors
 						bind:x={rect.clickBox.x}
@@ -54,7 +55,8 @@
 			</Draggable>
 		{:else}
 			<div style="position: absolute; left: {rect.clickBox.x}px; top: {rect.clickBox.y}px;">
-				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={handleClick}></MapClickBox>
+				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={handleClick}
+				></MapClickBox>
 			</div>
 		{/if}
 	{/each}

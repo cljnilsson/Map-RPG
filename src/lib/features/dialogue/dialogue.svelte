@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Message, CharSprite } from '$lib/types/message';
-	import DialogueButtons from '$lib/features/dialogue/dialogueButtons.svelte';
-	import DialogueBody from '$lib/features/dialogue/dialogueBody.svelte';
+	import type { Message, CharSprite } from "$lib/types/message";
+	import DialogueButtons from "$lib/features/dialogue/dialogueButtons.svelte";
+	import DialogueBody from "$lib/features/dialogue/dialogueBody.svelte";
 
 	let { msgs, player, onEnd }: { msgs: Message[]; player: CharSprite; onEnd?: () => void } =
 		$props();
@@ -9,12 +9,12 @@
 
 	function checkEnd() {
 		const nextMsg = msgs[current];
-		if (!nextMsg || (nextMsg.type === 'text' && nextMsg.next === undefined)) {
+		if (!nextMsg || (nextMsg.type === "text" && nextMsg.next === undefined)) {
 			if (onEnd) {
 				onEnd();
 			}
 		} else {
-			console.warn('Premature end?');
+			console.warn("Premature end?");
 		}
 	}
 </script>

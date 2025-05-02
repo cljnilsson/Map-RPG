@@ -1,13 +1,13 @@
 <script lang="ts">
-	import CharacterStore from '$lib/stores/character.svelte';
+	import CharacterStore from "$lib/stores/character.svelte";
 	const {
 		height = 200,
 		width = 200,
-		onClickCallback
-	}: { height: number; width: number; onClickCallback: () => void } = $props();
+		onClickCallback = () => {}
+	}: { height: number; width: number; onClickCallback?: () => void } = $props();
 
 	function onEnter(event: KeyboardEvent) {
-		if (event.key === 'Enter' || event.key === ' ') {
+		if (event.key === "Enter" || event.key === " ") {
 			onClickCallback();
 		}
 	}
@@ -32,7 +32,8 @@
 >
 	<div
 		class="progress-bar bg-success"
-		style="width: {(CharacterStore.character.health / CharacterStore.character.maxHealth) * 100}%"
+		style="width: {(CharacterStore.character.health / CharacterStore.character.maxHealth) *
+			100}%"
 	>
 		{CharacterStore.character.health} / {CharacterStore.character.maxHealth}
 	</div>

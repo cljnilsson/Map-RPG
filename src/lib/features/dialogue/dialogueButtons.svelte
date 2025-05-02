@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Message } from '$lib/types/message';
+	import type { Message } from "$lib/types/message";
 
 	let {
 		current = $bindable(),
@@ -9,7 +9,7 @@
 
 	function next() {
 		const msg = msgs[current];
-		if (msg.type === 'text') {
+		if (msg.type === "text") {
 			if (!msg.next) {
 				current += 1;
 			} else {

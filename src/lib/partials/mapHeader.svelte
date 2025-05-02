@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { MapWithClickBox } from '$lib/types/mapTypes';
-	import MapStore from '$lib/stores/map.svelte';
-	import { dev } from '$app/environment';
+	import type { MapWithClickBox } from "$lib/types/mapTypes";
+	import MapStore from "$lib/stores/map.svelte";
+	import { dev } from "$app/environment";
 
 	function onBack() {
 		if (MapStore.currentMapState?.previous) {
@@ -23,9 +23,9 @@
 				rotation: 0
 			},
 			map: {
-				name: 'New Zone',
-				imagePath: '',
-				type: 'city',
+				name: "New Zone",
+				imagePath: "",
+				type: "city",
 				unlocked: true
 			}
 		};
@@ -61,12 +61,13 @@
 				<button
 					onclick={() => {
 						if (MapStore.currentMapState) {
-							MapStore.currentMapState.contains = MapStore.currentMapState?.contains.filter(
-								(map) => map.map?.name !== MapStore.selectedBox?.map.name
-							);
+							MapStore.currentMapState.contains =
+								MapStore.currentMapState?.contains.filter(
+									(map) => map.map?.name !== MapStore.selectedBox?.map.name
+								);
 							MapStore.selectedBox = null;
 						} else {
-							console.error('No current map state found');
+							console.error("No current map state found");
 						}
 					}}>Delete</button
 				>

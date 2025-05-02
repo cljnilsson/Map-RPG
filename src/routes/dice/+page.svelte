@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DieCollection from '$lib/features/die/dieCollection.svelte';
+	import DieCollection from "$lib/features/die/dieCollection.svelte";
 
 	let diceRef: DieCollection;
 
