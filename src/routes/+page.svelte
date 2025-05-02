@@ -1,17 +1,12 @@
 <script lang="ts">
 	import Inventory from "$lib/features/inventory/inventory.svelte";
-	import CharacterComponent from "$lib/components/Character.svelte";
-	import type { Character } from "$lib/types/character";
+	import CharacterComponent from "$lib/components/character/Character.svelte";
 
 	let resources: {
 		iron: number,
 		coin: number,
 		lumber: number
 	} = $state({iron: 0, coin: 0, lumber: 0});
-
-	let character: Character = $state(
-		{stats: {str: 5, int: 8, vit: 10, char: 7, dex: 5}, name:"Alice", health: 25, maxHealth: 100, age: 22, gender: "Female", race: "Human", conditions: []}
-	);
 </script>
 
 <div class="container mt-3">
@@ -28,7 +23,7 @@
 			<h4><i class="bi bi-tree"></i> {resources.iron}</h4>
 		</div>
 	</div>
-	<CharacterComponent {character}></CharacterComponent>
+	<CharacterComponent></CharacterComponent>
 	<h3 class="mt-5">Inventory</h3>
 	<Inventory></Inventory>
 </div>
