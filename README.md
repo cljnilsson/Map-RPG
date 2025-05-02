@@ -6,6 +6,15 @@ A childhood browser game that I always enjoyed was Travian but due to its multip
 * Time based upgrades / decisions, vaguely similar to an idle game
 * DnD-like character stats and story + dice
 
+## Key Tech (so far)
+* Sveltekit (Svelte 5 with Typescript)
+* Bootstrap
+* bunjs runtime (only soft required, I think)
+* Drizzle
+  * Even though it's singleplayer, some persistent storage makes sense. I might convince myself to do it in json for the sake of a lighter tech stack but this is the goal for now.
+* Lucia
+  * Advertised as easy which is key as authentication is not something I want to spend a lot of dev time on. This might enable support for some sort of cloud backup later and together with drizzle it might avoid being run locally.
+
 ## Developing
 Once you've created a project and installed dependencies with `bun install`, start a development server:
 

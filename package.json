@@ -51,6 +51,7 @@
 		"bootstrap": "^5.3.5",
 		"bootstrap-icons": "^1.11.3",
 		"dayjs": "^1.11.13",
-		"drizzle-orm": "^0.38.4"
+		"drizzle-orm": "^0.38.4",
+		"lucia": "^3.2.2"
 	}
 }

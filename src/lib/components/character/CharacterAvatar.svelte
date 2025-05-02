@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CharacterStore from '$lib/stores/character.svelte';
-	const { height, width }: { height: number; width: number } = $props();
+	const { height = 200, width = 200 }: { height: number; width: number } = $props();
 </script>
 
 <img
