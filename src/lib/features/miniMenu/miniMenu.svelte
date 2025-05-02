@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tweened, Tween } from 'svelte/motion';
+	import { Tween } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
 	import CharacterAvatar from "$lib/components/character/CharacterAvatar.svelte";
 	import WindowStore from '$lib/stores/windows.svelte';
@@ -33,10 +33,10 @@
 		</div>
 		<div class="col px-2">
 			{#if MapStore.currentMapState.map.type === "city"}
-				<button class="btn btn-primary btn-sm d-block mb-2 w-100" onclick={() => WindowStore.unitVisibility = !WindowStore.unitVisibility}>Units</button>
+				<button class="btn btn-primary btn-sm mb-2 w-100" onclick={() => WindowStore.unitVisibility = !WindowStore.unitVisibility}>Units</button>
 			{/if}
-			<button class="btn btn-secondary btn-sm d-block mb-2 w-100" onclick={() => WindowStore.navigationVisibility = !WindowStore.navigationVisibility}>Navigation</button>
-			<button class="btn btn-danger btn-sm d-block w-100" onclick={() => WindowStore.loggerVisibility = !WindowStore.loggerVisibility}>Logs</button>
+			<button class="btn btn-secondary btn-sm mb-2 w-100" onclick={() => WindowStore.navigationVisibility = !WindowStore.navigationVisibility}>Navigation</button>
+			<button class="btn btn-danger btn-sm w-100" onclick={() => WindowStore.loggerVisibility = !WindowStore.loggerVisibility}>Logs</button>
 		</div>
 	</div>
 	{#if isMenuExpanded}
@@ -49,6 +49,7 @@
 
 <style>
 	button {
-		max-width: 150px;
+		max-width: 100px;
+		display: block;
 	}
 </style>

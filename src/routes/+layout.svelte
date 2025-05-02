@@ -1,10 +1,10 @@
 <script lang="ts">
-	import 'bootstrap/dist/css/bootstrap.min.css';
-	import scriptSrc from 'bootstrap/dist/js/bootstrap.bundle.js?url';
-	import 'bootstrap-icons/font/bootstrap-icons.css';
-	import './styles.scss';
+	import "bootstrap/dist/css/bootstrap.min.css";
+	import scriptSrc from "bootstrap/dist/js/bootstrap.bundle.js?url";
+	import "bootstrap-icons/font/bootstrap-icons.css";
+	import "./styles.scss";
 	import "animate.css";
-	import Nav from '$lib/partials/nav.svelte';
+	import Nav from "$lib/partials/nav.svelte";
 
 	let { children } = $props();
 </script>
@@ -22,7 +22,7 @@
 <style>
 	.container-fluid {
 		min-height: 100%;
-		background-image: url('/bg.jpg');
+		background-image: url("/bg.jpg");
 		background-size: cover;
 		background-repeat: repeat-y;
 	}

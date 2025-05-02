@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Map from '$lib/components/map.svelte';
-	import MapHeader from '$lib/partials/mapHeader.svelte';
-	import { world, winterfell, kingsLanding } from '$lib/tempData';
-	import MapStore from '$lib/stores/map.svelte';
-	import UnitWindow from '$lib/components/windows/unit/unitWindow.svelte';
-	import NavigationWindow from '$lib/components/windows/navigator/navigator.svelte';
-	import LogWindow from '$lib/components/windows/logger/logger.svelte';
+	import Map from "$lib/components/map.svelte";
+	import MapHeader from "$lib/partials/mapHeader.svelte";
+	import { world, winterfell, kingsLanding } from "$lib/tempData";
+	import MapStore from "$lib/stores/map.svelte";
+	import UnitWindow from "$lib/components/windows/unit/unitWindow.svelte";
+	import NavigationWindow from "$lib/components/windows/navigator/navigator.svelte";
+	import LogWindow from "$lib/components/windows/logger/logger.svelte";
 </script>
 
 <div class="map-wrapper mt-3">
