@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { MapWithClickBox } from '$lib/types/mapTypes';
 	import MapStore from '$lib/stores/map.svelte';
+	import { dev } from '$app/environment';
 
 	function onBack() {
 		if (MapStore.currentMapState?.previous) {
@@ -49,30 +50,33 @@
 	{#if MapStore.currentMapState.previous}
 		<button onclick={onBack}>Back</button>
 	{/if}
-	<button onclick={newZone}>New</button>
-	<button onclick={toggleEditMode}>Edit Mode</button>
-	{#if MapStore.editMode && MapStore.selectedBox}
-		{@const found = MapStore.currentMapState.contains.find((map) => map.map?.name === MapStore.selectedBox?.map.name)}
-		{#if found}
-			<button
-				onclick={() => {
-					if(MapStore.currentMapState) {
-						MapStore.currentMapState.contains = MapStore.currentMapState?.contains.filter(
-							(map) => map.map?.name !== MapStore.selectedBox?.map.name
-						);
-						MapStore.selectedBox = null;
-					} else {
-						console.error('No current map state found');
-					}
-					
-				}}>Delete</button
-			>
-			<!--
+	{#if dev}
+		<button onclick={newZone}>New</button>
+		<button onclick={toggleEditMode}>Edit Mode</button>
+		{#if MapStore.editMode && MapStore.selectedBox}
+			{@const found = MapStore.currentMapState.contains.find(
+				(map) => map.map?.name === MapStore.selectedBox?.map.name
+			)}
+			{#if found}
+				<button
+					onclick={() => {
+						if (MapStore.currentMapState) {
+							MapStore.currentMapState.contains = MapStore.currentMapState?.contains.filter(
+								(map) => map.map?.name !== MapStore.selectedBox?.map.name
+							);
+							MapStore.selectedBox = null;
+						} else {
+							console.error('No current map state found');
+						}
+					}}>Delete</button
+				>
+				<!--
     <input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.height} />
     <input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.width} />
     <input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.rotation} />
     <input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.x} />
     <input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.y} />-->
+			{/if}
 		{/if}
 	{/if}
 {/if}

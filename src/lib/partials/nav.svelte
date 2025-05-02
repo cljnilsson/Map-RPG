@@ -1,7 +1,10 @@
 <nav class="text-center">
     <a href="/">Overview</a>
     <a href="/map">Map</a>
-    <a href="/stuff">Something else</a>
+    <a href="/dice">Dice demo</a>
+    <a href="/talkingtest">Dialogue demo</a>
+    <a href="/creator">Creator demo</a>
+    <a href="/login">Login</a>
 </nav>
 
 <style>
