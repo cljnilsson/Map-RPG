@@ -3,6 +3,7 @@ const Store = $state<{
 	navigationVisibility: boolean;
 	unitVisibility: boolean;
 	resourcesVisibility: boolean;
-}>({ loggerVisibility: false, navigationVisibility: true, resourcesVisibility: true, unitVisibility: true });
+	eventsVisibility: boolean;
+}>({ loggerVisibility: false, navigationVisibility: true, resourcesVisibility: true, unitVisibility: true, eventsVisibility: true });
 
 export default Store;
