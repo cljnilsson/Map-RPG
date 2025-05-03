@@ -1,16 +1,17 @@
 <script lang="ts">
-	import CityStore from '$lib/stores/city.svelte';
-	import Window from '$lib/features/window/window.svelte';
-	import UnitDesignator from '$lib/components/windows/unit/unitDesignator.svelte';
-	import type { QueueItem } from '$lib/types/queueItem';
-	import { onDestroy } from 'svelte';
-	import dayjs from 'dayjs';
-	import WindowStore from '$lib/stores/windows.svelte';
+	import CityStore from "$lib/stores/city.svelte";
+	import LoggerStore from "$lib/stores/logs.svelte";
+	import Window from "$lib/features/window/window.svelte";
+	import UnitDesignator from "$lib/components/windows/unit/unitDesignator.svelte";
+	import type { QueueItem } from "$lib/types/queueItem";
+	import { onDestroy } from "svelte";
+	import dayjs from "dayjs";
+	import WindowStore from "$lib/stores/windows.svelte";
 
 	let queue: QueueItem[] = $state([
 		{
 			name: "Worker => soldier",
-			time: { start: new Date(), end: dayjs().add(15, 'seconds').toDate() },
+			time: { start: new Date(), end: dayjs().add(15, "seconds").toDate() },
 			onComplete: () => {
 				CityStore.soldiers += 1;
 			}
@@ -19,11 +20,24 @@
 
 	const timer = setInterval(() => {
 		for (const q of queue) {
+			console.log(dayjs(q.time.end).diff(dayjs(), "second"));
 			if (dayjs(q.time.end).isBefore(dayjs())) {
 				q.onComplete();
 				queue = queue.filter((item) => item !== q);
-				// Logger here later
+				LoggerStore.logs = [
+					...LoggerStore.logs,
+					{
+						type: "info",
+						timestamp: new Date(),
+						message: `Finished training ${q.name}`
+					}
+				];
 			}
+		}
+
+		if (queue.length > 0) {
+			// Force update in order to show duration left
+			queue = [...queue];
 		}
 	}, 1000);
 
@@ -34,13 +48,28 @@
 		return { h, m, s };
 	}
 
+	function timeLeft(q: QueueItem): string {
+		const { h, m, s } = secondsToHMS(dayjs(q.time.end).diff(dayjs(), "second"));
+
+		return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s
+			.toString()
+			.padStart(2, "0")}`;
+	}
+
 	onDestroy(() => {
 		clearInterval(timer);
 	});
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
-<Window height={600} width={400} x={200} y={200} toggleKey="u" bind:visibility={WindowStore.unitVisibility}>
+<Window
+	height={500}
+	width={400}
+	x={600}
+	y={950}
+	toggleKey="u"
+	bind:visibility={WindowStore.unitVisibility}
+>
 	{#snippet title()}
 		<h4 class="my-2">Management</h4>
 	{/snippet}
@@ -78,12 +107,10 @@
 	{/snippet}
 	{#snippet footer()}
 		{#each queue as q}
-			{@const { h, m, s } = secondsToHMS(dayjs(q.time.end).diff(dayjs(), 'second'))}
 			<p class="my-1">
-				{q.name}
-				{#if h}{h}:{/if}
-				{#if h || m}{m.toString().padStart(2, '0')}:{/if}
-				{s.toString().padStart(2, '0')}
+				{#key queue}
+					{q.name} {timeLeft(q)}
+				{/key}
 			</p>
 		{/each}
 	{/snippet}

@@ -10,7 +10,7 @@
 	height={200}
 	width={300}
 	x={1600}
-	y={1200}
+	y={1250}
 	toggleKey="e"
 	bind:visibility={WindowStore.eventsVisibility}
 >

@@ -9,8 +9,8 @@
 <Window
 	height={200}
 	width={300}
-	x={1200}
-	y={700}
+	x={1300}
+	y={1250}
 	toggleKey="r"
 	bind:visibility={WindowStore.resourcesVisibility}
 >

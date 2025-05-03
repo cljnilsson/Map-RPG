@@ -13,10 +13,10 @@
 
 <!-- Assume the player owns all cities for testing purposes -->
 <Window
-	height={300}
+	height={200}
 	width={300}
-	x={800}
-	y={700}
+	x={1000}
+	y={1250}
 	toggleKey="n"
 	bind:visibility={WindowStore.navigationVisibility}
 >
