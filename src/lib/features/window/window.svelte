@@ -32,6 +32,10 @@
 	} = $props();
 
 	let expanded = $state(true);
+	let locked = $state(false);
+
+	let containerElement: HTMLElement;
+
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
 
 	$effect(() => {
@@ -65,17 +69,25 @@
 </script>
 
 <div
+	bind:this={containerElement}
 	class="overlay-rect"
 	style="left: {x}px; top: {y}px; width: {width}px;"
 	class:d-none={!visibility}
 >
-	<DraggableHandle bind:x bind:y containerWrapper=".overlay-rect">
+	<DraggableHandle bind:x bind:y containerWrapper={".overlay-rect"} {locked}>
 		<Title>
 			<div class="row align-items-center">
-				<div class="col-10">
+				<div class="col">
 					{@render title()}
 				</div>
-				<div class="col-2 text-end">
+				<div class="col-auto text-end">
+					<button
+						class="btn btn-sm btn-outline-secondary"
+						aria-label="Lock/Unlock"
+						onclick={() => (locked = !locked)}
+					>
+						<i class="bi {locked ? "bi-unlock" : "bi-lock-fill"}"></i>
+					</button>
 					<button
 						class="btn btn-sm btn-outline-secondary"
 						aria-label="Minimize"

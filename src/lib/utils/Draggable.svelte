@@ -5,20 +5,22 @@
 		x = $bindable(),
 		y = $bindable(),
 		editMode,
+		locked,
 		onDragStart,
 		onDragEnd,
 		onDrag = () => {},
 		containerWrapper,
-        children
+		children
 	}: {
 		x: number;
 		y: number;
 		editMode: boolean;
+		locked: boolean;
 		onDragStart: () => void;
 		onDragEnd: (didDrag: boolean) => void;
 		onDrag?: (newX: number, newY: number) => void;
 		containerWrapper: string;
-        children: Snippet<[]>
+		children: Snippet<[]>;
 	} = $props();
 
 	let offsetX = 0;
@@ -27,7 +29,7 @@
 	let didDrag = false;
 
 	function handleMouseDown(event: MouseEvent) {
-		if (!editMode) return;
+		if (!editMode || locked) return;
 
 		dragging = true;
 		didDrag = false;
@@ -37,17 +39,17 @@
 
 		onDragStart();
 
-		window.addEventListener('mousemove', handleMouseMove);
-		window.addEventListener('mouseup', handleMouseUp);
+		window.addEventListener("mousemove", handleMouseMove);
+		window.addEventListener("mouseup", handleMouseUp);
 	}
 
 	function handleMouseMove(event: MouseEvent) {
 		if (!dragging) return;
 		didDrag = true;
 
-		const container = ((event.currentTarget as HTMLElement)?.ownerDocument ?? document).querySelector(
-			containerWrapper
-		) as HTMLElement;
+		const container = (
+			(event.currentTarget as HTMLElement)?.ownerDocument ?? document
+		).querySelector(containerWrapper) as HTMLElement;
 		if (!container) return;
 
 		const rect = container.getBoundingClientRect();
@@ -65,8 +67,8 @@
 		dragging = false;
 		didDrag = false;
 
-		window.removeEventListener('mousemove', handleMouseMove);
-		window.removeEventListener('mouseup', handleMouseUp);
+		window.removeEventListener("mousemove", handleMouseMove);
+		window.removeEventListener("mouseup", handleMouseUp);
 	}
 </script>
 
