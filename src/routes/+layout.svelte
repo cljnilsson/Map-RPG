@@ -5,8 +5,10 @@
 	import "./styles.scss";
 	import "animate.css";
 	import Nav from "$lib/partials/nav.svelte";
+	import type { LayoutData } from "./$types";
+	import type { Snippet } from "svelte";
 
-	let { children } = $props();
+	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
 </script>
 
 <svelte:head>
@@ -15,7 +17,7 @@
 </svelte:head>
 
 <div class="container-fluid p-0">
-	<Nav></Nav>
+	<Nav {data}></Nav>
 	{@render children()}
 </div>
 

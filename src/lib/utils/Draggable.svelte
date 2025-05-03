@@ -31,11 +31,11 @@
 	function handleMouseDown(event: MouseEvent) {
 		if (!editMode || locked) return;
 
-		dragging = true;
-		didDrag = false;
-
 		offsetX = event.offsetX;
 		offsetY = event.offsetY;
+
+		dragging = true;
+		didDrag = false;
 
 		onDragStart();
 

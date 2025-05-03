@@ -1,5 +1,8 @@
 <script lang="ts">
-	import type {Snippet} from "svelte";
+	import { browser } from "$app/environment";
+	import type { Snippet } from "svelte";
+	import { onDestroy } from "svelte";
+
 	let {
 		x = $bindable(),
 		y = $bindable(),
@@ -9,7 +12,16 @@
 		onDrag = () => {},
 		containerWrapper,
 		children
-	}: {x: number, y: number, locked?: boolean, onDragStart?: () => void, onDragEnd?: (didDrag: boolean) => void, onDrag?: (x: number, y: number) => void, containerWrapper: string, children: Snippet<[]>} = $props();
+	}: {
+		x: number;
+		y: number;
+		locked?: boolean;
+		onDragStart?: () => void;
+		onDragEnd?: (didDrag: boolean) => void;
+		onDrag?: (x: number, y: number) => void;
+		containerWrapper: string;
+		children: Snippet<[]>;
+	} = $props();
 
 	let offsetX = $state(0);
 	let offsetY = $state(0);
@@ -18,7 +30,7 @@
 
 	function handleMouseDown(event: MouseEvent) {
 		if (locked) return;
-		
+
 		const containerElement = document.querySelector(containerWrapper);
 		if (!containerElement) return;
 
@@ -59,6 +71,13 @@
 		window.removeEventListener("mousemove", handleMouseMove);
 		window.removeEventListener("mouseup", handleMouseUp);
 	}
+
+	onDestroy(() => {
+		if (browser) {
+			window.removeEventListener("mousemove", handleMouseMove);
+			window.removeEventListener("mouseup", handleMouseUp);
+		}
+	});
 </script>
 
 <!-- The handle itself -->
