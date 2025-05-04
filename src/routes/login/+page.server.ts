@@ -1,5 +1,4 @@
 import { hash, verify } from "@node-rs/argon2";
-import { encodeBase32LowerCase } from "@oslojs/encoding";
 import { fail, redirect } from "@sveltejs/kit";
 import { eq } from "drizzle-orm";
 import * as auth from "$lib/server/auth";
@@ -9,7 +8,7 @@ import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
-		return redirect(302, "/demo/lucia");
+		return redirect(302, "/login");
 	}
 	return {};
 };
@@ -50,7 +49,7 @@ export const actions: Actions = {
 		const session = await auth.createSession(sessionToken, existingUser.id);
 		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-		return redirect(302, "/demo/lucia");
+		return redirect(302, "/login");
 	},
 	register: async (event) => {
 		const formData = await event.request.formData();
@@ -64,7 +63,6 @@ export const actions: Actions = {
 			return fail(400, { message: "Invalid password 2" });
 		}
 
-		const userId = generateUserId();
 		const passwordHash = await hash(password, {
 			// recommended minimum parameters
 			memoryCost: 19456,
@@ -74,25 +72,18 @@ export const actions: Actions = {
 		});
 
 		try {
-			await db.insert(table.user).values({ id: userId, username, passwordHash });
+			const [insertedUser] = await db.insert(table.user).values({ username, passwordHash }).returning({ id: table.user.id });
 
 			const sessionToken = auth.generateSessionToken();
-			const session = await auth.createSession(sessionToken, userId);
+			const session = await auth.createSession(sessionToken, insertedUser.id);
 			auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 		} catch (e) {
 			console.error(e);
 			return fail(500, { message: "An error has occurred" });
 		}
-		return redirect(302, "/demo/lucia");
+		return redirect(302, "/login");
 	}
 };
-
-function generateUserId() {
-	// ID with 120 bits of entropy, or about the same as UUID v4.
-	const bytes = crypto.getRandomValues(new Uint8Array(15));
-	const id = encodeBase32LowerCase(bytes);
-	return id;
-}
 
 function validateUsername(username: unknown): username is string {
 	return (

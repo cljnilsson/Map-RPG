@@ -4,6 +4,7 @@ import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeBase64url, encodeHexLowerCase } from "@oslojs/encoding";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
+import type { InferInsertModel } from "drizzle-orm";
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
@@ -15,14 +16,16 @@ export function generateSessionToken() {
 	return token;
 }
 
-export async function createSession(token: string, userId: string) {
+export async function createSession(token: string, userId: number) {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const session: table.Session = {
-		id: sessionId,
+	const session: InferInsertModel<typeof table.session> = {
+		token: sessionId,
 		userId,
-		expiresAt: new Date(Date.now() + DAY_IN_MS * 30)
+		expiresAt: Math.floor(Date.now() / 1000 + DAY_IN_MS / 1000 * 30)
 	};
+
 	await db.insert(table.session).values(session);
+	
 	return session;
 }
 
@@ -36,22 +39,22 @@ export async function validateSessionToken(token: string) {
 		})
 		.from(table.session)
 		.innerJoin(table.user, eq(table.session.userId, table.user.id))
-		.where(eq(table.session.id, sessionId));
+		.where(eq(table.session.token, sessionId));
 
 	if (!result) {
 		return { session: null, user: null };
 	}
 	const { session, user } = result;
 
-	const sessionExpired = Date.now() >= session.expiresAt.getTime();
+	const sessionExpired = Date.now() >= session.expiresAt;
 	if (sessionExpired) {
 		await db.delete(table.session).where(eq(table.session.id, session.id));
 		return { session: null, user: null };
 	}
 
-	const renewSession = Date.now() >= session.expiresAt.getTime() - DAY_IN_MS * 15;
+	const renewSession = Date.now() >= session.expiresAt - DAY_IN_MS * 15;
 	if (renewSession) {
-		session.expiresAt = new Date(Date.now() + DAY_IN_MS * 30);
+		session.expiresAt = Date.now() + DAY_IN_MS * 30;
 		await db
 			.update(table.session)
 			.set({ expiresAt: session.expiresAt })
@@ -63,13 +66,13 @@ export async function validateSessionToken(token: string) {
 
 export type SessionValidationResult = Awaited<ReturnType<typeof validateSessionToken>>;
 
-export async function invalidateSession(sessionId: string) {
+export async function invalidateSession(sessionId: number) {
 	await db.delete(table.session).where(eq(table.session.id, sessionId));
 }
 
-export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date) {
+export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: number) {
 	event.cookies.set(sessionCookieName, token, {
-		expires: expiresAt,
+		expires: new Date(expiresAt),
 		path: "/"
 	});
 }

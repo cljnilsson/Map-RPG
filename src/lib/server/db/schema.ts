@@ -1,23 +1,25 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
-	id: text("id").primaryKey(),
+	id: integer("id").primaryKey({ autoIncrement: true }),
 	age: integer("age"),
 	username: text("username").notNull().unique(),
 	passwordHash: text("password_hash").notNull()
 });
 
 export const session = sqliteTable("session", {
-	id: text("id").primaryKey(),
-	userId: text("user_id")
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	token: text("token").notNull().unique(),
+	userId: integer("user_id")
 		.notNull()
 		.references(() => user.id),
-	expiresAt: integer("expires_at", { mode: "timestamp" }).notNull()
+	expiresAt: integer("expires_at").notNull()
+	//expiresAt: integer("expires_at", { mode: "timestamp" }).notNull()
 });
 
 export const flags = sqliteTable("flags", {
-	id: text("id").primaryKey(),
-	userId: text("user_id")
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	userId: integer("user_id")
 		.notNull()
 		.references(() => user.id),
 	name: text("name").notNull(),
