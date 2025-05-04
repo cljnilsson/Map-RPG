@@ -1,14 +1,21 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import type { Flag, User } from "$lib/server/db/schema";
 
-	let { data } = $props();
+	let { data }: { data: { user: User | null; userFlags: Flag[] } } = $props();
 
-	let isLoggedIn: boolean = $derived(data?.user);
+	let isLoggedIn: boolean = $derived(!!data?.user);
+	let flags: { name: string; value: boolean }[] = $derived(
+		data?.userFlags.map((flag: Flag) => ({
+			name: flag.name,
+			value: flag.value === 1
+		})) ?? []
+	);
 
 	$effect(() => {
 		console.log(data);
 		if (isLoggedIn) {
-			console.log("Is logged in");
+			console.log("Is logged in", flags);
 		} else {
 			console.log("Is not logged in");
 		}
@@ -23,9 +30,7 @@
 	<a href="/creator">Creator demo</a>
 	{#if isLoggedIn}
 		<form method="POST" action="/api/logout" style="display: inline;" use:enhance>
-			<button type="submit" class="btn btn-link p-0 m-0 align-baseline">
-				Logout
-			</button>
+			<button type="submit" class="btn btn-link p-0 m-0 align-baseline"> Logout </button>
 		</form>
 	{:else}
 		<a href="/login">Login</a>
@@ -40,7 +45,8 @@
 		padding-bottom: 0.3rem;
 	}
 
-	button {
+	button,
+	a {
 		color: black;
 		&:hover {
 			color: white;
@@ -48,7 +54,6 @@
 	}
 
 	a {
-		color: black;
 		padding-left: 1rem;
 		padding-right: 1rem;
 		&:hover {

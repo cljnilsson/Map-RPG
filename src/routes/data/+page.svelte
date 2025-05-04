@@ -8,7 +8,7 @@
 <div class="wrapper mt-3 mx-5 px-3 py-3">
 	<h1>Hi, {data.user.username}!</h1>
 	<p>Your user ID is {data.user.id}.</p>
-	<form method="post" action="?/logout" use:enhance>
+	<form method="post" action="/api/logout" use:enhance>
 		<button>Sign out</button>
 	</form>
 </div>

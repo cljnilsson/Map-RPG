@@ -15,6 +15,17 @@ export const session = sqliteTable("session", {
 	expiresAt: integer("expires_at", { mode: "timestamp" }).notNull()
 });
 
+export const flags = sqliteTable("flags", {
+	id: text("id").primaryKey(),
+	userId: text("user_id")
+		.notNull()
+		.references(() => user.id),
+	name: text("name").notNull(),
+	value: integer("value").notNull().default(0) // Use 0 for false, 1 for true
+});
+
+export type Flag = typeof flags.$inferSelect;
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
