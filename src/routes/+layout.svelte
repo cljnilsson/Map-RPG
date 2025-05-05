@@ -14,17 +14,17 @@
 	let you: CharSprite = { name: "You", image: "char.jpg" };
 
 	let msgs: Message[] = [
-		{ type: "text", text: "Greetings, you're not from here are you?", from: alice },
+		{ type: "text", text: "Greetings, you're not from here are you?", from: alice, next: 1 },
 		{
 			type: "choice",
 			from: you,
 			choices: [
-				{ text: "I've recently arrived, yes." },
-				{ text: "I'm not but I know about these lands.", next: 4 }
+				{ text: "I've recently arrived, yes.", next: 2 },
+				{ text: "I'm not but I know about these lands.", next: 3 }
 			]
 		},
-		{ type: "text", text: "That's alright, but first - who are you?", from: alice },
-		{ type: "text", text: "I see, then I wont be your guide.", from: alice }
+		{ type: "text", text: "That's alright, but first - who are you?", from: alice, next: -1 },
+		{ type: "text", text: "I see, then I wont be your guide. However I still wonder who you are.", from: alice, next: -1 }
 	];
 
 	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
@@ -43,6 +43,7 @@
 	let tutorialCompleted = $state(getFlagByName("tutorialCompleted"));
 
 	async function onTutorialEnd() {
+		console.log("THE TUTORIAL IS OVER");
 		// only run this if the user is logged in, TODO
 		if (false) {
 			await fetch("/api/flag", {
@@ -65,14 +66,10 @@
 <div class="container-fluid p-0">
 	<Nav {data}></Nav>
 	{#if !tutorialCompleted}
-		<div
-			class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-			style="z-index: 1050; background-color: rgba(0, 0, 0, 0.5);"
-		>
-			<div style="width: 100%; max-width: 500px;">
-				<Dialogue {msgs} player={you} onEnd={onTutorialEnd}></Dialogue>
-			</div>
-		</div>
+		<!-- Key attribute in order to automatically reset the dialogue when msgs is changed -->
+		{#key msgs}
+			<Dialogue {msgs} player={you} onEnd={onTutorialEnd}></Dialogue>
+		{/key}
 	{/if}
 	{@render children()}
 </div>

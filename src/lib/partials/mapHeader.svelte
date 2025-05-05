@@ -41,7 +41,6 @@
 		if (MapStore.editMode === false) {
 			MapStore.selectedBox = null;
 		}
-		console.log(MapStore.editMode);
 	}
 </script>
 

@@ -10,14 +10,15 @@
 	function next() {
 		const msg = msgs[current];
 		if (msg.type === "text") {
-			if (!msg.next) {
-				current += 1;
-			} else {
-				current = msg.next;
+			if (!msg.next || msg.next === -1) {
 				if (onEnd) {
 					onEnd();
 				}
+			} else {
+				current = msg.next;
 			}
+		} else {
+			console.warn("This should only be called on text dialogues, check dialogue body")
 		}
 	}
 
@@ -28,7 +29,7 @@
 
 <div class="button-container">
 	<button class="btn btn-dark" onclick={prev} disabled={current === 0}>Previous</button>
-	<button class="btn btn-dark" onclick={next} disabled={current === msgs.length - 1}>Next</button>
+	<button class="btn btn-dark" onclick={next} disabled={msgs[current].type === "choice"}>Next</button>
 </div>
 
 <style>

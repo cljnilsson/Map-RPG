@@ -9,17 +9,37 @@
 	let { msgs, player, onEnd }: { msgs: Message[]; player: CharSprite; onEnd?: () => void } =
 		$props();
 	let current: number = $state(0);
+	let done: boolean = $state(false);
+
+	function endDialogue() {
+		if (onEnd) {
+			onEnd();
+		}
+		DialogueStore.inDialogue = false;
+	}
 
 	function checkEnd() {
-		const nextMsg = msgs[current];
-		if (!nextMsg || (nextMsg.type === "text" && nextMsg.next === undefined)) {
-			if (onEnd) {
-				onEnd();
+		const currentMsg = msgs[current];
+		console.log("---");
+		console.log(msgs, current);
+		console.log(currentMsg);
+		console.log("---");
+
+		if ("choices" in currentMsg) {
+			console.warn("Choice should not end a dialogue (probably)");
+		} else if ("next" in currentMsg) {
+			//current = currentMsg.next as number;
+			const nextMsg = msgs[currentMsg.next as number];
+
+			console.log(nextMsg);
+			if (nextMsg === undefined) {
+				console.log("pass");
+				done = true;
+				endDialogue();
 			}
-			DialogueStore.inDialogue = false;
 		} else {
-			console.warn("Premature end?");
-			DialogueStore.inDialogue = false;
+			console.error("Invalid message type");
+			return;
 		}
 	}
 
@@ -28,26 +48,35 @@
 	});
 </script>
 
-<div class="row justify-content-center">
-	<div class="col">
-		<img
-			src={msgs[current].from.image}
-			alt={msgs[current].from.name}
-			class="img-fluid"
-			style="max-width: 200px; max-height: 200px;"
-		/>
+{#if !done}
+	<div
+		class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+		style="z-index: 1050; background-color: rgba(0, 0, 0, 0.5);"
+	>
+		<div style="width: 100%; max-width: 500px;">
+			<div class="row justify-content-center">
+				<div class="col">
+					<img
+						src={msgs[current].from.image}
+						alt={msgs[current].from.name}
+						class="img-fluid"
+						style="max-width: 200px; max-height: 200px;"
+					/>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col wrapper position-relative">
+					<h5>
+						{msgs[current].from.name}
+						{#if dev}({current}){/if}
+					</h5>
+					<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd}></DialogueBody>
+					<DialogueButtons {msgs} bind:current onEnd={checkEnd}></DialogueButtons>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-<div class="row justify-content-center">
-	<div class="col wrapper position-relative">
-		<h5>
-			{msgs[current].from.name}
-			{#if dev}({current}){/if}
-		</h5>
-		<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd}></DialogueBody>
-		<DialogueButtons {msgs} bind:current onEnd={checkEnd}></DialogueButtons>
-	</div>
-</div>
+{/if}
 
 <style>
 	.wrapper {

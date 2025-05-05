@@ -4,20 +4,20 @@ export type CharSprite = {
 };
 
 export type TextMessage = {
-	type: 'text';
+	type: "text";
 	text: string;
 	from: CharSprite;
-	next?: number; // index of the next message
+	next: number; // index of the next message
 };
 
 export type ChoiceOption = {
 	text: string;
-	next?: number;
+	next: number;
 	onChoice?: () => void; // optional callback when this choice is selected
 };
 
 export type ChoiceMessage = {
-	type: 'choice';
+	type: "choice";
 	choices: ChoiceOption[];
 	from: CharSprite;
 };

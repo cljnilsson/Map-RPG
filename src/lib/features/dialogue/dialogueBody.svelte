@@ -14,20 +14,22 @@
 		onEnd
 	}: { msgs: Message[]; player: CharSprite; current: number; onEnd?: () => void } = $props();
 
-	function selectChoice(choice: ChoiceOption) {
+	async function selectChoice(choice: ChoiceOption) {
 		if (choice.onChoice) {
 			choice.onChoice();
 		}
+
 		msgs[current] = { type: "text", text: choice.text, from: player, next: choice.next };
-		if(choice.next) {
+
+		if (choice.next) {
 			current = choice.next;
 		} else {
 			console.warn("Is undefined, might be unwaranted");
 		}
 
-		if (onEnd) {
+		/*if (onEnd) {
 			onEnd();
-		}
+		}*/
 	}
 </script>
 

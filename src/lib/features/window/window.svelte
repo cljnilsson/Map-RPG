@@ -39,9 +39,9 @@
 
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
 
-	$effect(() => {
+	/*$effect(() => {
 		console.log(tweenHeight);
-	});
+	});*/
 
 	function toggle() {
 		expanded = !expanded;
