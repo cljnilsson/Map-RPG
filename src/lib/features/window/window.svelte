@@ -7,6 +7,7 @@
 	import Body from "$lib/features/window/windowBody.svelte";
 	import Footer from "$lib/features/window/windowFooter.svelte";
 	import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
+	import DialogueStore from "$lib/stores/dialogue.svelte";
 	import { browser } from "$app/environment";
 
 	let {
@@ -72,7 +73,7 @@
 	bind:this={containerElement}
 	class="overlay-rect"
 	style="left: {x}px; top: {y}px; width: {width}px;"
-	class:d-none={!visibility}
+	class:d-none={!visibility || DialogueStore.inDialogue}
 >
 	<DraggableHandle bind:x bind:y containerWrapper={".overlay-rect"} {locked}>
 		<Title>

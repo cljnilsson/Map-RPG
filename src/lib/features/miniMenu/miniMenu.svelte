@@ -1,11 +1,12 @@
 <script lang="ts">
+	import DialogueStore from "$lib/stores/dialogue.svelte";
 	import { Tween } from "svelte/motion";
 	import { cubicOut } from "svelte/easing";
 	import CharacterAvatar from "$lib/components/character/CharacterAvatar.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
-
+	
 	const h = 140;
 	const w = 230;
 
@@ -29,6 +30,7 @@
 	id="mini-menu"
 	class="position-fixed bottom-0 start-0 m-3 rounded border shadow py-2 overflow-hidden"
 	style="width: {menuWidth.current}px; height: {menuHeight.current}px; z-index: 1050;"
+	class:d-none={DialogueStore.inDialogue}
 >
 	<div class="row mb-3 g-0">
 		<div class="col-auto px-2">
