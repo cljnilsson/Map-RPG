@@ -2,6 +2,9 @@
 	import type { Message, CharSprite } from "$lib/types/message";
 	import DialogueButtons from "$lib/features/dialogue/dialogueButtons.svelte";
 	import DialogueBody from "$lib/features/dialogue/dialogueBody.svelte";
+	import DialogueStore from "$lib/stores/dialogue.svelte";
+	import { dev } from "$app/environment";
+	import { onMount } from "svelte";
 
 	let { msgs, player, onEnd }: { msgs: Message[]; player: CharSprite; onEnd?: () => void } =
 		$props();
@@ -13,14 +16,20 @@
 			if (onEnd) {
 				onEnd();
 			}
+			DialogueStore.inDialogue = false;
 		} else {
 			console.warn("Premature end?");
+			DialogueStore.inDialogue = false;
 		}
 	}
+
+	onMount(() => {
+		DialogueStore.inDialogue = true;
+	});
 </script>
 
 <div class="row justify-content-center">
-	<div class="col-6">
+	<div class="col">
 		<img
 			src={msgs[current].from.image}
 			alt={msgs[current].from.name}
@@ -30,8 +39,11 @@
 	</div>
 </div>
 <div class="row justify-content-center">
-	<div class="col-6 wrapper position-relative">
-		<h5>{msgs[current].from.name} ({current})</h5>
+	<div class="col wrapper position-relative">
+		<h5>
+			{msgs[current].from.name}
+			{#if dev}({current}){/if}
+		</h5>
 		<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd}></DialogueBody>
 		<DialogueButtons {msgs} bind:current onEnd={checkEnd}></DialogueButtons>
 	</div>

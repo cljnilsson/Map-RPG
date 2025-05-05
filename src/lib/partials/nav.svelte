@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
-	import type { Flag, User } from "$lib/server/db/schema";
+	import type { LayoutData } from "$lib/types/layoutData";
 
-	let { data }: { data: { user: User | null; userFlags: Flag[] } } = $props();
+	let { data }: { data: LayoutData } = $props();
 
 	let isLoggedIn: boolean = $derived(!!data?.user);
 	let flags: { name: string; value: boolean }[] = $derived(
-		data?.userFlags.map((flag: Flag) => ({
+		data?.userFlags.map((flag: { name: string; value: number }) => ({
 			name: flag.name,
 			value: flag.value === 1
 		})) ?? []
