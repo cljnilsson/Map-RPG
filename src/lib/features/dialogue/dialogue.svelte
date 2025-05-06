@@ -5,9 +5,14 @@
 	import DialogueStore from "$lib/stores/dialogue.svelte";
 	import { dev } from "$app/environment";
 	import { onMount } from "svelte";
+	import type { Snippet } from "svelte";
 
-	let { msgs, player, onEnd }: { msgs: Message[]; player: CharSprite; onEnd?: () => void } =
-		$props();
+	let {
+		msgs,
+		player,
+		onEnd,
+		leftCol
+	}: { msgs: Message[]; player: CharSprite; onEnd?: () => void; leftCol: Snippet } = $props();
 	let current: number = $state(0);
 	let done: boolean = $state(false);
 
@@ -53,25 +58,32 @@
 		class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
 		style="z-index: 1050; background-color: rgba(0, 0, 0, 0.5);"
 	>
-		<div style="width: 100%; max-width: 500px;">
-			<div class="row justify-content-center">
-				<div class="col">
-					<img
-						src={msgs[current].from.image}
-						alt={msgs[current].from.name}
-						class="img-fluid"
-						style="max-width: 200px; max-height: 200px;"
-					/>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col wrapper position-relative">
-					<h5>
-						{msgs[current].from.name}
-						{#if dev}({current}){/if}
-					</h5>
-					<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd}></DialogueBody>
-					<DialogueButtons {msgs} bind:current onEnd={checkEnd}></DialogueButtons>
+		<div style="width: 100%; max-width: 1300px;">
+			<div class="row">
+				{@render leftCol()}
+				<!-- defines its own width -->
+				<div class="col-auto" style="max-width: 500px;">
+					<div class="row justify-content-center">
+						<div class="col">
+							<img
+								src={msgs[current].from.image}
+								alt={msgs[current].from.name}
+								class="img-fluid"
+								style="max-width: 200px; max-height: 200px;"
+							/>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col wrapper position-relative">
+							<h5>
+								{msgs[current].from.name}
+								{#if dev}({current}){/if}
+							</h5>
+							<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd}
+							></DialogueBody>
+							<DialogueButtons {msgs} bind:current onEnd={checkEnd}></DialogueButtons>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

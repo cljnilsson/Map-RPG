@@ -9,6 +9,7 @@
 	import type { LayoutData } from "$lib/types/layoutData";
 	import Dialogue from "$lib/features/dialogue/dialogue.svelte";
 	import type { Message, CharSprite } from "$lib/types/message";
+	import Creator from "$lib/features/creator/creator.svelte";
 
 	let alice: CharSprite = { name: "Vik", image: "vik.png" };
 	let you: CharSprite = { name: "You", image: "char.jpg" };
@@ -68,7 +69,13 @@
 	{#if !tutorialCompleted}
 		<!-- Key attribute in order to automatically reset the dialogue when msgs is changed -->
 		{#key msgs}
-			<Dialogue {msgs} player={you} onEnd={onTutorialEnd}></Dialogue>
+			<Dialogue {msgs} player={you} onEnd={onTutorialEnd}>
+				{#snippet leftCol()}
+					<div class="col-xl-6">
+						<Creator />
+					</div>
+				{/snippet}
+			</Dialogue>
 		{/key}
 	{/if}
 	{@render children()}
