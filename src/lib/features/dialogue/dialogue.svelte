@@ -8,7 +8,7 @@
 	import type { Snippet } from "svelte";
 
 	let {
-		msgs,
+		msgs = $bindable(),
 		player,
 		onEnd,
 		leftCol
@@ -59,8 +59,8 @@
 		style="z-index: 1050; background-color: rgba(0, 0, 0, 0.5);"
 	>
 		<div style="width: 100%; max-width: 1300px;">
-			<div class="row">
-				{@render leftCol()}
+			<div class="row justify-content-center">
+				{@render leftCol?.()}
 				<!-- defines its own width -->
 				<div class="col-auto" style="max-width: 500px;">
 					<div class="row justify-content-center">
@@ -79,9 +79,8 @@
 								{msgs[current].from.name}
 								{#if dev}({current}){/if}
 							</h5>
-							<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd}
-							></DialogueBody>
-							<DialogueButtons {msgs} bind:current onEnd={checkEnd}></DialogueButtons>
+							<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd} />
+							<DialogueButtons {msgs} bind:current onEnd={checkEnd} />
 						</div>
 					</div>
 				</div>
