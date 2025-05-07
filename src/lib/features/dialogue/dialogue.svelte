@@ -12,15 +12,23 @@
 		player,
 		onEnd,
 		leftCol
-	}: { msgs: Message[]; player: CharSprite; onEnd?: () => void; leftCol: Snippet } = $props();
+	}: { msgs: Message[]; player: CharSprite; onEnd?: () => void; leftCol?: Snippet } = $props();
+
 	let current: number = $state(0);
 	let done: boolean = $state(false);
+
+	export function reset() {
+		console.log("Trying to reset");
+		current = 0;
+		done = false;
+	}
 
 	function endDialogue() {
 		if (onEnd) {
 			onEnd();
 		}
 		DialogueStore.inDialogue = false;
+		done = true;
 	}
 
 	function checkEnd() {
@@ -39,7 +47,6 @@
 			console.log(nextMsg);
 			if (nextMsg === undefined) {
 				console.log("pass");
-				done = true;
 				endDialogue();
 			}
 		} else {
