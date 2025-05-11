@@ -10,6 +10,7 @@
 	import Dialogue from "$lib/features/dialogue/dialogue.svelte";
 	import type { Message, CharSprite } from "$lib/types/message";
 	import Creator from "$lib/features/creator/creator.svelte";
+	import Highlight from "$lib/utils/Highlight.svelte";
 
 	let alice: CharSprite = { name: "Vik", image: "vik.png" };
 	let you: CharSprite = { name: "You", image: "char.jpg" };
@@ -21,8 +22,8 @@
 			type: "choice",
 			from: you,
 			choices: [
-				{ text: "I've recently arrived, yes.", next: 2 },
-				{ text: "I'm not but I know about these lands.", next: 3 }
+				{ text: "I've recently arrived, yes.", next: 2, saveResponse: true },
+				{ text: "I'm not but I know about these lands.", next: 3, saveResponse: true }
 			]
 		},
 		{ type: "text", text: "That's alright, but first - who are you?", from: alice, next: -1 },
@@ -47,12 +48,12 @@
 			type: "choice",
 			from: you,
 			choices: [
-				{ text: "What is 'str' used for?", next: 4 },
-				{ text: "What is 'Dex' used for?", next: 5 },
-				{ text: "What is 'Int' used for?", next: 6 },
-				{ text: "What is 'Vit' used for?", next: 7 },
-				{ text: "What is 'Charisma' used for?", next: 8 },
-				{ text: "I have no questions", next: 9 }
+				{ text: "What is 'str' used for?", next: 4, saveResponse: false },
+				{ text: "What is 'Dex' used for?", next: 5, saveResponse: false },
+				{ text: "What is 'Int' used for?", next: 6, saveResponse: false },
+				{ text: "What is 'Vit' used for?", next: 7, saveResponse: false },
+				{ text: "What is 'Charisma' used for?", next: 8, saveResponse: false },
+				{ text: "I have no questions", next: 9, saveResponse: false }
 			]
 		},
 		{
@@ -152,7 +153,9 @@
 				{#snippet leftCol()}
 					{#if tutorialStage === 2}
 						<div class="col-xl-6">
-							<Creator />
+							<Highlight>
+								<Creator />
+							</Highlight>
 						</div>
 					{/if}
 				{/snippet}
