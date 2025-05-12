@@ -30,7 +30,9 @@
 				<div class="col-10">
 					<div class="row">
 						<div class="col">
-							<ImageUploader />
+							<div class="c-avatar">
+								<ImageUploader />
+							</div>
 						</div>
 					</div>
 					<div class="row">

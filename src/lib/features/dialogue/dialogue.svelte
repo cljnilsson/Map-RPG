@@ -11,10 +11,10 @@
 		msgs = $bindable(),
 		player,
 		onEnd,
-		leftCol
-	}: { msgs: Message[]; player: CharSprite; onEnd?: () => void; leftCol?: Snippet } = $props();
+		leftCol,
+		current = $bindable()
+	}: { msgs: Message[]; player: CharSprite; onEnd?: () => void; leftCol?: Snippet, current: number } = $props();
 
-	let current: number = $state(0);
 	let done: boolean = $state(false);
 
 	export function reset() {
@@ -33,10 +33,10 @@
 
 	function checkEnd() {
 		const currentMsg = msgs[current];
-		console.log("---");
+		/*console.log("---");
 		console.log(msgs, current);
 		console.log(currentMsg);
-		console.log("---");
+		console.log("---");*/
 
 		if ("choices" in currentMsg) {
 			console.warn("Choice should not end a dialogue (probably)");

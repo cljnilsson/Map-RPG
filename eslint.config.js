@@ -17,7 +17,7 @@ export default ts.config(
 	{
 		rules: {
 			quotes: ["error", "double"],
-			indent: ["error", "tab"],
+			"indent": ["error", "tab", { "SwitchCase": 1 }],
 			"no-tabs": "off", // allow actual tab characters
 		},
 		languageOptions: {

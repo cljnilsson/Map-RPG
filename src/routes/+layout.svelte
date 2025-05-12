@@ -15,9 +15,48 @@
 	let alice: CharSprite = { name: "Vik", image: "vik.png" };
 	let you: CharSprite = { name: "You", image: "char.jpg" };
 	let tutorialStage = $state(1);
-	let creatorSelector: string = $derived(tutorialStage === 2 ? ".c-body" : "");
+	let tutorialSubStage = $state(0);
+	let creatorSelector: string = $derived.by(() => {
+		if (tutorialStage < 2) return "";
 
-	$inspect(creatorSelector);
+		let className = "";
+
+		switch (tutorialSubStage) {
+			case 0:
+				className = ".c-avatar";
+				break;
+			case 1:
+				className = ".c-body";
+				break;
+			case 2:
+				className = "";
+				break;
+			case 3:
+				className = "";
+				break;
+			case 4:
+				className = ".stat-Str";
+				break;
+			case 5:
+				className = ".stat-Dex";
+				break;
+			case 6:
+				className = ".stat-Int";
+				break;
+			case 7:
+				className = ".stat-Vit";
+				break;
+			case 8:
+				className = ".stat-Charisma";
+				break;
+			default:
+				className = "";
+		}
+
+		return className;
+	});
+
+	$inspect(tutorialSubStage, creatorSelector);
 
 	let msgs: Message[] = [
 		{ type: "text", text: "Greetings, you're not from here are you?", from: alice, next: 1 },
@@ -114,6 +153,7 @@
 	async function onTutorialEnd() {
 		console.log("THE TUTORIAL IS OVER");
 		activeDialogue = creatorDialogue;
+		tutorialSubStage = 0;
 		tutorialStage = 2;
 		//dialogueRef?.reset();
 		// only run this if the user is logged in, TODO
@@ -145,6 +185,7 @@
 				bind:msgs={activeDialogue}
 				player={you}
 				onEnd={onTutorialEnd}
+				bind:current={tutorialSubStage}
 			/>
 		{:else if tutorialStage === 2}
 			<Dialogue
@@ -152,6 +193,7 @@
 				bind:msgs={activeDialogue}
 				player={you}
 				onEnd={onTutorialEnd}
+				bind:current={tutorialSubStage}
 			>
 				{#snippet leftCol()}
 					{#if tutorialStage === 2}
