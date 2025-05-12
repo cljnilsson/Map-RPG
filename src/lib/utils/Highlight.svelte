@@ -1,28 +1,24 @@
 <script lang="ts">
-	let { children } = $props();
+	import { onMount } from "svelte";
+	import type { Snippet } from "svelte";
+
+	let { children, selector = "" }: {children: Snippet, selector?: string} = $props();
+
+	let container: HTMLElement;
+
+	function highlightTarget() {
+		if (!selector || !container || selector === "") return;
+
+		const target = container.querySelector(selector);
+
+		if (target) {
+			target.classList.add("highlight-pulse");
+		}
+	}
+
+	onMount(highlightTarget);
 </script>
 
-<div class="highlight">
+<div class:highlight-pulse={!selector && selector !== ""} bind:this={container}>
 	{@render children()}
 </div>
-
-<style>
-	.highlight {
-		position: relative;
-		border-radius: 8px;
-		animation: pulse 2s infinite;
-		box-shadow: 0 0 0 rgba(0, 123, 255, 0.7);
-	}
-
-	@keyframes pulse {
-		0% {
-			box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
-		}
-		70% {
-			box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
-		}
-		100% {
-			box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
-		}
-	}
-</style>

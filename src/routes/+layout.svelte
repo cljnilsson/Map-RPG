@@ -15,6 +15,9 @@
 	let alice: CharSprite = { name: "Vik", image: "vik.png" };
 	let you: CharSprite = { name: "You", image: "char.jpg" };
 	let tutorialStage = $state(1);
+	let creatorSelector: string = $derived(tutorialStage === 2 ? ".c-body" : "");
+
+	$inspect(creatorSelector);
 
 	let msgs: Message[] = [
 		{ type: "text", text: "Greetings, you're not from here are you?", from: alice, next: 1 },
@@ -153,7 +156,7 @@
 				{#snippet leftCol()}
 					{#if tutorialStage === 2}
 						<div class="col-xl-6">
-							<Highlight>
+							<Highlight selector={creatorSelector}>
 								<Creator />
 							</Highlight>
 						</div>

@@ -2,3 +2,21 @@ html, body {
     height: 100%;
     margin: 0;
 }
+
+.highlight-pulse {
+    border-radius: 8px;
+    animation: h-pulse 2s infinite;
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.7);
+}
+
+@keyframes h-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
