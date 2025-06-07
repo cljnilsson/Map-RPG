@@ -3,26 +3,32 @@ export type CharSprite = {
 	image: string;
 };
 
-export type TextMessage = {
-	type: "text";
-	text: string;
+// Shared properties
+type BaseMessage = {
 	from: CharSprite;
-	next: number; // index of the next message
-	onChoice?: () => void; // optional callback when this message is selected
+	onChoice?: () => void;
 };
 
+// Text message
+export type TextMessage = BaseMessage & {
+	type: "text";
+	text: string;
+	next: number;
+};
+
+// Choice option
 export type ChoiceOption = {
 	text: string;
 	next: number;
 	saveResponse: boolean;
-	onChoice?: () => void; // optional callback when this choice is selected
+	onChoice?: () => void;
 };
 
-export type ChoiceMessage = {
+// Choice message
+export type ChoiceMessage = BaseMessage & {
 	type: "choice";
 	choices: ChoiceOption[];
-	from: CharSprite;
-	onChoice?: () => void; // optional callback when this message is selected
 };
 
+// Union type for any message
 export type Message = TextMessage | ChoiceMessage;

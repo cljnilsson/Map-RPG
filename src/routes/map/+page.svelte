@@ -8,6 +8,8 @@
 	import LogWindow from "$lib/components/windows/logger/logger.svelte";
 	import ResourceWindow from "$lib/components/windows/resources/resources.svelte";
 	import EventWindow from "$lib/components/windows/events/events.svelte";
+
+	console.log(MapStore.currentMapState);
 </script>
 
 <div class="map-wrapper mt-3">

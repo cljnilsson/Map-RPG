@@ -54,7 +54,22 @@
 		}
 	}
 
+	function scaleToViewport(px: number, axis: "x" | "y") {
+		const viewportSize = axis === "x" ? window.innerWidth : window.innerHeight;
+		// Adjust the base resolution to match your dev screen — for example, 2560×1440
+		const base = axis === "x" ? 2560 : 1440;
+		return (px / base) * viewportSize;
+	}
+
 	onMount(() => {
+		if (browser) {
+			x = scaleToViewport(x, "x");
+			y = scaleToViewport(y, "y");
+			//width = scaleToViewport(width, "x");
+			//height = scaleToViewport(height, "y");
+			//tweenHeight.set(height); // if window starts expanded
+		}
+
 		if (toggleKey && window) {
 			window.addEventListener("keydown", handleKeydown);
 		}
@@ -87,14 +102,14 @@
 						aria-label="Lock/Unlock"
 						onclick={() => (locked = !locked)}
 					>
-						<i class="bi {locked ? "bi-unlock" : "bi-lock-fill"}"></i>
+						<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
 					</button>
 					<button
 						class="btn btn-sm btn-outline-secondary"
 						aria-label="Minimize"
 						onclick={toggle}
 					>
-						<i class="bi {expanded ? "bi-dash" : "bi-plus"}"></i>
+						<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
 					</button>
 				</div>
 			</div>

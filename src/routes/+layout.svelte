@@ -23,7 +23,7 @@
 		return flags.find((flag) => flag.name === name)?.value;
 	}
 
-	let tutorialCompleted = $state(getFlagByName("tutorialCompleted"));
+	let tutorialCompleted = true;//$state(getFlagByName("tutorialCompleted"));
 </script>
 
 <svelte:head>
