@@ -1,45 +1,21 @@
 <script lang="ts">
 	import CityStore from "$lib/stores/city.svelte";
-	import LoggerStore from "$lib/stores/logs.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import UnitDesignator from "$lib/components/windows/unit/unitDesignator.svelte";
 	import type { QueueItem } from "$lib/types/queueItem";
 	import { onDestroy } from "svelte";
 	import dayjs from "dayjs";
 	import WindowStore from "$lib/stores/windows.svelte";
+	import queue from "$lib/stores/queueStore.svelte";
 
-	let queue: QueueItem[] = $state([
-		{
-			name: "Worker => soldier",
-			time: { start: new Date(), end: dayjs().add(15, "seconds").toDate() },
-			onComplete: () => {
-				CityStore.soldiers += 1;
-			}
-		}
-	]);
-
-	const timer = setInterval(() => {
-		for (const q of queue) {
-			console.log(dayjs(q.time.end).diff(dayjs(), "second"));
-			if (dayjs(q.time.end).isBefore(dayjs())) {
-				q.onComplete();
-				queue = queue.filter((item) => item !== q);
-				LoggerStore.logs = [
-					...LoggerStore.logs,
-					{
-						type: "info",
-						timestamp: new Date(),
-						message: `Finished training ${q.name}`
-					}
-				];
-			}
-		}
-
-		if (queue.length > 0) {
-			// Force update in order to show duration left
-			queue = [...queue];
-		}
-	}, 1000);
+	queue.queue = [...queue.queue, {
+		name: "Worker => soldier",
+		type: "unit",
+		time: { start: new Date(), end: dayjs().add(15, "seconds").toDate() },
+		onComplete: () => {
+			CityStore.soldiers += 1;
+		}}
+	];
 
 	function secondsToHMS(totalSeconds: number): { h: number; m: number; s: number } {
 		const h = Math.floor(totalSeconds / 3600);
@@ -48,17 +24,18 @@
 		return { h, m, s };
 	}
 
-	function timeLeft(q: QueueItem): string {
-		const { h, m, s } = secondsToHMS(dayjs(q.time.end).diff(dayjs(), "second"));
+	function timeLeft(end: Date): string {
+		const seconds = dayjs(end).diff(dayjs(), "second");
+		const { h, m, s } = secondsToHMS(seconds);
 
 		return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s
 			.toString()
 			.padStart(2, "0")}`;
 	}
 
-	onDestroy(() => {
+	/*onDestroy(() => {
 		clearInterval(timer);
-	});
+	});*/
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -81,36 +58,31 @@
 				name="Soldiers"
 				bind:unit={CityStore.soldiers}
 				bind:available={CityStore.workers}
-				bind:queue
 			/>
 			<UnitDesignator
 				name="Merchants"
 				bind:unit={CityStore.merchants}
 				bind:available={CityStore.workers}
-				bind:queue
 			/>
 			<UnitDesignator
 				name="Smiths"
 				bind:unit={CityStore.smiths}
 				bind:available={CityStore.workers}
-				bind:queue
 			/>
 			<UnitDesignator
 				name="Priests"
 				bind:unit={CityStore.priests}
 				bind:available={CityStore.workers}
-				bind:queue
 			/>
 		</div>
 
 		<h5>Workers {CityStore.workers}</h5>
 	{/snippet}
 	{#snippet footer()}
-		{#each queue as q}
+		{#each queue.queue as q (q.name + q.time.start)}
 			<p class="my-1">
-				{#key queue}
-					{q.name} {timeLeft(q)}
-				{/key}
+				{q.name}
+				{timeLeft(q.time.end)}
 			</p>
 		{/each}
 	{/snippet}
