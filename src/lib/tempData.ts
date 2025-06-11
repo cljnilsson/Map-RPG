@@ -1,31 +1,34 @@
-import type { CustomMap, MapType } from "$lib/types/mapTypes";
+import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
 
-const wo: MapType = {
+const wo: WorldMap = {
 	name: "Westeros",
 	type: "world",
 	imagePath: "/map1.jpg",
-	unlocked: true // useless but required with current types, might be worth fixing at some point but functionally its fine for now
 };
 
-const winterfellO: MapType = {
+const winterfellO: CityMap = {
 	name: "Winterfell",
 	type: "city",
 	imagePath: "/map3.webp",
-	unlocked: true
+	unlocked: true,
+	owned: true,
 };
 
-const kingsLandingO: MapType = {
+const kingsLandingO: CityMap = {
 	name: "King's Landing",
 	type: "city",
 	imagePath: "/map2.webp",
-	unlocked: true
+	unlocked: true,
+	owned: false
 };
 
-const starkKeepO: MapType = {
+const starkKeepO: BuildingMap = {
 	name: "Winterfeel Keep",
 	type: "building",
 	imagePath: "starkKeep.webp",
-	unlocked: true
+	unlocked: true,
+	npcs: [],
+	upgrades: []
 };
 
 export const world: CustomMap = {

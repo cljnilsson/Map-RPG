@@ -3,6 +3,7 @@
 	import MapStore from "$lib/stores/map.svelte";
 	import MiniMenu from "$lib/features/miniMenu/miniMenu.svelte";
 	import { onMount } from "svelte";
+	import {isCityMap, isBuildingMap, isWorldMap} from "$lib/typeguards/map";
 
 	let imgRef: HTMLImageElement;
 	// Probably not ideal for future proofing but it works for now
@@ -25,7 +26,7 @@
 
 	onMount(() => {
 		// For now the world view is not scaled thus this only works for the other views at the moment
-		if(MapStore.currentMapState.map.type === "city" || MapStore.currentMapState.map.type === "building") {
+		if(isCityMap(MapStore.currentMapState.map) || isBuildingMap(MapStore.currentMapState.map)) {
 			scaleClickBoxes();
 		}
 	});
@@ -37,7 +38,9 @@
 			bind:this={imgRef}
 			loading="lazy"
 			src={MapStore.currentMapState.map?.imagePath}
-			class={MapStore.currentMapState.map.type}
+			class:city={isCityMap(MapStore.currentMapState.map)}
+			class:world={isWorldMap(MapStore.currentMapState.map)}
+			class:building={isBuildingMap(MapStore.currentMapState.map)}
 			alt="test"
 			draggable="false"
 		/>

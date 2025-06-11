@@ -1,9 +1,24 @@
 type MapType = {
 	name: string;
-	type: "city" | "world" | "building";
 	imagePath: string;
-	unlocked: boolean;
 };
+
+type WorldMap = MapType & {
+	type: "world";
+}
+
+type BuildingMap = MapType & {
+	type: "building";
+	unlocked: boolean;
+	upgrades: string[];
+	npcs: string[];
+}
+
+type CityMap = MapType & {
+	type: "city";
+	owned: boolean;
+	unlocked: boolean;
+}
 
 type ClickBox = {
 	x: number;
@@ -26,4 +41,4 @@ type CustomMap = {
 	contains: MapWithClickBox[];
 };
 
-export type { MapType, ClickBox, MapWithClickBox, CustomMap };
+export type { MapType, ClickBox, MapWithClickBox, CustomMap, WorldMap, BuildingMap, CityMap };

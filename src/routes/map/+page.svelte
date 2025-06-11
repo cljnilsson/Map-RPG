@@ -8,6 +8,7 @@
 	import LogWindow from "$lib/components/windows/logger/logger.svelte";
 	import ResourceWindow from "$lib/components/windows/resources/resources.svelte";
 	import EventWindow from "$lib/components/windows/events/events.svelte";
+	import {isCityMap} from "$lib/typeguards/map";
 
 	console.log(MapStore.currentMapState);
 </script>
@@ -24,7 +25,7 @@
 				<Map></Map>
 			</div>
 
-			{#if MapStore.currentMapState.map.type === "city"}
+			{#if isCityMap(MapStore.currentMapState.map)}
 				<UnitWindow />
 				<ResourceWindow />
 				<EventWindow />
