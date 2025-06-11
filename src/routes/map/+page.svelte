@@ -26,8 +26,10 @@
 			</div>
 
 			{#if isCityMap(MapStore.currentMapState.map)}
-				<UnitWindow />
-				<ResourceWindow />
+				{#if MapStore.currentMapState.map.owned}
+					<UnitWindow />
+					<ResourceWindow />
+				{/if}
 				<EventWindow />
 			{/if}
 			{#if MapStore.currentMapState.contains.length > 0}
