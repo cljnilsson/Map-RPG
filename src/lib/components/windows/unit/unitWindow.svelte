@@ -2,8 +2,6 @@
 	import CityStore from "$lib/stores/city.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import UnitDesignator from "$lib/components/windows/unit/unitDesignator.svelte";
-	import type { QueueItem } from "$lib/types/queueItem";
-	import { onDestroy } from "svelte";
 	import dayjs from "dayjs";
 	import WindowStore from "$lib/stores/windows.svelte";
 	import queue from "$lib/stores/queueStore.svelte";

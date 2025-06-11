@@ -32,8 +32,8 @@ export const world: CustomMap = {
 	map: wo,
 	previous: null,
 	contains: [
-		{ map: kingsLandingO, clickBox: { x: 715, y: 2130, width: 100, height: 80, rotation: 0 } },
-		{ map: winterfellO, clickBox: { x: 500, y: 1000, width: 120, height: 90, rotation: 0 } }
+		{ map: kingsLandingO, clickBox: { x: 715, y: 2130, originalX: 715, originalY: 2130, width: 100, height: 80, rotation: 0 } },
+		{ map: winterfellO, clickBox: { x: 500, y: 1000, originalX: 500, originalY: 1000, width: 120, height: 90, rotation: 0 } }
 	]
 };
 
@@ -41,7 +41,7 @@ export const winterfell: CustomMap = {
 	map: winterfellO,
 	previous: world,
 	contains: [
-		{ map: starkKeepO, clickBox: { x: 830, y: 110, width: 400, height: 220, rotation: 50 } }
+		{ map: starkKeepO, clickBox: { x: 830, y: 110, originalX: 830, originalY: 110, width: 400, height: 220, rotation: 50 } }
 	]
 };
 

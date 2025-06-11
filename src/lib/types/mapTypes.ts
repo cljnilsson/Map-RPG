@@ -1,27 +1,29 @@
 type MapType = {
-    name: string;
-    type: 'city' | 'world' | 'building';
-    imagePath: string;
-    unlocked: boolean;
+	name: string;
+	type: "city" | "world" | "building";
+	imagePath: string;
+	unlocked: boolean;
 };
 
 type ClickBox = {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    rotation: number;
-}
+	x: number;
+	y: number;
+    originalX: number; // To handle window scaling we need the original position
+    originalY: number;
+	width: number;
+	height: number;
+	rotation: number;
+};
 
 type MapWithClickBox = {
-    map: MapType;
-    clickBox: ClickBox;
-}
+	map: MapType;
+	clickBox: ClickBox;
+};
 
 type CustomMap = {
-    map: MapType;
-    previous: CustomMap | null;
-    contains: MapWithClickBox[];
+	map: MapType;
+	previous: CustomMap | null;
+	contains: MapWithClickBox[];
 };
 
 export type { MapType, ClickBox, MapWithClickBox, CustomMap };

@@ -40,11 +40,13 @@
 							Points left: {totalLeft}
 						</div>
 					</div>
-					<CreatorStat name="Str" {min} {max} {total} {totalMax} bind:stat={str} />
-					<CreatorStat name="Dex" {min} {max} {total} {totalMax} bind:stat={dex} />
-					<CreatorStat name="Int" {min} {max} {total} {totalMax} bind:stat={int} />
-					<CreatorStat name="Vit" {min} {max} {total} {totalMax} bind:stat={vitality} />
-					<CreatorStat name="Charisma" {min} {max} {total} {totalMax} bind:stat={charisma} />
+					<div class="c-stats">
+						<CreatorStat name="Str" {min} {max} {total} {totalMax} bind:stat={str} />
+						<CreatorStat name="Dex" {min} {max} {total} {totalMax} bind:stat={dex} />
+						<CreatorStat name="Int" {min} {max} {total} {totalMax} bind:stat={int} />
+						<CreatorStat name="Vit" {min} {max} {total} {totalMax} bind:stat={vitality} />
+						<CreatorStat name="Charisma" {min} {max} {total} {totalMax} bind:stat={charisma} />
+					</div>
 				</div>
 			</div>
 			<div class="c-footer">

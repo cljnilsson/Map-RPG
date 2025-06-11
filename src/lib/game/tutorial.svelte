@@ -18,7 +18,7 @@
 				className = ".c-avatar";
 				break;
 			case 1:
-				className = ".c-body";
+				className = ".c-stats";
 				break;
 			case 2:
 				className = "";

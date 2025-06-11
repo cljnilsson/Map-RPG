@@ -34,6 +34,7 @@
 
 	let expanded = $state(true);
 	let locked = $state(false);
+	let dragging = $state(false);
 
 	let containerElement: HTMLElement;
 
@@ -86,11 +87,12 @@
 
 <div
 	bind:this={containerElement}
+	class:dragging={dragging}
 	class="overlay-rect"
 	style="left: {x}px; top: {y}px; width: {width}px;"
 	class:d-none={!visibility || DialogueStore.inDialogue}
 >
-	<DraggableHandle bind:x bind:y containerWrapper={".overlay-rect"} {locked}>
+	<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked}>
 		<Title>
 			<div class="row align-items-center">
 				<div class="col">
@@ -142,5 +144,9 @@
 
 	.inner {
 		padding: 0.5rem;
+	}
+
+	.dragging {
+		border-color: rgb(103, 176, 255);
 	}
 </style>

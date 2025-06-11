@@ -6,6 +6,7 @@
 	let {
 		x = $bindable(),
 		y = $bindable(),
+		dragging = $bindable(),
 		locked = false,
 		onDragStart = () => {},
 		onDragEnd = () => {},
@@ -16,6 +17,7 @@
 		x: number;
 		y: number;
 		locked?: boolean;
+		dragging: boolean;
 		onDragStart?: () => void;
 		onDragEnd?: (didDrag: boolean) => void;
 		onDrag?: (x: number, y: number) => void;
@@ -25,7 +27,6 @@
 
 	let offsetX = $state(0);
 	let offsetY = $state(0);
-	let dragging = $state(false);
 	let didDrag = $state(false);
 
 	function handleMouseDown(event: MouseEvent) {

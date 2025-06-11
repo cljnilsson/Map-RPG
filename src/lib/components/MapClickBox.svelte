@@ -1,6 +1,6 @@
 <script lang="ts">
-	import  MapStore  from '$lib/stores/map.svelte';
-	import type { MapWithClickBox } from '$lib/types/mapTypes';
+	import MapStore from "$lib/stores/map.svelte";
+	import type { MapWithClickBox } from "$lib/types/mapTypes";
 
 	let {
 		rect,

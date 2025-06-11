@@ -32,6 +32,7 @@
 	{#each MapStore.currentMapState.contains as rect}
 		{#if MapStore.editMode}
 			<Draggable
+				locked={false}
 				bind:x={rect.clickBox.x}
 				bind:y={rect.clickBox.y}
 				editMode={MapStore.editMode}
