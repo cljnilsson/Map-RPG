@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import { onMount } from "svelte";
 	import type { PageServerData } from "./$types";
+	import type { Character } from "$lib/server/db/schema";
+	import type { characters } from "$lib/server/db/schema"
 
 	let { data }: { data: PageServerData } = $props();
 
@@ -14,6 +17,17 @@
 			})
 		});
 	}
+
+	onMount(async () => {
+		const resp = await fetch("/api/characters", {
+			method: "GET",
+			headers: { "Content-Type": "application/json" },
+		});
+
+		const chars: {success: boolean, characters: Character[]} = await resp.json();
+
+		console.log(chars);
+	});
 </script>
 
 <div class="wrapper mt-3 mx-5 px-3 py-3">

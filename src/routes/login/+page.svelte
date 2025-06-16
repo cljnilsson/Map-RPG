@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types';
+	import { enhance } from "$app/forms";
+	import type { ActionData } from "./$types";
 
 	let { form }: { form: ActionData } = $props();
 </script>
@@ -11,23 +11,24 @@
 			<h1>Login/Register</h1>
 			<form method="post" action="?/login" use:enhance>
 				<div class="mb-3">
-					<label class="form-label" for="username">
-						Username
-					</label>
+					<label class="form-label" for="username"> Username </label>
 					<input class="form-control text-center" id="username" name="username" />
 				</div>
 				<div class="mb-3">
-					<label class="form-label" for="password">
-						Password
-					</label>
-					<input class="form-control text-center" id="password" type="password" name="password" />
+					<label class="form-label" for="password"> Password </label>
+					<input
+						class="form-control text-center"
+						id="password"
+						type="password"
+						name="password"
+					/>
 				</div>
 				<div class="mt-3 text-center">
 					<button class="btn btn-primary">Login</button>
 					<button class="btn btn-primary" formaction="?/register">Register</button>
 				</div>
 			</form>
-			<p style="color: red">{form?.message ?? ''}</p>
+			<p style="color: red">{form?.message ?? ""}</p>
 		</div>
 	</div>
 </div>

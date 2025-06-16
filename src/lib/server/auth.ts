@@ -21,7 +21,7 @@ export async function createSession(token: string, userId: number) {
 	const session: InferInsertModel<typeof table.session> = {
 		token: sessionId,
 		userId,
-		expiresAt: Math.floor(Date.now() / 1000 + DAY_IN_MS / 1000 * 30)
+		expiresAt: Math.floor(Date.now() + DAY_IN_MS * 30)
 	};
 
 	await db.insert(table.session).values(session);
@@ -71,6 +71,7 @@ export async function invalidateSession(sessionId: number) {
 }
 
 export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: number) {
+	console.log("Setting cookie: ", sessionCookieName, "with token:", token, "expires at:", new Date(expiresAt));
 	event.cookies.set(sessionCookieName, token, {
 		expires: new Date(expiresAt),
 		path: "/"
