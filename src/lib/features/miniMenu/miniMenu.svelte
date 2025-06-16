@@ -6,6 +6,7 @@
 	import WindowStore from "$lib/stores/windows.svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
+	import {isCityMap, isBuildingMap, isWorldMap} from "$lib/typeguards/map";
 	
 	const h = 140;
 	const w = 230;
@@ -37,7 +38,7 @@
 			<CharacterAvatar width={100} height={100} onClickCallback={onAvatarClick} />
 		</div>
 		<div class="col px-2">
-			{#if MapStore.currentMapState.map.type === "city"}
+			{#if isCityMap(MapStore.currentMapState.map)}
 				<button
 					class="btn btn-primary btn-sm mb-2 w-100"
 					onclick={() => (WindowStore.unitVisibility = !WindowStore.unitVisibility)}
@@ -64,8 +65,7 @@
 	</div>
 	{#if isMenuExpanded}
 		<div class="px-2 py-3 border-top">
-			<p>Additional content goes here...</p>
-			<!-- Add more content or components as needed -->
+			<a href="/settings"><button class="btn btn-primary">Settings</button></a>
 		</div>
 	{/if}
 </div>
