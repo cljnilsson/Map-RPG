@@ -5,6 +5,8 @@ import { stat, stats, characters } from "./src/lib/server/db/schema";
 const sqlite = new Database("local.db"); // path to your SQLite file
 const db = drizzle(sqlite);
 
+// Notably it does not reset the DB before seeding
+
 async function seed() {
 	await db
 		.insert(stat)

@@ -2,11 +2,15 @@
 	import { enhance } from "$app/forms";
 	import { onMount } from "svelte";
 	import type { PageServerData } from "./$types";
-	import type { Character } from "$lib/server/db/schema";
+	import type { Character, Stat } from "$lib/server/db/schema";
 
 	let { data }: { data: PageServerData } = $props();
 
 	let characters: Character[] = $state([]);
+
+	type CharacterWithStats = Character & {
+		stats: Stat[];
+	};
 
 	async function request<T>(url: string, options: RequestInit): Promise<T> {
 		const resp = await fetch(url, {
@@ -54,7 +58,7 @@
 	}
 
 	onMount(async () => {
-		const chars = await getRequest<{ success: boolean; characters: Character[] }>(
+		const chars = await getRequest<{ success: boolean; characters: CharacterWithStats[] }>(
 			"/api/characters"
 		);
 
