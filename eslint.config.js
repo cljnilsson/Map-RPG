@@ -14,17 +14,18 @@ export default ts.config(
 	...svelte.configs["flat/recommended"],
 	prettier,
 	...svelte.configs["flat/prettier"],
+	
 	{
-		rules: {
-			quotes: ["error", "double"],
-			"indent": ["error", "tab", { "SwitchCase": 1 }],
-			"no-tabs": "off", // allow actual tab characters
-		},
 		languageOptions: {
 			globals: {
 				...globals.browser,
 				...globals.node
 			}
+		},
+		rules: {
+			quotes: ["error", "double"],
+			"indent": ["error", "tab", { "SwitchCase": 1 }],
+			"no-tabs": "off", // allow actual tab characters
 		}
 	},
 	{

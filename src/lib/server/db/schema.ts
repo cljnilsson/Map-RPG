@@ -65,3 +65,5 @@ export type User = typeof user.$inferSelect;
 export type Character = typeof characters.$inferSelect;
 
 export type Stat = typeof stats.$inferSelect;
+
+export type StatType = typeof stat.$inferSelect;

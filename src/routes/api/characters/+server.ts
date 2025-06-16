@@ -2,7 +2,7 @@ import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
 import { characters } from "$lib/server/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 async function getCharacters(userId: number) {
 	return await db
@@ -12,7 +12,7 @@ async function getCharacters(userId: number) {
 		.all();
 }
 
-export const GET: RequestHandler = async ({ request, locals }) => {
+export const GET: RequestHandler = async ({ locals }) => {
 	if (!locals.user) {
 		return new Response("Unauthorized", { status: 401 });
 	}
