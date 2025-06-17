@@ -6,32 +6,33 @@
 	let bob: CharSprite = { name: "Bob", image: "bob.png" };
 	let you: CharSprite = { name: "You", image: "char.jpg" };
 
+	let current: number = $state(0);
+
 	let msgs: Message[] = [
-		{ type: "text", text: "Hello, how are you?", from: alice },
-		{ type: "text", text: "I'm good, thanks! How about you?", from: bob },
+		{ type: "text", text: "Hello, how are you?", from: alice, next: 1 },
+		{ type: "text", text: "I'm good, thanks! How about you?", from: bob, next: 2 },
 		{
 			type: "choice",
 			from: you,
 			choices: [
-				{ text: "I'm doing well!" },
-				{ text: "Pretty busy lately.", next: 4 },
-				{ text: "Could be better.", next: 4 },
-				{ text: "All good here." }
+				{ text: "I'm doing well!", next: 3, saveResponse: true},
+				{ text: "Pretty busy lately.", next: 4, saveResponse: true },
+				{ text: "Could be better.", next: 4, saveResponse: true },
+				{ text: "All good here.", next: 4, saveResponse: true}
 			]
 		},
 		{
 			type: "text",
-			text: "That sounds interesting! What kind of projects?",
+			text: "Good to hear",
 			from: bob,
-			next: 5
+			next: -1
 		},
-		{ type: "text", text: "I hope things ease up for you soon.", from: bob, next: 5 },
-		{ type: "text", text: "Just some web development stuff. You know how it is.", from: alice }
+		{ type: "text", text: "I hope things ease up for you soon.", from: bob, next: -1 },
 	];
 
 	let msgs2: Message[] = [
-		{ type: "text", text: "Bob just got here.", from: alice },
-		{ type: "text", text: "Looks like he is coming over.", from: alice }
+		{ type: "text", text: "Bob just got here.", from: alice, next: 1 },
+		{ type: "text", text: "Looks like he is coming over.", from: alice, next: -1 }
 	];
 
 	function onEnd() {
@@ -41,5 +42,5 @@
 
 <div class="mt-5 mx-5 px-3">
 	<button>Talk to Alice</button><button>Talk to ALice and Bob</button>
-	<Dialogue {msgs} player={you} {onEnd}></Dialogue>
+	<Dialogue bind:current={current} {msgs} player={you} {onEnd}></Dialogue>
 </div>

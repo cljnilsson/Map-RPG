@@ -33,9 +33,9 @@
 	}
 </script>
 
-{#if msgs[current].type === "text"}
+{#if msgs[current]?.type === "text"}
 	<p>{(msgs[current] as TextMessage).text}</p>
-{:else if msgs[current].type === "choice"}
+{:else if msgs[current]?.type === "choice"}
 	<div class="choices-grid">
 		{#each (msgs[current] as ChoiceMessage).choices as choice}
 			<button
@@ -46,6 +46,8 @@
 			</button>
 		{/each}
 	</div>
+{:else}
+	<p>Something went wrong trying to load dialogue with id {current}, the loaded messages have size {msgs.length}</p>
 {/if}
 
 <style>
