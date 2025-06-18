@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
-import { characters, stats, stat} from "$lib/server/db/schema";
+import { characters, stats, stat } from "$lib/server/db/schema";
 import type { Character } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
 
@@ -21,6 +21,19 @@ async function getCharacters(userId: number) {
 		.leftJoin(stat, eq(stats.statId, stat.id));
 }
 
+async function getCharacters2(userId: number) {
+	return await db.query.characters.findMany({
+		where: eq(characters.userId, userId),
+		with: {
+			stats: {
+				with: {
+					stat: true
+				}
+			}
+		}
+	});
+}
+
 // Not the most pretty solution but I just want it as a demo for now
 export const GET: RequestHandler = async ({ locals }) => {
 	if (!locals.user) {
@@ -28,29 +41,100 @@ export const GET: RequestHandler = async ({ locals }) => {
 	}
 
 	const userId = locals.user.id;
-	const existing = await getCharacters(userId);
+	const existing = await getCharacters2(userId);
 
-	const grouped: CharacterWithStats[] = [];
+	const adjusted = existing.map((char) => ({
+		...char,
+		stats: char.stats.map((s) => ({
+			name: s.stat.name,
+			value: s.value
+		}))
+	}));
 
-	for (const row of existing) {
-		const charId = row.characters.id;
-		let character = grouped.find((c) => c.id === charId);
+	return json({ success: true, characters: adjusted });
+};
 
-		if (!character) {
-			character = {
-				...row.characters,
-				stats: []
-			};
-			grouped.push(character);
-		}
+function isValidInput(
+	name: unknown,
+	age: unknown,
+	str: unknown,
+	dex: unknown,
+	int: unknown,
+	vit: unknown,
+	charisma: unknown
+): boolean {
+	return (
+		typeof name === "string" &&
+		typeof age === "number" &&
+		typeof str === "number" &&
+		typeof dex === "number" &&
+		typeof int === "number" &&
+		typeof vit === "number" &&
+		typeof charisma === "number"
+	);
+}
 
-		if (row.stat && row.stats) {
-			character.stats.push({
-				name: row.stat.name,
-				value: row.stats.value
-			});
-		}
+async function insertCharacter(
+	userId: number,
+	name: string,
+	age: number,
+	str: number,
+	dex: number,
+	int: number,
+	vit: number,
+	charisma: number
+) {
+	const [character] = await db
+		.insert(characters)
+		.values({
+			userId,
+			name,
+			age,
+			race: "Unknown",
+			gender: "Unknown"
+		})
+		.returning({ id: characters.id });
+
+	async function getStat(name: string) {
+		return await rdb.query.stat.findFirst({
+			where: eq(schema.stat.name, name),
+			columns: { id: true }
+		});
 	}
 
-	return json({ success: true, characters: grouped });
+	const strStat = await getStat("Strength");
+	const dexStat = await getStat("Dexterity");
+	const intStat = await getStat("Intelligence");
+	const vitStat = await getStat("Vitality");
+	const chaStat = await getStat("Charisma");
+
+	if (!strStat || !dexStat || !intStat || !vitStat || !chaStat) {
+		throw new Error("Mandatory stat does not exist in database");
+	}
+
+	await db.insert(stats).values([
+		{ characterId: character.id, statId: strStat.id, value: str },
+		{ characterId: character.id, statId: dexStat.id, value: dex },
+		{ characterId: character.id, statId: intStat.id, value: int },
+		{ characterId: character.id, statId: vitStat.id, value: vit },
+		{ characterId: character.id, statId: chaStat.id, value: charisma }
+	]);
+}
+
+export const POST: RequestHandler = async ({ request, locals }) => {
+	if (!locals.user) {
+		return new Response("Unauthorized", { status: 401 });
+	}
+
+	const { name, age, str, dex, int, vit, charisma } = await request.json();
+
+	if (!isValidInput(name, age, str, dex, int, vit, charisma)) {
+		return new Response("Invalid input", { status: 400 });
+	}
+
+	const userId = locals.user.id;
+
+	await insertCharacter(userId, name, age, str, dex, int, vit, charisma);
+
+	return json({ success: true });
 };

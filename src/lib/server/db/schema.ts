@@ -1,4 +1,5 @@
 import { sqliteTable, text, integer, unique } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
 
 export const user = sqliteTable("user", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
@@ -34,27 +35,48 @@ export const characters = sqliteTable("characters", {
 	name: text("name").notNull(),
 	age: integer("age").notNull(),
 	race: text("race").notNull(),
-	gender: text("gender").notNull(),
+	gender: text("gender").notNull()
 });
 
 export const stat = sqliteTable("stat", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	name: text("name").notNull().unique(),
+	name: text("name").notNull().unique()
 });
 
-export const stats = sqliteTable("stats", {
-	id: integer("id").primaryKey({ autoIncrement: true }),
-	characterId: integer("character_id")
-		.notNull()
-		.references(() => characters.id),
-	statId: integer("stat_id")
-		.notNull()
-		.references(() => stat.id),
-	value: integer("value").notNull(),
-}, (stats) => ({
-	// Prevents duplicate stats for the same character
-	uniqueCharacterStat: unique().on(stats.characterId, stats.statId),
+export const stats = sqliteTable(
+	"stats",
+	{
+		id: integer("id").primaryKey({ autoIncrement: true }),
+		characterId: integer("character_id")
+			.notNull()
+			.references(() => characters.id),
+		statId: integer("stat_id")
+			.notNull()
+			.references(() => stat.id),
+		value: integer("value").notNull()
+	},
+	(stats) => ({
+		// Prevents duplicate stats for the same character
+		uniqueCharacterStat: unique().on(stats.characterId, stats.statId)
+	})
+);
+
+// RELATIONS
+
+export const characterRelations = relations(characters, ({ one, many }) => ({
+	stats: many(stats),
+	user: one(user)
 }));
+
+export const statsRelations = relations(stats, ({ one, many }) => ({
+	character: one(characters, { fields: [stats.characterId], references: [characters.id] }),
+	stat: one(stat, {
+		fields: [stats.statId],
+		references: [stat.id]
+	})
+}));
+
+// EXPORTS
 
 export type Flag = typeof flags.$inferSelect;
 

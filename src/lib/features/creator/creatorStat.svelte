@@ -6,10 +6,10 @@
     <div class="col-xl-2 col-md-4">
         {name}
     </div>
-    <div class="col-xl-1 col-md-2">
+    <div class="col-auto">
         {stat}
     </div>
-    <div class="col-xl-4 col-md-6 text-center">
+    <div class="col-xl-2 col-md-6 text-center">
         <button class="btn btn-outline-dark" onclick={() => stat += 1} disabled={total >= totalMax || stat >= max}>+</button>
         <button class="btn btn-outline-dark" onclick={() => stat -= 1} disabled={stat <= min}>-</button>
     </div>
