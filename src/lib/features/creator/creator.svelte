@@ -2,6 +2,7 @@
 	import { postRequest } from "$lib/utils/request";
 	import ImageUploader from "$lib/components/ImageUploader.svelte";
 	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
+	import type { Character } from "$lib/server/db/schema";
 
 	const defaultStat = 6; // change back to 5 after testing
 
@@ -21,7 +22,7 @@
 	let totalLeft = $derived(totalMax - total);
 
 	function isLoggedIn() {
-		return false;
+		return true;
 	}
 
 	async function createCharater() {
@@ -30,20 +31,35 @@
 			return;
 		}
 
-		const resp = await postRequest("api/character/create", {
+		const resp = await postRequest<
+			Character[],
+			{
+				name: string;
+				age: number;
+				stats: {
+					str: number;
+					dex: number;
+					int: number;
+					vit: number;
+					charisma: number;
+				};
+			}
+		>("api/characters", {
 			name,
 			age,
 			stats: {
-				strength: str,
-				dexterity: dex,
-				intelligence: int,
-				vitality: vitality,
-				charisma
+				str: str,
+				dex: dex,
+				int: int,
+				vit: vitality,
+				charisma: charisma
 			}
 		});
 
-		if(resp) {
+		if (resp) {
 			console.log("All went well!", resp);
+		} else {
+			console.error("Something went wrong while creating the character.", resp);
 		}
 	}
 </script>
@@ -72,51 +88,25 @@
 						<CreatorStat name="Str" {min} {max} {total} {totalMax} bind:stat={str} />
 						<CreatorStat name="Dex" {min} {max} {total} {totalMax} bind:stat={dex} />
 						<CreatorStat name="Int" {min} {max} {total} {totalMax} bind:stat={int} />
-						<CreatorStat
-							name="Vit"
-							{min}
-							{max}
-							{total}
-							{totalMax}
-							bind:stat={vitality}
-						/>
-						<CreatorStat
-							name="Charisma"
-							{min}
-							{max}
-							{total}
-							{totalMax}
-							bind:stat={charisma}
-						/>
+						<CreatorStat name="Vit" {min} {max} {total} {totalMax} bind:stat={vitality} />
+						<CreatorStat name="Charisma" {min} {max} {total} {totalMax} bind:stat={charisma} />
 					</div>
 				</div>
 			</div>
 			<div class="c-footer">
 				<div class="row justify-content-center my-5">
 					<div class="col-xl-2 col-md-8">
-						<input
-							class="form-control"
-							placeholder="Name"
-							type="text"
-							bind:value={name}
-						/>
+						<input class="form-control" placeholder="Name" type="text" bind:value={name} />
 					</div>
 					<div class="col-xl-1 col-md-8">
-						<input
-							class="form-control"
-							placeholder="Age"
-							type="number"
-							bind:value={age}
-						/>
+						<input class="form-control" placeholder="Age" type="number" bind:value={age} />
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="text-center">
-			<button
-				class="btn btn-lg btn-primary"
-				onclick={createCharater}
-				disabled={totalLeft === 0 || age <= 5 || name.length === 0}>Create!</button
+			<button class="btn btn-lg btn-primary" onclick={createCharater} disabled={totalLeft > 0 || age <= 5 || name.length === 0}
+				>Create!</button
 			>
 		</div>
 	</div>

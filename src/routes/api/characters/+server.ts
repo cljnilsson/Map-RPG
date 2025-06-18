@@ -1,27 +1,10 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
-import { characters, stats, stat } from "$lib/server/db/schema";
-import type { Character } from "$lib/server/db/schema";
+import { characters, stats, stat} from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
 
-type CharacterWithStats = Character & {
-	stats: {
-		name: string;
-		value: number;
-	}[];
-};
-
 async function getCharacters(userId: number) {
-	return await db
-		.select()
-		.from(characters)
-		.where(eq(characters.userId, userId))
-		.leftJoin(stats, eq(characters.id, stats.characterId))
-		.leftJoin(stat, eq(stats.statId, stat.id));
-}
-
-async function getCharacters2(userId: number) {
 	return await db.query.characters.findMany({
 		where: eq(characters.userId, userId),
 		with: {
@@ -34,14 +17,13 @@ async function getCharacters2(userId: number) {
 	});
 }
 
-// Not the most pretty solution but I just want it as a demo for now
 export const GET: RequestHandler = async ({ locals }) => {
 	if (!locals.user) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
 	const userId = locals.user.id;
-	const existing = await getCharacters2(userId);
+	const existing = await getCharacters(userId);
 
 	const adjusted = existing.map((char) => ({
 		...char,
@@ -96,8 +78,8 @@ async function insertCharacter(
 		.returning({ id: characters.id });
 
 	async function getStat(name: string) {
-		return await rdb.query.stat.findFirst({
-			where: eq(schema.stat.name, name),
+		return await db.query.stat.findFirst({
+			where: eq(stat.name, name),
 			columns: { id: true }
 		});
 	}
@@ -126,15 +108,16 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	const { name, age, str, dex, int, vit, charisma } = await request.json();
+	const { name, age, stats } = await request.json();
+	console.log(name, age, stats);
 
-	if (!isValidInput(name, age, str, dex, int, vit, charisma)) {
+	if (!isValidInput(name, age, stats.str, stats.dex, stats.int, stats.vit, stats.charisma)) {
 		return new Response("Invalid input", { status: 400 });
 	}
 
 	const userId = locals.user.id;
 
-	await insertCharacter(userId, name, age, str, dex, int, vit, charisma);
+	await insertCharacter(userId, name, age, stats.str, stats.dex, stats.int, stats.vit, stats.charisma);
 
 	return json({ success: true });
 };

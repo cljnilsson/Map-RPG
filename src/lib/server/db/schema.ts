@@ -63,12 +63,16 @@ export const stats = sqliteTable(
 
 // RELATIONS
 
+export const userRelations = relations(user, ({ many }) => ({
+	characters: many(characters),
+}));
+
 export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),
 	user: one(user)
 }));
 
-export const statsRelations = relations(stats, ({ one, many }) => ({
+export const statsRelations = relations(stats, ({ one }) => ({
 	character: one(characters, { fields: [stats.characterId], references: [characters.id] }),
 	stat: one(stat, {
 		fields: [stats.statId],

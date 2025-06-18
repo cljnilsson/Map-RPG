@@ -14,7 +14,7 @@ export default ts.config(
 	...svelte.configs["flat/recommended"],
 	prettier,
 	...svelte.configs["flat/prettier"],
-	
+
 	{
 		languageOptions: {
 			globals: {
@@ -24,8 +24,9 @@ export default ts.config(
 		},
 		rules: {
 			quotes: ["error", "double"],
-			"indent": ["error", "tab", { "SwitchCase": 1 }],
-			"no-tabs": "off", // allow actual tab characters
+			indent: ["error", "tab", { SwitchCase: 1 }],
+			"no-tabs": "off" // allow actual tab characters
+			//"max-len": ["error", { "code": 120 }]
 		}
 	},
 	{
