@@ -32,3 +32,10 @@ export type ChoiceMessage = BaseMessage & {
 
 // Union type for any message
 export type Message = TextMessage | ChoiceMessage;
+
+// Slimmed down version for non-dialogue use
+export type IsolatedMessage =
+	| Omit<TextMessage, "next" | "onChoice">
+	| (Omit<ChoiceMessage, "choices" | "onChoice"> & {
+			choices: Array<Omit<ChoiceOption, "saveResponse" | "onChoice" | "next">>;
+	  });

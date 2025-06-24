@@ -1,6 +1,7 @@
 <script lang="ts">
 	import QuestItem from "$lib/components/windows/quest/questItem.svelte";
 	import QuestDetails from "$lib/components/windows/quest//questDetails.svelte";
+	import QuestSection from "$lib/components/windows/quest/questSection.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
 	import type { Quest } from "$lib/types/quest";
@@ -17,8 +18,7 @@
 					image: ""
 				},
 				type: "text",
-				text: "Welcome to the test quest!",
-				next: 1
+				text: "Welcome to the test quest!"
 			},
 			{
 				from: {
@@ -26,8 +26,7 @@
 					image: ""
 				},
 				type: "text",
-				text: "What do I need to do?",
-				next: 2
+				text: "What do I need to do?"
 			},
 			{
 				from: {
@@ -35,8 +34,7 @@
 					image: ""
 				},
 				type: "text",
-				text: "Just complete the quest and you'll be rewarded!",
-				next: -1
+				text: "Just complete the quest and you'll be rewarded!"
 			}
 		],
 		mainQuest: true,
@@ -44,26 +42,25 @@
 	};
 
 	let quests: Quest[] = $state([testQuest]);
-	let mainQuests: Quest[] = $derived(quests.filter((q) => q.mainQuest));
-	let sideQuests: Quest[] = $derived(quests.filter((q) => !q.mainQuest));
-	
+	let mainQuests: Quest[] = $derived(quests.filter((q) => q.mainQuest && q.status === "active"));
+	let sideQuests: Quest[] = $derived(quests.filter((q) => !q.mainQuest && q.status === "active"));
+	let completedQuests: Quest[] = $derived(quests.filter((q) => q.status === "completed"));
+
 	let active: Quest | undefined = $state(undefined);
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
-<Window height={700} width={600} x={1300} y={450} toggleKey="q" bind:visibility={WindowStore.navigationVisibility}>
+<Window height={700} width={600} x={1300} y={450} toggleKey="q" bind:visibility={WindowStore.questVisibility}>
 	{#snippet title()}
 		<h4 class="my-2">Quests</h4>
 	{/snippet}
 	{#snippet body()}
 		<div class="row">
 			<div class="col-4 border-end">
-				<h5>Main</h5>
-				{#each mainQuests as q}
-					<QuestItem {q} bind:active />
-				{/each}
-				<h5 class="mt-3" class:muted={sideQuests.length === 0}>Side</h5>
-				{#each sideQuests as q}
+				<QuestSection quests={mainQuests} bind:active title="Main" />
+				<QuestSection quests={sideQuests} bind:active title="Side" />
+				<h5 class="mt-3" class:muted={sideQuests.length === 0}>Completed</h5>
+				{#each completedQuests as q}
 					<QuestItem {q} bind:active />
 				{/each}
 			</div>

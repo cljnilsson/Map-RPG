@@ -1,0 +1,43 @@
+<script lang="ts">
+	import QuestItem from "$lib/components/windows/quest/questItem.svelte";
+	import type { Quest } from "$lib/types/quest";
+
+	let { quests, title, active = $bindable() }: { quests: Quest[]; title: string, active: Quest | undefined } = $props();
+
+	let hideSection: boolean = $state(false);
+
+	function toggleSection() {
+		hideSection = !hideSection;
+	}
+</script>
+
+<div class="row">
+	<div class="col">
+		<button onclick={toggleSection}>{title} <i class="bi {!hideSection ? "bi-dash" : "bi-plus"}"></i></button>
+		{#if !hideSection}
+			{#each quests as q}
+				<QuestItem {q} bind:active />
+			{/each}
+		{/if}
+	</div>
+</div>
+
+<style lang="scss">
+	button {
+		background: none;
+		border: none;
+		padding: 0;
+		font: inherit;
+		cursor: pointer;
+		color: white;
+		font-size: 1.25rem; // h5 size
+		display: block;
+
+		&:hover {
+			font-weight: bold;
+		}
+		&.selected {
+			color: rgb(88, 167, 250);
+		}
+	}
+</style>

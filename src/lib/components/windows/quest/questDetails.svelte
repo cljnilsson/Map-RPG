@@ -5,7 +5,20 @@
 </script>
 
 <h5>{active.title}</h5>
-<p>{active?.description ?? ""}</p>
-<h5>Rewards:</h5>
-<p>{active.reward}</p>
-<button>View Dialogue</button>
+<div class="questBody">
+	<p>{active.description}</p>
+</div>
+<div class="rewards">
+	<h5>Rewards:</h5>
+	<p>{active.reward}</p>
+</div>
+<div class="text-center">
+	<button class="btn btn-primary">View Dialogue</button>
+	<button class="btn btn-primary">Forfeit</button>
+</div>
+
+<style>
+	h5 {
+		color: rgb(255, 167, 43)
+	}
+</style>
