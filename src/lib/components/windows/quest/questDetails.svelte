@@ -10,9 +10,21 @@
 </div>
 <div class="rewards">
 	<h5>Rewards:</h5>
-	<p>{active.reward}</p>
+	{#each active.rewardResources as resource}
+		<p>
+			<img src={resource.icon} alt={resource.name} width="20" height="20" />
+			{resource.amount} {resource.name}
+		</p>
+	{/each}
+	{#each active.rewardItems as item}
+		<p>
+			<img src={item.icon} alt={item.name} width="20" height="20" />
+			{item.amount} {item.name}
+		</p>
+	{/each}
+	<p>{active.rewardMisc}</p>
 </div>
-<div class="text-center">
+<div class="text-center pt-3">
 	<button class="btn btn-primary">View Dialogue</button>
 	<button class="btn btn-primary">Forfeit</button>
 </div>

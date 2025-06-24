@@ -4,7 +4,9 @@ type Quest = {
     id: string;
     title: string;
     description: string;
-    reward: string;
+    rewardResources: {name: string, amount: number, icon: string}[];
+    rewardItems: {name: string, amount: number, icon: string}[];
+    rewardMisc: string;
     Dialogue: IsolatedMessage[];
     mainQuest: boolean;
     status: "active" | "completed" | "failed";

@@ -9,7 +9,9 @@
 		id: "test-quest",
 		title: "Test Quest",
 		description: "This is a test quest to demonstrate the quest window.",
-		reward: "100 gold",
+		rewardResources: [{name: "gold", amount: 100, icon: "/items/potion1.jpg"}],
+		rewardItems: [{name: "Potion", amount: 1, icon: "/items/potion2.jpg"}],
+		rewardMisc: "Access to the rest of the game!",
 		Dialogue: [
 			{
 				from: {
@@ -71,9 +73,3 @@
 		<span></span>
 	{/snippet}
 </Window>
-
-<style>
-	.muted {
-		color: rgba(150, 150, 150) !important;
-	}
-</style>
