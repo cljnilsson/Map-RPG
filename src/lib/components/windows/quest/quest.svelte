@@ -1,17 +1,9 @@
 <script lang="ts">
+	import QuestItem from "$lib/components/windows/quest/questItem.svelte";
+	import QuestDetails from "$lib/components/windows/quest//questDetails.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
-	import type { Message } from "$lib/types/message";
-
-	type Quest = {
-		id: string;
-		title: string;
-		description: string;
-		reward: string;
-		Dialogue: Message[];
-		mainQuest: boolean;
-		status: "active" | "completed" | "failed";
-	};
+	import type { Quest } from "$lib/types/quest";
 
 	let testQuest: Quest = {
 		id: "test-quest",
@@ -54,11 +46,8 @@
 	let quests: Quest[] = $state([testQuest]);
 	let mainQuests: Quest[] = $derived(quests.filter((q) => q.mainQuest));
 	let sideQuests: Quest[] = $derived(quests.filter((q) => !q.mainQuest));
+	
 	let active: Quest | undefined = $state(undefined);
-
-	function selectQuest(quest: Quest) {
-		active = quest;
-	}
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -71,20 +60,16 @@
 			<div class="col-4 border-end">
 				<h5>Main</h5>
 				{#each mainQuests as q}
-					<p class="ms-3" class:selected={active?.id === q.id} onclick={() => selectQuest(q)}>{q.title}</p>
+					<QuestItem {q} bind:active />
 				{/each}
-				<h5>Side</h5>
+				<h5 class="mt-3" class:muted={sideQuests.length === 0}>Side</h5>
 				{#each sideQuests as q}
-					<p>{q.title}</p>
+					<QuestItem {q} bind:active />
 				{/each}
 			</div>
 			<div class="col">
 				{#if active}
-					<h5>{active.title}</h5>
-					<p>{active?.description ?? ""}</p>
-					<h5>Rewards:</h5>
-					<p>{active.reward}</p>
-					<button>View Dialogue</button>
+					<QuestDetails {active} />
 				{/if}
 			</div>
 		</div>
@@ -94,13 +79,8 @@
 	{/snippet}
 </Window>
 
-<style lang="scss">
-	p {
-		&:hover {
-			font-weight: bold;
-		}
-		&.selected {
-			color: rgb(88, 167, 250);
-		}
+<style>
+	.muted {
+		color: rgba(150, 150, 150) !important;
 	}
 </style>
