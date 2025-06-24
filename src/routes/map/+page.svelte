@@ -8,6 +8,7 @@
 	import LogWindow from "$lib/components/windows/logger/logger.svelte";
 	import ResourceWindow from "$lib/components/windows/resources/resources.svelte";
 	import EventWindow from "$lib/components/windows/events/events.svelte";
+	import QuestWindow from "$lib/components/windows/quest/quest.svelte";
 	import {isCityMap} from "$lib/typeguards/map";
 
 	console.log(MapStore.currentMapState);
@@ -35,6 +36,7 @@
 			{#if MapStore.currentMapState.contains.length > 0}
 				<NavigationWindow />
 			{/if}
+			<QuestWindow />
 			<LogWindow />
 		</div>
 	{:else}

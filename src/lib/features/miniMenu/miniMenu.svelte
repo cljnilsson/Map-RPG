@@ -6,7 +6,7 @@
 	import WindowStore from "$lib/stores/windows.svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
-	import {isCityMap, isBuildingMap, isWorldMap} from "$lib/typeguards/map";
+	import { isCityMap } from "$lib/typeguards/map";
 	
 	const h = 140;
 	const w = 230;
@@ -65,7 +65,8 @@
 	</div>
 	{#if isMenuExpanded}
 		<div class="px-2 py-3 border-top">
-			<a href="/settings"><button class="btn btn-primary">Settings</button></a>
+			<a href="/settings"><button class="btn btn-primary my-1">Settings</button></a>
+			<a href="/wiki"><button class="btn btn-primary my-1">Wiki</button></a>
 		</div>
 	{/if}
 </div>

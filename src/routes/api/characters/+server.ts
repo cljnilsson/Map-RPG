@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
-import { characters, stats, stat} from "$lib/server/db/schema";
+import { characters, stats, stat } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
 
 async function getCharacters(userId: number) {
@@ -36,15 +36,7 @@ export const GET: RequestHandler = async ({ locals }) => {
 	return json({ success: true, characters: adjusted });
 };
 
-function isValidInput(
-	name: unknown,
-	age: unknown,
-	str: unknown,
-	dex: unknown,
-	int: unknown,
-	vit: unknown,
-	charisma: unknown
-): boolean {
+function isValidInput(name: unknown, age: unknown, str: unknown, dex: unknown, int: unknown, vit: unknown, charisma: unknown): boolean {
 	return (
 		typeof name === "string" &&
 		typeof age === "number" &&
