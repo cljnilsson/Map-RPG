@@ -1,5 +1,4 @@
 <script lang="ts">
-	import QuestItem from "$lib/components/windows/quest/questItem.svelte";
 	import QuestDetails from "$lib/components/windows/quest//questDetails.svelte";
 	import QuestSection from "$lib/components/windows/quest/questSection.svelte";
 	import Window from "$lib/features/window/window.svelte";
@@ -59,10 +58,7 @@
 			<div class="col-4 border-end">
 				<QuestSection quests={mainQuests} bind:active title="Main" />
 				<QuestSection quests={sideQuests} bind:active title="Side" />
-				<h5 class="mt-3" class:muted={sideQuests.length === 0}>Completed</h5>
-				{#each completedQuests as q}
-					<QuestItem {q} bind:active />
-				{/each}
+				<QuestSection quests={completedQuests} bind:active title="Completed" />
 			</div>
 			<div class="col">
 				{#if active}
