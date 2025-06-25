@@ -3,54 +3,16 @@
 	import QuestSection from "$lib/components/windows/quest/questSection.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
+	import QuestStore from "$lib/stores/quest.svelte";
 	import type { Quest } from "$lib/types/quest";
 
-	let testQuest: Quest = {
-		id: "test-quest",
-		title: "Test Quest",
-		description: "This is a test quest to demonstrate the quest window.",
-		rewardResources: [{name: "gold", amount: 100, icon: "/items/potion1.jpg"}],
-		rewardItems: [{name: "Potion", amount: 1, icon: "/items/potion2.jpg"}],
-		rewardMisc: "Access to the rest of the game!",
-		Dialogue: [
-			{
-				from: {
-					name: "NPC",
-					image: ""
-				},
-				type: "text",
-				text: "Welcome to the test quest!"
-			},
-			{
-				from: {
-					name: "NPC",
-					image: ""
-				},
-				type: "text",
-				text: "What do I need to do?"
-			},
-			{
-				from: {
-					name: "NPC",
-					image: ""
-				},
-				type: "text",
-				text: "Just complete the quest and you'll be rewarded!"
-			}
-		],
-		mainQuest: true,
-		status: "active"
-	};
-
-	let quests: Quest[] = $state([testQuest]);
-	let mainQuests: Quest[] = $derived(quests.filter((q) => q.mainQuest && q.status === "active"));
-	let sideQuests: Quest[] = $derived(quests.filter((q) => !q.mainQuest && q.status === "active"));
-	let completedQuests: Quest[] = $derived(quests.filter((q) => q.status === "completed"));
+	let mainQuests: Quest[] = $derived(QuestStore.quests.filter((q) => q.mainQuest && q.status === "active"));
+	let sideQuests: Quest[] = $derived(QuestStore.quests.filter((q) => !q.mainQuest && q.status === "active"));
+	let completedQuests: Quest[] = $derived(QuestStore.quests.filter((q) => q.status === "completed"));
 
 	let active: Quest | undefined = $state(undefined);
 </script>
 
-<!-- Assume the player owns all cities for testing purposes -->
 <Window height={700} width={600} x={1300} y={450} toggleKey="q" bind:visibility={WindowStore.questVisibility}>
 	{#snippet title()}
 		<h4 class="my-2">Quests</h4>
