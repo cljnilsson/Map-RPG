@@ -4,6 +4,8 @@ type Quest = {
     id: string;
     title: string;
     description: string;
+    progress: number;
+    progressGoals: string[]
     rewardResources: {name: string, amount: number, icon: string}[];
     rewardItems: {name: string, amount: number, icon: string, description: string}[];
     rewardMisc: string;
@@ -11,4 +13,5 @@ type Quest = {
     mainQuest: boolean;
     status: "active" | "completed" | "failed";
 };
+
 export type { Quest };

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Quest } from "$lib/types/quest";
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
 	import QuestDialogue from "$lib/components/windows/quest/questDialogue.svelte";
 	import QuestRewards from "$lib/components/windows/quest/questRewards.svelte";
+	import QuestProgress from "$lib/components/windows/quest/questProgress.svelte";
 
 	let { active = $bindable() }: { active: Quest } = $props();
 
@@ -17,12 +17,7 @@
 {#if !showDialogue}
 	<div class="questBody">
 		<p>{active.description}</p>
-		<div class="py-3">
-			<ul>
-				<li class="muted">Start the quest</li>
-				<li>Complete the quest</li>
-			</ul>
-		</div>
+		<QuestProgress {active} />
 	</div>
 	<QuestRewards {active} />
 {:else}
@@ -36,10 +31,6 @@
 </div>
 
 <style>
-	.muted {
-		color: rgba(150, 150, 150) !important;
-	}
-
 	h5 {
 		color: rgb(255, 167, 43);
 	}
