@@ -5,7 +5,7 @@ type Quest = {
     title: string;
     description: string;
     rewardResources: {name: string, amount: number, icon: string}[];
-    rewardItems: {name: string, amount: number, icon: string}[];
+    rewardItems: {name: string, amount: number, icon: string, description: string}[];
     rewardMisc: string;
     Dialogue: IsolatedMessage[];
     mainQuest: boolean;
