@@ -8,12 +8,18 @@
 <h5>{active.title}</h5>
 <div class="questBody">
 	<p>{active.description}</p>
+	<div class="py-3">
+		<ul>
+			<li class="muted">Start the quest</li>
+			<li>Complete the quest</li>
+		</ul>
+	</div>
 </div>
 <div class="rewards">
 	<h5>Rewards:</h5>
 	{#each active.rewardResources as resource}
 		<p>
-			<img src={resource.icon} alt={resource.name} width="20" height="20" />
+			<img src={resource.icon} alt={resource.name} width="48" height="48" />
 			{resource.amount}
 			{resource.name}
 		</p>
@@ -27,7 +33,7 @@
 						<p>{item.description}</p>
 						<p>Sells for: 5p</p>
 					{/snippet}
-					<img src={item.icon} alt={item.name} width="64" height="64" />
+					<img src={item.icon} alt={item.name} width="48" height="48" />
 					<h4 class="item-amount">{item.amount}</h4>
 				</Tooltip>
 			</div>
@@ -44,6 +50,10 @@
 </div>
 
 <style>
+	.muted {
+		color: rgba(150, 150, 150) !important;
+	}
+
 	.position-relative {
 		position: relative;
 	}
