@@ -19,12 +19,13 @@
 		</p>
 	{/each}
 	{#each active.rewardItems as item}
-		<div class="row">
+		<div class="row my-3">
 			<div class="col-auto position-relative d-inline-block">
 				<Tooltip>
 					{#snippet tooltip()}
 						<h5>{item.name}</h5>
 						<p>{item.description}</p>
+						<p>Sells for: 5p</p>
 					{/snippet}
 					<img src={item.icon} alt={item.name} width="64" height="64" />
 					<h4 class="item-amount">{item.amount}</h4>
