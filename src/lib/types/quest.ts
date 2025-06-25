@@ -7,7 +7,7 @@ type Quest = {
     rewardResources: {name: string, amount: number, icon: string}[];
     rewardItems: {name: string, amount: number, icon: string, description: string}[];
     rewardMisc: string;
-    Dialogue: IsolatedMessage[];
+    dialogue: IsolatedMessage[];
     mainQuest: boolean;
     status: "active" | "completed" | "failed";
 };

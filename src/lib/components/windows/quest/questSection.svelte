@@ -23,6 +23,10 @@
 </div>
 
 <style lang="scss">
+	i {
+		color: rgb(255, 167, 43);
+	}
+	
 	button {
 		background: none;
 		border: none;
