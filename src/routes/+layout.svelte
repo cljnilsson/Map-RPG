@@ -5,12 +5,12 @@
 	import "./styles.scss";
 	import "animate.css";
 	import Nav from "$lib/partials/nav.svelte";
-	import type { Snippet } from "svelte";
+	import { type Snippet } from "svelte";
 	import type { LayoutData } from "$lib/types/layoutData";
 	import Tutorial from "$lib/game/tutorial.svelte";
+	import Notification from "$lib/features/notification/notification.svelte";
 
 	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
-
 
 	let flags: { name: string; value: boolean }[] = $derived(
 		data?.userFlags.map((flag: { name: string; value: number }) => ({
@@ -23,7 +23,7 @@
 		return flags.find((flag) => flag.name === name)?.value;
 	}
 
-	let tutorialCompleted = true;//$state(getFlagByName("tutorialCompleted"));
+	let tutorialCompleted = true; //$state(getFlagByName("tutorialCompleted"));
 </script>
 
 <svelte:head>
@@ -35,6 +35,8 @@
 	<Nav {data}></Nav>
 	{#if !tutorialCompleted}
 		<Tutorial />
+	{:else}
+		<Notification />
 	{/if}
 	{@render children()}
 </div>

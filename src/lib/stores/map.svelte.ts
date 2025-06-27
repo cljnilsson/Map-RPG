@@ -1,5 +1,5 @@
-import type { MapWithClickBox, CustomMap } from '$lib/types/mapTypes';
-import { world } from '$lib/tempData';
+import type { MapWithClickBox, CustomMap } from "$lib/types/mapTypes";
+import { world } from "$lib/tempData";
 
 const Store = $state<{
 	editMode: boolean;

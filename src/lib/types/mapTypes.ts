@@ -1,3 +1,5 @@
+import type { NPC } from "$lib/types/npc";
+
 type MapType = {
 	name: string;
 	imagePath: string;
@@ -39,6 +41,7 @@ type CustomMap = {
 	map: MapType;
 	previous: CustomMap | null;
 	contains: MapWithClickBox[];
+	npcs: NPC[];
 };
 
 export type { MapType, ClickBox, MapWithClickBox, CustomMap, WorldMap, BuildingMap, CityMap };

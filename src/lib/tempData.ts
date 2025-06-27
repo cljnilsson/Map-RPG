@@ -37,7 +37,8 @@ export const world: CustomMap = {
 	contains: [
 		{ map: kingsLandingO, clickBox: { x: 715, y: 2130, originalX: 715, originalY: 2130, width: 100, height: 80, rotation: 0 } },
 		{ map: winterfellO, clickBox: { x: 500, y: 1000, originalX: 500, originalY: 1000, width: 120, height: 90, rotation: 0 } }
-	]
+	],
+	npcs: []
 };
 
 export const winterfell: CustomMap = {
@@ -45,19 +46,30 @@ export const winterfell: CustomMap = {
 	previous: world,
 	contains: [
 		{ map: starkKeepO, clickBox: { x: 830, y: 110, originalX: 830, originalY: 110, width: 400, height: 220, rotation: 50 } }
-	]
+	],
+	npcs: []
 };
 
 export const kingsLanding: CustomMap = {
 	map: kingsLandingO,
 	previous: world,
-	contains: []
+	contains: [],
+	npcs: []
 };
 
 export const starkKeep: CustomMap = {
 	map: starkKeepO,
 	previous: winterfell,
-	contains: []
+	contains: [],
+	npcs: [{
+		name: "Mysterious scroll",
+		img: "/scroll.png",
+		position: {x: 530, y: 280},
+		conditions: [],
+		quests: ["TEST"],
+		health: 1,
+		maxHealth: 1
+	}]
 };
 
 export const maps: CustomMap[] = [world, winterfell, kingsLanding, starkKeep];
