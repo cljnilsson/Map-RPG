@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Item } from '$lib/types/item';
+	import type { Item } from "$lib/types/item";
 
 	let {
 		inventory = $bindable(),
@@ -8,7 +8,7 @@
 	}: { inventory: Item[]; selectedItem: Item | null; item: Item } = $props();
 
 	function onSelect() {
-		if(selectedItem === item) {
+		if (selectedItem === item) {
 			selectedItem = null;
 			return;
 		}
@@ -16,23 +16,21 @@
 	}
 </script>
 
-<div class="col-1">
-	<div
-		role="button"
-		tabindex="0"
-		class="inv text-center"
-		class:active={item?.name === selectedItem?.name && item != null}
-		onclick={onSelect}
-		onkeydown={() => {
-			onSelect();
-		}}
-		aria-pressed={item === selectedItem}
-	>
-		<small>{item?.name}</small>
-		{#if item}
-			<i class={item.iconClass}></i>
-		{/if}
-	</div>
+<div
+	role="button"
+	tabindex="0"
+	class="inv text-center"
+	class:active={item?.name === selectedItem?.name && item != null}
+	onclick={onSelect}
+	onkeydown={() => {
+		onSelect();
+	}}
+	aria-pressed={item === selectedItem}
+>
+	<small>{item?.name}</small>
+	{#if item}
+		<i class={item.iconClass}></i>
+	{/if}
 </div>
 
 <style lang="scss">
