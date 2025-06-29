@@ -22,15 +22,16 @@
 		if (i?.quality === "common") {
 			return "#FFFFFF"; // White
 		} else if (i?.quality === "rare") {
-			return "#0000FF"; // Blue
+			return "#0070dd"; // Blue
 		} else if (i?.quality === "epic") {
-			return "#800080"; // Purple
+			return "#a335ee"; // Purple
 		}
 		return ""; // Default empty string
 	}
 </script>
+
 <div class="row justify-content-end">
-	<div class="col-xl-4 col-md-6">
+	<div class="col-xl-5 col-md-6">
 		<input type="text" class="form-control mb-3" placeholder="Search inventory..." bind:value={searchString} />
 	</div>
 </div>
@@ -44,10 +45,10 @@
 						<p>{inventory[index].description}</p>
 					{/snippet}
 
-					<InventoryItem bind:inventory={inventory} item={inventory[index]} bind:selectedItem={selectedItem} />
+					<InventoryItem bind:inventory={inventory} item={inventory[index]} currentSearchTerm={searchString} bind:selectedItem={selectedItem} />
 				</Tooltip>
 			{:else}
-				<InventoryItem bind:inventory={inventory} item={inventory[index]} bind:selectedItem={selectedItem} />
+				<InventoryItem bind:inventory={inventory} item={inventory[index]} currentSearchTerm={searchString} bind:selectedItem={selectedItem} />
 			{/if}
 		</div>
 	{/each}

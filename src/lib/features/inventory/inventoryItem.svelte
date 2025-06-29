@@ -4,8 +4,9 @@
 	let {
 		inventory = $bindable(),
 		selectedItem = $bindable(),
-		item
-	}: { inventory: Item[]; selectedItem: Item | null; item: Item } = $props();
+		item,
+		currentSearchTerm
+	}: { inventory: Item[]; selectedItem: Item | null; item: Item, currentSearchTerm: string } = $props();
 
 	function onSelect() {
 		if (selectedItem === item) {
@@ -14,13 +15,19 @@
 		}
 		selectedItem = item;
 	}
+
+	$effect(() => {
+		//$inspect(item?.name);
+		$inspect("x " + currentSearchTerm);
+	});
 </script>
 
 <div
 	role="button"
 	tabindex="0"
 	class="inv text-center"
-	class:active={item?.name === selectedItem?.name && item != null}
+	class:active={(item?.name === selectedItem?.name || (item?.name.toLowerCase().includes(currentSearchTerm?.toLowerCase()) && currentSearchTerm.length > 0) ) && item != null }
+	class:empty={!item}
 	onclick={onSelect}
 	onkeydown={() => {
 		onSelect();
@@ -49,8 +56,12 @@
 		align-items: center;
 		position: relative;
 
+		&.empty {
+			cursor: default;
+		}
+
 		&.active {
-			box-shadow: inset 0 0 0 2px red;
+			outline: 2px solid red;
 		}
 
 		small {
@@ -60,6 +71,9 @@
 			transform: translateX(-50%);
 			font-size: 0.75rem;
 			white-space: nowrap;
+			z-index: 100;
+			text-shadow: 1px 1px 2px black;
+			pointer-events: none;
 		}
 
 		i {
