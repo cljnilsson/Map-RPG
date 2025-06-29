@@ -5,6 +5,7 @@ const Store = $state<{
 	resourcesVisibility: boolean;
 	eventsVisibility: boolean;
 	questVisibility: boolean;
-}>({ loggerVisibility: false, navigationVisibility: true, resourcesVisibility: true, unitVisibility: true, eventsVisibility: true, questVisibility: true });
+	inventoryVisibility: boolean;
+}>({ loggerVisibility: false, navigationVisibility: true, resourcesVisibility: true, unitVisibility: true, eventsVisibility: true, questVisibility: true, inventoryVisibility: true });
 
 export default Store;

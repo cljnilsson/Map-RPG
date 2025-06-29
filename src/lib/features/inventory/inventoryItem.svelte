@@ -27,18 +27,27 @@
 	}}
 	aria-pressed={item === selectedItem}
 >
-	<small>{item?.name}</small>
 	{#if item}
-		<i class={item.iconClass}></i>
+		{#if item.amount > 1}
+			<small>{item.amount}</small>
+		{/if}
+		{#if item.iconPath}
+			<img src={item.iconPath} alt={item.name} width="64" height="64" />
+		{:else}
+			<i class={item.iconClass}></i>
+		{/if}
 	{/if}
 </div>
 
 <style lang="scss">
 	.inv {
 		background-color: grey;
-		aspect-ratio: 1 / 1; /* Keeps height equal to width */
-		width: 100%;
-		position: relative; // Make it the reference for absolute positioning
+		width: 64px;
+		height: 64px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
 
 		&.active {
 			box-shadow: inset 0 0 0 2px red;
@@ -46,7 +55,7 @@
 
 		small {
 			position: absolute;
-			top: 2px; // Adjust as needed
+			top: 2px;
 			left: 50%;
 			transform: translateX(-50%);
 			font-size: 0.75rem;
@@ -54,8 +63,13 @@
 		}
 
 		i {
-			font-size: 3.6rem;
-			display: block; // Ensures it centers properly
+			font-size: 48px; // Slightly smaller to fit inside 64px
+			width: 64px;
+			height: 64px;
+			line-height: 64px;
+			text-align: center;
+			display: inline-block;
+
 			&:hover {
 				cursor: pointer;
 				color: red;

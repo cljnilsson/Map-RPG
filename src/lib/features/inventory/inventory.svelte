@@ -8,6 +8,7 @@
 	let inventory: Item[] = $state([
 		{name: "Box of Eggs", iconPath: "", iconClass: "bi bi-box", amount: 1, description: "A box containing fresh eggs.", quality: "rare"},
 		{name: "Blacksmith's Hammer", iconPath: "", iconClass: "bi bi-hammer", amount: 1, description: "A box containing fresh eggs.", quality: "common"},
+		{name: "Magical Stone", iconPath: "/items/stone3.jpg", iconClass: "", amount: 3, description: "An unknown black stone with a strange glow.", quality: "epic"},
 	]);
 
 	let selectedItem: Item | null = $state(null);
@@ -29,13 +30,13 @@
 	}
 </script>
 <div class="row justify-content-end">
-	<div class="col-xl-2 col-md-4">
+	<div class="col-xl-4 col-md-6">
 		<input type="text" class="form-control mb-3" placeholder="Search inventory..." bind:value={searchString} />
 	</div>
 </div>
-<div class="row gx-4 gy-4">
+<div class="row gx-2 gy-2">
 	{#each [...Array(slots)] as i, index}
-		<div class="col-1">
+		<div class="col-2 d-flex justify-content-center align-items-center">
 			{#if inventory[index]}
 				<Tooltip>
 					{#snippet tooltip()}
