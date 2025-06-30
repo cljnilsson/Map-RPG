@@ -1,4 +1,5 @@
 import type { NPC } from "$lib/types/npc";
+import type { GameObject } from "$lib/types/gameObject";
 
 type MapType = {
 	name: string;
@@ -42,6 +43,7 @@ type CustomMap = {
 	previous: CustomMap | null;
 	contains: MapWithClickBox[];
 	npcs: NPC[];
+	objects: GameObject[];
 };
 
 export type { MapType, ClickBox, MapWithClickBox, CustomMap, WorldMap, BuildingMap, CityMap };

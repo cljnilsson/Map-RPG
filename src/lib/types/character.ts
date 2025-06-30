@@ -7,6 +7,11 @@ type Character = {
 	age: number;
 	gender: string;
 	conditions: [];
+	money: {
+		gold: number;
+		silver: number;
+		copper: number;
+	};
 };
 
 export type { Character };

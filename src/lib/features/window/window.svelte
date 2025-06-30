@@ -62,6 +62,10 @@
 		return (px / base) * viewportSize;
 	}
 
+	function close() {
+		visibility = false;
+	}
+
 	onMount(() => {
 		if (browser) {
 			x = scaleToViewport(x, "x");
@@ -87,7 +91,7 @@
 
 <div
 	bind:this={containerElement}
-	class:dragging={dragging}
+	class:dragging
 	class="overlay-rect"
 	style="left: {x}px; top: {y}px; width: {width}px;"
 	class:d-none={!visibility || DialogueStore.inDialogue}
@@ -99,19 +103,14 @@
 					{@render title()}
 				</div>
 				<div class="col-auto text-end">
-					<button
-						class="btn btn-sm btn-outline-secondary"
-						aria-label="Lock/Unlock"
-						onclick={() => (locked = !locked)}
-					>
-						<i class="bi {locked ? "bi-unlock" : "bi-lock-fill"}"></i>
+					<button class="btn btn-sm btn-outline-secondary" aria-label="Lock/Unlock" onclick={() => (locked = !locked)}>
+						<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
 					</button>
-					<button
-						class="btn btn-sm btn-outline-secondary"
-						aria-label="Minimize"
-						onclick={toggle}
-					>
-						<i class="bi {expanded ? "bi-dash" : "bi-plus"}"></i>
+					<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
+						<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
+					</button>
+					<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
+						<i class="bi bi-x"></i>
 					</button>
 				</div>
 			</div>
@@ -127,7 +126,7 @@
 	</div>
 </div>
 
-<style>
+<style>	
 	.overlay-rect {
 		position: fixed;
 		border: 2px solid black;

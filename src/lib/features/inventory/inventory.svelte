@@ -1,15 +1,10 @@
 <script lang="ts">
-    import InventoryItem from "$lib/features/inventory/inventoryItem.svelte";
-	import type {Item} from "$lib/types/item";
+	import CharacterStore from "$lib/stores/character.svelte";
+	import InventoryItem from "$lib/features/inventory/inventoryItem.svelte";
+	import type { Item } from "$lib/types/item";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-
-	const slots = 14;
-
-	let inventory: Item[] = $state([
-		{name: "Box of Eggs", iconPath: "", iconClass: "bi bi-box", amount: 1, description: "A box containing fresh eggs.", quality: "rare"},
-		{name: "Blacksmith's Hammer", iconPath: "", iconClass: "bi bi-hammer", amount: 1, description: "A box containing fresh eggs.", quality: "common"},
-		{name: "Magical Stone", iconPath: "/items/stone3.jpg", iconClass: "", amount: 3, description: "An unknown black stone with a strange glow.", quality: "epic"},
-	]);
+	const rows = 8;
+	const slots = 6 * rows;
 
 	let selectedItem: Item | null = $state(null);
 	let searchString: string = $state("");
@@ -37,6 +32,7 @@
 </div>
 <div class="row gx-2 gy-2">
 	{#each [...Array(slots)] as i, index}
+		{@const inventory = CharacterStore.inventory}
 		<div class="col-2 d-flex justify-content-center align-items-center">
 			{#if inventory[index]}
 				<Tooltip>
@@ -45,18 +41,40 @@
 						<p>{inventory[index].description}</p>
 					{/snippet}
 
-					<InventoryItem bind:inventory={inventory} item={inventory[index]} currentSearchTerm={searchString} bind:selectedItem={selectedItem} />
+					<InventoryItem
+						bind:inventory={CharacterStore.inventory}
+						item={inventory[index]}
+						currentSearchTerm={searchString}
+						bind:selectedItem
+					/>
 				</Tooltip>
 			{:else}
-				<InventoryItem bind:inventory={inventory} item={inventory[index]} currentSearchTerm={searchString} bind:selectedItem={selectedItem} />
+				<InventoryItem
+					bind:inventory={CharacterStore.inventory}
+					item={inventory[index]}
+					currentSearchTerm={searchString}
+					bind:selectedItem
+				/>
 			{/if}
 		</div>
 	{/each}
 </div>
-<div class="row justify-content-end">
-	<div class="col-xl-2 text-end">
-		<img src="/items/coin1.jpg" alt="Copper coin" height="18"/>1
-		<img src="/items/coin2.jpg" alt="Copper coin" height="18"/>2
-		<img src="/items/coin3.jpg" alt="Copper coin" height="18"/>3
+<div class="row justify-content-end money mt-2">
+	<div class="col-auto d-flex align-items-center">
+		<img src="/items/coin1.jpg" alt="Copper coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.copper}</span>
+		<img src="/items/coin2.jpg" alt="Silver coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.silver}</span>
+		<img src="/items/coin3.jpg" alt="Gold coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.gold}</span>
 	</div>
 </div>
+
+<style>
+	.money {
+		color: white;
+	}
+
+	.coin-text {
+		font-family: "Arial", sans-serif; /* Match font style to complement the coin images */
+		font-size: 24px; /* Adjust size to align visually with the coin images */
+		margin-right: 0.6rem;
+	}
+</style>

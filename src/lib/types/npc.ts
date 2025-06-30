@@ -5,7 +5,14 @@ type NPC = {
 	img: string;
 	position: { x: number; y: number };
 	conditions: unknown[]; // Also temp
-    quests: string[]; // temp
 };
 
-export type { NPC };
+type QuestGiverNPC = NPC & {
+	quests: string[]; // temp
+}
+
+type VendorNPC = NPC & {
+	items: string[]; // temp
+}
+
+export type { NPC, QuestGiverNPC, VendorNPC };

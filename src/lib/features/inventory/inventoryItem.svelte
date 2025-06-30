@@ -89,5 +89,12 @@
 				color: red;
 			}
 		}
+
+		img {
+			&:hover {
+				filter: brightness(0.8) sepia(1) hue-rotate(-50deg) saturate(2);
+				cursor: pointer;
+			}
+		}
 	}
 </style>
