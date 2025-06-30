@@ -42,8 +42,7 @@
 					if (!wasDragged) handleClick(rect);
 				}}
 			>
-				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={() => {}}
-				></MapClickBox>
+				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={() => {}} />
 				{#if MapStore.editMode && MapStore.selectedBox?.map.name === rect.map.name}
 					<ResizeAnchors
 						bind:x={rect.clickBox.x}
@@ -56,8 +55,7 @@
 			</Draggable>
 		{:else}
 			<div style="position: absolute; left: {rect.clickBox.x}px; top: {rect.clickBox.y}px;">
-				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={handleClick}
-				></MapClickBox>
+				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={handleClick} />
 			</div>
 		{/if}
 	{/each}

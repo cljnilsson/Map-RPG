@@ -104,10 +104,10 @@
 				</div>
 				<div class="col-auto text-end">
 					<button class="btn btn-sm btn-outline-secondary" aria-label="Lock/Unlock" onclick={() => (locked = !locked)}>
-						<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
+						<i class="bi {locked ? "bi-unlock" : "bi-lock-fill"}"></i>
 					</button>
 					<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
-						<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
+						<i class="bi {expanded ? "bi-dash" : "bi-plus"}"></i>
 					</button>
 					<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
 						<i class="bi bi-x"></i>
