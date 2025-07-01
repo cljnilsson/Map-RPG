@@ -70,13 +70,29 @@ export const starkKeep: CustomMap = {
 			img: "/guard.png",
 			position: { x: 730, y: 380 },
 			conditions: [],
-			items: [{
-				name: "Sword",
-				iconClass: "",
-				iconPath: "/sword.png",
-				quality: "common",
-				description: "A common sword, sharp and reliable.",
-			}],
+			items: [
+				{
+					name: "Sword",
+					iconClass: "",
+					iconPath: "/items/sword4.jpg",
+					quality: "common",
+					description: "A common sword, sharp and reliable."
+				},
+				{
+					name: "Armor",
+					iconClass: "",
+					iconPath: "/items/armor.png",
+					quality: "common",
+					description: "A common sword, sharp and reliable."
+				},
+				{
+					name: "Helmet",
+					iconClass: "",
+					iconPath: "/items/helmet4.jpg",
+					quality: "common",
+					description: "A common sword, sharp and reliable."
+				}
+			],
 			health: 100,
 			maxHealth: 100
 		} as VendorNPC

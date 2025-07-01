@@ -14,7 +14,19 @@
 		<div class="row">
 			{#each vendor.items as item}
 			<div class="col-6">
-				<p>{item}</p>
+				<div class="row">
+					<div class="col-auto">
+						<img src={item.iconPath} alt={item.name}/>
+					</div>
+					<div class="col">
+						<div>
+							{item.name}
+						</div>
+						<div>
+							1 2 3
+						</div>
+					</div>
+				</div>
 			</div>
 			{:else}
 				<p>This vendor sells no items.</p>
