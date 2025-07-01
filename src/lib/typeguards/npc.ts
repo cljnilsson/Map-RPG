@@ -1,11 +1,11 @@
 import type { NPC, VendorNPC, QuestGiverNPC } from "$lib/types/npc";
 
-function isCityMap(npc: NPC): npc is VendorNPC {
+function isNPCVendor(npc: NPC): npc is VendorNPC {
 	return "items" in npc;
 }
 
-function isBuildingMap(npc: NPC): npc is QuestGiverNPC {
+function isNPCQuestGiver(npc: NPC): npc is QuestGiverNPC {
 	return "quests" in npc;
 }
 
-export { isCityMap, isBuildingMap };
+export { isNPCQuestGiver, isNPCVendor };

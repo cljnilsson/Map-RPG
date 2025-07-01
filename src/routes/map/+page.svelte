@@ -5,10 +5,9 @@
 	import MapStore from "$lib/stores/map.svelte";
 	import PlayerWindows from "$lib/partials/playerwindows.svelte";
 	import VendorWindow from "$lib/components/windows/vendor/vendor.svelte";
-	import type { VendorNPC } from "$lib/types/npc";
+	import VendorStore from "$lib/stores/vendor.svelte";
 
 	console.log(MapStore.currentMapState);
-	let vendor: VendorNPC | undefined = $state(undefined);
 </script>
 
 <div class="map-wrapper mt-3">
@@ -20,12 +19,12 @@
 		</div>
 		<div class="row mx-0">
 			<div class="col">
-				<Map></Map>
+				<Map />
 			</div>
 
 			<PlayerWindows />
-			{#if vendor}
-				<VendorWindow {vendor} />
+			{#if VendorStore.currentVendor}
+				<VendorWindow vendor={VendorStore.currentVendor} />
 			{/if}
 		</div>
 	{:else}

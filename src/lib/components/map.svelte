@@ -1,4 +1,5 @@
 <script lang="ts">
+	import WindowStore from "$lib/stores/windows.svelte";
 	import MapClickBoxes from "$lib/partials/mapClickboxes.svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import QuestStore from "$lib/stores/quest.svelte";
@@ -6,7 +7,10 @@
 	import { onMount } from "svelte";
 	import { isCityMap, isBuildingMap, isWorldMap } from "$lib/typeguards/map";
 	import type { NPC } from "$lib/types/npc";
-	import type {Quest} from "$lib/types/quest";
+	import type { Quest } from "$lib/types/quest";
+	import type { GameObject } from "$lib/types/gameObject";
+	import { isNPCQuestGiver, isNPCVendor } from "$lib/typeguards/npc";
+	import VendorStore from "$lib/stores/vendor.svelte";
 
 	let imgRef: HTMLImageElement;
 	// Probably not ideal for future proofing but it works for now
@@ -37,24 +41,52 @@
 	function clickedOnNpc(npc: NPC) {
 		console.log("NPC clicked", npc);
 
+		if (isNPCVendor(npc)) {
+			WindowStore.vendorVisibility = true;
+			VendorStore.currentVendor = npc;
+			console.log("Show the vendor!");
+		} else if (isNPCQuestGiver(npc)) {
+			const newQuest: Quest = {
+				id: "2",
+				title: "Test Quest 55",
+				description: "This is a test quest description.",
+				progressGoals: ["Talk to the NPC", "Complete the task"],
+				progress: 0,
+				rewardResources: [{ name: "Gold", amount: 3, icon: "/icons/coin3.png" }],
+				rewardMisc: "",
+				rewardItems: [],
+				mainQuest: false,
+				status: "active",
+				dialogue: []
+			};
+
+			if (QuestStore.quests.filter((q) => q.id === newQuest.id).length > 0) {
+				console.warn("Quest with this ID already exists, not adding again.");
+				return;
+			}
+
+			QuestStore.quests = [...QuestStore.quests, newQuest];
+		}
+	}
+
+	function clickedOnObject(o: GameObject) {
+		console.log("Object clicked", o);
+
 		const newQuest: Quest = {
 			id: "2",
 			title: "Test Quest2",
 			description: "This is a test quest description.",
 			progressGoals: ["Talk to the NPC", "Complete the task"],
 			progress: 0,
-			rewardResources: [
-				{ name: "Gold", amount: 3, icon: "/icons/coin3.png" },
-			],
+			rewardResources: [{ name: "Gold", amount: 3, icon: "/icons/coin3.png" }],
 			rewardMisc: "",
 			rewardItems: [],
 			mainQuest: false,
 			status: "active",
 			dialogue: []
+		};
 
-		}
-
-		if(QuestStore.quests.filter(q => q.id === newQuest.id).length > 0) {
+		if (QuestStore.quests.filter((q) => q.id === newQuest.id).length > 0) {
 			console.warn("Quest with this ID already exists, not adding again.");
 			return;
 		}
@@ -77,14 +109,28 @@
 		/>
 		<MapClickBoxes></MapClickBoxes>
 		{#each MapStore.currentMapState.npcs as npc}
-			<button
+			<div
+				role="button"
+				tabindex="0"
 				style="position: absolute; left: {npc.position.x}px; top: {npc.position.y}px; width: 50px; height: 50px;"
 				on:click={() => clickedOnNpc(npc)}
 				on:keydown={(e) => e.key === "Enter" && clickedOnNpc(npc)}
 				aria-label={"Image of " + npc.name}
 			>
 				<img src={npc.img} alt={"Image of " + npc.name} style="width: 100%; height: 100%;" />
-			</button>
+			</div>
+		{/each}
+		{#each MapStore.currentMapState.objects as object}
+			<div
+				role="button"
+				tabindex="0"
+				style="position: absolute; left: {object.position.x}px; top: {object.position.y}px; width: 50px; height: 50px;"
+				on:click={() => clickedOnObject(object)}
+				on:keydown={(e) => e.key === "Enter" && clickedOnObject(object)}
+				aria-label={"Image of " + object.name}
+			>
+				<img src={object.img} alt={"Image of " + object.name} style="width: 100%; height: 100%;" />
+			</div>
 		{/each}
 	</div>
 	<MiniMenu />

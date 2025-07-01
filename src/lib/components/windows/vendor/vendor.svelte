@@ -6,7 +6,7 @@
     let {vendor}: {vendor: VendorNPC} = $props();
 </script>
 
-<Window height={700} width={480} x={300} y={450} toggleKey="i" bind:visibility={WindowStore.inventoryVisibility}>
+<Window height={700} width={480} x={300} y={450} bind:visibility={WindowStore.vendorVisibility}>
 	{#snippet title()}
 		<h4 class="my-2">{vendor.name}</h4>
 	{/snippet}

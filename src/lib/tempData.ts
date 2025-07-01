@@ -1,5 +1,5 @@
 import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
-import type { QuestGiverNPC } from "$lib/types/npc";
+import type { QuestGiverNPC, VendorNPC } from "$lib/types/npc";
 
 const wo: WorldMap = {
 	name: "Westeros",
@@ -70,10 +70,10 @@ export const starkKeep: CustomMap = {
 			img: "/guard.png",
 			position: { x: 730, y: 380 },
 			conditions: [],
-			quests: [],
+			items: [],
 			health: 100,
 			maxHealth: 100
-		} as QuestGiverNPC
+		} as VendorNPC
 	]
 };
 
