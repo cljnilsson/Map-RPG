@@ -11,6 +11,7 @@
 	import type { GameObject } from "$lib/types/gameObject";
 	import { isNPCQuestGiver, isNPCVendor } from "$lib/typeguards/npc";
 	import VendorStore from "$lib/stores/vendor.svelte";
+	import HoverOutlineImage from "$lib/outlineTest.svelte";
 
 	let imgRef: HTMLImageElement;
 	// Probably not ideal for future proofing but it works for now
@@ -117,7 +118,7 @@
 				on:keydown={(e) => e.key === "Enter" && clickedOnNpc(npc)}
 				aria-label={"Image of " + npc.name}
 			>
-				<img src={npc.img} alt={"Image of " + npc.name} style="width: 100%; height: 100%;" />
+				<HoverOutlineImage src={npc.img} alt={"Image of " + npc.name} width={200} />
 			</div>
 		{/each}
 		{#each MapStore.currentMapState.objects as object}
@@ -129,7 +130,7 @@
 				on:keydown={(e) => e.key === "Enter" && clickedOnObject(object)}
 				aria-label={"Image of " + object.name}
 			>
-				<img src={object.img} alt={"Image of " + object.name} style="width: 100%; height: 100%;" />
+				<HoverOutlineImage src={object.img} alt={"Image of " + object.name} width={200} />
 			</div>
 		{/each}
 	</div>

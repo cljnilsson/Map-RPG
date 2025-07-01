@@ -13,6 +13,8 @@
 	{#snippet body()}
 		{#each vendor.items as item}
             <p>{item}</p>
+		{:else}
+			<p>This vendor sells no items.</p>
         {/each}
 	{/snippet}
 	{#snippet footer()}
