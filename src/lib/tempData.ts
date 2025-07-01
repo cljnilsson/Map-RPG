@@ -75,7 +75,7 @@ export const starkKeep: CustomMap = {
 					name: "Sword",
 					iconClass: "",
 					iconPath: "/items/sword4.jpg",
-					quality: "common",
+					quality: "rare",
 					description: "A common sword, sharp and reliable."
 				},
 				{

@@ -3,6 +3,8 @@
 	import InventoryItem from "$lib/features/inventory/inventoryItem.svelte";
 	import type { Item } from "$lib/types/item";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+	import {q2c} from "$lib/utils/itemQuality";
+
 	const rows = 8;
 	const slots = 6 * rows;
 
@@ -12,17 +14,6 @@
 	$effect(() => {
 		$inspect(selectedItem);
 	});
-
-	function q2c(i: Item): string {
-		if (i?.quality === "common") {
-			return "#FFFFFF"; // White
-		} else if (i?.quality === "rare") {
-			return "#0070dd"; // Blue
-		} else if (i?.quality === "epic") {
-			return "#a335ee"; // Purple
-		}
-		return ""; // Default empty string
-	}
 </script>
 
 <div class="row justify-content-end">
