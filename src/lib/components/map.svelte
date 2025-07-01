@@ -113,11 +113,12 @@
 			<div
 				role="button"
 				tabindex="0"
-				style="position: absolute; left: {npc.position.x}px; top: {npc.position.y}px; width: 50px; height: 50px;"
+				style="position: absolute; left: {npc.position.x}px; top: {npc.position.y}px;"
 				on:click={() => clickedOnNpc(npc)}
 				on:keydown={(e) => e.key === "Enter" && clickedOnNpc(npc)}
 				aria-label={"Image of " + npc.name}
 			>
+				<h5 class="text-light text-center shadow">{npc.name}</h5>
 				<HoverOutlineImage src={npc.img} alt={"Image of " + npc.name} width={200} />
 			</div>
 		{/each}

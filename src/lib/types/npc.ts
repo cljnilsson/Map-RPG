@@ -1,3 +1,5 @@
+import type { Item } from "$lib/types/item";
+
 type NPC = {
 	health: number;
 	maxHealth: number;
@@ -9,10 +11,10 @@ type NPC = {
 
 type QuestGiverNPC = NPC & {
 	quests: string[]; // temp
-}
+};
 
 type VendorNPC = NPC & {
-	items: string[]; // temp
-}
+	items: Item[];
+};
 
 export type { NPC, QuestGiverNPC, VendorNPC };

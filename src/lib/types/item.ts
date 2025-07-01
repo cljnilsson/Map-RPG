@@ -4,7 +4,10 @@ type Item = {
     iconPath: string;
     quality: "common" | "uncommon" | "rare" | "epic" | "legendary";
     description: string;
-    amount: number;
 };
 
-export type { Item };
+type InventoryItem = Item & {
+    amount: number;
+}
+
+export type { Item, InventoryItem };

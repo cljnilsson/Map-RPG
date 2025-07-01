@@ -11,11 +11,15 @@
 		<h4 class="my-2">{vendor.name}</h4>
 	{/snippet}
 	{#snippet body()}
-		{#each vendor.items as item}
-            <p>{item}</p>
-		{:else}
-			<p>This vendor sells no items.</p>
-        {/each}
+		<div class="row">
+			{#each vendor.items as item}
+			<div class="col-6">
+				<p>{item}</p>
+			</div>
+			{:else}
+				<p>This vendor sells no items.</p>
+			{/each}
+		</div>
 	{/snippet}
 	{#snippet footer()}
 		<span></span>
