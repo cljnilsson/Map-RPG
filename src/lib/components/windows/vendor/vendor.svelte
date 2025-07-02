@@ -28,7 +28,13 @@
 								</div>
 								<div class="col ps-0 d-flex flex-column justify-content-between">
 									<div style={"color: " + q2c(item) + ";"}>{item.name}</div>
-									<div class="text-end mt-auto">1 2 3</div>
+									<div class="row justify-content-end money mt-2">
+										<div class="col-auto d-flex align-items-center">
+											<img src="/items/coin1.jpg" alt="Copper coin" height="20" /> <span class="coin-text">{1}</span>
+											<img src="/items/coin2.jpg" alt="Silver coin" height="20" /> <span class="coin-text">{2}</span>
+											<img src="/items/coin3.jpg" alt="Gold coin" height="20" /> <span class="coin-text">{3}</span>
+										</div>
+									</div>
 								</div>
 							</div>
 						</Tooltip>
