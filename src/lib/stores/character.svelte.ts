@@ -1,9 +1,9 @@
 import type { Character } from "$lib/types/character";
-import type { Item } from "$lib/types/item";
+import type { InventoryItem } from "$lib/types/item";
 
 const Store = $state<{
 	character: Character;
-	inventory: Item[],
+	inventory: InventoryItem[],
 	location: string;
 }>({
 	inventory: [

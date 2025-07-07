@@ -3,6 +3,11 @@
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
+	"husky": {
+		"hooks": {
+			"pre-commit": "CI=true npm run test"
+		}
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -39,6 +44,7 @@
 		"eslint-config-prettier": "^10.1.2",
 		"eslint-plugin-svelte": "^2.46.1",
 		"globals": "^15.15.0",
+		"husky": "^9.1.7",
 		"jsdom": "^26.1.0",
 		"prettier": "^3.5.3",
 		"prettier-plugin-svelte": "^3.3.3",

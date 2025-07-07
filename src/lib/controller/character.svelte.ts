@@ -17,17 +17,21 @@ export class PlayerController extends CharacterController {
 	public static canAfford(c: number, s: number, g: number): boolean {
 		const playerCopper = PlayerController.moneyToCopper(
 			PlayerStore.character.money.copper,
-			PlayerStore.character.money.copper,
-			PlayerStore.character.money.copper
+			PlayerStore.character.money.silver,
+			PlayerStore.character.money.gold
 		);
+
 		const priceCopper = PlayerController.moneyToCopper(c, s, g);
+
+		console.log(playerCopper, priceCopper);
 
 		return playerCopper >= priceCopper;
 	}
 
+	// Give specifically 1 of item
 	public static giveItem(i: Item): boolean {
 		if (PlayerStore.inventory.length < PlayerController.inventorySize) {
-			PlayerStore.inventory = [...PlayerStore.inventory, i];
+			PlayerStore.inventory = [...PlayerStore.inventory, {...i, amount: 1}];
 			LogStore.logs = [
 				...LogStore.logs,
 				{
@@ -48,6 +52,17 @@ export class PlayerController extends CharacterController {
 			}
 		];
 		return false;
+	}
+
+	public static hasItem(name: string): boolean;
+	public static hasItem(name: string, amount: number): boolean;
+	public static hasItem(name: string, amount?: number): boolean {
+		if (amount === undefined) {
+			return PlayerStore.inventory.some((item) => item.name === name);
+		}
+
+		const item = PlayerStore.inventory.find((item) => item.name === name);
+		return item !== undefined && item.amount >= amount;
 	}
 
 	public static removeItemByName(name: string) {
