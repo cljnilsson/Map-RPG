@@ -1,11 +1,12 @@
 //import type { Character } from "$lib/types/character";
 import type { Item } from "$lib/types/item";
 import PlayerStore from "$lib/stores/character.svelte";
+import type {NPC} from "$lib/types/npc";
 import LogStore from "$lib/stores/logs.svelte";
 
 export class CharacterController {}
 
-export class NPC extends CharacterController {}
+export class NPCController extends CharacterController {}
 
 export class PlayerController extends CharacterController {
 	private static inventorySize = 6 * 8; // 8 rows 6 columns
@@ -82,5 +83,38 @@ export class PlayerController extends CharacterController {
 		} else {
 			console.error("Trying to remove item that does not exist");
 		}
+	}
+
+	public static attack(amount: number, modifier: "str" | "int" | "vit" | "char" | "dex", target: NPC) {
+		// use npc.damage in future
+		const damage = amount + PlayerStore.character.stats[modifier];
+		target.health -= damage;
+
+		LogStore.logs = [
+			...LogStore.logs,
+			{
+				timestamp: new Date(),
+				message: `You dealt ${damage} to ${target.name}.`,
+				type: "info"
+			}
+		];
+	}
+
+	public static damage(amount: number) {
+		if (amount <= 0) {
+			console.error("Damage amount must be greater than zero");
+			return;
+		}
+
+		PlayerStore.character.health -= amount;
+
+		LogStore.logs = [
+			...LogStore.logs,
+			{
+				timestamp: new Date(),
+				message: `You took ${amount} damage.`,
+				type: "warning"
+			}
+		];
 	}
 }
