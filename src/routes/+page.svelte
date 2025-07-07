@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Inventory from "$lib/features/inventory/inventory.svelte";
 	import CharacterComponent from "$lib/components/character/Character.svelte";
 
 	let resources: {
@@ -23,9 +22,7 @@
 			<h4><i class="bi bi-tree"></i> {resources.iron}</h4>
 		</div>
 	</div>
-	<CharacterComponent></CharacterComponent>
-	<h3 class="mt-5">Inventory</h3>
-	<Inventory></Inventory>
+	<CharacterComponent />
 </div>
 
 <style>

@@ -11,5 +11,6 @@
 		"strict": true,
 		"moduleResolution": "bundler",
 		"allowUmdGlobalAccess": true,
+		"types": ["@testing-library/jest-dom"]
 	}
 }

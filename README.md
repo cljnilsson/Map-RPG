@@ -36,6 +36,20 @@ You can preview the production build with `bun run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
 
+## Structure notes
+* Controller
+  * The heart of the logic, offering an abstract API that internally talks with a lot of other parts of the application.
+* Component / Features
+  * Might change this but the idea is that Window is a reusable component while InventoryWindow is not and these should go in seperate folders.
+* Partials
+  * low logic or no logic files that are mainly there for abstraction
+* Game
+  * Might be moved into features later but for now this is where the game logic might be placed.
+* Stores
+  * Responsible for clientside data, exclusively svelte.ts files
+* Utils
+  * Handy helpers, exclusively .ts files
+
 ## New stuff, personal notes
 drizzle: 
   - You will need to set DATABASE_URL in your production environment  
