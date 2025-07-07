@@ -4,8 +4,15 @@
 	import type { VendorNPC } from "$lib/types/npc";
 	import { q2c } from "$lib/utils/itemQuality";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+	import type { Item } from "$lib/types/item";
+	import { PlayerController } from "$lib/controller/character.svelte";
 
 	let { vendor }: { vendor: VendorNPC } = $props();
+
+	function buyItem(item: Item) {
+		console.log("Trying to buy :(");
+		PlayerController.giveItem(item);
+	}
 </script>
 
 <Window height={700} width={480} x={300} y={450} bind:visibility={WindowStore.vendorVisibility}>
@@ -22,7 +29,7 @@
 								<h5 style={"color: " + q2c(item) + ";"}>{item.name}</h5>
 								<p>{item.description}</p>
 							{/snippet}
-							<div class="row my-1 align-items-stretch">
+							<div class="row my-1 align-items-stretch" onclick={() => buyItem(item)}>
 								<div class="col-auto pe-1">
 									<img src={item.iconPath} alt={item.name} />
 								</div>
@@ -53,8 +60,5 @@
 <style lang="scss">
 	.slot {
 		background-color: rgba(50, 50, 50, 0.9);
-		.row {
-			pointer-events: none; // fixes tooltip issues but maybe stops clicking for buying
-		}
 	}
 </style>
