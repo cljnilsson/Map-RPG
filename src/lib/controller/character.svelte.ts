@@ -1,5 +1,5 @@
 //import type { Character } from "$lib/types/character";
-import type { Item } from "$lib/types/item";
+import type { Item, VendorItem } from "$lib/types/item";
 import PlayerStore from "$lib/stores/character.svelte";
 import type {NPC} from "$lib/types/npc";
 import LogStore from "$lib/stores/logs.svelte";
@@ -11,8 +11,16 @@ export class NPCController extends CharacterController {}
 export class PlayerController extends CharacterController {
 	private static inventorySize = 6 * 8; // 8 rows 6 columns
 
-	private static moneyToCopper(c: number, s: number, g: number): number {
+	public static moneyToCopper(c: number, s: number, g: number): number {
 		return c + s * 10 + g * 100;
+	}
+
+	public static copperToMoney(totalCopper: number): { gold: number; silver: number; copper: number } {
+		const gold = Math.floor(totalCopper / 100);
+		const silver = Math.floor((totalCopper % 100) / 10);
+		const copper = totalCopper % 10;
+
+		return { gold, silver, copper };
 	}
 
 	public static canAfford(c: number, s: number, g: number): boolean {
@@ -53,6 +61,55 @@ export class PlayerController extends CharacterController {
 			}
 		];
 		return false;
+	}
+
+	public static buyItem(item: VendorItem): boolean {
+		if (!PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
+			LogStore.logs = [
+				...LogStore.logs,
+				{
+					timestamp: new Date(),
+					message: "You cannot afford this item.",
+					type: "warning"
+				}
+			];
+			return false;
+		}
+
+		if (PlayerStore.inventory.length >= PlayerController.inventorySize) {
+			LogStore.logs = [
+				...LogStore.logs,
+				{
+					timestamp: new Date(),
+					message: "You need more inventory space.",
+					type: "warning"
+				}
+			];
+			return false;
+		}
+
+		const playerCopper = PlayerController.moneyToCopper(
+			PlayerStore.character.money.copper,
+			PlayerStore.character.money.silver,
+			PlayerStore.character.money.gold
+		);
+
+		const priceCopper = PlayerController.moneyToCopper(
+			item.price.copper,
+			item.price.silver,
+			item.price.gold
+		);
+
+		const remainingCopper = playerCopper - priceCopper;
+		const { gold, silver, copper } = PlayerController.copperToMoney(remainingCopper);
+
+		PlayerStore.character.money.gold = gold;
+		PlayerStore.character.money.silver = silver;
+		PlayerStore.character.money.copper = copper;
+
+		PlayerController.giveItem(item);
+
+		return true;
 	}
 
 	public static hasItem(name: string): boolean;

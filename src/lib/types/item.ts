@@ -6,8 +6,16 @@ type Item = {
     description: string;
 };
 
+type VendorItem = Item & {
+    price: {
+        gold: number;
+        silver: number;
+        copper: number;
+    };
+}
+
 type InventoryItem = Item & {
     amount: number;
 }
 
-export type { Item, InventoryItem };
+export type { Item, VendorItem, InventoryItem };

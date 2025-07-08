@@ -1,4 +1,4 @@
-import type { Item } from "$lib/types/item";
+import type { VendorItem } from "$lib/types/item";
 
 type NPC = {
 	health: number;
@@ -14,7 +14,7 @@ type QuestGiverNPC = NPC & {
 };
 
 type VendorNPC = NPC & {
-	items: Item[];
+	items: VendorItem[];
 };
 
 export type { NPC, QuestGiverNPC, VendorNPC };

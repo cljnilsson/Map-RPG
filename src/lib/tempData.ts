@@ -76,21 +76,36 @@ export const starkKeep: CustomMap = {
 					iconClass: "",
 					iconPath: "/items/sword4.jpg",
 					quality: "rare",
-					description: "A common sword, sharp and reliable."
+					description: "A common sword, sharp and reliable.",
+					price: {
+						gold: 0,
+						silver: 5,
+						copper: 0
+					}
 				},
 				{
 					name: "Armor",
 					iconClass: "",
 					iconPath: "/items/armor.png",
 					quality: "common",
-					description: "A common sword, sharp and reliable."
+					description: "Heavy armor",
+					price: {
+						gold: 1,
+						silver: 0,
+						copper: 0
+					}
 				},
 				{
 					name: "Helmet",
 					iconClass: "",
 					iconPath: "/items/helmet4.jpg",
 					quality: "common",
-					description: "A common sword, sharp and reliable."
+					description: "A knight's helmet in good condition",
+					price: {
+						gold: 0,
+						silver: 4,
+						copper: 0
+					}
 				}
 			],
 			health: 100,

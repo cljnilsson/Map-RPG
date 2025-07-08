@@ -1,17 +1,26 @@
 <script lang="ts">
 	import Window from "$lib/features/window/window.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
+	import NotificationStore from "$lib/stores/notification.svelte";
 	import type { VendorNPC } from "$lib/types/npc";
 	import { q2c } from "$lib/utils/itemQuality";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { Item } from "$lib/types/item";
+	import type { VendorItem } from "$lib/types/item";
 	import { PlayerController } from "$lib/controller/character.svelte";
 
 	let { vendor }: { vendor: VendorNPC } = $props();
 
-	function buyItem(item: Item) {
+	function buyItem(item: VendorItem) {
 		console.log("Trying to buy :(");
-		PlayerController.giveItem(item);
+		
+		if(PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
+			PlayerController.buyItem(item);
+		} else {
+			NotificationStore.queue = [
+				...NotificationStore.queue,
+				{ message: "You cannot afford " + item.name, type: "error" },
+			];
+		}
 	}
 </script>
 
@@ -37,9 +46,9 @@
 									<div style={"color: " + q2c(item) + ";"}>{item.name}</div>
 									<div class="row justify-content-end money mt-2">
 										<div class="col-auto d-flex align-items-center">
-											<img src="/items/coin1.jpg" alt="Copper coin" height="20" /> <span class="coin-text">{1}</span>
-											<img src="/items/coin2.jpg" alt="Silver coin" height="20" /> <span class="coin-text">{2}</span>
-											<img src="/items/coin3.jpg" alt="Gold coin" height="20" /> <span class="coin-text">{3}</span>
+											<img src="/items/coin1.jpg" alt="Copper coin" height="20" /> <span class="coin-text">{item.price.copper}</span>
+											<img src="/items/coin2.jpg" alt="Silver coin" height="20" /> <span class="coin-text">{item.price.silver}</span>
+											<img src="/items/coin3.jpg" alt="Gold coin" height="20" /> <span class="coin-text">{item.price.gold}</span>
 										</div>
 									</div>
 								</div>
