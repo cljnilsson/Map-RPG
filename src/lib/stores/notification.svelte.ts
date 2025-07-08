@@ -5,7 +5,6 @@ type Notification = {
 
 const Store = $state<{
 	queue: Notification[];
-	currentNotificationMessage: Notification | undefined;
-}>({ queue: [], currentNotificationMessage: undefined });
+}>({ queue: [] });
 
 export default Store;

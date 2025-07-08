@@ -6,54 +6,56 @@
 
 	let showNotification = $state(false);
 
-	const duration = 5000;
+	const duration = 2000;
 	const animationDuration = 350;
 
+	let currentNotificationMessage = $derived(NotificationStore.queue[0]);
+
+	$effect(() => {
+		// Runs on state changes
+		if(!showNotification && currentNotificationMessage) {
+			doIt();
+		}
+	});
+
 	function onNotificationEnd() {
+		showNotification = false;
+
 		if (NotificationStore.queue.length > 0) {
-			NotificationStore.currentNotificationMessage = NotificationStore.queue.shift() || undefined;
-			if (NotificationStore.currentNotificationMessage) {
-				showNotification = false;
-				setTimeout(() => {
-					doIt();
-				}, animationDuration);
-			}
-		} else {
-			//currentNotificationMessage = ""; don't reset because it would screw with the animation?
-			showNotification = false;
+			NotificationStore.queue = [...NotificationStore.queue.slice(1)];
 		}
 	}
 
 	function doIt() {
-		if (NotificationStore.currentNotificationMessage) {
+		if (currentNotificationMessage) {
 			showNotification = true;
 			LoggerStore.logs = [
 				...LoggerStore.logs,
 				{
-					message: NotificationStore.currentNotificationMessage.message,
-					type: NotificationStore.currentNotificationMessage.type,
+					message: currentNotificationMessage.message,
+					type: currentNotificationMessage.type,
 					timestamp: new Date()
 				}
 			];
-			setTimeout(onNotificationEnd, duration); // Hide after 5 seconds
+			setTimeout(onNotificationEnd, duration);
 		}
 	}
 
 	onMount(() => {
 		setTimeout(() => {
-			NotificationStore.currentNotificationMessage = { message: "GLOBAL notification here", type: "info" };
 			NotificationStore.queue = [
+				{ message: "GLOBAL notification here", type: "info" },
 				{ message: "GLOBAL notification here 2", type: "info" },
 				{ message: "GLOBAL notification here 3", type: "info" },
 				{ message: "GLOBAL notification here 4", type: "info" }
 			];
-			doIt();
-		}, 3000);
+		}, 1000);
 	});
 </script>
 
-{#if showNotification && NotificationStore.currentNotificationMessage}
-	<h3 transition:fly={{ y: 200, duration: animationDuration }}>{NotificationStore.currentNotificationMessage.message}</h3>
+{#if showNotification && currentNotificationMessage}
+	<!--<h3 transition:fly={{ y: 200, duration: animationDuration }}>{currentNotificationMessage.message}</h3>-->
+	<h3>{currentNotificationMessage.message}</h3>
 {/if}
 
 <style>
