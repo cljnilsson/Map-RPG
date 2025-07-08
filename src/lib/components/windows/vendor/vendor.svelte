@@ -12,14 +12,11 @@
 
 	function buyItem(item: VendorItem) {
 		console.log("Trying to buy :(");
-		
-		if(PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
+
+		if (PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
 			PlayerController.buyItem(item);
 		} else {
-			NotificationStore.queue = [
-				...NotificationStore.queue,
-				{ message: "You cannot afford " + item.name, type: "error" },
-			];
+			NotificationStore.queue = [...NotificationStore.queue, { message: "You cannot afford " + item.name, type: "error" }];
 		}
 	}
 </script>
@@ -33,27 +30,30 @@
 			{#each vendor.items as item}
 				<div class="col-6 px-1 py-1">
 					<div class="slot rounded py-1 px-1">
-						<Tooltip>
-							{#snippet tooltip()}
-								<h5 style={"color: " + q2c(item) + ";"}>{item.name}</h5>
-								<p>{item.description}</p>
-							{/snippet}
-							<div class="row my-1 align-items-stretch" onclick={() => buyItem(item)}>
-								<div class="col-auto pe-1">
+						<div class="row my-1 align-items-stretch">
+							<div class="col-auto pe-1" onclick={() => buyItem(item)}>
+								<Tooltip>
+									{#snippet tooltip()}
+										<h5 style={"color: " + q2c(item) + ";"}>{item.name}</h5>
+										<p>{item.description}</p>
+									{/snippet}
 									<img src={item.iconPath} alt={item.name} />
-								</div>
-								<div class="col ps-0 d-flex flex-column justify-content-between">
-									<div style={"color: " + q2c(item) + ";"}>{item.name}</div>
-									<div class="row justify-content-end money mt-2">
-										<div class="col-auto d-flex align-items-center">
-											<img src="/items/coin1.jpg" alt="Copper coin" height="20" /> <span class="coin-text">{item.price.copper}</span>
-											<img src="/items/coin2.jpg" alt="Silver coin" height="20" /> <span class="coin-text">{item.price.silver}</span>
-											<img src="/items/coin3.jpg" alt="Gold coin" height="20" /> <span class="coin-text">{item.price.gold}</span>
-										</div>
+								</Tooltip>
+							</div>
+							<div class="col ps-0 d-flex flex-column justify-content-between">
+								<div style={"color: " + q2c(item) + ";"}>{item.name}</div>
+								<div class="row justify-content-end money mt-2">
+									<div class="col-auto d-flex align-items-center">
+										<img src="/items/coin1.jpg" alt="Copper coin" height="20" />
+										<span class="coin-text">{item.price.copper}</span>
+										<img src="/items/coin2.jpg" alt="Silver coin" height="20" />
+										<span class="coin-text">{item.price.silver}</span>
+										<img src="/items/coin3.jpg" alt="Gold coin" height="20" />
+										<span class="coin-text">{item.price.gold}</span>
 									</div>
 								</div>
 							</div>
-						</Tooltip>
+						</div>
 					</div>
 				</div>
 			{:else}
