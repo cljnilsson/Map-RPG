@@ -2,7 +2,7 @@
 import type { Item, VendorItem } from "$lib/types/item";
 import PlayerStore from "$lib/stores/character.svelte";
 import type {NPC} from "$lib/types/npc";
-import LogStore from "$lib/stores/logs.svelte";
+import { LogController } from "$lib/controller/logs.svelte";
 
 export class CharacterController {}
 
@@ -52,63 +52,28 @@ export class PlayerController extends CharacterController {
 	// Give specifically 1 of item
 	public static giveItem(i: Item): boolean {
 		if (i.unique && PlayerStore.inventory.some((item) => item.name === i.name)) {
-			LogStore.logs = [
-				...LogStore.logs,
-				{
-					timestamp: new Date(),
-					message: `You already have a unique item: ${i.name}.`,
-					type: "info"
-				}
-			];
+			LogController.newLog(`You already have a unique item: ${i.name}.`, "info");
 			return false;
 		}
 
 		if (PlayerStore.inventory.length < PlayerController.inventorySize) {
 			PlayerStore.inventory = [...PlayerStore.inventory, { ...i, amount: 1 }];
-			LogStore.logs = [
-				...LogStore.logs,
-				{
-					timestamp: new Date(),
-					message: `You received a ${i.name}.`,
-					type: "info"
-				}
-			];
+			LogController.newLog(`You received a ${i.name}.`, "info");
 			return true;
 		}
 
-		LogStore.logs = [
-			...LogStore.logs,
-			{
-				timestamp: new Date(),
-				message: "You need more inventory space.",
-				type: "info"
-			}
-		];
+		LogController.newLog("You need more inventory space.", "warning");
 		return false;
 	}
 
 	public static buyItem(item: VendorItem): boolean {
 		if (!PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
-			LogStore.logs = [
-				...LogStore.logs,
-				{
-					timestamp: new Date(),
-					message: "You cannot afford this item.",
-					type: "warning"
-				}
-			];
+			LogController.newLog("You cannot afford this item.", "warning");
 			return false;
 		}
 
 		if (PlayerStore.inventory.length >= PlayerController.inventorySize) {
-			LogStore.logs = [
-				...LogStore.logs,
-				{
-					timestamp: new Date(),
-					message: "You need more inventory space.",
-					type: "warning"
-				}
-			];
+			LogController.newLog("You need more inventory space.", "warning");
 			return false;
 		}
 
@@ -153,14 +118,8 @@ export class PlayerController extends CharacterController {
 		if (itemIndex !== -1) {
 			const removedItem = PlayerStore.inventory[itemIndex];
 			PlayerStore.inventory = PlayerStore.inventory.filter((_, index) => index !== itemIndex);
-			LogStore.logs = [
-				...LogStore.logs,
-				{
-					timestamp: new Date(),
-					message: `You lost ${removedItem.name}.`,
-					type: "info"
-				}
-			];
+
+			LogController.newLog(`You lost ${removedItem.name}.`, "info");
 		} else {
 			console.error("Trying to remove item that does not exist");
 		}
@@ -171,14 +130,7 @@ export class PlayerController extends CharacterController {
 		const damage = amount + PlayerStore.character.stats[modifier];
 		target.health -= damage;
 
-		LogStore.logs = [
-			...LogStore.logs,
-			{
-				timestamp: new Date(),
-				message: `You dealt ${damage} to ${target.name}.`,
-				type: "info"
-			}
-		];
+		LogController.newLog(`You dealt ${damage} to ${target.name}.`, "info");
 	}
 
 	public static damage(amount: number) {
@@ -189,13 +141,6 @@ export class PlayerController extends CharacterController {
 
 		PlayerStore.character.health -= amount;
 
-		LogStore.logs = [
-			...LogStore.logs,
-			{
-				timestamp: new Date(),
-				message: `You took ${amount} damage.`,
-				type: "warning"
-			}
-		];
+		LogController.newLog(`You took ${amount} damage.`, "warning");
 	}
 }
