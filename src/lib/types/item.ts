@@ -4,6 +4,7 @@ type Item = {
     iconPath: string;
     quality: "common" | "uncommon" | "rare" | "epic" | "legendary";
     description: string;
+    unique: boolean;
 };
 
 type VendorItem = Item & {

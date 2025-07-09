@@ -70,4 +70,8 @@
 	.slot {
 		background-color: rgba(50, 50, 50, 0.9);
 	}
+
+	img {
+		cursor: pointer;
+	}
 </style>

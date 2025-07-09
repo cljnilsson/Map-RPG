@@ -14,7 +14,7 @@
 	{#if MapStore.currentMapState}
 		<div class="row mx-0">
 			<div class="col">
-				<MapHeader></MapHeader>
+				<MapHeader />
 			</div>
 		</div>
 		<div class="row mx-0">

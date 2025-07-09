@@ -1,5 +1,6 @@
 import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
 import type { QuestGiverNPC, VendorNPC } from "$lib/types/npc";
+import type { LootableQuestGameObject } from "./types/gameObject";
 
 const wo: WorldMap = {
 	name: "Westeros",
@@ -63,7 +64,38 @@ export const starkKeep: CustomMap = {
 	map: starkKeepO,
 	previous: winterfell,
 	contains: [],
-	objects: [{ name: "Mysterious scroll", img: "/scroll.png", position: { x: 530, y: 280 }, conditions: [], quests: ["TEST"] }],
+	objects: [
+		{
+			name: "Mysterious scroll",
+			img: "/scroll.png",
+			position: { x: 530, y: 280 },
+			conditions: [],
+			pickedUpItem: {
+				name: "Mysterious scroll",
+				iconClass: "",
+				iconPath: "/items/scroll.jpg",
+				quality: "common",
+				description: "A scroll with mysterious symbols.",
+				amount: 1,
+				unique: true
+			},
+			quests: [
+				{
+					id: "2",
+					title: "Test Quest2",
+					description: "This is a test quest description.",
+					progressGoals: ["Talk to the NPC", "Complete the task"],
+					progress: 0,
+					rewardResources: [{ name: "Gold", amount: 3, icon: "/icons/coin3.png" }],
+					rewardMisc: "",
+					rewardItems: [],
+					mainQuest: false,
+					status: "active",
+					dialogue: []
+				}
+			]
+		} as LootableQuestGameObject
+	],
 	npcs: [
 		{
 			name: "Guard Jenax",
@@ -77,6 +109,7 @@ export const starkKeep: CustomMap = {
 					iconPath: "/items/sword4.jpg",
 					quality: "rare",
 					description: "A common sword, sharp and reliable.",
+					unique: false,
 					price: {
 						gold: 0,
 						silver: 5,
@@ -89,6 +122,7 @@ export const starkKeep: CustomMap = {
 					iconPath: "/items/armor.png",
 					quality: "common",
 					description: "Heavy armor",
+					unique: false,
 					price: {
 						gold: 1,
 						silver: 0,
@@ -101,6 +135,7 @@ export const starkKeep: CustomMap = {
 					iconPath: "/items/helmet4.jpg",
 					quality: "common",
 					description: "A knight's helmet in good condition",
+					unique: false,
 					price: {
 						gold: 0,
 						silver: 4,

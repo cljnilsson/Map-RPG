@@ -12,10 +12,18 @@ export class PlayerController extends CharacterController {
 	private static inventorySize = 6 * 8; // 8 rows 6 columns
 
 	public static moneyToCopper(c: number, s: number, g: number): number {
+		if (c < 0 || s < 0 || g < 0) {
+			throw new Error("Money values cannot be negative");
+		}
+		
 		return c + s * 10 + g * 100;
 	}
 
 	public static copperToMoney(totalCopper: number): { gold: number; silver: number; copper: number } {
+		if (totalCopper < 0) {
+			throw new Error("Total copper value cannot be negative");
+		}
+
 		const gold = Math.floor(totalCopper / 100);
 		const silver = Math.floor((totalCopper % 100) / 10);
 		const copper = totalCopper % 10;
@@ -24,6 +32,10 @@ export class PlayerController extends CharacterController {
 	}
 
 	public static canAfford(c: number, s: number, g: number): boolean {
+		if (c < 0 || s < 0 || g < 0) {
+			throw new Error("Price values cannot be negative");
+		}
+
 		const playerCopper = PlayerController.moneyToCopper(
 			PlayerStore.character.money.copper,
 			PlayerStore.character.money.silver,
@@ -39,8 +51,20 @@ export class PlayerController extends CharacterController {
 
 	// Give specifically 1 of item
 	public static giveItem(i: Item): boolean {
+		if (i.unique && PlayerStore.inventory.some((item) => item.name === i.name)) {
+			LogStore.logs = [
+				...LogStore.logs,
+				{
+					timestamp: new Date(),
+					message: `You already have a unique item: ${i.name}.`,
+					type: "info"
+				}
+			];
+			return false;
+		}
+
 		if (PlayerStore.inventory.length < PlayerController.inventorySize) {
-			PlayerStore.inventory = [...PlayerStore.inventory, {...i, amount: 1}];
+			PlayerStore.inventory = [...PlayerStore.inventory, { ...i, amount: 1 }];
 			LogStore.logs = [
 				...LogStore.logs,
 				{
@@ -56,7 +80,7 @@ export class PlayerController extends CharacterController {
 			...LogStore.logs,
 			{
 				timestamp: new Date(),
-				message: "You need more inventory space",
+				message: "You need more inventory space.",
 				type: "info"
 			}
 		];

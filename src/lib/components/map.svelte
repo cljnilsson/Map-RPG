@@ -6,12 +6,15 @@
 	import MiniMenu from "$lib/features/miniMenu/miniMenu.svelte";
 	import { onMount } from "svelte";
 	import { isCityMap, isBuildingMap, isWorldMap } from "$lib/typeguards/map";
+	import {isLootableQuestGameObject, isQuestGameObject} from "$lib/typeguards/gameObject";
 	import type { NPC } from "$lib/types/npc";
 	import type { Quest } from "$lib/types/quest";
 	import type { GameObject } from "$lib/types/gameObject";
 	import { isNPCQuestGiver, isNPCVendor } from "$lib/typeguards/npc";
 	import VendorStore from "$lib/stores/vendor.svelte";
 	import HoverOutlineImage from "$lib/outlineTest.svelte";
+	import QuestController from "$lib/controller/quest.svelte";
+	import { PlayerController } from "$lib/controller/character.svelte";
 
 	let imgRef: HTMLImageElement;
 	// Probably not ideal for future proofing but it works for now
@@ -73,26 +76,22 @@
 	function clickedOnObject(o: GameObject) {
 		console.log("Object clicked", o);
 
-		const newQuest: Quest = {
-			id: "2",
-			title: "Test Quest2",
-			description: "This is a test quest description.",
-			progressGoals: ["Talk to the NPC", "Complete the task"],
-			progress: 0,
-			rewardResources: [{ name: "Gold", amount: 3, icon: "/icons/coin3.png" }],
-			rewardMisc: "",
-			rewardItems: [],
-			mainQuest: false,
-			status: "active",
-			dialogue: []
-		};
-
-		if (QuestStore.quests.filter((q) => q.id === newQuest.id).length > 0) {
-			console.warn("Quest with this ID already exists, not adding again.");
-			return;
+		if(isLootableQuestGameObject(o)) {
+			if(o.quests.length > 0) {
+				console.log("adding quest");
+				QuestController.addQuest(o.quests[0]);
+				if(isLootableQuestGameObject(o)) {
+					console.log("Adding item");
+					PlayerController.giveItem(o.pickedUpItem);
+				}
+			}
+		} else if(isQuestGameObject(o)) {
+			// Only support one quest for now.
+			if(o.quests.length > 0) {
+				console.log("adding quest");
+				QuestController.addQuest(o.quests[0]);
+			}
 		}
-
-		QuestStore.quests = [...QuestStore.quests, newQuest];
 	}
 </script>
 
@@ -108,7 +107,7 @@
 			alt="test"
 			draggable="false"
 		/>
-		<MapClickBoxes></MapClickBoxes>
+		<MapClickBoxes />
 		{#each MapStore.currentMapState.npcs as npc}
 			<div
 				role="button"
@@ -119,7 +118,7 @@
 				aria-label={"Image of " + npc.name}
 			>
 				<h5 class="text-light text-center shadow">{npc.name}</h5>
-				<HoverOutlineImage src={npc.img} alt={"Image of " + npc.name} width={200} />
+				<HoverOutlineImage src={npc.img} alt={"Image of " + npc.name} width={150} />
 			</div>
 		{/each}
 		{#each MapStore.currentMapState.objects as object}
@@ -131,7 +130,7 @@
 				on:keydown={(e) => e.key === "Enter" && clickedOnObject(object)}
 				aria-label={"Image of " + object.name}
 			>
-				<HoverOutlineImage src={object.img} alt={"Image of " + object.name} width={200} />
+				<HoverOutlineImage src={object.img} alt={"Image of " + object.name} width={100} />
 			</div>
 		{/each}
 	</div>
