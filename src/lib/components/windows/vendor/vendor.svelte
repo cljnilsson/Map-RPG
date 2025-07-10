@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Window from "$lib/features/window/window.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
-	import NotificationStore from "$lib/stores/notification.svelte";
+	import { NotificationController } from "$lib/controller/notification.svelte";
 	import type { VendorNPC } from "$lib/types/npc";
 	import { q2c } from "$lib/utils/itemQuality";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
@@ -16,7 +16,7 @@
 		if (PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
 			PlayerController.buyItem(item);
 		} else {
-			NotificationStore.queue = [...NotificationStore.queue, { message: "You cannot afford " + item.name, type: "error" }];
+			NotificationController.newNotification("You cannot afford " + item.name, "error" );
 		}
 	}
 </script>
