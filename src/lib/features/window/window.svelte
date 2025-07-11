@@ -21,9 +21,9 @@
 		toggleKey,
 		visibility = $bindable(true)
 	}: {
-		title: Snippet;
-		body: Snippet;
-		footer: Snippet;
+		title?: Snippet;
+		body?: Snippet;
+		footer?: Snippet;
 		width: number;
 		height: number;
 		x: number;
@@ -100,7 +100,9 @@
 		<Title>
 			<div class="row align-items-center">
 				<div class="col">
-					{@render title()}
+					{#if title}
+						{@render title()}
+					{/if}
 				</div>
 				<div class="col-auto text-end">
 					<button class="btn btn-sm btn-outline-secondary" aria-label="Lock/Unlock" onclick={() => (locked = !locked)}>
@@ -120,13 +122,17 @@
 	<!-- Manually animated height using tween -->
 	<div class="content-wrapper" style="height: {tweenHeight.current}px;">
 		<div class="inner d-flex flex-column h-100">
-			<Body>{@render body()}</Body>
-			<Footer>{@render footer()}</Footer>
+			{#if body}
+				<Body>{@render body()}</Body>
+			{/if}
+			{#if footer}
+				<Footer>{@render footer()}</Footer>
+			{/if}
 		</div>
 	</div>
 </div>
 
-<style>	
+<style>
 	.overlay-rect {
 		position: fixed;
 		border: 2px solid black;

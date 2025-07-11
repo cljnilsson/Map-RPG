@@ -14,3 +14,8 @@ Object.defineProperty(window, "matchMedia", {
 		dispatchEvent: vi.fn()
 	}))
 });
+
+// Fixes d-none bug
+const style = document.createElement("style");
+style.innerHTML = `.d-none { display: none !important; }`;
+document.head.appendChild(style);
