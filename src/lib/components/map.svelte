@@ -1,5 +1,4 @@
 <script lang="ts">
-	import WindowStore from "$lib/stores/windows.svelte";
 	import MapClickBoxes from "$lib/partials/mapClickboxes.svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import MiniMenu from "$lib/features/miniMenu/miniMenu.svelte";
