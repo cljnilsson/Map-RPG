@@ -1,0 +1,55 @@
+<script lang="ts">
+	let { currentPage = $bindable(), page, pages }: {currentPage: number, page: number, pages: string[] } = $props();
+
+	let pageType: "left" | "right" = $derived(page % 2 === 0 ? "left" : "right");
+</script>
+
+
+<div class="col book-frame py-3 px-4 d-flex flex-column justify-content-between">
+	<div class="row mb-auto">
+		<div class="col">
+			{#if pages[page]}
+				{@html pages[page]}
+			{/if}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col" class:text-end={pageType === "right"}>
+			{#if pageType === "left"}
+				<button class="btn px-0" disabled={page === 0} aria-label="An arrow pointing to the left" onclick={() => currentPage = page - 1}>
+					<i class="bi bi-arrow-bar-left"></i>
+				</button>
+			{:else}
+				<button class="btn px-0" disabled={page >= pages.length - 1} aria-label="An arrow pointing to the right" onclick={() => currentPage = page + 1}>
+					<i class="bi bi-arrow-bar-right"></i>
+				</button>
+			{/if}
+		</div>
+	</div>
+</div>
+
+
+<style lang="scss">
+	.book {
+		height: 700px;
+		width: 900px;
+		font-family: "IMFellEnglish";
+		src: url("IMFellEnglish-Regular.ttf") format("truetype");
+	}
+	.book-frame {
+		background: url("parchment.jpg") no-repeat;
+		background-size: 100% 700px;
+	}
+
+	button {
+		&:disabled {
+			border: none;
+		}
+	}
+
+	.bi {
+		font-size: 3rem;
+		background: none;
+		background-color: transparent;
+	}
+</style>
