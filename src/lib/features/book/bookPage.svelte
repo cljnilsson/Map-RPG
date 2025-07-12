@@ -1,15 +1,24 @@
 <script lang="ts">
-	let { currentPage = $bindable(), page, pages }: {currentPage: number, page: number, pages: string[] } = $props();
+	let { currentPage = $bindable(), page, pages, visible = $bindable() }: {currentPage: number, page: number, pages: string[], visible: boolean } = $props();
 
 	let pageType: "left" | "right" = $derived(page % 2 === 0 ? "left" : "right");
+
+	function close() {
+		visible = false;
+	}
 </script>
 
 
 <div class="col book-frame py-3 px-4 d-flex flex-column justify-content-between">
 	<div class="row mb-auto">
-		<div class="col">
+		<div class="col page-col">
 			{#if pages[page]}
 				{@html pages[page]}
+			{/if}
+			{#if pageType === "right"}
+				<button class="btn btn-sm text-light close-btn" aria-label="Close" onclick={close}>
+					<i class="bi bi-x"></i>
+				</button>
 			{/if}
 		</div>
 	</div>
@@ -30,6 +39,16 @@
 
 
 <style lang="scss">
+	.page-col {
+		position: relative;
+	}
+	.close-btn {
+		position: absolute;
+		top: -1.5rem;
+		right: -1rem;
+		z-index: 10;
+	}
+	
 	.book {
 		height: 700px;
 		width: 900px;

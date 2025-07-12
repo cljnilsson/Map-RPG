@@ -3,16 +3,19 @@
 
 	let { pages }: { pages: string[] } = $props();
 	let currentPage = $state(0);
+    let visible = $state(true);
 </script>
 
-<div class="row book my-3 mx-3 text-light">
-	{#if pages.length === 1}
-		<BookPage bind:currentPage page={currentPage} {pages} />
-	{:else}
-		<BookPage bind:currentPage page={currentPage} {pages} />
-		<BookPage bind:currentPage page={currentPage + 1} {pages} />
-	{/if}
-</div>
+{#if visible}
+    <div class="row book my-3 mx-3 text-light">
+        {#if pages.length === 1}
+            <BookPage bind:currentPage page={currentPage} {pages} bind:visible />
+        {:else}
+            <BookPage bind:currentPage page={currentPage} {pages} bind:visible/>
+            <BookPage bind:currentPage page={currentPage + 1} {pages} bind:visible />
+        {/if}
+    </div>
+{/if}
 
 <style lang="scss">
 	.book {
