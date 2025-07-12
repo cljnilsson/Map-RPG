@@ -18,6 +18,7 @@ describe("Inventory", () => {
 			iconClass: "",
 			iconPath: "/items/sword4.jpg",
 			quality: "rare",
+			unique: false,
 			description: "A common sword, sharp and reliable.",
 			price: {
 				gold: 0,

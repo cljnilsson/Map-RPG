@@ -1,4 +1,4 @@
-import { describe, it, expect, test } from "vitest";
+import { expect, test } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/svelte";
 
@@ -45,6 +45,10 @@ test("Window closes by keybind", async () => {
 	const buttons = screen.getAllByRole("button");
 
 	expect(buttons[0]).toBeVisible();
+
+	await user.keyboard("y");
+
+	expect(buttons[0].closest(".overlay-rect")).toBeVisible();
 
 	await user.keyboard("x");
 
