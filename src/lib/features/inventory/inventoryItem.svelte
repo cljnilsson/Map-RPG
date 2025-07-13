@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Item } from "$lib/types/item";
+	import { isUsableInventoryItem, isInventoryItem } from "$lib/typeguards/item";
 
 	let {
 		inventory = $bindable(),
@@ -16,6 +17,13 @@
 		selectedItem = item;
 	}
 
+	function onClick(e: MouseEvent) {
+		e.preventDefault();
+		if (isUsableInventoryItem(item)) {
+			item.onUse();
+		}
+	}
+
 	$effect(() => {
 		//$inspect(item?.name);
 		$inspect("x " + currentSearchTerm);
@@ -29,13 +37,14 @@
 	class:active={(item?.name === selectedItem?.name || (item?.name.toLowerCase().includes(currentSearchTerm?.toLowerCase()) && currentSearchTerm.length > 0) ) && item != null }
 	class:empty={!item}
 	onclick={onSelect}
+	oncontextmenu={onClick}
 	onkeydown={() => {
 		onSelect();
 	}}
 	aria-pressed={item === selectedItem}
 >
 	{#if item}
-		{#if item.amount > 1}
+		{#if isInventoryItem(item) && item.amount > 1}
 			<small>{item.amount}</small>
 		{/if}
 		{#if item.iconPath}

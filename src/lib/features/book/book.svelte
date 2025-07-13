@@ -1,20 +1,20 @@
 <script lang="ts">
 	import BookPage from "$lib/features/book/bookPage.svelte";
+	import BookStore from "$lib/stores/book.svelte";
 
-	let { pages }: { pages: string[] } = $props();
 	let currentPage = $state(0);
-    let visible = $state(true);
+	let visible = $state(true);
 </script>
 
-{#if visible}
-    <div class="row book my-3 mx-3 text-light">
-        {#if pages.length === 1}
-            <BookPage bind:currentPage page={currentPage} {pages} bind:visible />
-        {:else}
-            <BookPage bind:currentPage page={currentPage} {pages} bind:visible/>
-            <BookPage bind:currentPage page={currentPage + 1} {pages} bind:visible />
-        {/if}
-    </div>
+{#if visible && BookStore.currentBook && BookStore.currentBook.length > 0}
+	<div class="row book my-3 mx-3 text-light">
+		{#if BookStore.currentBook.length === 1}
+			<BookPage bind:currentPage page={currentPage} pages={BookStore.currentBook} bind:visible />
+		{:else}
+			<BookPage bind:currentPage page={currentPage} pages={BookStore.currentBook} bind:visible />
+			<BookPage bind:currentPage page={currentPage + 1} pages={BookStore.currentBook} bind:visible />
+		{/if}
+	</div>
 {/if}
 
 <style lang="scss">

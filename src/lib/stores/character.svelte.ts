@@ -1,5 +1,6 @@
 import type { Character } from "$lib/types/character";
-import type { InventoryItem } from "$lib/types/item";
+import type { InventoryItem, UsableInventoryItem } from "$lib/types/item";
+import { createBookItem } from "$lib/controller/factories/usableItem";
 
 const Store = $state<{
 	character: Character;
@@ -33,7 +34,32 @@ const Store = $state<{
 			amount: 3,
 			description: "An unknown black stone with a strange glow.",
 			quality: "epic"
-		}
+		},
+		{
+			name: "Lesser Health Potion",
+			iconPath: "/items/potion5.png",
+			iconClass: "",
+			unique: false,
+			amount: 3,
+			description: "Restores 10 HP on use.",
+			quality: "common",
+			conditions: () => true,
+			onUse: () => {
+				console.log("You used a Lesser Health Potion.");
+			}
+		} as UsableInventoryItem,
+		createBookItem(
+			{
+				name: "Old Book",
+				iconPath: "/items/book7.jpg",
+				iconClass: "",
+				unique: true,
+				description: "Old but intact.",
+				quality: "rare"
+			},
+			1,
+			["<p>Test</p>"]
+		)
 	],
 	character: {
 		stats: { str: 5, int: 8, vit: 10, char: 7, dex: 5 },
