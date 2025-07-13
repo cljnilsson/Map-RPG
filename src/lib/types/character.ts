@@ -6,6 +6,8 @@ type Character = {
 	race: string;
 	age: number;
 	gender: string;
+	xp: number;
+	level: number;
 	conditions: [];
 	money: {
 		gold: number;
