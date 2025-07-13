@@ -10,14 +10,6 @@ export function getXPForLevel(level: number): number {
 	return Math.floor(xp / 4);
 }
 
-export function xpToLevel(currentXP: number): number {
-	for (let level = 1; level <= 99; level++) {
-		if (getXPForLevel(level + 1) > currentXP) {
-			return level;
-		}
-	}
-	return 99; // max level
-}
 
 export function xpToNextLevel(currentLevel: number, currentXP: number): number {
 	const xpForNextLevel = getXPForLevel(currentLevel + 1);

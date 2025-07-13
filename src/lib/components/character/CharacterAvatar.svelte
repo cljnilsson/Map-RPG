@@ -1,5 +1,7 @@
 <script lang="ts">
 	import CharacterStore from "$lib/stores/character.svelte";
+	import { xpToNextLevel } from "$lib/utils/xp";
+
 	const {
 		height = 200,
 		width = 200,
@@ -25,16 +27,30 @@
 <div
 	class="progress mt-2"
 	role="progressbar"
-	aria-label="Success example"
+	aria-label="Character health bar"
 	aria-valuenow={CharacterStore.character.health}
 	aria-valuemin="0"
 	aria-valuemax="100"
 >
-	<div
-		class="progress-bar bg-success"
-		style="width: {(CharacterStore.character.health / CharacterStore.character.maxHealth) *
-			100}%"
-	>
+	<div class="progress-bar bg-success" style="width: {(CharacterStore.character.health / CharacterStore.character.maxHealth) * 100}%">
 		{CharacterStore.character.health} / {CharacterStore.character.maxHealth}
 	</div>
 </div>
+<div
+	class="progress mt-2"
+	role="progressbar"
+	aria-label="Character XP bar"
+	aria-valuenow={CharacterStore.character.health}
+	aria-valuemin="0"
+	aria-valuemax="100"
+>
+	<div class="progress-bar bg-purple" style="width: {(CharacterStore.character.xp / xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)) * 100}%">
+		{CharacterStore.character.xp} / {xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)}
+	</div>
+</div>
+
+<style>
+	.bg-purple {
+		background-color: rgb(173, 51, 255);
+	}
+</style>

@@ -19,4 +19,9 @@ type InventoryItem = Item & {
     amount: number;
 }
 
-export type { Item, VendorItem, InventoryItem };
+type UsableInventoryItem = InventoryItem & {
+    onUse: () => void;
+    conditions: () => boolean;
+}
+
+export type { Item, VendorItem, InventoryItem, UsableInventoryItem };
