@@ -47,7 +47,11 @@ const Store = $state<{
 			conditions: () => true,
 			onUse: () => {
 				console.log("You used a Lesser Health Potion.");
+				if(CharacterStore.character.health >= CharacterStore.character.maxHealth) {
+					return false;
+				}
 				CharacterStore.character.health += 10;
+				return true;
 			},
 			consumable: true
 		} as UsableInventoryItem,

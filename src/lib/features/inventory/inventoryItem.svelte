@@ -7,7 +7,7 @@
 		selectedItem = $bindable(),
 		item = $bindable(),
 		currentSearchTerm
-	}: { inventory: InventoryItem[]; selectedItem: InventoryItem | null; item: InventoryItem, currentSearchTerm: string } = $props();
+	}: { inventory: InventoryItem[]; selectedItem: InventoryItem | null; item: InventoryItem; currentSearchTerm: string } = $props();
 
 	function onSelect() {
 		if (selectedItem === item) {
@@ -21,15 +21,17 @@
 		e.preventDefault();
 		if (isUsableInventoryItem(item)) {
 			console.log("Trying to activiate item: ", item.name, " amount: ", item.amount);
-			item.onUse();
+			const usedSuccessfully = item.onUse();
 
 			// Ideally want to automate this later
-			if(item.consumable) {
-				item.amount -= 1;
-				if(item.amount <= 0) {
-					inventory = inventory.filter(i => i.name !== item.name);
-					if(selectedItem?.name === item.name) {
-						selectedItem = null; // Deselect if the used item was selected
+			if (usedSuccessfully) {
+				if (item.consumable) {
+					item.amount -= 1;
+					if (item.amount <= 0) {
+						inventory = inventory.filter((i) => i.name !== item.name);
+						if (selectedItem?.name === item.name) {
+							selectedItem = null;
+						}
 					}
 				}
 			}
@@ -45,7 +47,9 @@
 	role="button"
 	tabindex="0"
 	class="inv text-center"
-	class:active={(item?.name === selectedItem?.name || (item?.name.toLowerCase().includes(currentSearchTerm?.toLowerCase()) && currentSearchTerm.length > 0) ) && item != null }
+	class:active={(item?.name === selectedItem?.name ||
+		(item?.name.toLowerCase().includes(currentSearchTerm?.toLowerCase()) && currentSearchTerm.length > 0)) &&
+		item != null}
 	class:empty={!item}
 	onclick={onSelect}
 	oncontextmenu={onClick}

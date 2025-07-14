@@ -1,5 +1,6 @@
 import type { Item, UsableInventoryItem } from "$lib/types/item";
 import BookStore from "$lib/stores/book.svelte";
+import { LogController } from "$lib/controller/logs.svelte";
 
 export function createBookItem(item: Item, amount: number, pages: string[]): UsableInventoryItem {
 	if (pages.length === 0) {
@@ -23,9 +24,12 @@ export function createBookItem(item: Item, amount: number, pages: string[]): Usa
 				BookStore.visible = true;
 				BookStore.currentPage = 0;
 				BookStore.currentBook = pages;
-			} else {
-				console.warn("You cannot use this item right now.");
+				return true;
 			}
+
+			console.warn("You cannot use this item right now.");
+			LogController.newLog("You cannot use this item right now.", "warning");
+			return false;
 		}
 	};
 }

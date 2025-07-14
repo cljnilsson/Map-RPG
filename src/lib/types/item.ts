@@ -20,7 +20,7 @@ type InventoryItem = Item & {
 }
 
 type UsableInventoryItem = InventoryItem & {
-    onUse: () => void;
+    onUse: () => boolean;
     conditions: () => boolean;
     consumable: boolean;
 }
