@@ -9,13 +9,13 @@
 </script>
 
 
-<div class="col book-frame py-3 px-4 d-flex flex-column justify-content-between">
+<div class="col-6 book-frame py-3 px-4 d-flex flex-column justify-content-between">
 	<div class="row mb-auto">
 		<div class="col page-col">
 			{#if pages[page]}
 				{@html pages[page]}
 			{/if}
-			{#if pageType === "right"}
+			{#if pageType === "right" || pages.length === 1}
 				<button class="btn btn-sm text-light close-btn" aria-label="Close" onclick={close}>
 					<i class="bi bi-x"></i>
 				</button>
@@ -42,6 +42,7 @@
 	.page-col {
 		position: relative;
 	}
+
 	.close-btn {
 		position: absolute;
 		top: -1.5rem;
@@ -49,12 +50,6 @@
 		z-index: 10;
 	}
 	
-	.book {
-		height: 700px;
-		width: 900px;
-		font-family: "IMFellEnglish";
-		src: url("IMFellEnglish-Regular.ttf") format("truetype");
-	}
 	.book-frame {
 		background: url("parchment.jpg") no-repeat;
 		background-size: 100% 700px;

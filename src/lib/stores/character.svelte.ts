@@ -48,18 +48,14 @@ const Store = $state<{
 				console.log("You used a Lesser Health Potion.");
 			}
 		} as UsableInventoryItem,
-		createBookItem(
-			{
-				name: "Old Book",
-				iconPath: "/items/book7.jpg",
-				iconClass: "",
-				unique: true,
-				description: "Old but intact.",
-				quality: "rare"
-			},
-			1,
-			["<p>Test</p>"]
-		)
+		createBookItem({
+			name: "Old Book",
+			iconPath: "/items/book7.jpg",
+			iconClass: "",
+			unique: true,
+			description: "Old but intact.",
+			quality: "rare"
+		}, 1, ["<p>Test</p>", "<p>Test2</p>"])
 	],
 	character: {
 		stats: { str: 5, int: 8, vit: 10, char: 7, dex: 5 },

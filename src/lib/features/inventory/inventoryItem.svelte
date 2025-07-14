@@ -20,6 +20,7 @@
 	function onClick(e: MouseEvent) {
 		e.preventDefault();
 		if (isUsableInventoryItem(item)) {
+			console.log("Trying to activiate item: ", item.name);
 			item.onUse();
 		}
 	}

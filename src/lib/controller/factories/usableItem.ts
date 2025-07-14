@@ -19,6 +19,8 @@ export function createBookItem(item: Item, amount: number, pages: string[]): Usa
 		onUse: () => {
 			if (validate()) {
 				console.log(pages);
+				BookStore.visible = true;
+				BookStore.currentPage = 0;
 				BookStore.currentBook = pages;
 			} else {
 				console.warn("You cannot use this item right now.");

@@ -6,6 +6,7 @@
 	import PlayerWindows from "$lib/partials/playerwindows.svelte";
 	import VendorWindow from "$lib/components/windows/vendor/vendor.svelte";
 	import VendorStore from "$lib/stores/vendor.svelte";
+	import Book from "$lib/features/book/book.svelte";
 
 	console.log(MapStore.currentMapState);
 </script>
@@ -26,6 +27,7 @@
 			{#if VendorStore.currentVendor}
 				<VendorWindow vendor={VendorStore.currentVendor} />
 			{/if}
+			<Book />
 		</div>
 	{:else}
 		<p>No map chosen</p>
