@@ -1,14 +1,14 @@
 <script lang="ts">
 	import CharacterStore from "$lib/stores/character.svelte";
-	import InventoryItem from "$lib/features/inventory/inventoryItem.svelte";
-	import type { Item } from "$lib/types/item";
+	import InventoryItemComponent from "$lib/features/inventory/inventoryItem.svelte";
+	import type { InventoryItem } from "$lib/types/item";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
 	import {q2c} from "$lib/utils/itemQuality";
 
 	const rows = 8;
 	const slots = 6 * rows;
 
-	let selectedItem: Item | null = $state(null);
+	let selectedItem: InventoryItem | null = $state(null);
 	let searchString: string = $state("");
 
 	$effect(() => {
@@ -32,17 +32,17 @@
 						<p>{inventory[index].description}</p>
 					{/snippet}
 
-					<InventoryItem
+					<InventoryItemComponent
 						bind:inventory={CharacterStore.inventory}
-						item={inventory[index]}
+						bind:item={inventory[index]}
 						currentSearchTerm={searchString}
 						bind:selectedItem
 					/>
 				</Tooltip>
 			{:else}
-				<InventoryItem
+				<InventoryItemComponent
 					bind:inventory={CharacterStore.inventory}
-					item={inventory[index]}
+					bind:item={inventory[index]}
 					currentSearchTerm={searchString}
 					bind:selectedItem
 				/>

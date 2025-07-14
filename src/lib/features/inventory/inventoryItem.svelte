@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { Item } from "$lib/types/item";
+	import type { InventoryItem } from "$lib/types/item";
 	import { isUsableInventoryItem, isInventoryItem } from "$lib/typeguards/item";
 
 	let {
 		inventory = $bindable(),
 		selectedItem = $bindable(),
-		item,
+		item = $bindable(),
 		currentSearchTerm
-	}: { inventory: Item[]; selectedItem: Item | null; item: Item, currentSearchTerm: string } = $props();
+	}: { inventory: InventoryItem[]; selectedItem: InventoryItem | null; item: InventoryItem, currentSearchTerm: string } = $props();
 
 	function onSelect() {
 		if (selectedItem === item) {
@@ -20,13 +20,23 @@
 	function onClick(e: MouseEvent) {
 		e.preventDefault();
 		if (isUsableInventoryItem(item)) {
-			console.log("Trying to activiate item: ", item.name);
+			console.log("Trying to activiate item: ", item.name, " amount: ", item.amount);
 			item.onUse();
+
+			// Ideally want to automate this later
+			if(item.consumable) {
+				item.amount -= 1;
+				if(item.amount <= 0) {
+					inventory = inventory.filter(i => i.name !== item.name);
+					if(selectedItem?.name === item.name) {
+						selectedItem = null; // Deselect if the used item was selected
+					}
+				}
+			}
 		}
 	}
 
 	$effect(() => {
-		//$inspect(item?.name);
 		$inspect("x " + currentSearchTerm);
 	});
 </script>

@@ -1,6 +1,7 @@
 import type { Character } from "$lib/types/character";
 import type { InventoryItem, UsableInventoryItem } from "$lib/types/item";
 import { createBookItem } from "$lib/controller/factories/usableItem";
+import CharacterStore from "$lib/stores/character.svelte";
 
 const Store = $state<{
 	character: Character;
@@ -46,7 +47,9 @@ const Store = $state<{
 			conditions: () => true,
 			onUse: () => {
 				console.log("You used a Lesser Health Potion.");
-			}
+				CharacterStore.character.health += 10;
+			},
+			consumable: true
 		} as UsableInventoryItem,
 		createBookItem({
 			name: "Old Book",

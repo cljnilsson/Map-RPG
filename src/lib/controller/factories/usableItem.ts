@@ -15,6 +15,7 @@ export function createBookItem(item: Item, amount: number, pages: string[]): Usa
 	return {
 		...item,
 		amount,
+		consumable: false,
 		conditions: validate,
 		onUse: () => {
 			if (validate()) {

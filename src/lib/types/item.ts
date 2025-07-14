@@ -22,6 +22,7 @@ type InventoryItem = Item & {
 type UsableInventoryItem = InventoryItem & {
     onUse: () => void;
     conditions: () => boolean;
+    consumable: boolean;
 }
 
 export type { Item, VendorItem, InventoryItem, UsableInventoryItem };
