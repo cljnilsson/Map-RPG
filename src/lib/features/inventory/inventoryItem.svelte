@@ -39,7 +39,7 @@
 	}
 
 	$effect(() => {
-		$inspect("x " + currentSearchTerm);
+		//$inspect("x " + currentSearchTerm);
 	});
 </script>
 
