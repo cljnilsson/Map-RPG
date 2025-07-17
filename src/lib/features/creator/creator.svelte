@@ -25,7 +25,7 @@
 
 	let total = $derived(str + int + vitality + charisma + dex);
 	let totalLeft = $derived(totalMax - total);
-	let view: "character" | "class" | "faith" = $state("character");
+	let view: "character" | "class" | "faith" | "image" = $state("character");
 
 	function isLoggedIn() {
 		return true;
@@ -73,7 +73,12 @@
 <div class="row justify-content-center px-3 mt-5 position-relative">
 	<div class="col-xl-4 col-md-6 wrapper">
 		<div class="c-header">
-			<h3 class="text-center">Create your character!</h3>
+			{#if name.length === 0}
+				<h3 class="text-center">Create your character!</h3>
+			{:else}
+				<h3 class="text-center">{name}</h3>
+				<h5 class="text-center">The {selectedClass?.name.toLocaleLowerCase()}</h5>
+			{/if}
 		</div>
 		<div class="c-body">
 			<div class="row justify-content-center my-5">
@@ -81,13 +86,18 @@
 					<!-- Side Menu (absolute) -->
 					<div class="char-menu">
 						<div>
-							<button class="btn" class:active={view === "character"} onclick={() => (view = "character")}><h5>Character</h5></button>
+							<button class="btn" class:active={view === "character"} onclick={() => (view = "character")}
+								><h5>Character</h5></button
+							>
 						</div>
 						<div>
 							<button class="btn" class:active={view === "class"} onclick={() => (view = "class")}><h5>Class</h5></button>
 						</div>
 						<div>
 							<button class="btn" class:active={view === "faith"} onclick={() => (view = "faith")}><h5>Faith</h5></button>
+						</div>
+						<div>
+							<button class="btn" class:active={view === "image"} onclick={() => (view = "image")}><h5>Image</h5></button>
 						</div>
 					</div>
 
@@ -96,12 +106,17 @@
 						{#if view === "character"}
 							<div class="row">
 								<div class="col">
-									<div class="c-avatar">
-										<ImageUploader />
+									<div class="c-avatar text-center">
+										<img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" alt="avatar"  width="200px" height="200px"/>
 									</div>
 								</div>
 							</div>
-							<div class="row">
+							<div class="row mt-5">
+								<div class="col text-center">
+									Suggested stats: {selectedClass?.suggestedStats.join(", ")}
+								</div>
+							</div>
+							<div class="row mb-5">
 								<div class="col text-center">
 									Points left: {totalLeft}
 								</div>
@@ -117,24 +132,24 @@
 							<div class="row">
 								<div class="col text-center">
 									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[0]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[1]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[2]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[0]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[1]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[2]} />
 									</div>
 									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[3]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[4]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[5]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[3]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[4]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[5]} />
 									</div>
 									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[6]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[7]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[8]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[6]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[7]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[8]} />
 									</div>
 									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[9]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[10]}/>
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[11]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[9]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[10]} />
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[11]} />
 									</div>
 								</div>
 							</div>
@@ -150,19 +165,62 @@
 									<h5>Faith selection coming soon!</h5>
 								</div>
 							</div>
+						{:else if view === "image"}
+							<div class="row mb-3">
+								<div class="col">
+									<div class="c-avatar">
+										<ImageUploader />
+									</div>
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-3 text-center">
+									<img src="/characters/male1.jpg" width="100px" height="100px" />
+								</div>
+								<div class="col-3 text-center">
+									<img src="/characters/male2.jpg" width="100px" height="100px" />
+								</div>
+								<div class="col-3 text-center">
+									<img src="/characters/male3.jpg" width="100px" height="100px" />
+								</div>
+							</div>
+							<div class="row justify-content-center my-3">
+								<div class="col-3 text-center">
+									<img src="/characters/girl1.jpg" width="100px" height="100px" />
+								</div>
+								<div class="col-3 text-center">
+									<img src="/characters/girl2.jpg" width="100px" height="100px" />
+								</div>
+								<div class="col-3 text-center">
+									<img src="/characters/girl3.jpg" width="100px" height="100px" />
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-3 text-center">
+									<img src="/characters/girl4.jpg" width="100px" height="100px" />
+								</div>
+								<div class="col-3 text-center">
+									<img src="/characters/girl5.jpg" width="100px" height="100px" />
+								</div>
+								<div class="col-3 text-center">
+									<img src="/characters/girl6.jpg" width="100px" height="100px" />
+								</div>
+							</div>
 						{/if}
 					</div>
 				</div>
 			</div>
 			<div class="c-footer">
-				<div class="row justify-content-center my-5">
-					<div class="col-xl-4 col-md-10">
-						<input class="form-control" placeholder="Name" type="text" bind:value={name} />
+				{#if view === "character"}
+					<div class="row justify-content-center my-5">
+						<div class="col-xl-4 col-md-10">
+							<input class="form-control" placeholder="Name" type="text" bind:value={name} />
+						</div>
+						<div class="col-xl-2 col-md-10">
+							<input class="form-control" placeholder="Age" type="number" bind:value={age} />
+						</div>
 					</div>
-					<div class="col-xl-2 col-md-10">
-						<input class="form-control" placeholder="Age" type="number" bind:value={age} />
-					</div>
-				</div>
+				{/if}
 			</div>
 		</div>
 		<div class="text-center">
@@ -184,7 +242,7 @@
 		position: absolute;
 		text-align: left;
 		.active {
-			color: rgb(88, 167, 250)
+			color: rgb(88, 167, 250);
 		}
 		.btn {
 			&:hover {

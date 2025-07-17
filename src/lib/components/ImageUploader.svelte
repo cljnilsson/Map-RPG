@@ -1,23 +1,23 @@
 <script lang="ts">
-	let avatar: string = '';
+	let avatar: string = "";
 	let fileinput: HTMLInputElement;
 
 	async function uploadImage(file: File): Promise<{ path: string; filename: string } | null> {
 		const formData = new FormData();
-		formData.append('image', file);
+		formData.append("image", file);
 
-		const res = await fetch('/api/upload', {
-			method: 'POST',
+		const res = await fetch("/api/upload", {
+			method: "POST",
 			body: formData
 		});
 
 		if (res.ok) {
 			const data = await res.json();
-			const parts = data.path.split('/');
+			const parts = data.path.split("/");
 			const filename = parts[parts.length - 1];
 			return { path: data.path, filename };
 		} else {
-			console.error('Image upload failed');
+			console.error("Image upload failed");
 			return null;
 		}
 	}
@@ -40,7 +40,7 @@
 		if (uploaded) {
 			avatar = uploaded.path;
 			let filename = uploaded.filename;
-			console.log('Stored filename:', filename);
+			console.log("Stored filename:", filename);
 		}
 	};
 </script>
@@ -50,23 +50,11 @@
 		<img class="avatar" src={avatar} alt="profile pic" />
 	{:else}
 		<h5>Upload Image</h5>
-		<img
-			class="avatar"
-			src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
-			alt=""
-		/>
+		<img class="avatar" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" alt="" />
 	{/if}
 
-	<button class="btn btn-primary" type="button" on:click={() => fileinput.click()}>
-		Choose Image
-	</button>
-	<input
-		style="display: none"
-		type="file"
-		accept="image/*"
-		bind:this={fileinput}
-		on:change={onFileSelected}
-	/>
+	<button class="btn btn-primary" type="button" on:click={() => fileinput.click()}> Choose Image </button>
+	<input style="display: none" type="file" accept="image/*" bind:this={fileinput} on:change={onFileSelected} />
 </div>
 
 <style>
