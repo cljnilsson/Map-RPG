@@ -2,6 +2,7 @@
 	import { postRequest } from "$lib/utils/request";
 	import ImageUploader from "$lib/components/ImageUploader.svelte";
 	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
+	import CreatorClass from "$lib/features/creator/creatorClassIcon.svelte";
 	import type { Character } from "$lib/server/db/schema";
 
 	const defaultStat = 6; // change back to 5 after testing
@@ -112,49 +113,31 @@
 							<div class="row">
 								<div class="col text-center">
 									<div class="row justify-content-center">
-										<div class="col-3">
-											<img src="/classes/barbarian.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/fighter.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/rogue.png" width="100px" height="100px" />
-										</div>
+										<CreatorClass path={"/classes/barbarian.png"}/>
+										<CreatorClass path={"/classes/fighter.png"}/>
+										<CreatorClass path={"/classes/rogue.png"}/>
 									</div>
 									<div class="row justify-content-center">
-										<div class="col-3">
-											<img src="/classes/druid.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/bard.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/ranger.png" width="100px" height="100px" />
-										</div>
+										<CreatorClass path={"/classes/druid.png"}/>
+										<CreatorClass path={"/classes/bard.png"}/>
+										<CreatorClass path={"/classes/ranger.png"}/>
 									</div>
 									<div class="row justify-content-center">
-										<div class="col-3">
-											<img src="/classes/monk.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/paladin.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/cleric.png" width="100px" height="100px" />
-										</div>
+										<CreatorClass path={"/classes/monk.png"}/>
+										<CreatorClass path={"/classes/paladin.png"}/>
+										<CreatorClass path={"/classes/cleric.png"}/>
 									</div>
 									<div class="row justify-content-center">
-										<div class="col-3">
-											<img src="/classes/warlock.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/wizard.png" width="100px" height="100px" />
-										</div>
-										<div class="col-3">
-											<img src="/classes/sorc.png" width="100px" height="100px" />
-										</div>
+										<CreatorClass path={"/classes/warlock.png"}/>
+										<CreatorClass path={"/classes/wizard.png"}/>
+										<CreatorClass path={"/classes/sorc.png"}/>
 									</div>
+								</div>
+							</div>
+							<div class="row my-5">
+								<div class="col">
+									<h5>Amazing class</h5>
+									<p>Lorem ipsum!</p>
 								</div>
 							</div>
 						{:else if view === "faith"}

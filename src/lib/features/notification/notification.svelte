@@ -68,5 +68,6 @@
 		color: white;
 		text-shadow: 0 0 5px black;
 		padding: 10px;
+		pointer-events: none; /* Prevents blocking mouse events */
 	}
 </style>
