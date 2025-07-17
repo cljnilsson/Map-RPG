@@ -1,13 +1,14 @@
 <script lang="ts">
-	let { path, alt, onSelectCallback }: { path: string; alt: string; onSelectCallback?: (chosenClass: string) => void } = $props();
-	let tempSelected: boolean = $state(false);
+	import type {Class} from "$lib/types/class";
+
+	let { gameClass, selectedClass = $bindable()}: { gameClass: Class; selectedClass: Class | undefined } = $props();
 
 	function onClick() {
-		if(onSelectCallback) {
-			onSelectCallback("Temp text for now");
+		if(selectedClass?.name === gameClass.name) {
+			selectedClass = undefined;
+		} else {
+			selectedClass = gameClass;
 		}
-
-		tempSelected = !tempSelected;
 	}
 
 	// Todo, select class  randomly
@@ -17,7 +18,7 @@
 </script>
 
 <div class="col-3">
-	<img class:selected={tempSelected} role="button" src={path} width="100px" height="100px" {alt} onclick={onClick} />
+	<img class:selected={gameClass.name === selectedClass?.name} role="button" src={gameClass.icon} alt={"iron representing the " + gameClass.name + " class"} width="100px" height="100px" onclick={onClick} />
 </div>
 
 <style>

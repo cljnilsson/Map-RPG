@@ -4,8 +4,12 @@
 	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 	import CreatorClass from "$lib/features/creator/creatorClassIcon.svelte";
 	import type { Character } from "$lib/server/db/schema";
+	import ClassStore from "$lib/stores/classes.svelte";
+	import type { Class } from "$lib/types/class";
 
 	const defaultStat = 6; // change back to 5 after testing
+
+	let selectedClass: Class | undefined = $state(ClassStore.classes[0]);
 
 	let name: string = $state("");
 	let age: number = $state(18);
@@ -77,13 +81,13 @@
 					<!-- Side Menu (absolute) -->
 					<div class="char-menu">
 						<div>
-							<button class="btn" onclick={() => (view = "character")}><h5>Character</h5></button>
+							<button class="btn" class:active={view === "character"} onclick={() => (view = "character")}><h5>Character</h5></button>
 						</div>
 						<div>
-							<button class="btn" onclick={() => (view = "class")}><h5>Class</h5></button>
+							<button class="btn" class:active={view === "class"} onclick={() => (view = "class")}><h5>Class</h5></button>
 						</div>
 						<div>
-							<button class="btn" onclick={() => (view = "faith")}><h5>Faith</h5></button>
+							<button class="btn" class:active={view === "faith"} onclick={() => (view = "faith")}><h5>Faith</h5></button>
 						</div>
 					</div>
 
@@ -113,31 +117,31 @@
 							<div class="row">
 								<div class="col text-center">
 									<div class="row justify-content-center">
-										<CreatorClass path={"/classes/barbarian.png"}/>
-										<CreatorClass path={"/classes/fighter.png"}/>
-										<CreatorClass path={"/classes/rogue.png"}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[0]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[1]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[2]}/>
 									</div>
 									<div class="row justify-content-center">
-										<CreatorClass path={"/classes/druid.png"}/>
-										<CreatorClass path={"/classes/bard.png"}/>
-										<CreatorClass path={"/classes/ranger.png"}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[3]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[4]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[5]}/>
 									</div>
 									<div class="row justify-content-center">
-										<CreatorClass path={"/classes/monk.png"}/>
-										<CreatorClass path={"/classes/paladin.png"}/>
-										<CreatorClass path={"/classes/cleric.png"}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[6]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[7]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[8]}/>
 									</div>
 									<div class="row justify-content-center">
-										<CreatorClass path={"/classes/warlock.png"}/>
-										<CreatorClass path={"/classes/wizard.png"}/>
-										<CreatorClass path={"/classes/sorc.png"}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[9]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[10]}/>
+										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[11]}/>
 									</div>
 								</div>
 							</div>
 							<div class="row my-5">
 								<div class="col">
-									<h5>Amazing class</h5>
-									<p>Lorem ipsum!</p>
+									<h5>{selectedClass?.name}</h5>
+									<p>{selectedClass?.description}</p>
 								</div>
 							</div>
 						{:else if view === "faith"}
@@ -169,7 +173,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.wrapper {
 		background: rgba(235, 235, 235, 0.6);
 		border-radius: 10px;
@@ -179,5 +183,13 @@
 	.char-menu {
 		position: absolute;
 		text-align: left;
+		.active {
+			color: rgb(88, 167, 250)
+		}
+		.btn {
+			&:hover {
+				color: rgb(88, 167, 250);
+			}
+		}
 	}
 </style>
