@@ -20,6 +20,7 @@
 
 	let total = $derived(str + int + vitality + charisma + dex);
 	let totalLeft = $derived(totalMax - total);
+	let view: "character" | "class" | "faith" = $state("character");
 
 	function isLoggedIn() {
 		return true;
@@ -64,41 +65,114 @@
 	}
 </script>
 
-<div class="wrapper mt-5">
-	<div class="px-3">
+<div class="row justify-content-center px-3 mt-5 position-relative">
+	<div class="col-xl-4 col-md-6 wrapper">
 		<div class="c-header">
 			<h3 class="text-center">Create your character!</h3>
 		</div>
 		<div class="c-body">
 			<div class="row justify-content-center my-5">
-				<div class="col-10 col-xl-6">
-					<div class="row">
-						<div class="col">
-							<div class="c-avatar">
-								<ImageUploader />
+				<div class="col-12 position-relative">
+					<!-- Side Menu (absolute) -->
+					<div class="char-menu">
+						<div>
+							<button class="btn" onclick={() => (view = "character")}><h5>Character</h5></button>
+						</div>
+						<div>
+							<button class="btn" onclick={() => (view = "class")}><h5>Class</h5></button>
+						</div>
+						<div>
+							<button class="btn" onclick={() => (view = "faith")}><h5>Faith</h5></button>
+						</div>
+					</div>
+
+					<!-- Main stats/content -->
+					<div class="main-content offset">
+						{#if view === "character"}
+							<div class="row">
+								<div class="col">
+									<div class="c-avatar">
+										<ImageUploader />
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col text-center">
-							Points left: {totalLeft}
-						</div>
-					</div>
-					<div class="c-stats">
-						<CreatorStat name="Str" {min} {max} {total} {totalMax} bind:stat={str} />
-						<CreatorStat name="Dex" {min} {max} {total} {totalMax} bind:stat={dex} />
-						<CreatorStat name="Int" {min} {max} {total} {totalMax} bind:stat={int} />
-						<CreatorStat name="Vit" {min} {max} {total} {totalMax} bind:stat={vitality} />
-						<CreatorStat name="Charisma" {min} {max} {total} {totalMax} bind:stat={charisma} />
+							<div class="row">
+								<div class="col text-center">
+									Points left: {totalLeft}
+								</div>
+							</div>
+							<div class="c-stats">
+								<CreatorStat name="Str" {min} {max} {total} {totalMax} bind:stat={str} />
+								<CreatorStat name="Dex" {min} {max} {total} {totalMax} bind:stat={dex} />
+								<CreatorStat name="Int" {min} {max} {total} {totalMax} bind:stat={int} />
+								<CreatorStat name="Vit" {min} {max} {total} {totalMax} bind:stat={vitality} />
+								<CreatorStat name="Charisma" {min} {max} {total} {totalMax} bind:stat={charisma} />
+							</div>
+						{:else if view === "class"}
+							<div class="row">
+								<div class="col text-center">
+									<div class="row justify-content-center">
+										<div class="col-3">
+											<img src="/classes/barbarian.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/fighter.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/rogue.png" width="100px" height="100px" />
+										</div>
+									</div>
+									<div class="row justify-content-center">
+										<div class="col-3">
+											<img src="/classes/druid.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/bard.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/ranger.png" width="100px" height="100px" />
+										</div>
+									</div>
+									<div class="row justify-content-center">
+										<div class="col-3">
+											<img src="/classes/monk.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/paladin.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/cleric.png" width="100px" height="100px" />
+										</div>
+									</div>
+									<div class="row justify-content-center">
+										<div class="col-3">
+											<img src="/classes/warlock.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/wizard.png" width="100px" height="100px" />
+										</div>
+										<div class="col-3">
+											<img src="/classes/sorc.png" width="100px" height="100px" />
+										</div>
+									</div>
+								</div>
+							</div>
+						{:else if view === "faith"}
+							<div class="row">
+								<div class="col text-center">
+									<h5>Faith selection coming soon!</h5>
+								</div>
+							</div>
+						{/if}
 					</div>
 				</div>
 			</div>
 			<div class="c-footer">
 				<div class="row justify-content-center my-5">
-					<div class="col-xl-2 col-md-8">
+					<div class="col-xl-4 col-md-10">
 						<input class="form-control" placeholder="Name" type="text" bind:value={name} />
 					</div>
-					<div class="col-xl-1 col-md-8">
+					<div class="col-xl-2 col-md-10">
 						<input class="form-control" placeholder="Age" type="number" bind:value={age} />
 					</div>
 				</div>
@@ -118,5 +192,9 @@
 		border-radius: 10px;
 		padding-top: 0.75rem;
 		padding-bottom: 0.75rem;
+	}
+	.char-menu {
+		position: absolute;
+		text-align: left;
 	}
 </style>
