@@ -23,20 +23,22 @@
 		max: number = 20,
 		totalMax: number = 30;
 
+	let avatar: string = $state("");
+
 	let total = $derived(str + int + vitality + charisma + dex);
 	let totalLeft = $derived(totalMax - total);
 	let view: "character" | "class" | "faith" | "image" = $state("character");
 
 	const avatarList = [
-		"/characters/male1.jpg",
-		"/characters/male2.jpg",
-		"/characters/male3.jpg",
-		"/characters/girl1.jpg",
-		"/characters/girl2.jpg",
-		"/characters/girl3.jpg",
-		"/characters/girl4.jpg",
-		"/characters/girl5.jpg",
-		"/characters/girl6.jpg"
+		"/characters/male1.png",
+		"/characters/male2.png",
+		"/characters/male3.png",
+		"/characters/girl1.png",
+		"/characters/girl2.png",
+		"/characters/girl3.png",
+		"/characters/girl4.png",
+		"/characters/girl5.png",
+		"/characters/girl6.png"
 	];
 
 	function isLoggedIn() {
@@ -98,18 +100,18 @@
 					<!-- Side Menu (absolute) -->
 					<div class="char-menu">
 						<div>
-							<button class="btn" class:active={view === "character"} onclick={() => (view = "character")}
+							<button class="btn" class:activeSelection={view === "character"} onclick={() => (view = "character")}
 								><h5>Character</h5></button
 							>
 						</div>
 						<div>
-							<button class="btn" class:active={view === "class"} onclick={() => (view = "class")}><h5>Class</h5></button>
+							<button class="btn" class:activeSelection={view === "class"} onclick={() => (view = "class")}><h5>Class</h5></button>
 						</div>
 						<div>
-							<button class="btn" class:active={view === "faith"} onclick={() => (view = "faith")}><h5>Faith</h5></button>
+							<button class="btn" class:activeSelection={view === "faith"} onclick={() => (view = "faith")}><h5>Faith</h5></button>
 						</div>
 						<div>
-							<button class="btn" class:active={view === "image"} onclick={() => (view = "image")}><h5>Image</h5></button>
+							<button class="btn" class:activeSelection={view === "image"} onclick={() => (view = "image")}><h5>Image</h5></button>
 						</div>
 					</div>
 
@@ -120,7 +122,7 @@
 								<div class="col">
 									<div class="c-avatar text-center">
 										<img
-											src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
+											src={avatar.length > 0 ? avatar : "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"}
 											alt="avatar"
 											width="200px"
 											height="200px"
@@ -130,7 +132,9 @@
 							</div>
 							<div class="row mt-5">
 								<div class="col text-center">
-									Suggested stats: {selectedClass?.suggestedStats.join(", ")}
+									Suggested stats: {#each selectedClass?.suggestedStats ?? [] as stat, index}
+										<strong>{stat}</strong>{index < (selectedClass?.suggestedStats?.length ?? 0) - 1 ? ", " : ""}
+									{/each}
 								</div>
 							</div>
 							<div class="row mb-5">
@@ -186,15 +190,15 @@
 							<div class="row mb-3">
 								<div class="col">
 									<div class="c-avatar">
-										<ImageUploader />
+										<ImageUploader bind:avatar />
 									</div>
 								</div>
 							</div>
 							{#each Array.from({ length: Math.ceil(avatarList.length / 3) }) as _, i}
 								<div class="row justify-content-center">
-									{#each avatarList.slice(i * 3, i * 3 + 3) as avatar}
+									{#each avatarList.slice(i * 3, i * 3 + 3) as tavatar}
 										<div class="col-3 text-center my-2">
-											<img src={avatar} alt="Character avatar" width="100px" height="100px" />
+											<img src={tavatar} alt="Character avatar" width="100px" height="100px" onclick={() => avatar = tavatar} />
 										</div>
 									{/each}
 								</div>
@@ -234,8 +238,9 @@
 	.char-menu {
 		position: absolute;
 		text-align: left;
-		.active {
+		.activeSelection {
 			color: rgb(88, 167, 250);
+			text-decoration: underline;
 		}
 		.btn {
 			&:hover {

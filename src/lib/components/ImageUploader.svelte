@@ -1,5 +1,5 @@
 <script lang="ts">
-	let avatar: string = "";
+	let { avatar = $bindable() }: { avatar: string } = $props();
 	let fileinput: HTMLInputElement;
 
 	async function uploadImage(file: File): Promise<{ path: string; filename: string } | null> {
@@ -22,7 +22,7 @@
 		}
 	}
 
-	const onFileSelected = async (e: Event) => {
+	async function onFileSelected(e: Event) {
 		let files = (e.target as HTMLInputElement).files;
 		if (!files || !files[0]) return;
 
@@ -42,7 +42,7 @@
 			let filename = uploaded.filename;
 			console.log("Stored filename:", filename);
 		}
-	};
+	}
 </script>
 
 <div id="app">
@@ -53,8 +53,8 @@
 		<img class="avatar" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" alt="" />
 	{/if}
 
-	<button class="btn btn-primary" type="button" on:click={() => fileinput.click()}> Choose Image </button>
-	<input style="display: none" type="file" accept="image/*" bind:this={fileinput} on:change={onFileSelected} />
+	<button class="btn btn-primary" type="button" onclick={() => fileinput.click()}> Choose Image </button>
+	<input style="display: none" type="file" accept="image/*" bind:this={fileinput} onchange={onFileSelected} />
 </div>
 
 <style>
