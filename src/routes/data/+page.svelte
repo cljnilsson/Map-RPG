@@ -8,6 +8,7 @@
 	let { data }: { data: PageServerData } = $props();
 
 	let characters: Character[] = $state([]);
+	let flags: { name: string; value: boolean }[] = $state([]);
 
 	type CharacterWithStats = Character & {
 		stats: { name: string; value: number }[];
@@ -25,18 +26,34 @@
 	}
 
 	onMount(async () => {
-		const chars = await getRequest<{ success: boolean; characters: CharacterWithStats[] }>(
-			"/api/characters"
-		);
+		const chars = await getRequest<{ success: boolean; characters: CharacterWithStats[] }>("/api/characters");
 
 		console.log(chars);
 		characters = [...chars.characters];
+
+		const allFlags = await getRequest<{ success: boolean; flags: { name: string; value: boolean }[] }>("/api/flag");
+		console.log(allFlags);
+		if (allFlags?.success) {
+			flags = allFlags.flags;
+		}
 	});
 </script>
 
 <div class="wrapper mt-3 mx-5 px-3 py-3">
 	<h1>Hi, {data.user.username}!</h1>
 	<p>Your user ID is {data.user.id}.</p>
+	<div class="my-5">
+		<h2>Flags</h2>
+		{#if flags.length > 0}
+			<ul>
+				{#each flags as flag}
+					<li>{flag.name}: {flag.value ? "true" : "false"}</li>
+				{/each}
+			</ul>
+		{:else}
+			<p>No flags found.</p>
+		{/if}
+	</div>
 	<div class="my-5">
 		<h2>Characters</h2>
 		{#if characters.length > 0}

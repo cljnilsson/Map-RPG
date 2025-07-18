@@ -31,6 +31,18 @@ async function insertFlag(userId: number, name: string, value: boolean) {
 	});
 }
 
+async function fetchUserFlags(userId: number): Promise<{name: string, value: number}[]> {
+	const resp = await db
+		.select({
+			name: flags.name,
+			value: flags.value
+		})
+		.from(flags)
+		.where(eq(flags.userId, userId));
+		
+	return resp;
+}
+
 export const POST: RequestHandler = async ({ request, locals }) => {
 	if (!locals.user) {
 		return new Response("Unauthorized", { status: 401 });
@@ -53,4 +65,16 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 
 	return json({ success: true });
+};
+
+export const GET: RequestHandler = async ({ request, locals }) => {
+	if (!locals.user) {
+		return new Response("Unauthorized", { status: 401 });
+	}
+
+	const userId = locals.user.id;
+
+	const existing = await fetchUserFlags(userId);
+
+	return json({ success: true, flags: existing });
 };
