@@ -27,6 +27,18 @@
 	let totalLeft = $derived(totalMax - total);
 	let view: "character" | "class" | "faith" | "image" = $state("character");
 
+	const avatarList = [
+		"/characters/male1.jpg",
+		"/characters/male2.jpg",
+		"/characters/male3.jpg",
+		"/characters/girl1.jpg",
+		"/characters/girl2.jpg",
+		"/characters/girl3.jpg",
+		"/characters/girl4.jpg",
+		"/characters/girl5.jpg",
+		"/characters/girl6.jpg"
+	];
+
 	function isLoggedIn() {
 		return true;
 	}
@@ -107,7 +119,12 @@
 							<div class="row">
 								<div class="col">
 									<div class="c-avatar text-center">
-										<img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" alt="avatar"  width="200px" height="200px"/>
+										<img
+											src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
+											alt="avatar"
+											width="200px"
+											height="200px"
+										/>
 									</div>
 								</div>
 							</div>
@@ -173,39 +190,15 @@
 									</div>
 								</div>
 							</div>
-							<div class="row justify-content-center">
-								<div class="col-3 text-center">
-									<img src="/characters/male1.jpg" width="100px" height="100px" />
+							{#each Array.from({ length: Math.ceil(avatarList.length / 3) }) as _, i}
+								<div class="row justify-content-center">
+									{#each avatarList.slice(i * 3, i * 3 + 3) as avatar}
+										<div class="col-3 text-center my-2">
+											<img src={avatar} alt="Character avatar" width="100px" height="100px" />
+										</div>
+									{/each}
 								</div>
-								<div class="col-3 text-center">
-									<img src="/characters/male2.jpg" width="100px" height="100px" />
-								</div>
-								<div class="col-3 text-center">
-									<img src="/characters/male3.jpg" width="100px" height="100px" />
-								</div>
-							</div>
-							<div class="row justify-content-center my-3">
-								<div class="col-3 text-center">
-									<img src="/characters/girl1.jpg" width="100px" height="100px" />
-								</div>
-								<div class="col-3 text-center">
-									<img src="/characters/girl2.jpg" width="100px" height="100px" />
-								</div>
-								<div class="col-3 text-center">
-									<img src="/characters/girl3.jpg" width="100px" height="100px" />
-								</div>
-							</div>
-							<div class="row justify-content-center">
-								<div class="col-3 text-center">
-									<img src="/characters/girl4.jpg" width="100px" height="100px" />
-								</div>
-								<div class="col-3 text-center">
-									<img src="/characters/girl5.jpg" width="100px" height="100px" />
-								</div>
-								<div class="col-3 text-center">
-									<img src="/characters/girl6.jpg" width="100px" height="100px" />
-								</div>
-							</div>
+							{/each}
 						{/if}
 					</div>
 				</div>
