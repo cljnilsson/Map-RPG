@@ -105,13 +105,19 @@
 							>
 						</div>
 						<div>
-							<button class="btn" class:activeSelection={view === "class"} onclick={() => (view = "class")}><h5>Class</h5></button>
+							<button class="btn" class:activeSelection={view === "class"} onclick={() => (view = "class")}
+								><h5>Class</h5></button
+							>
 						</div>
 						<div>
-							<button class="btn" class:activeSelection={view === "faith"} onclick={() => (view = "faith")}><h5>Faith</h5></button>
+							<button class="btn" class:activeSelection={view === "faith"} onclick={() => (view = "faith")}
+								><h5>Faith</h5></button
+							>
 						</div>
 						<div>
-							<button class="btn" class:activeSelection={view === "image"} onclick={() => (view = "image")}><h5>Image</h5></button>
+							<button class="btn" class:activeSelection={view === "image"} onclick={() => (view = "image")}
+								><h5>Image</h5></button
+							>
 						</div>
 					</div>
 
@@ -122,7 +128,9 @@
 								<div class="col">
 									<div class="c-avatar text-center">
 										<img
-											src={avatar.length > 0 ? avatar : "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"}
+											src={avatar.length > 0
+												? avatar
+												: "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"}
 											alt="avatar"
 											width="200px"
 											height="200px"
@@ -198,7 +206,13 @@
 								<div class="row justify-content-center">
 									{#each avatarList.slice(i * 3, i * 3 + 3) as tavatar}
 										<div class="col-3 text-center my-2">
-											<img src={tavatar} alt="Character avatar" width="100px" height="100px" onclick={() => avatar = tavatar} />
+											<img
+												src={tavatar}
+												alt="Character avatar"
+												width="100px"
+												height="100px"
+												onclick={() => (avatar = tavatar)}
+											/>
 										</div>
 									{/each}
 								</div>
