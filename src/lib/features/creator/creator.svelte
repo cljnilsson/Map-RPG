@@ -3,13 +3,17 @@
 	import ImageUploader from "$lib/components/ImageUploader.svelte";
 	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 	import CreatorClass from "$lib/features/creator/creatorClassIcon.svelte";
+	import CreatorFaith from "$lib/features/creator/creatorFaithIcon.svelte";
 	import type { Character } from "$lib/server/db/schema";
 	import ClassStore from "$lib/stores/classes.svelte";
+	import FaithStore from "$lib/stores/faith.svelte";
 	import type { Class } from "$lib/types/class";
+	import type { Faith } from "$lib/types/faith";
 
 	const defaultStat = 6; // change back to 5 after testing
 
 	let selectedClass: Class | undefined = $state(ClassStore.classes[0]);
+	let selectedFaith: Faith | undefined = $state(FaithStore.faith[0]);
 
 	let name: string = $state("");
 	let age: number = $state(18);
@@ -191,7 +195,22 @@
 						{:else if view === "faith"}
 							<div class="row">
 								<div class="col text-center">
-									<h5>Faith selection coming soon!</h5>
+									<div class="row justify-content-center">
+										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[0]} />
+										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[1]} />
+										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[2]} />
+									</div>
+									<div class="row py-2 justify-content-center">
+										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[3]} />
+										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[4]} />
+										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[5]} />
+									</div>
+								</div>
+							</div>
+							<div class="row my-5">
+								<div class="col">
+									<h5>{selectedFaith?.name}</h5>
+									<p>{selectedFaith?.description}</p>
 								</div>
 							</div>
 						{:else if view === "image"}
