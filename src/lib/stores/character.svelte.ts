@@ -1,7 +1,6 @@
 import type { Character } from "$lib/types/character";
 import type { InventoryItem, UsableInventoryItem } from "$lib/types/item";
-import { createBookItem } from "$lib/controller/factories/usableItem";
-import CharacterStore from "$lib/stores/character.svelte";
+import { itemRegistry } from "$lib/data/items";
 
 const Store = $state<{
 	character: Character;
@@ -36,33 +35,8 @@ const Store = $state<{
 			description: "An unknown black stone with a strange glow.",
 			quality: "epic"
 		},
-		{
-			name: "Lesser Health Potion",
-			iconPath: "/items/potion5.png",
-			iconClass: "",
-			unique: false,
-			amount: 3,
-			description: "Restores 10 HP on use.",
-			quality: "common",
-			conditions: () => true,
-			onUse: () => {
-				console.log("You used a Lesser Health Potion.");
-				if(CharacterStore.character.health >= CharacterStore.character.maxHealth) {
-					return false;
-				}
-				CharacterStore.character.health += 10;
-				return true;
-			},
-			consumable: true
-		} as UsableInventoryItem,
-		createBookItem({
-			name: "Old Book",
-			iconPath: "/items/book7.jpg",
-			iconClass: "",
-			unique: true,
-			description: "Old but intact.",
-			quality: "rare"
-		}, 1, ["<p>Test</p>", "<p>Test2</p>"])
+		{...itemRegistry["health-potion"](), amount: 3},
+		{...itemRegistry["old-book"](), amount: 1}
 	],
 	character: {
 		stats: { str: 5, int: 8, vit: 10, char: 7, dex: 5 },

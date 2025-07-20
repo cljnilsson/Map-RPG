@@ -67,7 +67,7 @@ function isValidInput(
 	dex: unknown,
 	int: unknown,
 	vit: unknown,
-	charisma: unknown,
+	char: unknown,
 	exp: unknown,
 	health: unknown,
 	maxHealth: unknown,
@@ -80,7 +80,7 @@ function isValidInput(
 		typeof dex === "number" &&
 		typeof int === "number" &&
 		typeof vit === "number" &&
-		typeof charisma === "number" &&
+		typeof char === "number" &&
 		typeof exp === "number" &&
 		typeof health === "number" &&
 		typeof maxHealth === "number" &&
@@ -96,7 +96,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const { oldName, name, stats, exp, health, maxHealth, level } = await request.json();
 	console.log(name, stats, exp, health, maxHealth, level);
 
-	if (!isValidInput(oldName, name, stats.str, stats.dex, stats.int, stats.vit, stats.charisma, exp, health, maxHealth, level)) {
+	if (!isValidInput(oldName, name, stats.str, stats.dex, stats.int, stats.vit, stats.char, exp, health, maxHealth, level)) {
 		return new Response("Invalid input", { status: 400 });
 	}
 
@@ -110,7 +110,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		stats.dex,
 		stats.int,
 		stats.vit,
-		stats.charisma,
+		stats.char,
 		exp,
 		health,
 		maxHealth,

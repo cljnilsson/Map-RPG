@@ -1,8 +1,8 @@
-import type { Item, UsableInventoryItem } from "$lib/types/item";
+import type { Item, UsableItem } from "$lib/types/item";
 import BookStore from "$lib/stores/book.svelte";
 import { LogController } from "$lib/controller/logs.svelte";
 
-export function createBookItem(item: Item, amount: number, pages: string[]): UsableInventoryItem {
+export function createBookItem(item: Item, pages: string[]): UsableItem {
 	if (pages.length === 0) {
 		console.warn("This book has no pages.");
 	} else if (pages.some((page) => page.length === 0)) {
@@ -15,7 +15,6 @@ export function createBookItem(item: Item, amount: number, pages: string[]): Usa
 
 	return {
 		...item,
-		amount,
 		consumable: false,
 		conditions: validate,
 		onUse: () => {

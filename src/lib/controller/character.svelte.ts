@@ -48,6 +48,49 @@ export class PlayerController extends CharacterController {
 		});
 	}
 
+	public static get maxHealth(): number {
+		return PlayerStore.character.maxHealth;
+	}
+
+	public static get level(): number {
+		return PlayerStore.character.level;
+	}
+
+	public static get xp(): number {
+		return PlayerStore.character.xp;
+	}
+
+	public static set xp(v: number) {
+		if(v < 0) {
+			console.warn("Xp cannot be set to a negative value. Setting to 0 instead.");
+			PlayerStore.character.health = 0;
+			return;
+		}
+
+		PlayerStore.character.xp = v;
+
+		// save in future
+		// also handle leveups
+	}
+
+	public static get conditions(): string[] {
+		return PlayerStore.character.conditions;
+	}
+
+	public static get money(): { gold: number; silver: number; copper: number } {
+		return PlayerStore.character.money;
+	}
+	public static set money(m: { gold: number; silver: number; copper: number }) {
+		if (m.copper < 0 || m.silver < 0 || m.gold < 0) {
+			throw new Error("Money values cannot be negative");
+		}
+
+		PlayerStore.character.money = m;
+
+		
+		// Current save does not support money nor does the database itself if I recall
+	}
+
 	// ---------------
 	// FUNCTIONS
 	// ---------------

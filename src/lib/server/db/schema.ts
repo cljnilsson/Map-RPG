@@ -38,6 +38,9 @@ export const characters = sqliteTable("characters", {
 	exp: integer("exp").notNull().default(0),
 	health: integer("health").notNull().default(100),
 	maxHealth: integer("maxHealth").notNull().default(100),
+	gold: integer("gold").notNull().default(0),
+	silver: integer("gold").notNull().default(0),
+	copper: integer("gold").notNull().default(0),
 	class: text("class").notNull().default("Fighter"),
 	faith: text("faith"), // Should be set to not null in the future when Faith is implemented
 	race: text("race").notNull().default("Human"),

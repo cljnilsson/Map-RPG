@@ -25,4 +25,10 @@ type UsableInventoryItem = InventoryItem & {
     consumable: boolean;
 }
 
-export type { Item, VendorItem, InventoryItem, UsableInventoryItem };
+type UsableItem = Item & {
+    onUse: () => boolean;
+    conditions: () => boolean;
+    consumable: boolean;
+}
+
+export type { Item, VendorItem, InventoryItem, UsableInventoryItem, UsableItem };
