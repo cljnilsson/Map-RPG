@@ -25,6 +25,28 @@
 		});
 	}
 
+	async function onSave() {
+		await fetch("/api/characters/save", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				oldName: "Alice",
+				name: "Test Character",
+				health: 25,
+				maxHealth: 100,
+				exp: 10,
+				level: 1,
+				stats: {
+					str: 5,
+					dex: 8,
+					int: 9,
+					vit: 10,
+					charisma: 5
+				}
+			})
+		});
+	}
+
 	onMount(async () => {
 		const chars = await getRequest<{ success: boolean; characters: CharacterWithStats[] }>("/api/characters");
 
@@ -66,6 +88,7 @@
 			<p>No characters found.</p>
 		{/if}
 	</div>
+	<button onclick={onSave}>Save current data</button>
 	<button onclick={testToggle}>toggle tutorial flag</button>
 	<form method="post" action="/api/logout" use:enhance>
 		<button>Sign out</button>

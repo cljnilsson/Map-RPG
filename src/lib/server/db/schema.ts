@@ -33,8 +33,14 @@ export const characters = sqliteTable("characters", {
 		.notNull()
 		.references(() => user.id),
 	name: text("name").notNull(),
-	age: integer("age").notNull(),
-	race: text("race").notNull(),
+	age: integer("age").notNull().default(18),
+	level: integer("level").notNull().default(1),
+	exp: integer("exp").notNull().default(0),
+	health: integer("health").notNull().default(100),
+	maxHealth: integer("maxHealth").notNull().default(100),
+	class: text("class").notNull().default("Fighter"),
+	faith: text("faith"), // Should be set to not null in the future when Faith is implemented
+	race: text("race").notNull().default("Human"),
 	gender: text("gender").notNull()
 });
 
@@ -64,7 +70,7 @@ export const stats = sqliteTable(
 // RELATIONS
 
 export const userRelations = relations(user, ({ many }) => ({
-	characters: many(characters),
+	characters: many(characters)
 }));
 
 export const characterRelations = relations(characters, ({ one, many }) => ({

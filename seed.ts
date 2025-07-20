@@ -21,7 +21,7 @@ async function seed() {
 	console.log("✅ Seeded stat table");
 
 	await db.insert(characters).values([
-		{ name: "Alice", age: 22, gender: "Female", race: "Human", userId: 2 } // Hardcoded userId for now
+		{ name: "Alice", age: 22, gender: "Female", race: "Human", class: "Wizard", level: 1, health: 10, maxHealth: 100, exp: 5, userId: 2 } // Hardcoded userId for now
 	]);
 
 	console.log("✅ Seeded character table");
