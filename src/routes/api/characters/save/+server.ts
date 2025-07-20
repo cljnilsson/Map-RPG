@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
-import { characters } from "$lib/server/db/schema";
+import { characters, stats, stat } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 
 async function updateCharacter(
@@ -17,13 +17,47 @@ async function updateCharacter(
 	health: number,
 	maxHealth: number,
 	level: number
-) {
+): Promise<boolean> {
 	await db
 		.update(characters)
 		.set({ name, exp, health, maxHealth, level })
 		.where(and(eq(characters.userId, userId), eq(characters.name, oldName)));
 
-	// Also update the stats seperately?
+	const character = await db.query.characters.findFirst({
+		where: and(eq(characters.userId, userId), eq(characters.name, name)),
+		columns: { id: true }
+	});
+
+	if (!character) {
+		throw new Error("Character not found after update");
+	}
+
+	async function getStatId(name: string) {
+		const statEntry = await db.query.stat.findFirst({
+			where: eq(stat.name, name),
+			columns: { id: true }
+		});
+		if (!statEntry) throw new Error(`Stat ${name} does not exist in database`);
+		return statEntry.id;
+	}
+
+	const [strId, dexId, intId, vitId, chaId] = await Promise.all([
+		getStatId("Strength"),
+		getStatId("Dexterity"),
+		getStatId("Intelligence"),
+		getStatId("Vitality"),
+		getStatId("Charisma")
+	]);
+
+	await Promise.all([
+		db.update(stats).set({ value: str }).where(and(eq(stats.characterId, character.id), eq(stats.statId, strId))),
+		db.update(stats).set({ value: dex }).where(and(eq(stats.characterId, character.id), eq(stats.statId, dexId))),
+		db.update(stats).set({ value: int }).where(and(eq(stats.characterId, character.id), eq(stats.statId, intId))),
+		db.update(stats).set({ value: vit }).where(and(eq(stats.characterId, character.id), eq(stats.statId, vitId))),
+		db.update(stats).set({ value: charisma }).where(and(eq(stats.characterId, character.id), eq(stats.statId, chaId))),
+	]);
+
+	return true;
 }
 
 function isValidInput(
@@ -68,7 +102,20 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
 	const userId = locals.user.id;
 
-	await updateCharacter(userId, oldName, name, stats.str, stats.dex, stats.int, stats.vit, stats.charisma, exp, health, maxHealth, level);
+	const success = await updateCharacter(
+		userId,
+		oldName,
+		name,
+		stats.str,
+		stats.dex,
+		stats.int,
+		stats.vit,
+		stats.charisma,
+		exp,
+		health,
+		maxHealth,
+		level
+	);
 
-	return json({ success: true });
+	return json({ success: success });
 };

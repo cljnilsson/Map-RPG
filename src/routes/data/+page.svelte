@@ -30,8 +30,8 @@
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
-				oldName: "Alice",
-				name: "Test Character",
+				oldName: "Test Character",
+				name: "Alice",
 				health: 25,
 				maxHealth: 100,
 				exp: 10,
