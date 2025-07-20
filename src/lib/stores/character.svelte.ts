@@ -1,6 +1,6 @@
 import type { Character } from "$lib/types/character";
 import type { InventoryItem, UsableInventoryItem } from "$lib/types/item";
-import { itemRegistry } from "$lib/data/items";
+import { getItem } from "$lib/data/items";
 
 const Store = $state<{
 	character: Character;
@@ -35,8 +35,8 @@ const Store = $state<{
 			description: "An unknown black stone with a strange glow.",
 			quality: "epic"
 		},
-		{...itemRegistry["health-potion"](), amount: 3},
-		{...itemRegistry["old-book"](), amount: 1}
+		{...getItem("health-potion"), amount: 3},
+		{...getItem("old-book"), amount: 1}
 	],
 	character: {
 		stats: { str: 5, int: 8, vit: 10, char: 7, dex: 5 },
