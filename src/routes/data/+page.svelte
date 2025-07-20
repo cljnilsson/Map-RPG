@@ -26,6 +26,7 @@
 	}
 
 	async function onSave() {
+		// oldName needs to match which is annoying for testing
 		await fetch("/api/characters/save", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },

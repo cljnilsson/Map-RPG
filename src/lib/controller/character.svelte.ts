@@ -9,7 +9,48 @@ export class CharacterController {}
 export class NPCController extends CharacterController {}
 
 export class PlayerController extends CharacterController {
+	// ---------------
+	// Variables
+	// ---------------
 	private static inventorySize = 6 * 8; // 8 rows 6 columns
+
+	// ---------------
+	// GETTERS / SETTERS
+	// ---------------
+
+	public static get health(): number {
+		return PlayerStore.character.health;
+	}
+
+	public static set health(v: number) {
+		if(v < 0) {
+			console.warn("Health cannot be set to a negative value. Setting to 0 instead.");
+			PlayerStore.character.health = 0;
+			return;
+		}
+
+		PlayerStore.character.health = v;
+
+		const {name, health, maxHealth, xp, level, stats} = PlayerStore.character;
+
+		fetch("/api/characters/save", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				oldName: name,
+				name: name,
+				health: health,
+				maxHealth: maxHealth,
+				exp: xp,
+				level: level,
+				stats: stats
+			})
+		});
+	}
+
+	// ---------------
+	// FUNCTIONS
+	// ---------------
 
 	public static moneyToCopper(c: number, s: number, g: number): number {
 		if (c < 0 || s < 0 || g < 0) {
