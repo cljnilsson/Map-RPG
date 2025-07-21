@@ -8,7 +8,9 @@ const Store = $state<{
 	location: string;
 }>({
 	inventory: [
+		// Throwaway testing items
 		{
+			id: "test-item-1",
 			name: "Box of Eggs",
 			iconPath: "",
 			iconClass: "bi bi-box",
@@ -18,6 +20,7 @@ const Store = $state<{
 			quality: "rare"
 		},
 		{
+			id: "test-item-1",
 			name: "Blacksmith's Hammer",
 			iconPath: "",
 			iconClass: "bi bi-hammer",
@@ -27,6 +30,7 @@ const Store = $state<{
 			quality: "common"
 		},
 		{
+			id: "test-item-2",
 			name: "Magical Stone",
 			iconPath: "/items/stone3.jpg",
 			iconClass: "",
@@ -35,6 +39,7 @@ const Store = $state<{
 			description: "An unknown black stone with a strange glow.",
 			quality: "epic"
 		},
+		// 'real' items
 		{...getItem("health-potion"), amount: 3},
 		{...getItem("old-book"), amount: 1}
 	],

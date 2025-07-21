@@ -1,6 +1,9 @@
 import { sqliteTable, text, integer, unique } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 
+/*
+	AUTH
+*/
 export const user = sqliteTable("user", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	age: integer("age"),
@@ -17,6 +20,10 @@ export const session = sqliteTable("session", {
 	expiresAt: integer("expires_at").notNull()
 	//expiresAt: integer("expires_at", { mode: "timestamp" }).notNull()
 });
+
+/*
+	GAME
+*/
 
 export const flags = sqliteTable("flags", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
@@ -39,12 +46,21 @@ export const characters = sqliteTable("characters", {
 	health: integer("health").notNull().default(100),
 	maxHealth: integer("maxHealth").notNull().default(100),
 	gold: integer("gold").notNull().default(0),
-	silver: integer("gold").notNull().default(0),
-	copper: integer("gold").notNull().default(0),
+	silver: integer("silver").notNull().default(0),
+	copper: integer("copper").notNull().default(0),
 	class: text("class").notNull().default("Fighter"),
 	faith: text("faith"), // Should be set to not null in the future when Faith is implemented
 	race: text("race").notNull().default("Human"),
 	gender: text("gender").notNull()
+});
+
+export const items = sqliteTable("items", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	characterId: integer("character_id")
+		.notNull()
+		.references(() => characters.id),
+	itemKey: text("itemKey").notNull(),
+	amount: integer("amount").notNull().default(1),
 });
 
 export const stat = sqliteTable("stat", {
@@ -78,7 +94,8 @@ export const userRelations = relations(user, ({ many }) => ({
 
 export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),
-	user: one(user)
+	user: one(user),
+	inventory: many(items)
 }));
 
 export const statsRelations = relations(stats, ({ one }) => ({
@@ -87,6 +104,10 @@ export const statsRelations = relations(stats, ({ one }) => ({
 		fields: [stats.statId],
 		references: [stat.id]
 	})
+}));
+
+export const itemRelations = relations(items, ({ one }) => ({
+	character: one(characters, { fields: [items.characterId], references: [characters.id] }),
 }));
 
 // EXPORTS

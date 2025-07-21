@@ -1,4 +1,5 @@
 type Item = {
+    id: string; // Unique identifier for the item
     name: string;
     iconClass: string;
     iconPath: string;

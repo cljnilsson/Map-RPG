@@ -3,6 +3,7 @@ import { createBookItem } from "$lib/controller/factories/usableItem";
 
 const lesserHealthPotion: UsableItem = createBookItem(
 	{
+		id: "old-book",
 		name: "Old Book",
 		iconPath: "/items/book7.jpg",
 		iconClass: "",

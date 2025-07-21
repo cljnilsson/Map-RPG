@@ -12,7 +12,8 @@ async function getCharacters(userId: number) {
 				with: {
 					stat: true
 				}
-			}
+			},
+			inventory: true,
 		}
 	});
 }

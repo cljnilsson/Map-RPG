@@ -1,8 +1,32 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
-import { characters, stats, stat } from "$lib/server/db/schema";
+import { characters, stats, stat, items } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
+
+type CharacterStats = {
+	str: number;
+	dex: number;
+	int: number;
+	vit: number;
+	char: number;
+};
+
+type InventoryItem = {
+	name: string;
+	amount: number;
+};
+
+type UpdateCharacterPayload = {
+	oldName: string;
+	name: string;
+	stats: CharacterStats;
+	exp: number;
+	health: number;
+	maxHealth: number;
+	level: number;
+	inventory: InventoryItem[];
+};
 
 async function updateCharacter(
 	userId: number,
@@ -16,7 +40,8 @@ async function updateCharacter(
 	exp: number,
 	health: number,
 	maxHealth: number,
-	level: number
+	level: number,
+	inventory: { name: string; amount: number }[]
 ): Promise<boolean> {
 	await db
 		.update(characters)
@@ -50,42 +75,66 @@ async function updateCharacter(
 	]);
 
 	await Promise.all([
-		db.update(stats).set({ value: str }).where(and(eq(stats.characterId, character.id), eq(stats.statId, strId))),
-		db.update(stats).set({ value: dex }).where(and(eq(stats.characterId, character.id), eq(stats.statId, dexId))),
-		db.update(stats).set({ value: int }).where(and(eq(stats.characterId, character.id), eq(stats.statId, intId))),
-		db.update(stats).set({ value: vit }).where(and(eq(stats.characterId, character.id), eq(stats.statId, vitId))),
-		db.update(stats).set({ value: charisma }).where(and(eq(stats.characterId, character.id), eq(stats.statId, chaId))),
+		db
+			.update(stats)
+			.set({ value: str })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, strId))),
+		db
+			.update(stats)
+			.set({ value: dex })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, dexId))),
+		db
+			.update(stats)
+			.set({ value: int })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, intId))),
+		db
+			.update(stats)
+			.set({ value: vit })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, vitId))),
+		db
+			.update(stats)
+			.set({ value: charisma })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, chaId)))
+	]);
+
+	await db.delete(items).where(eq(items.characterId, character.id));
+	await db.insert(items).values([
+		...inventory.map((item) => ({
+			characterId: character.id,
+			itemKey: item.name,
+			amount: item.amount || 1
+		}))
 	]);
 
 	return true;
 }
 
-function isValidInput(
-	oldName: unknown,
-	name: unknown,
-	str: unknown,
-	dex: unknown,
-	int: unknown,
-	vit: unknown,
-	char: unknown,
-	exp: unknown,
-	health: unknown,
-	maxHealth: unknown,
-	level: unknown
-): boolean {
-	return (
-		typeof oldName === "string" &&
-		typeof name === "string" &&
-		typeof str === "number" &&
-		typeof dex === "number" &&
-		typeof int === "number" &&
-		typeof vit === "number" &&
-		typeof char === "number" &&
-		typeof exp === "number" &&
-		typeof health === "number" &&
-		typeof maxHealth === "number" &&
-		typeof level === "number"
-	);
+function isUpdateCharacterPayload(data: any): data is UpdateCharacterPayload {
+	if (
+		typeof data !== "object" ||
+		data === null ||
+		typeof data.oldName !== "string" ||
+		typeof data.name !== "string" ||
+		typeof data.exp !== "number" ||
+		typeof data.health !== "number" ||
+		typeof data.maxHealth !== "number" ||
+		typeof data.level !== "number" ||
+		typeof data.stats !== "object" ||
+		data.stats === null ||
+		typeof data.stats.str !== "number" ||
+		typeof data.stats.dex !== "number" ||
+		typeof data.stats.int !== "number" ||
+		typeof data.stats.vit !== "number" ||
+		typeof data.stats.char !== "number" ||
+		!Array.isArray(data.inventory) ||
+		!data.inventory.every(
+			(item: any) =>
+				item && typeof item === "object" && typeof item.name === "string" && item.name.length > 0 && typeof item.amount === "number"
+		)
+	) {
+		return false;
+	}
+	return true;
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
@@ -93,13 +142,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	const { oldName, name, stats, exp, health, maxHealth, level } = await request.json();
-	console.log(name, stats, exp, health, maxHealth, level);
+	const body = await request.json();
 
-	if (!isValidInput(oldName, name, stats.str, stats.dex, stats.int, stats.vit, stats.char, exp, health, maxHealth, level)) {
+	if (!isUpdateCharacterPayload(body)) {
 		return new Response("Invalid input", { status: 400 });
 	}
 
+	const { oldName, name, stats, exp, health, maxHealth, level, inventory } = body;
 	const userId = locals.user.id;
 
 	const success = await updateCharacter(
@@ -114,7 +163,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		exp,
 		health,
 		maxHealth,
-		level
+		level,
+		inventory
 	);
 
 	return json({ success: success });
