@@ -2,6 +2,7 @@ import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTy
 import type { VendorNPC } from "$lib/types/npc";
 import type { LootableQuestGameObject } from "./types/gameObject";
 import { getItem } from "$lib/data/items";
+import { getQuest } from "$lib/data/quests";
 
 const wo: WorldMap = {
 	name: "Westeros",
@@ -73,19 +74,7 @@ export const starkKeep: CustomMap = {
 			conditions: [],
 			pickedUpItem: {...getItem("test-quest-item1"), amount: 1},
 			quests: [
-				{
-					id: "2",
-					title: "Test Quest2",
-					description: "This is a test quest description.",
-					progressGoals: ["Talk to the NPC", "Complete the task"],
-					progress: 0,
-					rewardResources: [{ name: "Gold", amount: 3, icon: "/icons/coin3.png" }],
-					rewardMisc: "",
-					rewardItems: [],
-					mainQuest: false,
-					status: "active",
-					dialogue: []
-				}
+				getQuest("test-quest-2")
 			]
 		} as LootableQuestGameObject
 	],

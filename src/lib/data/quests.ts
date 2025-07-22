@@ -7,7 +7,7 @@ const questRegistry = {
 		description: "This is a test quest description.",
 		progressGoals: ["Talk to the NPC", "Complete the task"],
 		progress: 0,
-		rewardResources: [{ name: "Gold", amount: 3, icon: "/icons/coin3.png" }],
+		rewardResources: [{ name: "Gold", amount: 3, icon: "/items/coin3.jpg" }],
 		rewardMisc: "",
 		rewardItems: [],
 		mainQuest: false,
