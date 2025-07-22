@@ -1,7 +1,8 @@
 import type { UsableItem } from "$lib/types/item";
 import { PlayerController } from "$lib/controller/character.svelte";
 
-const lesserHealthPotion: UsableItem = {
+const lesserHealthPotion = {
+	type: "usable",
 	id: "health-potion",
 	name: "Lesser Health Potion",
 	iconPath: "/items/potion5.png",
@@ -16,6 +17,6 @@ const lesserHealthPotion: UsableItem = {
 		PlayerController.health += 10;
 		return true;
 	}
-};
+} satisfies UsableItem;
 
 export default lesserHealthPotion;

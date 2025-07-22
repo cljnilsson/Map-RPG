@@ -39,7 +39,7 @@
 	}
 
 	.c-tooltip {
-		position: fixed; /* changed from absolute */
+		position: fixed;
 		border: 1px solid #794F36;
 		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 		background: #E3C9B2;

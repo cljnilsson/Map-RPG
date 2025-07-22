@@ -1,5 +1,5 @@
 import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
-import type { QuestGiverNPC, VendorNPC } from "$lib/types/npc";
+import type { VendorNPC } from "$lib/types/npc";
 import type { LootableQuestGameObject } from "./types/gameObject";
 import { getItem } from "$lib/data/items";
 
@@ -71,7 +71,7 @@ export const starkKeep: CustomMap = {
 			img: "/scroll.png",
 			position: { x: 530, y: 280 },
 			conditions: [],
-			pickedUpItem: getItem("test-quest-item1"),
+			pickedUpItem: {...getItem("test-quest-item1"), amount: 1},
 			quests: [
 				{
 					id: "2",

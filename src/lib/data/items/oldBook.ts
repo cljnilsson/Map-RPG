@@ -1,8 +1,9 @@
 import type { UsableItem } from "$lib/types/item";
 import { createBookItem } from "$lib/controller/factories/usableItem";
 
-const lesserHealthPotion: UsableItem = createBookItem(
+const oldBook = createBookItem(
 	{
+		type: "item",
 		id: "old-book",
 		name: "Old Book",
 		iconPath: "/items/book7.jpg",
@@ -12,6 +13,6 @@ const lesserHealthPotion: UsableItem = createBookItem(
 		quality: "rare"
 	},
 	["<p>Test</p>", "<p>Test2</p>"]
-);
+) satisfies UsableItem;
 
-export default lesserHealthPotion;
+export default oldBook;

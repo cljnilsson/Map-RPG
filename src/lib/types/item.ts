@@ -1,35 +1,33 @@
-type Item = {
-    id: string; // Unique identifier for the item
-    name: string;
-    iconClass: string;
-    iconPath: string;
-    quality: "common" | "uncommon" | "rare" | "epic" | "legendary";
-    description: string;
-    unique: boolean;
+type BaseItem = {
+	id: string;
+	name: string;
+	iconClass: string;
+	iconPath: string;
+	quality: "common" | "uncommon" | "rare" | "epic" | "legendary";
+	description: string;
+	unique: boolean;
 };
 
-type VendorItem = Item & {
-    price: {
-        gold: number;
-        silver: number;
-        copper: number;
-    };
-}
+type RegularItem = BaseItem & {
+	type: "item";
+};
 
-type InventoryItem = Item & {
-    amount: number;
-}
+type VendorItem = BaseItem & {
+	type: "vendor";
+	price: {
+		gold: number;
+		silver: number;
+		copper: number;
+	};
+};
 
-type UsableInventoryItem = InventoryItem & {
-    onUse: () => boolean;
-    conditions: () => boolean;
-    consumable: boolean;
-}
+type UsableItem = BaseItem & {
+	type: "usable";
+	consumable: boolean;
+	conditions: () => boolean;
+	onUse: () => boolean;
+};
 
-type UsableItem = Item & {
-    onUse: () => boolean;
-    conditions: () => boolean;
-    consumable: boolean;
-}
+type Item = RegularItem | VendorItem | UsableItem;
 
-export type { Item, VendorItem, InventoryItem, UsableInventoryItem, UsableItem };
+export type { Item, RegularItem, VendorItem, UsableItem, BaseItem };
