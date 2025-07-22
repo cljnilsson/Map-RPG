@@ -1,6 +1,7 @@
 import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
 import type { QuestGiverNPC, VendorNPC } from "$lib/types/npc";
 import type { LootableQuestGameObject } from "./types/gameObject";
+import { getItem } from "$lib/data/items";
 
 const wo: WorldMap = {
 	name: "Westeros",
@@ -70,15 +71,7 @@ export const starkKeep: CustomMap = {
 			img: "/scroll.png",
 			position: { x: 530, y: 280 },
 			conditions: [],
-			pickedUpItem: {
-				name: "Mysterious scroll",
-				iconClass: "",
-				iconPath: "/items/scroll.jpg",
-				quality: "common",
-				description: "A scroll with mysterious symbols.",
-				amount: 1,
-				unique: true
-			},
+			pickedUpItem: getItem("test-quest-item1"),
 			quests: [
 				{
 					id: "2",
@@ -103,45 +96,9 @@ export const starkKeep: CustomMap = {
 			position: { x: 730, y: 380 },
 			conditions: [],
 			items: [
-				{
-					name: "Sword",
-					iconClass: "",
-					iconPath: "/items/sword4.jpg",
-					quality: "rare",
-					description: "A common sword, sharp and reliable.",
-					unique: false,
-					price: {
-						gold: 0,
-						silver: 5,
-						copper: 0
-					}
-				},
-				{
-					name: "Armor",
-					iconClass: "",
-					iconPath: "/items/armor.png",
-					quality: "common",
-					description: "Heavy armor",
-					unique: false,
-					price: {
-						gold: 1,
-						silver: 0,
-						copper: 0
-					}
-				},
-				{
-					name: "Helmet",
-					iconClass: "",
-					iconPath: "/items/helmet4.jpg",
-					quality: "common",
-					description: "A knight's helmet in good condition",
-					unique: false,
-					price: {
-						gold: 0,
-						silver: 4,
-						copper: 0
-					}
-				}
+				getItem("test-helm1"),
+				getItem("test-armor1"),
+				getItem("test-sword1"),
 			],
 			health: 100,
 			maxHealth: 100

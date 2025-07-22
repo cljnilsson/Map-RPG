@@ -1,9 +1,8 @@
-import { render, fireEvent } from "@testing-library/svelte";
+import { render } from "@testing-library/svelte";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import BookComponent from "$lib/features/book/book.svelte";
 import BookStore from "$lib/stores/book.svelte";
 
-// Mock the store
 vi.mock("$lib/stores/book.svelte", () => {
 	let visible = false;
 	let currentPage = 0;
