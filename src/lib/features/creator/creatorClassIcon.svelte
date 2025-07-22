@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type {Class} from "$lib/types/class";
+	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
 	let { gameClass, selectedClass = $bindable()}: { gameClass: Class; selectedClass: Class | undefined } = $props();
 
@@ -18,7 +19,9 @@
 </script>
 
 <div class="col-3">
-	<img class:selected={gameClass.name === selectedClass?.name} role="button" src={gameClass.icon} alt={"iron representing the " + gameClass.name + " class"} width="100px" height="100px" onclick={onClick} />
+	<ClickableElement onClickCallback={onClick}>
+		<img class:selected={gameClass.name === selectedClass?.name} src={gameClass.icon} alt={"iron representing the " + gameClass.name + " class"} width="100px" height="100px" />
+	</ClickableElement>
 </div>
 
 <style>

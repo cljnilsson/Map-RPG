@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Faith } from "$lib/types/faith";
+	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
 	let { faith, selectedFaith = $bindable() }: { faith: Faith; selectedFaith: Faith | undefined } = $props();
 
@@ -13,15 +14,15 @@
 </script>
 
 <div class="col-3">
-	<img
-		class:selected={faith.name === selectedFaith?.name}
-		role="button"
-		src={faith.icon}
-		alt={"iron representing the " + faith.name + " class"}
-		width="100px"
-		height="100px"
-		onclick={onClick}
-	/>
+	<ClickableElement onClickCallback={onClick}>
+		<img
+			class:selected={faith.name === selectedFaith?.name}
+			src={faith.icon}
+			alt={"iron representing the " + faith.name + " class"}
+			width="100px"
+			height="100px"
+		/>
+	</ClickableElement>
 </div>
 
 <style>

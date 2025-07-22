@@ -4,6 +4,7 @@
 	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 	import CreatorClass from "$lib/features/creator/creatorClassIcon.svelte";
 	import CreatorFaith from "$lib/features/creator/creatorFaithIcon.svelte";
+	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 	import type { Character } from "$lib/server/db/schema";
 	import ClassStore from "$lib/stores/classes.svelte";
 	import FaithStore from "$lib/stores/faith.svelte";
@@ -225,13 +226,9 @@
 								<div class="row justify-content-center">
 									{#each avatarList.slice(i * 3, i * 3 + 3) as tavatar}
 										<div class="col-3 text-center my-2">
-											<img
-												src={tavatar}
-												alt="Character avatar"
-												width="100px"
-												height="100px"
-												onclick={() => (avatar = tavatar)}
-											/>
+											<ClickableElement onClickCallback={() => (avatar = tavatar)}>
+												<img src={tavatar} alt="Character avatar" width="100px" height="100px" />
+											</ClickableElement>
 										</div>
 									{/each}
 								</div>
