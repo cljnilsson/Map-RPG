@@ -40,9 +40,6 @@
 		&:hover {
 			font-weight: bold;
 		}
-		&.selected {
-			color: rgb(88, 167, 250);
-		}
 	}
 	
 	.muted {
