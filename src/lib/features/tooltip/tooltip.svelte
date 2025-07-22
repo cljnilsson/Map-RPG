@@ -40,12 +40,12 @@
 
 	.c-tooltip {
 		position: fixed; /* changed from absolute */
-		border: 1px solid #ddd;
-		box-shadow: 1px 1px 1px #ddd;
-		background: white;
+		border: 1px solid #794F36;
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+		background: #E3C9B2;
 		border-radius: 4px;
 		padding: 4px;
-		color: black;
+		color: #685247;
 		z-index: 9999;
 		max-width: 300px;
 		white-space: normal;
