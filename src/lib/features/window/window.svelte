@@ -9,6 +9,7 @@
 	import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
 	import DialogueStore from "$lib/stores/dialogue.svelte";
 	import { browser } from "$app/environment";
+	import CharacterStore from "$lib/stores/character.svelte";
 
 	let {
 		title,
@@ -66,6 +67,20 @@
 		visibility = false;
 	}
 
+	async function saveNewPosition(newX: number, newY: number) {
+		await fetch("/api/characters/save/windows", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				key: title,
+				x: newX,
+				y: newY,
+				characterId: CharacterStore.character.id
+			})
+		});
+		console.log(`Window position saved: ${title} at (${newX}, ${newY})`);
+	}
+
 	onMount(() => {
 		if (browser) {
 			x = scaleToViewport(x, "x");
@@ -96,7 +111,7 @@
 	style="left: {x}px; top: {y}px; width: {width}px;"
 	class:d-none={!visibility || DialogueStore.inDialogue}
 >
-	<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked}>
+	<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDrag={saveNewPosition}>
 		<Title>
 			<div class="row align-items-center">
 				<div class="col">

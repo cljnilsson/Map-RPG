@@ -8,6 +8,7 @@ const Store = $state<{
 }>({
 	inventory: [],
 	character: {
+		id: 1,
 		stats: { str: 5, int: 8, vit: 10, char: 7, dex: 5 },
 		name: "Alice",
 		health: 25,

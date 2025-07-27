@@ -1,4 +1,5 @@
 type Character = {
+	id: number;
 	stats: { str: number; int: number; vit: number; char: number; dex: number };
 	health: number;
 	maxHealth: number;

@@ -63,6 +63,16 @@ export const items = sqliteTable("items", {
 	amount: integer("amount").notNull().default(1),
 });
 
+export const windowPositions = sqliteTable("windowPositions", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	characterId: integer("character_id")
+		.notNull()
+		.references(() => characters.id),
+	windowKey: text("windowKey").notNull(),
+	x: integer("x").notNull(),
+	y: integer("y").notNull(),
+});
+
 export const stat = sqliteTable("stat", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	name: text("name").notNull().unique()
@@ -95,7 +105,8 @@ export const userRelations = relations(user, ({ many }) => ({
 export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),
 	user: one(user),
-	inventory: many(items)
+	inventory: many(items),
+	windowPositions: many(windowPositions),
 }));
 
 export const statsRelations = relations(stats, ({ one }) => ({
@@ -108,6 +119,10 @@ export const statsRelations = relations(stats, ({ one }) => ({
 
 export const itemRelations = relations(items, ({ one }) => ({
 	character: one(characters, { fields: [items.characterId], references: [characters.id] }),
+}));
+
+export const windowPositionRelations = relations(windowPositions, ({ one }) => ({
+	character: one(characters, { fields: [windowPositions.characterId], references: [characters.id] }),
 }));
 
 // EXPORTS
