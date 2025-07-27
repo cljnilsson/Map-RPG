@@ -7,8 +7,14 @@
 	import VendorWindow from "$lib/components/windows/vendor/vendor.svelte";
 	import VendorStore from "$lib/stores/vendor.svelte";
 	import Book from "$lib/features/book/book.svelte";
+	import { onMount } from "svelte";
 
 	console.log(MapStore.currentMapState);
+
+	onMount(async () => {
+		const test = await fetch("/api/characters/1/windows");
+		console.log(await test.json());
+	});
 </script>
 
 <div class="map-wrapper mt-3">
