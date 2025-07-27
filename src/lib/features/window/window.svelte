@@ -15,6 +15,7 @@
 		title,
 		body,
 		footer,
+		uniqueKey,
 		width,
 		height,
 		x,
@@ -25,6 +26,7 @@
 		title?: Snippet;
 		body?: Snippet;
 		footer?: Snippet;
+		uniqueKey: string,
 		width: number;
 		height: number;
 		x: number;
@@ -68,17 +70,24 @@
 	}
 
 	async function saveNewPosition(newX: number, newY: number) {
-		await fetch("/api/characters/save/windows", {
+		const resp = await fetch("/api/characters/save/windows", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
-				key: title,
+				key: uniqueKey,
 				x: newX,
 				y: newY,
 				characterId: CharacterStore.character.id
 			})
 		});
-		console.log(`Window position saved: ${title} at (${newX}, ${newY})`);
+
+		const { success } = await resp.json();
+		if (!success) {
+			console.error("Failed to save window position");
+			return;
+		}
+
+		console.log(`Window position saved: ${uniqueKey} at (${newX}, ${newY})`);
 	}
 
 	onMount(() => {
@@ -111,7 +120,7 @@
 	style="left: {x}px; top: {y}px; width: {width}px;"
 	class:d-none={!visibility || DialogueStore.inDialogue}
 >
-	<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDrag={saveNewPosition}>
+	<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDragEnd={saveNewPosition}>
 		<Title>
 			<div class="row align-items-center">
 				<div class="col">

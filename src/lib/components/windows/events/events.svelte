@@ -7,6 +7,7 @@
 
 <!-- Assume the player owns all cities for testing purposes -->
 <Window
+	uniqueKey="Events"
 	height={200}
 	width={300}
 	x={1600}

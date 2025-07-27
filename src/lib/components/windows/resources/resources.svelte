@@ -18,6 +18,7 @@
 
 <!-- Assume the player owns all cities for testing purposes -->
 <Window
+	uniqueKey="Resources"
 	height={200}
 	width={300}
 	x={1300}

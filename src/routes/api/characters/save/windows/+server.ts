@@ -40,7 +40,7 @@ async function windowPositionsExists(characterId: number, key: string): Promise<
 		.from(windowPositions)
 		.where(and(eq(windowPositions.characterId, characterId), eq(windowPositions.windowKey, key)))
 		.get();
-
+	console.log(exists);
 	return !!exists;
 }
 
@@ -72,18 +72,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const { key, x, y, characterId } = body;
 
 	if (await windowPositionsExists(characterId, key)) {
-		console.log("Window position does NOT exist, creating new position");
-		await createWindowPosition(characterId, key, x, y);
-		return json({ success: true });
+		console.log("Window position exists, updating position");
+		const success = await updateWindowPositions(characterId, key, x, y);
+		return json({ success });
 	}
 
-	console.log("Window position does exist, updating new position");
-	const success = await updateWindowPositions(
-		characterId,
-		key,
-		x,
-		y
-	);
-
-	return json({ success: success });
+	console.log("Window position does NOT exist, creating new position");
+	await createWindowPosition(characterId, key, x, y);
+	return json({ success: true });
 };

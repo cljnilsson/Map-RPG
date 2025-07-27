@@ -1,7 +1,6 @@
 import { expect, test } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/svelte";
-
 import Window from "$lib/features/window/window.svelte";
 
 const renderOptions = {
@@ -10,7 +9,8 @@ const renderOptions = {
 	x: 10,
 	y: 10,
 	toggleKey: "x",
-	visibility: true
+	visibility: true,
+	uniqueKey: "test-window",
 };
 
 test("Window renders", async () => {

@@ -22,7 +22,7 @@
 	}
 </script>
 
-<Window height={700} width={480} x={300} y={450} bind:visibility={WindowStore.vendorVisibility}>
+<Window uniqueKey="Vendor" height={700} width={480} x={300} y={450} bind:visibility={WindowStore.vendorVisibility}>
 	{#snippet title()}
 		<h4 class="my-2">{vendor.name}</h4>
 	{/snippet}

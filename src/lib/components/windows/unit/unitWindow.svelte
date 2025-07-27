@@ -38,6 +38,7 @@
 
 <!-- Assume the player owns all cities for testing purposes -->
 <Window
+	uniqueKey="UnitManagement"
 	height={500}
 	width={400}
 	x={600}

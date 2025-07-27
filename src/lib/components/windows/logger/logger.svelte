@@ -12,6 +12,7 @@
 
 <!-- Assume the player owns all cities for testing purposes -->
 <Window
+	uniqueKey="Logger"
 	height={400}
 	width={700}
 	x={50}

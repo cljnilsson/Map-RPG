@@ -19,7 +19,7 @@
 		locked?: boolean;
 		dragging: boolean;
 		onDragStart?: () => void;
-		onDragEnd?: (didDrag: boolean) => void;
+		onDragEnd?: (x: number, y: number, didDrag: boolean) => void;
 		onDrag?: (x: number, y: number) => void;
 		containerWrapper: string;
 		children: Snippet<[]>;
@@ -63,8 +63,8 @@
 	}
 
 	function handleMouseUp() {
-		if (dragging) {
-			onDragEnd(didDrag);
+		if (dragging && didDrag) {
+			onDragEnd(x, y, didDrag);
 		}
 		dragging = false;
 		didDrag = false;
