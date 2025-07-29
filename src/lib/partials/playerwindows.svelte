@@ -11,7 +11,7 @@
 </script>
 
 {#if isCityMap(MapStore.currentMapState.map)}
-	{#if MapStore.currentMapState.map.owned}
+	{#if MapStore.currentMapState.map.city.owned}
 		<UnitWindow />
 		<ResourceWindow />
 	{/if}

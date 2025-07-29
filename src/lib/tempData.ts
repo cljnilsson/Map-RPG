@@ -14,16 +14,24 @@ const winterfellO: CityMap = {
 	name: "Winterfell",
 	type: "city",
 	imagePath: "/map3.webp",
-	unlocked: true,
-	owned: true
+	city: {
+		name: "Winterfell",
+		owned: true,
+		unlocked: true,
+		resources: []
+	}
 };
 
 const kingsLandingO: CityMap = {
 	name: "King's Landing",
 	type: "city",
 	imagePath: "/map2.webp",
-	unlocked: true,
-	owned: false
+	city: {
+		name: "King's Landing",
+		owned: false,
+		unlocked: true,
+		resources: []
+	}
 };
 
 const starkKeepO: BuildingMap = {

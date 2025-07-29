@@ -1,5 +1,6 @@
 import type { NPC } from "$lib/types/npc";
 import type { GameObject } from "$lib/types/gameObject";
+import type { City } from "$lib/types/city";
 
 type MapType = {
 	name: string;
@@ -19,8 +20,7 @@ type BuildingMap = MapType & {
 
 type CityMap = MapType & {
 	type: "city";
-	owned: boolean;
-	unlocked: boolean;
+	city: City;
 }
 
 type ClickBox = {
