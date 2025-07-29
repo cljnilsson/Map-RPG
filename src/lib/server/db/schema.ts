@@ -63,6 +63,15 @@ export const items = sqliteTable("items", {
 	amount: integer("amount").notNull().default(1),
 });
 
+export const city = sqliteTable("city", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	characterId: integer("character_id")
+		.notNull()
+		.references(() => characters.id),
+	itemKey: text("itemKey").notNull(),
+	amount: integer("amount").notNull().default(1),
+});
+
 export const windowPositions = sqliteTable("windowPositions", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	characterId: integer("character_id")
@@ -93,6 +102,29 @@ export const stats = sqliteTable(
 	(stats) => ({
 		// Prevents duplicate stats for the same character
 		uniqueCharacterStat: unique().on(stats.characterId, stats.statId)
+	})
+);
+
+export const resource = sqliteTable("resource", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	name: text("name").notNull().unique()
+});
+
+export const resources = sqliteTable(
+	"resources",
+	{
+		id: integer("id").primaryKey({ autoIncrement: true }),
+		cityId: integer("city_id")
+			.notNull()
+			.references(() => city.id),
+		resourceId: integer("resource_id")
+			.notNull()
+			.references(() => stat.id),
+		value: integer("value").notNull()
+	},
+	(resources) => ({
+		// Prevents duplicate stats for the same character
+		uniqueCharacterStat: unique().on(resources.cityId, resources.resourceId)
 	})
 );
 
