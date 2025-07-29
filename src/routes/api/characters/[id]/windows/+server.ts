@@ -9,7 +9,6 @@ async function getAllWindowPositions(characterId: number) {
         .select()
         .from(windowPositions)
         .where(eq(windowPositions.characterId, characterId))
-        .get();
 
     return exists;
 }

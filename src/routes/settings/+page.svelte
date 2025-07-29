@@ -1,6 +1,7 @@
 <script lang="ts">
 	let settings: { name: string; value: boolean; description: string }[] = [
 		{ name: "Keybinds", value: true, description: "Show keybinds in the UI" },
+		{ name: "Offline Mode", value: true, description: "Don't attempt to save data in the database" },
 	];
 </script>
 

@@ -4,7 +4,7 @@
 	import type { PageServerData } from "./$types";
 	import type { Character } from "$lib/server/db/schema";
 	import { getRequest } from "$lib/utils/request";
-	import CharacterStore from "$lib/stores/character.svelte";
+	import { SaveController } from "$lib/controller/save.svelte";
 
 	let { data }: { data: PageServerData } = $props();
 
@@ -27,30 +27,7 @@
 	}
 
 	async function onSave() {
-		// oldName needs to match which is annoying for testing
-		await fetch("/api/characters/save", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				oldName: "Alice",
-				name: "Test333333",
-				health: 25,
-				maxHealth: 100,
-				exp: 10,
-				level: 1,
-				stats: {
-					str: 5,
-					dex: 8,
-					int: 9,
-					vit: 10,
-					char: 5
-				},
-				inventory: CharacterStore.inventory.map((item) => ({
-					name: item.id, // Perhaps a bit missleading, might rename the 'name' attribute to key at some point
-					amount: item.amount
-				})),
-			})
-		});
+		SaveController.saveCharacter();
 	}
 
 	onMount(async () => {

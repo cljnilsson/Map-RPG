@@ -10,6 +10,7 @@
 	import DialogueStore from "$lib/stores/dialogue.svelte";
 	import { browser } from "$app/environment";
 	import CharacterStore from "$lib/stores/character.svelte";
+	import { SaveController } from "$lib/controller/save.svelte";
 
 	let {
 		title,
@@ -26,7 +27,7 @@
 		title?: Snippet;
 		body?: Snippet;
 		footer?: Snippet;
-		uniqueKey: string,
+		uniqueKey: string;
 		width: number;
 		height: number;
 		x: number;
@@ -70,24 +71,7 @@
 	}
 
 	async function saveNewPosition(newX: number, newY: number) {
-		const resp = await fetch("/api/characters/save/windows", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				key: uniqueKey,
-				x: newX,
-				y: newY,
-				characterId: CharacterStore.character.id
-			})
-		});
-
-		const { success } = await resp.json();
-		if (!success) {
-			console.error("Failed to save window position");
-			return;
-		}
-
-		console.log(`Window position saved: ${uniqueKey} at (${newX}, ${newY})`);
+		SaveController.saveWindows(newX, newY, uniqueKey);
 	}
 
 	onMount(() => {
@@ -130,10 +114,10 @@
 				</div>
 				<div class="col-auto text-end">
 					<button class="btn btn-sm btn-outline-secondary" aria-label="Lock/Unlock" onclick={() => (locked = !locked)}>
-						<i class="bi {locked ? "bi-unlock" : "bi-lock-fill"}"></i>
+						<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
 					</button>
 					<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
-						<i class="bi {expanded ? "bi-dash" : "bi-plus"}"></i>
+						<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
 					</button>
 					<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
 						<i class="bi bi-x"></i>

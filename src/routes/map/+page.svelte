@@ -8,12 +8,28 @@
 	import VendorStore from "$lib/stores/vendor.svelte";
 	import Book from "$lib/features/book/book.svelte";
 	import { onMount } from "svelte";
+	import { getRequest } from "$lib/utils/request";
 
 	console.log(MapStore.currentMapState);
 
 	onMount(async () => {
-		const test = await fetch("/api/characters/1/windows");
-		console.log(await test.json());
+		const { positions, success } = await getRequest<{
+			positions: Array<{
+				id: number;
+				characterId: number;
+				windowKey: string;
+				x: number;
+				y: number;
+			}>;
+			success: boolean;
+		}>("/api/characters/1/windows"); // Hardcoded because characters are not loaded from database yet
+
+		if (success) {
+			const slimmedPositions = positions.map((pos: any) => ({ x: pos.x, y: pos.y, windowsKey: pos.windowKey }));
+			console.log("Window positions:", slimmedPositions);
+		} else {
+			console.error("Failed to fetch window positions");
+		}
 	});
 </script>
 
