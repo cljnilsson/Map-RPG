@@ -72,7 +72,7 @@ export const starkKeep: CustomMap = {
 			img: "/scroll.png",
 			position: { x: 530, y: 280 },
 			conditions: [],
-			pickedUpItem: {...getItem("test-quest-item1"), amount: 1},
+			pickedUpItem: {item: getItem("test-quest-item1"), amount: 1},
 			quests: [
 				getQuest("test-quest-2")
 			]

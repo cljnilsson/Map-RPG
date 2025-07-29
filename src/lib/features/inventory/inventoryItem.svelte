@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { InventoryItem } from "$lib/types/item";
-	import { isUsableInventoryItem, isInventoryItem } from "$lib/typeguards/item";
+	import { isUsableItem } from "$lib/typeguards/item";
 
 	let {
 		inventory = $bindable(),
@@ -19,17 +19,17 @@
 
 	function onClick(e: MouseEvent) {
 		e.preventDefault();
-		if (isUsableInventoryItem(item)) {
-			console.log("Trying to activiate item: ", item.name, " amount: ", item.amount);
-			const usedSuccessfully = item.onUse();
+		if (isUsableItem(item.item)) {
+			console.log("Trying to activiate item: ", item.item.name, " amount: ", item.amount);
+			const usedSuccessfully = item.item.onUse();
 
 			// Ideally want to automate this later
 			if (usedSuccessfully) {
-				if (item.consumable) {
+				if (item.item.consumable) {
 					item.amount -= 1;
 					if (item.amount <= 0) {
-						inventory = inventory.filter((i) => i.name !== item.name);
-						if (selectedItem?.name === item.name) {
+						inventory = inventory.filter((i) => i.item.name !== item.item.name);
+						if (selectedItem?.item.name === item.item.name) {
 							selectedItem = null;
 						}
 					}
@@ -47,8 +47,8 @@
 	role="button"
 	tabindex="0"
 	class="inv text-center"
-	class:active={(item?.name === selectedItem?.name ||
-		(item?.name.toLowerCase().includes(currentSearchTerm?.toLowerCase()) && currentSearchTerm.length > 0)) &&
+	class:active={(item?.item.name === selectedItem?.item.name ||
+		(item?.item.name.toLowerCase().includes(currentSearchTerm?.toLowerCase()) && currentSearchTerm.length > 0)) &&
 		item != null}
 	class:empty={!item}
 	onclick={onSelect}
@@ -59,13 +59,13 @@
 	aria-pressed={item === selectedItem}
 >
 	{#if item}
-		{#if isInventoryItem(item) && item.amount > 1}
+		{#if item.amount > 1}
 			<small>{item.amount}</small>
 		{/if}
-		{#if item.iconPath}
-			<img src={item.iconPath} alt={item.name} width="64" height="64" />
+		{#if item.item.iconPath}
+			<img src={item.item.iconPath} alt={item.item.name} width="64" height="64" />
 		{:else}
-			<i class={item.iconClass}></i>
+			<i class={item.item.iconClass}></i>
 		{/if}
 	{/if}
 </div>

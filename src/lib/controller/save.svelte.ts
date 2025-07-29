@@ -38,9 +38,9 @@ export class SaveController {
 				vit: CharacterStore.character.stats.vit,
 				char: CharacterStore.character.stats.char
 			},
-			inventory: CharacterStore.inventory.map((item) => ({
-				name: item.id,
-				amount: item.amount
+			inventory: CharacterStore.inventory.map((slot) => ({
+				name: slot.item.id,
+				amount: slot.amount
 			})),
 		}
 		);

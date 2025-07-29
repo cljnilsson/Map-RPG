@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
-import { stat, stats, characters, resource } from "./src/lib/server/db/schema";
+import { stat, stats, characters, resource, city, cityData } from "./src/lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 
 const sqlite = new Database("local.db"); // path to your SQLite file
@@ -37,6 +37,17 @@ async function CharacterExists(name: string): Promise<boolean> {
 	return !!exists;
 }
 
+async function CityExists(name: string): Promise<boolean> {
+	const exists = await db
+		.select()
+		.from(city)
+		.where(eq(city.name, name))
+		.get();
+
+	return !!exists;
+}
+
+
 async function seed() {
 	if (await StatExists("Strength")) {
 		console.log("Stat table already seeded, skipping...");
@@ -56,7 +67,7 @@ async function seed() {
 
 
 	if (await CharacterExists("Alice")) {
-		console.log("Stat table already seeded, skipping...");
+		console.log("Character table already seeded, skipping...");
 	} else {
 		await db.insert(characters).values([
 			{ name: "Alice", age: 22, gender: "Female", race: "Human", class: "Wizard", level: 1, health: 10, maxHealth: 100, exp: 5, userId: 1 } // Hardcoded userId for now
@@ -90,6 +101,22 @@ async function seed() {
 			]);
 
 		console.log("✅ Seeded resource table");
+	}
+
+	if (await CityExists("Winterfell")) {
+		console.log("City table already seeded, skipping...");
+	} else {
+		await db.insert(city).values([
+			{ name: "Winterfell" }
+		]);
+
+		console.log("✅ Seeded city table");
+
+		await db.insert(cityData).values([
+			{ workers: 5, population: 300, cityId: 1 }, // Hardcoded cityId for now
+		]);
+
+		console.log("✅ Seeded city data table");
 	}
 }
 

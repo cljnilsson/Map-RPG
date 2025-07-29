@@ -7,9 +7,9 @@ describe("Inventory", () => {
 	beforeEach(() => {
 		// Reset or mock PlayerController inventory before each test
 		PlayerStore.inventory = [
-			{ ...getItem("test-item-1"), amount: 1 },
-			{ ...getItem("test-item-2"), amount: 1 },
-			{ ...getItem("test-item-3"), amount: 3 }
+			{ item: getItem("test-item-1"), amount: 1 },
+			{ item: getItem("test-item-2"), amount: 1 },
+			{ item: getItem("test-item-3"), amount: 3 }
 			// Add other items if needed
 		];
 	});

@@ -21,11 +21,6 @@ type VendorItem = BaseItem & {
 	};
 };
 
-type InventoryItem = BaseItem & {
-	type: "inventory";
-	amount: number;
-}
-
 type UsableItem = BaseItem & {
 	type: "usable";
 	consumable: boolean;
@@ -33,6 +28,11 @@ type UsableItem = BaseItem & {
 	onUse: () => boolean;
 };
 
-type Item = RegularItem | VendorItem | UsableItem | InventoryItem;
+type Item = RegularItem | VendorItem | UsableItem;
+
+type InventoryItem<T extends Item = Item> = {
+	item: T;
+	amount: number;
+};
 
 export type { Item, RegularItem, VendorItem, UsableItem, BaseItem, InventoryItem };

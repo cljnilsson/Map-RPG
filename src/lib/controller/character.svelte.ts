@@ -1,12 +1,12 @@
 //import type { Character } from "$lib/types/character";
 import type { Item, VendorItem } from "$lib/types/item";
 import PlayerStore from "$lib/stores/character.svelte";
-import type {NPC} from "$lib/types/npc";
+import type { NPC } from "$lib/types/npc";
 import { LogController } from "$lib/controller/logs.svelte";
 
-export class CharacterController {}
+export class CharacterController { }
 
-export class NPCController extends CharacterController {}
+export class NPCController extends CharacterController { }
 
 export class PlayerController extends CharacterController {
 	// ---------------
@@ -23,7 +23,7 @@ export class PlayerController extends CharacterController {
 	}
 
 	public static set health(v: number) {
-		if(v < 0) {
+		if (v < 0) {
 			console.warn("Health cannot be set to a negative value. Setting to 0 instead.");
 			PlayerStore.character.health = 0;
 			return;
@@ -31,7 +31,7 @@ export class PlayerController extends CharacterController {
 
 		PlayerStore.character.health = v;
 
-		const {name, health, maxHealth, xp, level, stats} = PlayerStore.character;
+		const { name, health, maxHealth, xp, level, stats } = PlayerStore.character;
 
 		fetch("/api/characters/save", {
 			method: "POST",
@@ -61,7 +61,7 @@ export class PlayerController extends CharacterController {
 	}
 
 	public static set xp(v: number) {
-		if(v < 0) {
+		if (v < 0) {
 			console.warn("Xp cannot be set to a negative value. Setting to 0 instead.");
 			PlayerStore.character.health = 0;
 			return;
@@ -87,7 +87,7 @@ export class PlayerController extends CharacterController {
 
 		PlayerStore.character.money = m;
 
-		
+
 		// Current save does not support money nor does the database itself if I recall
 	}
 
@@ -99,7 +99,7 @@ export class PlayerController extends CharacterController {
 		if (c < 0 || s < 0 || g < 0) {
 			throw new Error("Money values cannot be negative");
 		}
-		
+
 		return c + s * 10 + g * 100;
 	}
 
@@ -135,13 +135,13 @@ export class PlayerController extends CharacterController {
 
 	// Give specifically 1 of item
 	public static giveItem(i: Item): boolean {
-		if (i.unique && PlayerStore.inventory.some((item) => item.name === i.name)) {
+		if (i.unique && PlayerStore.inventory.some((slot) => slot.item.name === i.name)) {
 			LogController.newLog(`You already have a unique item: ${i.name}.`, "info");
 			return false;
 		}
 
 		if (PlayerStore.inventory.length < PlayerController.inventorySize) {
-			PlayerStore.inventory = [...PlayerStore.inventory, { ...i, amount: 1 }];
+			PlayerStore.inventory = [...PlayerStore.inventory, { item: i, amount: 1 }];
 			LogController.newLog(`You received a ${i.name}.`, "info");
 			return true;
 		}
@@ -189,21 +189,21 @@ export class PlayerController extends CharacterController {
 	public static hasItem(name: string, amount: number): boolean;
 	public static hasItem(name: string, amount?: number): boolean {
 		if (amount === undefined) {
-			return PlayerStore.inventory.some((item) => item.name === name);
+			return PlayerStore.inventory.some((slot) => slot.item.name === name);
 		}
 
-		const item = PlayerStore.inventory.find((item) => item.name === name);
+		const item = PlayerStore.inventory.find((slot) => slot.item.name === name);
 		return item !== undefined && item.amount >= amount;
 	}
 
 	public static removeItemByName(name: string) {
-		const itemIndex = PlayerStore.inventory.findIndex((item) => item.name === name);
+		const itemIndex = PlayerStore.inventory.findIndex((slot) => slot.item.name === name);
 
 		if (itemIndex !== -1) {
 			const removedItem = PlayerStore.inventory[itemIndex];
 			PlayerStore.inventory = PlayerStore.inventory.filter((_, index) => index !== itemIndex);
 
-			LogController.newLog(`You lost ${removedItem.name}.`, "info");
+			LogController.newLog(`You lost ${removedItem.item.name}.`, "info");
 		} else {
 			console.error("Trying to remove item that does not exist");
 		}

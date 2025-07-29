@@ -43,16 +43,5 @@
 		>
 			Next
 		</button>
-		<button
-			onclick={() => {
-				LogStore.logs = [
-					...LogStore.logs,
-					{ timestamp: new Date(), message: "Test" + tempTest }
-				];
-				tempTest += 1;
-			}}
-		>
-			Test
-		</button>
 	{/snippet}
 </Window>

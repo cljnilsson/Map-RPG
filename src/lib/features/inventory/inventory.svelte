@@ -28,8 +28,8 @@
 			{#if inventory[index]}
 				<Tooltip>
 					{#snippet tooltip()}
-						<h5 style={"color: " + q2c(inventory[index]) + ";"}>{inventory[index].name}</h5>
-						<p>{inventory[index].description}</p>
+						<h5 style={"color: " + q2c(inventory[index].item) + ";"}>{inventory[index].item.name}</h5>
+						<p>{inventory[index].item.description}</p>
 					{/snippet}
 
 					<InventoryItemComponent

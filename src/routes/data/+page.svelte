@@ -27,7 +27,7 @@
 	}
 
 	async function onSave() {
-		SaveController.saveCharacter();
+		SaveController.saveCharacter(""); // code the argument later
 	}
 
 	onMount(async () => {

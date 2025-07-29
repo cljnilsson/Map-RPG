@@ -12,7 +12,7 @@
 
 	console.log(MapStore.currentMapState);
 
-	onMount(async () => {
+	async function getWindowPositions() {
 		const { positions, success } = await getRequest<{
 			positions: Array<{
 				id: number;
@@ -30,6 +30,32 @@
 		} else {
 			console.error("Failed to fetch window positions");
 		}
+	}
+
+	async function getCities() {
+		const { cities, success } = await getRequest<{
+			cities: Array<{
+				id: number,
+				cityId: number,
+				population: number,
+				workers: number,
+				name: string,
+				resources: []
+			}>;
+			success: boolean;
+		}>("/api/cities");
+
+		if (success) {
+			//const slimmedPositions = positions.map((pos: any) => ({ x: pos.x, y: pos.y, windowsKey: pos.windowKey }));
+			console.log("Cities:", cities);
+		} else {
+			console.error("Failed to fetch window positions");
+		}
+	}
+
+	onMount(async () => {
+		getWindowPositions();
+		getCities();
 	});
 </script>
 

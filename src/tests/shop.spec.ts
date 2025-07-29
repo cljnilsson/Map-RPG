@@ -14,6 +14,8 @@ describe("Inventory", () => {
 
 	it("Buying item", () => {
 		const item: VendorItem = {
+			type: "vendor",
+			id: "t-sword-1",
 			name: "Sword",
 			iconClass: "",
 			iconPath: "/items/sword4.jpg",
@@ -42,6 +44,6 @@ describe("Inventory", () => {
 		expect(PlayerStore.character.money.gold).toEqual(0);
 		expect(remainingMoneyInCopper).toEqual(startingMoneyInCopper - 50); // 5 silver = 50 copper
 		expect(PlayerStore.inventory.length).toBeGreaterThan(0);
-		expect(PlayerStore.inventory.some(i => i.name === item.name && i.amount === 1)).toBe(true);
+		expect(PlayerStore.inventory.some(i => i.item.name === item.name && i.amount === 1)).toBe(true);
 	});
 });

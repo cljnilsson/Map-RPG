@@ -32,12 +32,12 @@
 		if (CharacterStore.inventory.length === 0) {
 			CharacterStore.inventory = [
 				// Throwaway testing items
-				{ ...getItem("test-item-1"), amount: 1 },
-				{ ...getItem("test-item-2"), amount: 1 },
-				{ ...getItem("test-item-3"), amount: 3 },
+				{ item: getItem("test-item-1"), amount: 1 },
+				{ item: getItem("test-item-2"), amount: 1 },
+				{ item: getItem("test-item-3"), amount: 3 },
 				// 'real' items
-				{ ...getItem("health-potion"), amount: 3 },
-				{ ...getItem("old-book"), amount: 1 }
+				{ item: getItem("health-potion"), amount: 3 },
+				{ item: getItem("old-book"), amount: 1 }
 			];
 		}
 	});

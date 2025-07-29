@@ -19,14 +19,4 @@
 		font-family: "IMFellEnglish";
 		src: url("IMFellEnglish-Regular.ttf") format("truetype");
 	}
-	.book-frame {
-		background: url("parchment.jpg") no-repeat;
-		background-size: 100% 700px;
-	}
-
-	.bi {
-		font-size: 3rem;
-		background: none;
-		background-color: transparent;
-	}
 </style>

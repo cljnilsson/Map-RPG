@@ -32,7 +32,7 @@
 				console.log("adding quest");
 				QuestController.addQuest(o.quests[0]);
 				console.log("Adding item");
-				PlayerController.giveItem(o.pickedUpItem);
+				PlayerController.giveItem(o.pickedUpItem.item);
 			}
 		} else if (isQuestGameObject(o) && o.quests.length > 0) {
 			console.log("adding quest");

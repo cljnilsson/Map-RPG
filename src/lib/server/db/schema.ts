@@ -65,11 +65,22 @@ export const items = sqliteTable("items", {
 
 export const city = sqliteTable("city", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	characterId: integer("character_id")
+	/*characterId: integer("character_id")
+		.notNull()
+		.references(() => characters.id),*/
+	// In the future might want to link the city to a map but at this time map is not defined server side
+	name: text("name").notNull(),
+});
+
+// The city data is per character and reuses data from the 'base' city
+export const cityData = sqliteTable("cityData", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	cityId: integer("city_id")
 		.notNull()
 		.references(() => characters.id),
-	itemKey: text("itemKey").notNull(),
-	amount: integer("amount").notNull().default(1),
+	population: integer("population").notNull().default(1),
+	workers: integer("workers").notNull().default(0),
+	// Add the roles once defined, e.g soldiers, merchants, smiths, priests etc
 });
 
 export const windowPositions = sqliteTable("windowPositions", {
@@ -114,9 +125,9 @@ export const resources = sqliteTable(
 	"resources",
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
-		cityId: integer("city_id")
+		cityId: integer("cityData_id")
 			.notNull()
-			.references(() => city.id),
+			.references(() => cityData.id),
 		resourceId: integer("resource_id")
 			.notNull()
 			.references(() => stat.id),
@@ -134,6 +145,11 @@ export const userRelations = relations(user, ({ many }) => ({
 	characters: many(characters)
 }));
 
+export const cityDataRelations = relations(cityData, ({ many, one }) => ({
+	resources: many(resources),
+	city: one(city, { fields: [cityData.cityId], references: [city.id] })
+}));
+
 export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),
 	user: one(user),
@@ -146,6 +162,14 @@ export const statsRelations = relations(stats, ({ one }) => ({
 	stat: one(stat, {
 		fields: [stats.statId],
 		references: [stat.id]
+	})
+}));
+
+export const resourcesRelations = relations(resources, ({ one }) => ({
+	city: one(cityData, { fields: [resources.cityId], references: [cityData.id] }),
+	resource: one(resource, {
+		fields: [resources.resourceId],
+		references: [resource.id]
 	})
 }));
 
@@ -170,3 +194,11 @@ export type Character = typeof characters.$inferSelect;
 export type Stat = typeof stats.$inferSelect;
 
 export type StatType = typeof stat.$inferSelect;
+
+export type Resource = typeof resources.$inferSelect;
+
+export type ResouceType = typeof resource.$inferSelect;
+
+export type City = typeof city.$inferSelect;
+
+export type CityData = typeof cityData.$inferSelect;

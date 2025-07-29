@@ -33,6 +33,9 @@ bun run build
 ```
 
 You also need to run the seed.ts file to populate certain DB fields.
+```bash
+npx tsx ./seed.ts
+```
 
 You can preview the production build with `bun run preview`.
 
