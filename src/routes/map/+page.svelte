@@ -35,18 +35,32 @@
 	async function getCities() {
 		const { cities, success } = await getRequest<{
 			cities: Array<{
-				id: number,
-				cityId: number,
-				population: number,
-				workers: number,
-				name: string,
-				resources: []
+				id: number;
+				cityId: number;
+				population: number;
+				workers: number;
+				name: string;
+				resources: { name: string; amount: number }[];
 			}>;
 			success: boolean;
 		}>("/api/cities");
 
 		if (success) {
-			//const slimmedPositions = positions.map((pos: any) => ({ x: pos.x, y: pos.y, windowsKey: pos.windowKey }));
+			// Adds the current default resources if none are present
+			for (const city of cities) {
+				if (city.resources.length === 0) {
+					city.resources = [
+						{ name: "Wood", amount: 0 },
+						{ name: "Stone", amount: 0 },
+						{ name: "Iron", amount: 0 },
+						{ name: "Gold", amount: 0 },
+						{ name: "Wheat", amount: 0 },
+						{ name: "Silk", amount: 0 }
+					].sort((a, b) => a.name.localeCompare(b.name));
+
+					// Add API call to add these to DB
+				}
+			}
 			console.log("Cities:", cities);
 		} else {
 			console.error("Failed to fetch window positions");
