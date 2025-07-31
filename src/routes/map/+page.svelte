@@ -6,6 +6,7 @@
 	import PlayerWindows from "$lib/partials/playerwindows.svelte";
 	import VendorWindow from "$lib/components/windows/vendor/vendor.svelte";
 	import VendorStore from "$lib/stores/vendor.svelte";
+	import WindowStore from "$lib/stores/windows.svelte";
 	import Book from "$lib/features/book/book.svelte";
 	import { onMount } from "svelte";
 	import { getRequest } from "$lib/utils/request";
@@ -29,6 +30,25 @@
 		if (success) {
 			const slimmedPositions = positions.map((pos: WindowPosition) => ({ x: pos.x, y: pos.y, windowsKey: pos.windowKey }));
 			console.log("Window positions:", slimmedPositions);
+
+			// This works but updates slightly too late, either hide windows until API is called in the future or do it server side.
+			for(const pos of slimmedPositions) {
+				
+				// Switch statement is incomplete
+				switch(pos.windowsKey) {
+					case "Quests":
+						WindowStore.quest.x = pos.x;
+						WindowStore.quest.y = pos.y;
+						console.log("Setting position for Quests window:", pos);
+						break;
+					case "Vendor":
+						WindowStore.vendor.x = pos.x;
+						WindowStore.vendor.y = pos.y;
+						break;
+					default:
+						console.warn(`Unknown window key: ${pos.windowsKey}`);
+				}
+			}
 		} else {
 			console.error("Failed to fetch window positions");
 		}

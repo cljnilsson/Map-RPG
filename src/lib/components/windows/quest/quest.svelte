@@ -13,7 +13,7 @@
 	let active: Quest | undefined = $state(undefined);
 </script>
 
-<Window uniqueKey="Quests" height={700} width={600} x={1300} y={450} toggleKey="q" bind:visibility={WindowStore.quest.visible}>
+<Window uniqueKey="Quests" height={700} width={600} x={WindowStore.quest.x} y={WindowStore.quest.y} toggleKey="q" bind:visibility={WindowStore.quest.visible}>
 	{#snippet title()}
 		<h4 class="my-2">Quests</h4>
 	{/snippet}
