@@ -19,7 +19,7 @@ describe("Logger", () => {
 });
 
 test("Logger renders", async () => {
-	WindowStore.loggerVisibility = true;
+	WindowStore.logger.visible = true;
 
 	const { component } = render(LoggerWindow);
 	expect(component).toBeTruthy();

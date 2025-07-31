@@ -24,7 +24,7 @@
 	x={1300}
 	y={1250}
 	toggleKey="r"
-	bind:visibility={WindowStore.resourcesVisibility}
+	bind:visibility={WindowStore.resources.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">City Resources</h4>

@@ -19,7 +19,7 @@
 	x={1000}
 	y={1250}
 	toggleKey="n"
-	bind:visibility={WindowStore.navigationVisibility}
+	bind:visibility={WindowStore.navigation.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Navigation</h4>

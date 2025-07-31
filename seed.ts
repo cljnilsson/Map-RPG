@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
-import { stat, stats, characters, resource, city, cityData } from "./src/lib/server/db/schema";
-import { eq, and } from "drizzle-orm";
+import { stat, stats, characters, resource, city, cityData, unit, units } from "./src/lib/server/db/schema";
+import { eq } from "drizzle-orm";
 
 const sqlite = new Database("local.db"); // path to your SQLite file
 const db = drizzle(sqlite);
@@ -46,6 +46,17 @@ async function CityExists(name: string): Promise<boolean> {
 
 	return !!exists;
 }
+
+async function UnitExists(name: string): Promise<boolean> {
+	const exists = await db
+		.select()
+		.from(unit)
+		.where(eq(unit.name, name))
+		.get();
+
+	return !!exists;
+}
+
 
 
 async function seed() {
@@ -117,6 +128,28 @@ async function seed() {
 		]);
 
 		console.log("✅ Seeded city data table");
+	}
+
+	if (await UnitExists("Priest")) {
+		console.log("Unit table already seeded, skipping...");
+	} else {
+		await db.insert(unit).values([
+			{ name: "Merchant", iconPath: "/items/mechant.jpg" },
+			{ name: "Soldier", iconPath: "/items/soldier.jpg" },
+			{ name: "Smith", iconPath: "/items/smith.jpg" },
+			{ name: "Priest", iconPath: "/items/priest.jpg" },
+		]);
+
+		console.log("✅ Seeded unit table");
+
+		await db.insert(units).values([
+			{ cityId: 1, unitId: 1, value: 1 },
+			{ cityId: 1, unitId: 2, value: 2 },
+			{ cityId: 1, unitId: 3, value: 3 },
+			{ cityId: 1, unitId: 4, value: 4 },
+		]);
+
+		console.log("✅ Seeded unit data table");
 	}
 }
 

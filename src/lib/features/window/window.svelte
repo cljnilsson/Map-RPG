@@ -9,7 +9,6 @@
 	import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
 	import DialogueStore from "$lib/stores/dialogue.svelte";
 	import { browser } from "$app/environment";
-	import CharacterStore from "$lib/stores/character.svelte";
 	import { SaveController } from "$lib/controller/save.svelte";
 
 	let {

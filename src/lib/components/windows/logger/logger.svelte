@@ -18,7 +18,7 @@
 	x={50}
 	y={900}
 	toggleKey="l"
-	bind:visibility={WindowStore.loggerVisibility}
+	bind:visibility={WindowStore.logger.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Log</h4>

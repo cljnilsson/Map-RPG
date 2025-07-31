@@ -27,7 +27,7 @@
 
 	function clickedOnNpc(npc: NPC) {
 		if (isNPCVendor(npc)) {
-			WindowStore.vendorVisibility = true;
+			WindowStore.vendor.visible = true;
 			VendorStore.currentVendor = npc;
 		} else if (isNPCQuestGiver(npc) && npc.quests.length > 0) {
 			QuestController.addQuest(npc.quests[0]);

@@ -41,19 +41,19 @@
 			{#if isCityMap(MapStore.currentMapState.map)}
 				<button
 					class="btn btn-primary btn-sm mb-2 w-100"
-					onclick={() => (WindowStore.unitVisibility = !WindowStore.unitVisibility)}
+					onclick={() => (WindowStore.unit.visible = !WindowStore.unit.visible)}
 					>Units</button
 				>
 			{/if}
 			<button
 				class="btn btn-secondary btn-sm mb-2 w-100"
 				onclick={() =>
-					(WindowStore.navigationVisibility = !WindowStore.navigationVisibility)}
+					(WindowStore.navigation.visible = !WindowStore.navigation.visible)}
 				>Navigation</button
 			>
 			<button
 				class="btn btn-danger btn-sm w-100"
-				onclick={() => (WindowStore.loggerVisibility = !WindowStore.loggerVisibility)}
+				onclick={() => (WindowStore.logger.visible = !WindowStore.logger.visible)}
 				>Logs</button
 			>
 		</div>

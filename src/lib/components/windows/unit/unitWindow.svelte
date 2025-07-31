@@ -44,7 +44,7 @@
 	x={600}
 	y={950}
 	toggleKey="u"
-	bind:visibility={WindowStore.unitVisibility}
+	bind:visibility={WindowStore.unit.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Management</h4>

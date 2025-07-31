@@ -12,20 +12,22 @@
 
 	console.log(MapStore.currentMapState);
 
+	type WindowPosition = {
+		id: number;
+		characterId: number;
+		windowKey: string;
+		x: number;
+		y: number;
+	}
+
 	async function getWindowPositions() {
 		const { positions, success } = await getRequest<{
-			positions: Array<{
-				id: number;
-				characterId: number;
-				windowKey: string;
-				x: number;
-				y: number;
-			}>;
+			positions: Array<WindowPosition>;
 			success: boolean;
 		}>("/api/characters/1/windows"); // Hardcoded because characters are not loaded from database yet
 
 		if (success) {
-			const slimmedPositions = positions.map((pos: any) => ({ x: pos.x, y: pos.y, windowsKey: pos.windowKey }));
+			const slimmedPositions = positions.map((pos: WindowPosition) => ({ x: pos.x, y: pos.y, windowsKey: pos.windowKey }));
 			console.log("Window positions:", slimmedPositions);
 		} else {
 			console.error("Failed to fetch window positions");

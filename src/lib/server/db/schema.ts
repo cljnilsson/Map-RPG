@@ -60,7 +60,7 @@ export const items = sqliteTable("items", {
 		.notNull()
 		.references(() => characters.id),
 	itemKey: text("itemKey").notNull(),
-	amount: integer("amount").notNull().default(1),
+	amount: integer("amount").notNull().default(1)
 });
 
 export const city = sqliteTable("city", {
@@ -69,7 +69,7 @@ export const city = sqliteTable("city", {
 		.notNull()
 		.references(() => characters.id),*/
 	// In the future might want to link the city to a map but at this time map is not defined server side
-	name: text("name").notNull(),
+	name: text("name").notNull()
 });
 
 // The city data is per character and reuses data from the 'base' city
@@ -79,7 +79,7 @@ export const cityData = sqliteTable("cityData", {
 		.notNull()
 		.references(() => characters.id),
 	population: integer("population").notNull().default(1),
-	workers: integer("workers").notNull().default(0),
+	workers: integer("workers").notNull().default(0)
 	// Add the roles once defined, e.g soldiers, merchants, smiths, priests etc
 });
 
@@ -90,7 +90,7 @@ export const windowPositions = sqliteTable("windowPositions", {
 		.references(() => characters.id),
 	windowKey: text("windowKey").notNull(),
 	x: integer("x").notNull(),
-	y: integer("y").notNull(),
+	y: integer("y").notNull()
 });
 
 export const stat = sqliteTable("stat", {
@@ -116,6 +116,29 @@ export const stats = sqliteTable(
 	})
 );
 
+export const unit = sqliteTable("unit", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	iconPath: text("icon_path").notNull(),
+	name: text("name").notNull().unique()
+});
+
+export const units = sqliteTable(
+	"units",
+	{
+		id: integer("id").primaryKey({ autoIncrement: true }),
+		cityId: integer("city_id")
+			.notNull()
+			.references(() => cityData.id),
+		unitId: integer("stat_id")
+			.notNull()
+			.references(() => unit.id),
+		value: integer("value").notNull()
+	},
+	(units) => ({
+		uniqueCharacterStat: unique().on(units.cityId, units.unitId)
+	})
+);
+
 export const resource = sqliteTable("resource", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	name: text("name").notNull().unique()
@@ -134,7 +157,6 @@ export const resources = sqliteTable(
 		value: integer("value").notNull()
 	},
 	(resources) => ({
-		// Prevents duplicate stats for the same character
 		uniqueCharacterStat: unique().on(resources.cityId, resources.resourceId)
 	})
 );
@@ -147,14 +169,15 @@ export const userRelations = relations(user, ({ many }) => ({
 
 export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 	resources: many(resources),
-	city: one(city, { fields: [cityData.cityId], references: [city.id] })
+	city: one(city, { fields: [cityData.cityId], references: [city.id] }),
+	units: many(units)
 }));
 
 export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),
 	user: one(user),
 	inventory: many(items),
-	windowPositions: many(windowPositions),
+	windowPositions: many(windowPositions)
 }));
 
 export const statsRelations = relations(stats, ({ one }) => ({
@@ -162,6 +185,14 @@ export const statsRelations = relations(stats, ({ one }) => ({
 	stat: one(stat, {
 		fields: [stats.statId],
 		references: [stat.id]
+	})
+}));
+
+export const unitsRelations = relations(units, ({ one }) => ({
+	city: one(cityData, { fields: [units.cityId], references: [cityData.id] }),
+	unit: one(unit, {
+		fields: [units.unitId],
+		references: [unit.id]
 	})
 }));
 
@@ -174,11 +205,11 @@ export const resourcesRelations = relations(resources, ({ one }) => ({
 }));
 
 export const itemRelations = relations(items, ({ one }) => ({
-	character: one(characters, { fields: [items.characterId], references: [characters.id] }),
+	character: one(characters, { fields: [items.characterId], references: [characters.id] })
 }));
 
 export const windowPositionRelations = relations(windowPositions, ({ one }) => ({
-	character: one(characters, { fields: [windowPositions.characterId], references: [characters.id] }),
+	character: one(characters, { fields: [windowPositions.characterId], references: [characters.id] })
 }));
 
 // EXPORTS

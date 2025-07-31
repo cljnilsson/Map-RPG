@@ -13,7 +13,7 @@
 	x={1600}
 	y={1250}
 	toggleKey="e"
-	bind:visibility={WindowStore.eventsVisibility}
+	bind:visibility={WindowStore.events.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Events</h4>

@@ -12,6 +12,11 @@ async function getCities() {
 					resource: true
 				}
 			},
+			units: {
+				with: {
+					unit: true
+				}
+			},
 			city: true
 		}
 	});
@@ -24,9 +29,14 @@ export const GET: RequestHandler = async ({ locals }) => {
 
 	const existing = await getCities()
 
-	const cities = existing.map(({ city, ...rest }) => ({
+	const cities = existing.map(({ city, units, ...rest }) => ({
 		...rest,
-		name: city.name
+		name: city.name,
+		units: units.map(({ unit, ...unitRest }) => ({
+			...unitRest,
+			name: unit.name,
+			iconPath: unit.iconPath
+		}))
 	}));
 
 	return json({ success: true, cities: cities });
