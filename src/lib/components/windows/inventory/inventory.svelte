@@ -4,7 +4,7 @@
     import Inventory from "$lib/features/inventory/inventory.svelte";
 </script>
 
-<Window uniqueKey="Inventory" height={700} width={480} x={300} y={450} toggleKey="i" bind:visibility={WindowStore.inventory.visible}>
+<Window uniqueKey="Inventory" height={700} width={480} x={WindowStore.inventory.x} y={WindowStore.inventory.y} toggleKey="i" bind:visibility={WindowStore.inventory.visible}>
 	{#snippet title()}
 		<h4 class="my-2">Inventory</h4>
 	{/snippet}

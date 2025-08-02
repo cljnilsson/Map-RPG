@@ -1,3 +1,5 @@
+import type { ContainerGameObject } from "$lib/types/gameObject";
+
 type WindowData = {
 	visible: boolean;
 	x: number;
@@ -13,6 +15,10 @@ const Store = $state<{
 	quest: WindowData;
 	inventory: WindowData;
 	vendor: WindowData;
+	container: WindowData & {
+		// pattern breaking, maybe should move this elsewhere
+		object: ContainerGameObject | null;
+	};
 }>({
 	logger: {
 		visible: false,
@@ -53,6 +59,12 @@ const Store = $state<{
 		visible: false,
 		x: 300,
 		y: 450
+	},
+	container: {
+		visible: false,
+		x: 300,
+		y: 450,
+		object: null
 	}
 });
 

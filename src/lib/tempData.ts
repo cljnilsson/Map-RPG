@@ -3,6 +3,7 @@ import type { VendorNPC } from "$lib/types/npc";
 import type { LootableQuestGameObject } from "./types/gameObject";
 import { getItem } from "$lib/data/items";
 import { getQuest } from "$lib/data/quests";
+import { getGameobject } from "./data/gameObjects";
 
 const wo: WorldMap = {
 	name: "Westeros",
@@ -75,16 +76,8 @@ export const starkKeep: CustomMap = {
 	previous: winterfell,
 	contains: [],
 	objects: [
-		{
-			name: "Mysterious scroll",
-			img: "/scroll.png",
-			position: { x: 530, y: 280 },
-			conditions: [],
-			pickedUpItem: {item: getItem("test-quest-item1"), amount: 1},
-			quests: [
-				getQuest("test-quest-2")
-			]
-		} as LootableQuestGameObject
+		getGameobject("test-scroll-1"),
+		getGameobject("test-chest-1")
 	],
 	npcs: [
 		{

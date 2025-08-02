@@ -41,8 +41,8 @@
 	uniqueKey="UnitManagement"
 	height={500}
 	width={400}
-	x={600}
-	y={950}
+	x={WindowStore.unit.x}
+	y={WindowStore.unit.y}
 	toggleKey="u"
 	bind:visibility={WindowStore.unit.visible}
 >

@@ -21,8 +21,8 @@
 	uniqueKey="Resources"
 	height={200}
 	width={300}
-	x={1300}
-	y={1250}
+	x={WindowStore.resources.x}
+	y={WindowStore.resources.y}
 	toggleKey="r"
 	bind:visibility={WindowStore.resources.visible}
 >

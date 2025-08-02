@@ -1,4 +1,4 @@
-import type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject } from "$lib/types/gameObject";
+import type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject, ContainerGameObject } from "$lib/types/gameObject";
 
 
 function isLootableGameObject(obj: GameObject): obj is LootableGameObject {
@@ -17,4 +17,8 @@ function isBaseGameObject(obj: GameObject): obj is GameObject {
 	return !("pickedUpItem" in obj) && !("quests" in obj);
 }
 
-export { isLootableGameObject, isQuestGameObject, isLootableQuestGameObject, isBaseGameObject };
+function isContainerGameObject(obj: GameObject): obj is ContainerGameObject {
+	return "contains" in obj && Array.isArray(obj.contains);
+}
+
+export { isLootableGameObject, isQuestGameObject, isLootableQuestGameObject, isBaseGameObject, isContainerGameObject};

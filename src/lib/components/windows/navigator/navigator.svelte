@@ -16,8 +16,8 @@
 	uniqueKey="Navigator"
 	height={200}
 	width={300}
-	x={1000}
-	y={1250}
+	x={WindowStore.navigation.x}
+	y={WindowStore.navigation.y}
 	toggleKey="n"
 	bind:visibility={WindowStore.navigation.visible}
 >

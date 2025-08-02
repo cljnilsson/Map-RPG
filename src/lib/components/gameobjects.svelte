@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import MapStore from "$lib/stores/map.svelte";
-	import { isLootableQuestGameObject, isQuestGameObject } from "$lib/typeguards/gameObject";
+	import WindowStore from "$lib/stores/windows.svelte";
+	import { isContainerGameObject, isLootableQuestGameObject, isQuestGameObject } from "$lib/typeguards/gameObject";
 	import type { GameObject } from "$lib/types/gameObject";
 	import HoverOutlineImage from "$lib/utils/outline.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
@@ -37,6 +38,12 @@
 		} else if (isQuestGameObject(o) && o.quests.length > 0) {
 			console.log("adding quest");
 			QuestController.addQuest(o.quests[0]);
+		} else if(isContainerGameObject(o)) {
+			console.log("Opening container", o);
+			if(o.contains.length > 0) {
+				WindowStore.container.visible = true;
+				WindowStore.container.object = o;
+			}
 		}
 	}
 </script>

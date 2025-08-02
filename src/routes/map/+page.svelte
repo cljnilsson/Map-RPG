@@ -7,6 +7,7 @@
 	import VendorWindow from "$lib/components/windows/vendor/vendor.svelte";
 	import VendorStore from "$lib/stores/vendor.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
+	import ContainerWindow from "$lib/components/windows/container/container.svelte";
 	import Book from "$lib/features/book/book.svelte";
 	import { onMount } from "svelte";
 	import { getRequest } from "$lib/utils/request";
@@ -33,13 +34,28 @@
 
 			// This works but updates slightly too late, either hide windows until API is called in the future or do it server side.
 			for(const pos of slimmedPositions) {
-				
+
 				// Switch statement is incomplete
 				switch(pos.windowsKey) {
 					case "Quests":
 						WindowStore.quest.x = pos.x;
 						WindowStore.quest.y = pos.y;
 						console.log("Setting position for Quests window:", pos);
+						break;
+					case "Inventory":
+						WindowStore.inventory.x = pos.x;
+						WindowStore.inventory.y = pos.y;
+						console.log("Setting position for Inventory window:", pos);
+						break;
+					case "Logger":
+						WindowStore.logger.x = pos.x;
+						WindowStore.logger.y = pos.y;
+						console.log("Setting position for Logger window:", pos);
+						break;
+					case "Navigator":
+						WindowStore.navigation.x = pos.x;
+						WindowStore.navigation.y = pos.y;
+						console.log("Setting position for Navigator window:", pos);
 						break;
 					case "Vendor":
 						WindowStore.vendor.x = pos.x;
@@ -110,6 +126,9 @@
 			<PlayerWindows />
 			{#if VendorStore.currentVendor}
 				<VendorWindow vendor={VendorStore.currentVendor} />
+			{/if}
+			{#if WindowStore.container.object}
+				<ContainerWindow />
 			{/if}
 			<Book />
 		</div>

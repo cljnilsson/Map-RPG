@@ -7,7 +7,6 @@
 	let currentLogs = $derived(
 		LogStore.logs.slice((LogStore.currentPage - 1) * 8, LogStore.currentPage * 8)
 	);
-	let tempTest = 0;
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -15,8 +14,8 @@
 	uniqueKey="Logger"
 	height={400}
 	width={700}
-	x={50}
-	y={900}
+	x={WindowStore.logger.x}
+	y={WindowStore.logger.y}
 	toggleKey="l"
 	bind:visibility={WindowStore.logger.visible}
 >

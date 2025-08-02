@@ -2,6 +2,7 @@ import type { Quest } from "$lib/types/quest";
 import type { InventoryItem } from "$lib/types/item";
 
 type GameObject = {
+	id: string;
 	name: string;
 	img: string;
 	position: { x: number; y: number };
@@ -20,4 +21,9 @@ type LootableQuestGameObject = QuestGameObject & {
 	pickedUpItem: InventoryItem;
 };
 
-export type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject };
+type ContainerGameObject = GameObject & {
+	contains: InventoryItem[];
+	itemsTaken: InventoryItem[];
+}
+
+export type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject, ContainerGameObject };
