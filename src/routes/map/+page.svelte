@@ -61,6 +61,10 @@
 						WindowStore.vendor.x = pos.x;
 						WindowStore.vendor.y = pos.y;
 						break;
+					case "Container":
+						WindowStore.container.x = pos.x;
+						WindowStore.container.y = pos.y;
+						break;
 					default:
 						console.warn(`Unknown window key: ${pos.windowsKey}`);
 				}

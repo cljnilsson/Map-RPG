@@ -9,7 +9,9 @@
 		<h4 class="my-2">{WindowStore.container.object?.name}</h4>
 	{/snippet}
 	{#snippet body()}
-		xxxx
+		{#each WindowStore.container.object?.contains ?? [] as item}
+			<p>{item.item.name}</p>
+		{/each}
 	{/snippet}
 	{#snippet footer()}
 		<span></span>

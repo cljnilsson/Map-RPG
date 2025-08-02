@@ -21,7 +21,9 @@ const gameobjectRegistry = {
 			position: { x: 1100, y: 500 },
 			conditions: [],
 			itemsTaken: [],
-			contains: [{ item: getItem("test-quest-item1"), amount: 1 }]
+			contains: [
+				{ item: getItem("reset-potion"), amount: 1 },
+			]
 		}) as ContainerGameObject
 } as const;
 

@@ -48,6 +48,14 @@ export class PlayerController extends CharacterController {
 		});
 	}
 
+	public static get conditions(): string[] {
+		return PlayerStore.character.conditions;
+	}
+
+	public static set conditions(v: string[]) {
+		PlayerStore.character.conditions = [...v];
+	}
+
 	public static get maxHealth(): number {
 		return PlayerStore.character.maxHealth;
 	}
@@ -71,10 +79,6 @@ export class PlayerController extends CharacterController {
 
 		// save in future
 		// also handle leveups
-	}
-
-	public static get conditions(): string[] {
-		return PlayerStore.character.conditions;
 	}
 
 	public static get money(): { gold: number; silver: number; copper: number } {

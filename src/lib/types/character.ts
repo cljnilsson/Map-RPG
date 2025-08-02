@@ -9,7 +9,7 @@ type Character = {
 	gender: string;
 	xp: number;
 	level: number;
-	conditions: [];
+	conditions: string[];
 	money: {
 		gold: number;
 		silver: number;

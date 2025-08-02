@@ -1,11 +1,12 @@
-import type { VendorItem, Item, UsableItem } from "$lib/types/item";
 import healthPotion from "$lib/data/items/healthPotion";
+import resetPotion from "$lib/data/items/restorePotion";
 import oldBook from "$lib/data/items/oldBook";
 import tempItems from "$lib/data/items/testItems";
 
 // Types are either Item, VendorItem or UsableItem all of which are subtypes of Item if not Item itself
 const itemRegistry = {
 	"health-potion": () => ({ ...healthPotion }),
+	"reset-potion": () => ({ ...resetPotion }),
 	"old-book": () => ({ ...oldBook }),
 	"test-sword1": () => ({ ...tempItems[0] }),
 	"test-armor1": () => ({ ...tempItems[1] }),
