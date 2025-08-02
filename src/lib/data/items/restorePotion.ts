@@ -5,7 +5,7 @@ const restorePotion = {
 	type: "usable",
 	id: "reset-potion",
 	name: "Restoration Potion",
-	iconPath: "/items/potion5.png",
+	iconPath: "/items/potion6.png",
 	iconClass: "",
 	unique: false,
 	description: "Removes all conditions from you.",

@@ -4,9 +4,9 @@ import PlayerStore from "$lib/stores/character.svelte";
 import type { NPC } from "$lib/types/npc";
 import { LogController } from "$lib/controller/logs.svelte";
 
-export class CharacterController { }
+export class CharacterController {}
 
-export class NPCController extends CharacterController { }
+export class NPCController extends CharacterController {}
 
 export class PlayerController extends CharacterController {
 	// ---------------
@@ -91,7 +91,6 @@ export class PlayerController extends CharacterController {
 
 		PlayerStore.character.money = m;
 
-
 		// Current save does not support money nor does the database itself if I recall
 	}
 
@@ -137,16 +136,16 @@ export class PlayerController extends CharacterController {
 		return playerCopper >= priceCopper;
 	}
 
-	// Give specifically 1 of item
-	public static giveItem(i: Item): boolean {
+	public static giveItem(i: Item, amount: number = 1): boolean {
 		if (i.unique && PlayerStore.inventory.some((slot) => slot.item.name === i.name)) {
 			LogController.newLog(`You already have a unique item: ${i.name}.`, "info");
 			return false;
 		}
 
 		if (PlayerStore.inventory.length < PlayerController.inventorySize) {
-			PlayerStore.inventory = [...PlayerStore.inventory, { item: i, amount: 1 }];
-			LogController.newLog(`You received a ${i.name}.`, "info");
+			PlayerStore.inventory = [...PlayerStore.inventory, { item: i, amount }];
+			const itemLabel = amount > 1 ? `${amount}x ${i.name}` : `a ${i.name}`;
+			LogController.newLog(`You received ${itemLabel}.`, "info");
 			return true;
 		}
 
@@ -171,11 +170,7 @@ export class PlayerController extends CharacterController {
 			PlayerStore.character.money.gold
 		);
 
-		const priceCopper = PlayerController.moneyToCopper(
-			item.price.copper,
-			item.price.silver,
-			item.price.gold
-		);
+		const priceCopper = PlayerController.moneyToCopper(item.price.copper, item.price.silver, item.price.gold);
 
 		const remainingCopper = playerCopper - priceCopper;
 		const { gold, silver, copper } = PlayerController.copperToMoney(remainingCopper);
