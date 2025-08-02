@@ -4,11 +4,8 @@
 	import { world, winterfell, kingsLanding } from "$lib/tempData";
 	import MapStore from "$lib/stores/map.svelte";
 	import PlayerWindows from "$lib/partials/playerwindows.svelte";
-	import VendorWindow from "$lib/components/windows/vendor/vendor.svelte";
-	import VendorStore from "$lib/stores/vendor.svelte";
+	import GameWindows from "$lib/partials/gamewindows.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
-	import ContainerWindow from "$lib/components/windows/container/container.svelte";
-	import Book from "$lib/features/book/book.svelte";
 	import { onMount } from "svelte";
 	import { getRequest } from "$lib/utils/request";
 
@@ -128,13 +125,7 @@
 			</div>
 
 			<PlayerWindows />
-			{#if VendorStore.currentVendor}
-				<VendorWindow vendor={VendorStore.currentVendor} />
-			{/if}
-			{#if WindowStore.container.object}
-				<ContainerWindow />
-			{/if}
-			<Book />
+			<GameWindows />
 		</div>
 	{:else}
 		<p>No map chosen</p>

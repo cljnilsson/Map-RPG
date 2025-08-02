@@ -26,7 +26,9 @@
 	});
 
 	function clickedOnNpc(npc: NPC) {
+		console.log("Clicked on NPC:", npc.name);
 		if (isNPCVendor(npc)) {
+			console.log("Is vendor!");
 			WindowStore.vendor.visible = true;
 			VendorStore.currentVendor = npc;
 		} else if (isNPCQuestGiver(npc) && npc.quests.length > 0) {
