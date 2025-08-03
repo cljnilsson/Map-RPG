@@ -11,7 +11,7 @@
 		type: "unit",
 		time: { start: new Date(), end: dayjs().add(15, "seconds").toDate() },
 		onComplete: () => {
-			CityStore.soldiers += 1;
+			CityStore.units.soldiers += 1;
 		}}
 	];
 
@@ -55,22 +55,26 @@
 		<div class="my-4">
 			<UnitDesignator
 				name="Soldiers"
-				bind:unit={CityStore.soldiers}
+				iconPath="/units/soldier.jpg"
+				bind:unit={CityStore.units.soldiers}
 				bind:available={CityStore.workers}
 			/>
 			<UnitDesignator
 				name="Merchants"
-				bind:unit={CityStore.merchants}
+				iconPath="/units/merchant.jpg"
+				bind:unit={CityStore.units.merchants}
 				bind:available={CityStore.workers}
 			/>
 			<UnitDesignator
 				name="Smiths"
-				bind:unit={CityStore.smiths}
+				iconPath="/units/smith.jpg"
+				bind:unit={CityStore.units.smiths}
 				bind:available={CityStore.workers}
 			/>
 			<UnitDesignator
 				name="Priests"
-				bind:unit={CityStore.priests}
+				iconPath="/units/priest.jpg"
+				bind:unit={CityStore.units.priests}
 				bind:available={CityStore.workers}
 			/>
 		</div>

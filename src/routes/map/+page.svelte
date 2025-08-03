@@ -58,6 +58,15 @@
 						WindowStore.vendor.x = pos.x;
 						WindowStore.vendor.y = pos.y;
 						break;
+					case "Resources":
+						WindowStore.resources.x = pos.x;
+						WindowStore.resources.y = pos.y;
+						console.log("Setting position for Resources window:", pos);
+						break;
+					case "Events":
+						WindowStore.events.x = pos.x;
+						WindowStore.events.y = pos.y;
+						break;
 					case "Container":
 						WindowStore.container.x = pos.x;
 						WindowStore.container.y = pos.y;

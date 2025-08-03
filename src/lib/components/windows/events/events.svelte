@@ -10,8 +10,8 @@
 	uniqueKey="Events"
 	height={200}
 	width={300}
-	x={1600}
-	y={1250}
+	x={WindowStore.events.x}
+	y={WindowStore.events.y}
 	toggleKey="e"
 	bind:visibility={WindowStore.events.visible}
 >
