@@ -17,7 +17,7 @@
 		windowKey: string;
 		x: number;
 		y: number;
-	}
+	};
 
 	async function getWindowPositions() {
 		const { positions, success } = await getRequest<{
@@ -30,10 +30,9 @@
 			console.log("Window positions:", slimmedPositions);
 
 			// This works but updates slightly too late, either hide windows until API is called in the future or do it server side.
-			for(const pos of slimmedPositions) {
-
+			for (const pos of slimmedPositions) {
 				// Switch statement is incomplete
-				switch(pos.windowsKey) {
+				switch (pos.windowsKey) {
 					case "Quests":
 						WindowStore.quest.x = pos.x;
 						WindowStore.quest.y = pos.y;
@@ -71,6 +70,10 @@
 						WindowStore.container.x = pos.x;
 						WindowStore.container.y = pos.y;
 						break;
+					case "UnitManagement":
+						WindowStore.unit.x = pos.x;
+						WindowStore.unit.y = pos.y;
+						break;
 					default:
 						console.warn(`Unknown window key: ${pos.windowsKey}`);
 				}
@@ -88,7 +91,7 @@
 				population: number;
 				workers: number;
 				name: string;
-				resources: { name: string; amount: number }[];
+				resources: { name: string; amount: number; iconPath: string }[];
 			}>;
 			success: boolean;
 		}>("/api/cities");
@@ -97,14 +100,15 @@
 			// Adds the current default resources if none are present
 			for (const city of cities) {
 				if (city.resources.length === 0) {
-					city.resources = [
-						{ name: "Wood", amount: 0 },
-						{ name: "Stone", amount: 0 },
-						{ name: "Iron", amount: 0 },
-						{ name: "Gold", amount: 0 },
-						{ name: "Wheat", amount: 0 },
-						{ name: "Silk", amount: 0 }
-					].sort((a, b) => a.name.localeCompare(b.name));
+					console.warn("City has no resources which is probably invalid")
+					/*city.resources = [
+						{ name: "Wood", amount: 0, iconPath: "" },
+						{ name: "Stone", amount: 0, iconPath: "" },
+						{ name: "Iron", amount: 0, iconPath: "" },
+						{ name: "Gold", amount: 0, iconPath: "" },
+						{ name: "Wheat", amount: 0, iconPath: "" },
+						{ name: "Silk", amount: 0, iconPath: "" }
+					].sort((a, b) => a.name.localeCompare(b.name));*/
 
 					// Add API call to add these to DB
 				}

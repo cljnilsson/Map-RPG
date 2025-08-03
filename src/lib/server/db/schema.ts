@@ -141,7 +141,8 @@ export const units = sqliteTable(
 
 export const resource = sqliteTable("resource", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	name: text("name").notNull().unique()
+	name: text("name").notNull().unique(),
+	iconPath: text("icon_path").notNull().unique()
 });
 
 export const resources = sqliteTable(
@@ -153,7 +154,7 @@ export const resources = sqliteTable(
 			.references(() => cityData.id),
 		resourceId: integer("resource_id")
 			.notNull()
-			.references(() => stat.id),
+			.references(() => resource.id),
 		value: integer("value").notNull()
 	},
 	(resources) => ({
