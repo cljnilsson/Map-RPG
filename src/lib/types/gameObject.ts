@@ -6,7 +6,7 @@ type GameObject = {
 	name: string;
 	img: string;
 	position: { x: number; y: number };
-	conditions: unknown[]; // Also temp
+	conditions: unknown[]; // temp for future debuffs / statuses
 };
 
 type LootableGameObject = GameObject & {
@@ -24,6 +24,7 @@ type LootableQuestGameObject = QuestGameObject & {
 type ContainerGameObject = GameObject & {
 	contains: InventoryItem[];
 	itemsTaken: InventoryItem[];
+	requiredItems: InventoryItem[];
 }
 
 export type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject, ContainerGameObject };

@@ -77,7 +77,8 @@ export const starkKeep: CustomMap = {
 	contains: [],
 	objects: [
 		getGameobject("test-scroll-1"),
-		getGameobject("test-chest-1")
+		getGameobject("test-chest-1"),
+		getGameobject("test-key-1")
 	],
 	npcs: [
 		{

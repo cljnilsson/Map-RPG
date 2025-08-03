@@ -85,6 +85,16 @@ const items = [
 		unique: false,
 		description: "An unknown black stone with a strange glow.",
 		quality: "epic"
+	} satisfies Item,
+	{
+		type: "item",
+		id: "test-chest-key1",
+		name: "Rusty Key",
+		iconPath: "/items/key.png",
+		iconClass: "",
+		unique: true,
+		description: "A rusty key that looks like it might open something.",
+		quality: "common"
 	} satisfies Item
 ] as const;
 

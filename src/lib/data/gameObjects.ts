@@ -13,6 +13,15 @@ const gameobjectRegistry = {
 			pickedUpItem: { item: getItem("test-quest-item1"), amount: 1 },
 			quests: [getQuest("test-quest-2")]
 		}) as LootableQuestGameObject,
+	"test-key-1": () =>
+		({
+			id: "test-key-1",
+			name: "Rusty Key",
+			img: "/key.png",
+			position: { x: 1290, y: 825 },
+			conditions: [],
+			pickedUpItem: { item: getItem("test-chest-key1"), amount: 1 }
+		}) as LootableGameObject,
 	"test-chest-1": () =>
 		({
 			id: "test-chest-1",
@@ -21,15 +30,14 @@ const gameobjectRegistry = {
 			position: { x: 1100, y: 500 },
 			conditions: [],
 			itemsTaken: [],
-			contains: [
-				{ item: getItem("reset-potion"), amount: 1 },
-			]
+			contains: [{ item: getItem("reset-potion"), amount: 1 }],
+			requiredItems: [{ item: getItem("test-chest-key1"), amount: 1 }],
 		}) as ContainerGameObject
 } as const;
 
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety
 for (const [key, value] of Object.entries(gameobjectRegistry)) {
-	if (key === value().id) {
+	if (key === value()?.id) {
 		continue;
 	} else {
 		throw new Error(`Quest ID mismatch: key "${key}" does not match item ID "${value().id}"`);

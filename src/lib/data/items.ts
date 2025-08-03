@@ -14,7 +14,8 @@ const itemRegistry = {
 	"test-quest-item1": () => ({ ...tempItems[3] }),
 	"test-item-1": () => ({ ...tempItems[4] }),
 	"test-item-2": () => ({ ...tempItems[5] }),
-	"test-item-3": () => ({ ...tempItems[6] })
+	"test-item-3": () => ({ ...tempItems[6] }),
+	"test-chest-key1": () => ({ ...tempItems[7] })
 } as const;
 
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety

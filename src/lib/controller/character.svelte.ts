@@ -1,5 +1,5 @@
 //import type { Character } from "$lib/types/character";
-import type { Item, VendorItem } from "$lib/types/item";
+import type { Item, VendorItem, InventoryItem } from "$lib/types/item";
 import PlayerStore from "$lib/stores/character.svelte";
 import type { NPC } from "$lib/types/npc";
 import { LogController } from "$lib/controller/logs.svelte";
@@ -182,6 +182,14 @@ export class PlayerController extends CharacterController {
 		PlayerController.giveItem(item);
 
 		return true;
+	}
+
+	public static hasItems(items: InventoryItem[]): boolean {
+		return items.every(({ item, amount }) =>
+			PlayerStore.inventory.some(
+				(slot) => slot.item.name === item.name && slot.amount >= amount
+			)
+		);
 	}
 
 	public static hasItem(name: string): boolean;

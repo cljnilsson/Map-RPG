@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
-	import { isContainerGameObject, isLootableQuestGameObject, isQuestGameObject } from "$lib/typeguards/gameObject";
+	import { isContainerGameObject, isLootableQuestGameObject, isQuestGameObject, isLootableGameObject } from "$lib/typeguards/gameObject";
 	import type { GameObject } from "$lib/types/gameObject";
 	import HoverOutlineImage from "$lib/utils/outline.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
@@ -39,11 +39,19 @@
 			console.log("adding quest");
 			QuestController.addQuest(o.quests[0]);
 		} else if(isContainerGameObject(o)) {
+			if(o.requiredItems.length > 0 &&  !PlayerController.hasItems(o.requiredItems)) {
+				console.log("You do not have the required items to open this container.");
+				return;
+			}
+
 			console.log("Opening container", o);
 			if(o.contains.length > 0) {
 				WindowStore.container.visible = true;
 				WindowStore.container.object = o;
 			}
+		} else if(isLootableGameObject(o)) {
+			console.log("Adding item");
+			PlayerController.giveItem(o.pickedUpItem.item);
 		}
 	}
 </script>
