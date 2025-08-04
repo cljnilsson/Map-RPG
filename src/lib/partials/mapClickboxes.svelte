@@ -7,6 +7,7 @@
 	import PlotClickBox from "$lib/components/PlotClickBox.svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import {isCityMap} from "$lib/typeguards/map";
+	import { getBuildingsByPlotType } from "$lib/data/buildings";
 
 	function toggleSelection(rect: MapWithClickBox) {
 		//MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
@@ -27,6 +28,7 @@
 
 	function handlePlotClick(identifier: string, x: number, y: number, rotation: number) {
 		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
+		console.log("options:", getBuildingsByPlotType("default"));
 	}
 
 	$effect(() => {

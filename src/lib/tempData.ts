@@ -20,10 +20,10 @@ const winterfellO: CityMap = {
 		unlocked: true,
 		resources: [], // not used at the moment? check/fix later
 		plots: [
-			{ x: 150, y: 430, building: undefined },
-			{ x: 485, y: 430, building: undefined },
-			{ x: 275, y: 560, building: undefined },
-			{ x: 670, y: 600, building: undefined }
+			{ x: 150, y: 430, building: undefined, plotType: "default" },
+			{ x: 485, y: 430, building: undefined, plotType: "default" },
+			{ x: 275, y: 560, building: undefined, plotType: "default" },
+			{ x: 670, y: 600, building: undefined, plotType: "default" }
 		],
 	}
 };
