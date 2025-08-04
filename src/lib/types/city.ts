@@ -5,6 +5,11 @@ type City = {
 	unlocked: boolean;
 	owned: boolean;
 	resources: Resource[];
+	plots: {
+		x: number;
+		y: number;
+		building: string | undefined;
+	}[]
 };
 
 export type { City };

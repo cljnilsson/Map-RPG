@@ -21,7 +21,7 @@ describe("Inventory", () => {
 		expect(PlayerController.hasItem("Magical Rock")).toBe(false);
 	});
 
-	it("Has items", () => {
+	it("Has items", () => { // In future add a check for non stackable items
 		const testItems = [
 			{ item: getItem("test-item-1"), amount: 1 },
 			{ item: getItem("test-item-2"), amount: 1 },

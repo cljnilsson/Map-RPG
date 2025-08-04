@@ -1,6 +1,5 @@
 import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
 import type { VendorNPC } from "$lib/types/npc";
-import type { LootableQuestGameObject } from "./types/gameObject";
 import { getItem } from "$lib/data/items";
 import { getQuest } from "$lib/data/quests";
 import { getGameobject } from "./data/gameObjects";
@@ -14,12 +13,18 @@ const wo: WorldMap = {
 const winterfellO: CityMap = {
 	name: "Winterfell",
 	type: "city",
-	imagePath: "/map3.webp",
+	imagePath: "/city-with-plots.png",
 	city: {
 		name: "Winterfell",
 		owned: true,
 		unlocked: true,
-		resources: []
+		resources: [], // not used at the moment? check/fix later
+		plots: [
+			{ x: 150, y: 430, building: undefined },
+			{ x: 485, y: 430, building: undefined },
+			{ x: 275, y: 560, building: undefined },
+			{ x: 670, y: 600, building: undefined }
+		],
 	}
 };
 
@@ -31,7 +36,8 @@ const kingsLandingO: CityMap = {
 		name: "King's Landing",
 		owned: false,
 		unlocked: true,
-		resources: []
+		resources: [],
+		plots: []
 	}
 };
 
@@ -58,7 +64,7 @@ export const world: CustomMap = {
 export const winterfell: CustomMap = {
 	map: winterfellO,
 	previous: world,
-	contains: [{ map: starkKeepO, clickBox: { x: 830, y: 110, originalX: 830, originalY: 110, width: 400, height: 220, rotation: 50 } }],
+	contains: [{ map: starkKeepO, clickBox: { x: 730, y: 170, originalX: 730, originalY: 170, width: 465, height: 250, rotation: 340 } }],
 	objects: [],
 	npcs: []
 };
@@ -75,22 +81,14 @@ export const starkKeep: CustomMap = {
 	map: starkKeepO,
 	previous: winterfell,
 	contains: [],
-	objects: [
-		getGameobject("test-scroll-1"),
-		getGameobject("test-chest-1"),
-		getGameobject("test-key-1")
-	],
+	objects: [getGameobject("test-scroll-1"), getGameobject("test-chest-1"), getGameobject("test-key-1")],
 	npcs: [
 		{
 			name: "Guard Jenax",
 			img: "/guard.png",
 			position: { x: 730, y: 380 },
 			conditions: [],
-			items: [
-				getItem("test-helm1"),
-				getItem("test-armor1"),
-				getItem("test-sword1"),
-			],
+			items: [getItem("test-helm1"), getItem("test-armor1"), getItem("test-sword1")],
 			health: 100,
 			maxHealth: 100
 		} as VendorNPC

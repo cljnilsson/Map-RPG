@@ -4,7 +4,9 @@
 	import Draggable from "$lib/utils/Draggable.svelte";
 	import ResizeAnchors from "$lib/utils/ResizeAnchors.svelte";
 	import MapClickBox from "$lib/components/MapClickBox.svelte";
+	import PlotClickBox from "$lib/components/PlotClickBox.svelte";
 	import MapStore from "$lib/stores/map.svelte";
+	import {isCityMap} from "$lib/typeguards/map";
 
 	function toggleSelection(rect: MapWithClickBox) {
 		//MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
@@ -22,6 +24,11 @@
 			MapStore.currentMapState = found;
 		}
 	}
+
+	function handlePlotClick(identifier: string, x: number, y: number, rotation: number) {
+		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
+	}
+
 	$effect(() => {
 		console.log(MapStore.selectedBox?.map.name);
 		//$inspect(MapStore.selectedBox);
@@ -59,4 +66,11 @@
 			</div>
 		{/if}
 	{/each}
+	{#if isCityMap(MapStore.currentMapState.map)}
+		{#each MapStore.currentMapState.map.city.plots as plot, i}
+			<div style="position: absolute; left: {plot.x}px; top: {plot.y}px;">
+				<PlotClickBox identifier={i + ""} x={220} y={120} rotation={0} selectedBox={MapStore.selectedBox} onClickCallback={handlePlotClick} />
+			</div>
+		{/each}
+	{/if}
 {/if}

@@ -8,9 +8,15 @@
 		selectedBox
 	}: {
 		rect: MapWithClickBox;
-		onClickCallback: (clicked: MapWithClickBox) => void;
+		onClickCallback?: (clicked: MapWithClickBox) => void;
 		selectedBox: MapWithClickBox | null;
 	} = $props();
+
+	function onClick(rect: MapWithClickBox) {
+		if(onClickCallback) {
+			onClickCallback(rect)
+		}
+	}
 </script>
 
 <button
@@ -18,7 +24,7 @@
 	class:overlay-rect-editing={selectedBox?.map.name === rect.map.name}
 	class:overlay-rect-navigation={MapStore.currentNavigationHover?.map.name === rect.map.name}
 	type="button"
-	onclick={() => onClickCallback(rect)}
+	onclick={() => onClick(rect)}
 	style="
         width: {rect.clickBox.width}px;
         height: {rect.clickBox.height}px;
