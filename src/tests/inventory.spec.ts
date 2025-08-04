@@ -21,6 +21,20 @@ describe("Inventory", () => {
 		expect(PlayerController.hasItem("Magical Rock")).toBe(false);
 	});
 
+	it("Has items", () => {
+		const testItems = [
+			{ item: getItem("test-item-1"), amount: 1 },
+			{ item: getItem("test-item-2"), amount: 1 },
+			{ item: getItem("test-item-3"), amount: 4 },
+			{ item: getItem("test-chest-key1"), amount: 1 }
+		];
+
+		expect(PlayerController.hasItems([testItems[0], testItems[1]])).toBe(true);
+		expect(PlayerController.hasItems([testItems[0]])).toBe(true);
+		expect(PlayerController.hasItems([testItems[0], testItems[2]])).toBe(false); // False because test-item-3 has only 3 in inventory
+		expect(PlayerController.hasItems([testItems[0], testItems[3]])).toBe(false);
+	});
+
 	it("Remove item", () => {
 		expect(PlayerController.hasItem("Magical Stone")).toBe(true);
 

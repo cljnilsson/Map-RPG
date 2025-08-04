@@ -25,6 +25,7 @@ type ContainerGameObject = GameObject & {
 	contains: InventoryItem[];
 	itemsTaken: InventoryItem[];
 	requiredItems: InventoryItem[];
+	onOpenLogMessage?: string;
 }
 
 export type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject, ContainerGameObject };
