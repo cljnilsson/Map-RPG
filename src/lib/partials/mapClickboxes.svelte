@@ -6,8 +6,10 @@
 	import MapClickBox from "$lib/components/MapClickBox.svelte";
 	import PlotClickBox from "$lib/components/PlotClickBox.svelte";
 	import MapStore from "$lib/stores/map.svelte";
-	import {isCityMap} from "$lib/typeguards/map";
-	import { getBuildingsByPlotType } from "$lib/data/buildings";
+	import { isCityMap } from "$lib/typeguards/map";
+	import { safeGetBuilding, getBuildingsByPlotType } from "$lib/data/buildings";
+	import { goto } from "$app/navigation";
+	import HoverOutlineImage from "$lib/utils/outline.svelte";
 
 	function toggleSelection(rect: MapWithClickBox) {
 		//MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
@@ -29,6 +31,7 @@
 	function handlePlotClick(identifier: string, x: number, y: number, rotation: number) {
 		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
 		console.log("options:", getBuildingsByPlotType("default"));
+		goto(`/map/${MapStore.currentMapState.map.name}/${identifier}/build`);
 	}
 
 	$effect(() => {
@@ -70,9 +73,22 @@
 	{/each}
 	{#if isCityMap(MapStore.currentMapState.map)}
 		{#each MapStore.currentMapState.map.city.plots as plot, i}
-			<div style="position: absolute; left: {plot.x}px; top: {plot.y}px;">
-				<PlotClickBox identifier={i + ""} x={220} y={120} rotation={0} selectedBox={MapStore.selectedBox} onClickCallback={handlePlotClick} />
-			</div>
+			{#if plot.building === undefined}
+				<div style="position: absolute; left: {plot.x}px; top: {plot.y}px;">
+					<PlotClickBox
+						identifier={i + ""}
+						x={220}
+						y={120}
+						rotation={0}
+						selectedBox={MapStore.selectedBox}
+						onClickCallback={handlePlotClick}
+					/>
+				</div>
+			{:else}
+				<div style="position: absolute; left: {plot.x}px; top: {plot.y}px; width: 220px; height: 120px;">
+					<HoverOutlineImage src={(safeGetBuilding(plot.building.toLowerCase())?.artPath) ?? ""} alt={"The " + plot.building + " building"} width={220} height={120} />
+				</div>
+			{/if}
 		{/each}
 	{/if}
 {/if}

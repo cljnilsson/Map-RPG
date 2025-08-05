@@ -110,3 +110,10 @@ export function getBuildingsByPlotType(plotType: "default" | "sacred" | "pristin
 
 	return found;
 }
+
+export function safeGetBuilding(id: string): Building | undefined {
+	if (id in buildingRegistry) {
+		return buildingRegistry[id as BuildingId]();
+	}
+	return undefined;
+}

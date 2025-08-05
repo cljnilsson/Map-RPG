@@ -3,9 +3,39 @@
 	import MapStore from "$lib/stores/map.svelte";
 	import { getBuildingsByPlotType } from "$lib/data/buildings";
 	import { dev } from "$app/environment";
+	import type { Building } from "$lib/types/building";
+	import { goto } from "$app/navigation";
 
 	const { data } = $props();
 	const buildings = getBuildingsByPlotType("default");
+
+	function confirmBuilding(pickedBuilding: Building) {
+		console.log(pickedBuilding.name);
+
+		if (!isCityMap(MapStore.currentMapState.map)) {
+			console.error("Not a city map");
+			return;
+		}
+
+		const plotIndex = Number(data.plot);
+
+		if (Number.isNaN(plotIndex)) {
+			console.error(`Invalid plot ID: '${data.plot}' is not a number`);
+			return;
+		}
+
+		const plots = MapStore.currentMapState.map.city.plots;
+
+		if (plotIndex < 0 || plotIndex >= plots.length) {
+			console.error(`Plot index ${plotIndex} is out of bounds`);
+			return;
+		}
+
+		plots[plotIndex] = { ...plots[plotIndex], building: pickedBuilding.name };
+
+		// Redirect if all is good
+		goto("/map");
+	}
 </script>
 
 <div class="container mt-3 px-5">
@@ -32,7 +62,7 @@
 				</div>
 				<div class="row justify-content-center">
 					<div class="col-6 text-end">
-						<button class="btn btn-primary">Build</button>
+						<button class="btn btn-primary" onclick={() => confirmBuilding(buildingOption)}>Build</button>
 					</div>
 				</div>
 			{/each}

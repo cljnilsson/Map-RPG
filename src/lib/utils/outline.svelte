@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { src, alt = "", width = 200 }: { src: string; alt: string; width: number } = $props();
+	let { src, alt = "", width = 200, height }: { src: string; alt: string; width: number, height?: number } = $props();
 </script>
 
 <svg width="0" height="0" style="position: absolute;">
@@ -20,6 +20,7 @@
 	{src}
 	{alt}
 	{width}
+	height={height ?? "auto"}
 	style="transition: filter 0.3s ease;"
 	onmouseenter={(e) => (e.currentTarget.style.filter = "url(#outline-filter)")}
 	onmouseleave={(e) => (e.currentTarget.style.filter = "none")}
