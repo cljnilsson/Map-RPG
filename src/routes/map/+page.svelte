@@ -100,20 +100,9 @@
 		}>("/api/cities");
 
 		if (success) {
-			// Adds the current default resources if none are present
 			for (const city of cities) {
 				if (city.resources.length === 0) {
 					console.warn("City has no resources which is probably invalid")
-					/*city.resources = [
-						{ name: "Wood", amount: 0, iconPath: "" },
-						{ name: "Stone", amount: 0, iconPath: "" },
-						{ name: "Iron", amount: 0, iconPath: "" },
-						{ name: "Gold", amount: 0, iconPath: "" },
-						{ name: "Wheat", amount: 0, iconPath: "" },
-						{ name: "Silk", amount: 0, iconPath: "" }
-					].sort((a, b) => a.name.localeCompare(b.name));*/
-
-					// Add API call to add these to DB
 				}
 
 				const found = maps.find(v => v.map.name === city.name);
