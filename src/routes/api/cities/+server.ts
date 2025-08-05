@@ -17,7 +17,8 @@ async function getCities() {
 					unit: true
 				}
 			},
-			city: true
+			city: true,
+			plots: true
 		}
 	});
 }

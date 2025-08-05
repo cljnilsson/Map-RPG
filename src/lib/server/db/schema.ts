@@ -65,17 +65,26 @@ export const items = sqliteTable("items", {
 
 export const city = sqliteTable("city", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	/*characterId: integer("character_id")
-		.notNull()
-		.references(() => characters.id),*/
 	// In the future might want to link the city to a map but at this time map is not defined server side
 	name: text("name").notNull()
+});
+
+export const plot = sqliteTable("plots", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	identifier: text("identifier").notNull(),
+	cityId: integer("city_id")
+		.notNull()
+		.references(() => cityData.id),
+	building: text("building")
 });
 
 // The city data is per character and reuses data from the 'base' city
 export const cityData = sqliteTable("cityData", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	cityId: integer("city_id")
+		.notNull()
+		.references(() => characters.id),
+	characterId: integer("character_id")
 		.notNull()
 		.references(() => characters.id),
 	population: integer("population").notNull().default(1),
@@ -171,7 +180,12 @@ export const userRelations = relations(user, ({ many }) => ({
 export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 	resources: many(resources),
 	city: one(city, { fields: [cityData.cityId], references: [city.id] }),
-	units: many(units)
+	units: many(units),
+	plots: many(plot)
+}));
+
+export const plotRelations = relations(plot, ({ one }) => ({
+	city: one(cityData, { fields: [plot.cityId], references: [cityData.id] }),
 }));
 
 export const characterRelations = relations(characters, ({ one, many }) => ({
@@ -234,3 +248,5 @@ export type ResouceType = typeof resource.$inferSelect;
 export type City = typeof city.$inferSelect;
 
 export type CityData = typeof cityData.$inferSelect;
+
+export type Plot = typeof plot.$inferInsert;
