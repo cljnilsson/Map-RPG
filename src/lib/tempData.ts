@@ -18,7 +18,7 @@ const winterfellO: CityMap = {
 		name: "Winterfell",
 		owned: true,
 		unlocked: true,
-		resources: [], // not used at the moment? check/fix later
+		resources: [],
 		plots: [
 			{ x: 150, y: 430, building: undefined, plotType: "default" },
 			{ x: 485, y: 430, building: undefined, plotType: "default" },

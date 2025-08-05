@@ -41,7 +41,7 @@ export const GET: RequestHandler = async ({ locals }) => {
 		resources: resources.map(({ resource, ...resourceRest }) => ({
 			...resourceRest,
 			name: resource.name,
-			iconPath: resource.iconPath
+			icon: resource.iconPath
 		}))
 	}));
 
