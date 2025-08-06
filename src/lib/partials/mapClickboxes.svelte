@@ -28,10 +28,21 @@
 		}
 	}
 
-	function handlePlotClick(identifier: string, x: number, y: number, rotation: number) {
+	function handlePlotClick(identifier: number, x: number, y: number, rotation: number) {
 		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
 		console.log("options:", getBuildingsByPlotType("default"));
 		goto(`/map/${MapStore.currentMapState.map.name}/${identifier}/build`);
+	}
+
+	function handleBuildingClick(identifier: number) {
+		console.log("clicked on building!");
+		goto(`/map/${MapStore.currentMapState.map.name}/${identifier}`)
+	}
+
+	function onBuildingEnter(e: KeyboardEvent, identifier: number) {
+		if (e.key === "Enter" || e.key === " ") {
+			handleBuildingClick(identifier);
+		}
 	}
 
 	$effect(() => {
@@ -76,7 +87,7 @@
 			{#if plot.building === undefined}
 				<div style="position: absolute; left: {plot.x}px; top: {plot.y}px;">
 					<PlotClickBox
-						identifier={i + ""}
+						identifier={i}
 						x={220}
 						y={120}
 						rotation={0}
@@ -85,8 +96,19 @@
 					/>
 				</div>
 			{:else}
-				<div style="position: absolute; left: {plot.x}px; top: {plot.y}px; width: 220px; height: 120px;">
-					<HoverOutlineImage src={(safeGetBuilding(plot.building.toLowerCase())?.artPath) ?? ""} alt={"The " + plot.building + " building"} width={220} height={120} />
+				<div
+					role="button"
+					tabindex="0"
+					onkeydown={(e) => onBuildingEnter(e, i)}
+					onclick={() => handleBuildingClick(i)}
+					style="position: absolute; left: {plot.x}px; top: {plot.y}px; width: 220px; height: 120px;"
+				>
+					<HoverOutlineImage
+						src={safeGetBuilding(plot.building.toLowerCase())?.artPath ?? ""}
+						alt={"The " + plot.building + " building"}
+						width={220}
+						height={120}
+					/>
 				</div>
 			{/if}
 		{/each}

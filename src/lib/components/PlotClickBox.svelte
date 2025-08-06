@@ -11,8 +11,8 @@
 		x: number;
 		y: number;
 		rotation: number;
-		identifier: string;
-		onClickCallback?: (identifier: string, x: number, y: number, rotation: number) => void;
+		identifier: number;
+		onClickCallback?: (identifier: number, x: number, y: number, rotation: number) => void;
 		selectedBox: MapWithClickBox | null;
 	} = $props();
 

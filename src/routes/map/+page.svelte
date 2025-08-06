@@ -12,8 +12,6 @@
 	import { isCityMap } from "$lib/typeguards/map";
 	import type {Resource} from "$lib/types/resource";
 
-	console.log(MapStore.currentMapState);
-
 	type WindowPosition = {
 		id: number;
 		characterId: number;
