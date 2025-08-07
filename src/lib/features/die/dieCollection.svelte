@@ -6,12 +6,14 @@
 		num,
 		sides,
 		modifier,
+		clickable,
 		children
 	}: {
 		num: number;
 		sides: number;
 		modifier: number;
-		children: Snippet<[]>;
+		clickable: boolean;
+		children?: Snippet<[]>;
 	} = $props();
 
 	let die: Die[] = [];
@@ -43,7 +45,7 @@
 	<div class="row justify-content-center">
 		{#each Array(num) as _, i}
 			<div class="col-auto">
-				<Die {sides} bind:this={die[i]} />
+				<Die {sides} {clickable} bind:this={die[i]} />
 			</div>
 		{/each}
 	</div>

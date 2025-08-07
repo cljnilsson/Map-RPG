@@ -15,6 +15,7 @@ const Store = $state<{
 	quest: WindowData;
 	inventory: WindowData;
 	vendor: WindowData;
+	roll: WindowData;
 	container: WindowData & {
 		// pattern breaking, maybe should move this elsewhere
 		object: ContainerGameObject | null;
@@ -65,6 +66,11 @@ const Store = $state<{
 		x: 300,
 		y: 450,
 		object: null
+	},
+	roll: {
+		visible: false,
+		x: 800,
+		y: 400
 	}
 });
 

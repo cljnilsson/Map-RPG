@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	let { dots, sides }: { dots?: number; sides: number } = $props();
+	let { dots, sides, clickable }: { dots?: number; sides: number, clickable: boolean } = $props();
 	let flip: boolean = $state(false);
 	let grow: boolean = $state(false);
 
@@ -36,7 +36,15 @@
 	}
 
 	function onEnter(event: KeyboardEvent) {
-		if (event.key === "Enter" || event.key === " ") {
+		if(clickable) {
+			if (event.key === "Enter" || event.key === " ") {
+				roll();
+			}
+		}
+	}
+
+	function onClick() {
+		if(clickable) {
 			roll();
 		}
 	}
@@ -47,7 +55,7 @@
 </script>
 
 <div
-	onclick={roll}
+	onclick={onClick}
 	class="face"
 	class:animate__animated={flip}
 	class:animate__flip={flip}
