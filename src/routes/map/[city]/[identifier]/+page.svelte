@@ -31,9 +31,16 @@
 		return true;
 	}
 
+	function costToNextLevel(base: number, level: number): number {
+		return Math.floor((base * 2) * (Math.pow(1.38, level - 1))); // Similar but not identical formula to Travian unit upgrades
+	}
+
 	function upgrade() {
 		// TODO
 	}
+
+	// With a starting cost of sub 100 we never get above 100k resources which sounds balanced to me.
+	console.log(costToNextLevel(100, 1), costToNextLevel(100, 5), costToNextLevel(100, 10), costToNextLevel(100, 20));
 </script>
 
 <div class="container mt-3 px-5">
@@ -59,7 +66,7 @@
 								<building.componentOnClick />
 							{/if}
 							<div class="text-end">
-								<button class="btn btn-primary" onclick={upgrade}>Upgrade</button>
+								<span class="px-3">0:30:14</span><button class="btn btn-primary" onclick={upgrade}>Upgrade</button>
 							</div>
 						</div>
 					</div>
