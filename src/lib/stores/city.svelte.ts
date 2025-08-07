@@ -1,8 +1,11 @@
+import { getResource } from "$lib/data/resources";
+import type {Resource} from "$lib/types/resource";
+
 const Store = $state<{
 	population: number;
 	workers: number;
 	units: { soldiers: number; merchants: number; smiths: number; priests: number };
-	resources: { name: string; amount: number; iconPath: string }[];
+	resources: Resource[];
 }>({
 	population: 300,
 	workers: 6,
@@ -13,12 +16,12 @@ const Store = $state<{
 		priests: 0
 	},
 	resources: [
-		{ name: "Gold", amount: 100, iconPath: "/items/coin3.jpg" },
-		{ name: "Wood", amount: 50, iconPath: "/items/wood.jpg" },
-		{ name: "Stone", amount: 30, iconPath: "/items/stone0.jpg" },
-		{ name: "Silk", amount: 30, iconPath: "/items/silk.png" },
-		{ name: "Wheat", amount: 30, iconPath: "/items/wheat.jpg" },
-		{ name: "Iron", amount: 30, iconPath: "/items/ore1.png" }
+		{...getResource("Gold"), amount: 100},
+		{...getResource("Wood"), amount: 50},
+		{...getResource("Stone"), amount: 30},
+		{...getResource("Silk"), amount: 30},
+		{...getResource("Wheat"), amount: 30},
+		{...getResource("Iron"), amount: 30},
 	]
 });
 

@@ -1,7 +1,9 @@
-type Resource = {
+type BaseResource = {
 	name: string;
+	iconPath: string;
+}
+type Resource = BaseResource & {
 	amount: number;
-	icon: string;
 };
 
-export type { Resource };
+export type { BaseResource, Resource };

@@ -54,6 +54,7 @@
 			{#if isCityMap(MapStore.currentMapState.map) && plot >= 0}
 				{@const buildingPlot = MapStore.currentMapState.map.city.plots[plot]}
 				{@const building = safeGetBuilding(buildingPlot.building?.toLowerCase() ?? "")}
+				{building?.cost.map(v => v.name).join(", ")}
 				{#if building}
 					<div class="row justify-content-center">
 						<div class="col-auto">

@@ -1,4 +1,5 @@
 import type { Building } from "$lib/types/building";
+import {getResource} from "$lib/data/resources";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -27,7 +28,14 @@ const buildingRegistry = {
 		description: "Not only good for morale, but also makes it easy to find people as the community gathers in the evening.",
 		requirements: true,
 		artPath: "/buildings/black-market.png",
-		cost: [],
+		cost: [
+			{...getResource("Gold"), amount: 100},
+			{...getResource("Wood"), amount: 50},
+			{...getResource("Stone"), amount: 30},
+			{...getResource("Silk"), amount: 30},
+			{...getResource("Wheat"), amount: 30},
+			{...getResource("Iron"), amount: 30},
+		],
 		plotType: "default",
 		componentOnClick: undefined
 	}),
