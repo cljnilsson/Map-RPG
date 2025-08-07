@@ -6,6 +6,7 @@
 	import type { Building } from "$lib/types/building";
 	import { safeGetBuilding } from "$lib/data/buildings";
 	import { goto } from "$app/navigation";
+	import CityStore from "$lib/stores/city.svelte";
 
 	const { data } = $props();
 	const plot = validateId(Number(data.plot)) ? Number(data.plot) : -1;
@@ -68,7 +69,12 @@
 							<div class="row justify-content-center align-items-center py-3">
 								<div class="col-auto px-3 py-3 border resources">
 									{#each building.cost as resource}
-										<div class="resource d-inline-flex align-items-center me-3">
+										{@const matchingCityResource = CityStore.resources.find((v) => v.name === resource.name)}
+										<div
+											class="resource d-inline-flex align-items-center border-bottom border-4"
+											class:border-danger={(matchingCityResource?.amount ?? -1) < resource.amount}
+											class:border-success={(matchingCityResource?.amount ?? -1) >= resource.amount}
+										>
 											<img src={resource.iconPath} alt={"icon of " + resource.name} />
 											<span>{resource.amount}</span>
 										</div>
@@ -94,6 +100,13 @@
 	.resources .resource {
 		font-size: 24px;
 		gap: 0.25rem;
+		margin-right: 1rem; /* same as me-3 */
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.resources .resource:last-child {
+		margin-right: 0; /* Remove gap from last */
 	}
 
 	.resources .resource img {
