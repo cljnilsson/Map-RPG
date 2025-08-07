@@ -9,6 +9,7 @@ type City = {
 		x: number;
 		y: number;
 		building: string | undefined;
+		level: number;
 		plotType: "default" | "sacred" | "pristine"
 	}[]
 };

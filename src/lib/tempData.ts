@@ -1,7 +1,6 @@
 import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
 import type { VendorNPC } from "$lib/types/npc";
 import { getItem } from "$lib/data/items";
-import { getQuest } from "$lib/data/quests";
 import { getGameobject } from "./data/gameObjects";
 
 const wo: WorldMap = {
@@ -20,10 +19,10 @@ const winterfellO: CityMap = {
 		unlocked: true,
 		resources: [],
 		plots: [
-			{ x: 150, y: 430, building: undefined, plotType: "default" },
-			{ x: 485, y: 430, building: undefined, plotType: "default" },
-			{ x: 275, y: 560, building: undefined, plotType: "default" },
-			{ x: 670, y: 600, building: undefined, plotType: "default" }
+			{ x: 150, y: 430, building: undefined, plotType: "default", level: 1 },
+			{ x: 485, y: 430, building: undefined, plotType: "default", level: 1 },
+			{ x: 275, y: 560, building: undefined, plotType: "default", level: 1 },
+			{ x: 670, y: 600, building: undefined, plotType: "default", level: 1 }
 		],
 	}
 };
