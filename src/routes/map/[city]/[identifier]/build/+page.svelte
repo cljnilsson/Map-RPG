@@ -57,7 +57,7 @@
 		{#if data.city === MapStore.currentMapState.map.name}
 			{#each buildings as buildingOption}
 				<div class="row justify-content-center my-3">
-					<div class="col-6">
+					<div class="col-6 border-bottom">
 						<h4>{buildingOption.name}</h4>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 				</div>
 				<div class="row justify-content-center">
 					<div class="col-6 text-end">
-						<button class="btn btn-primary" onclick={() => confirmBuilding(buildingOption)}>Build</button>
+						<span class="px-3">0:30:14</span><button class="btn btn-primary" onclick={() => confirmBuilding(buildingOption)}>Build</button>
 					</div>
 				</div>
 			{/each}

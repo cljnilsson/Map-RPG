@@ -4,13 +4,15 @@
 	let diceRef: DieCollection;
 
 	async function roll() {
-		let result = await diceRef?.roll();
-		console.log(result);
+		const result = await diceRef?.roll();
+		const total = result.reduce((newValue, currentValues) => currentValues + newValue);
+
+		console.log(total);
 	}
 </script>
 
 <div class="wrapper mt-5 mx-5 px-3">
-	<DieCollection num={2} bind:this={diceRef}>
+	<DieCollection num={2} sides={20} modifier={3} bind:this={diceRef}>
 		<h2 class="text-center mb-5">Roll!</h2>
 	</DieCollection>
 	<div class="text-center mt-5">

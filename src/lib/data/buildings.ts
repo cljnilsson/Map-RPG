@@ -16,7 +16,7 @@ const buildingRegistry = {
 		name: "Library",
 		description: "",
 		requirements: true,
-		artPath: "/buildings/black-market.png",
+		artPath: "/buildings/library.png",
 		cost: [],
 		plotType: "default",
 		componentOnClick: undefined
@@ -46,7 +46,7 @@ const buildingRegistry = {
 		name: "Watchtower",
 		description: "TBD",
 		requirements: true,
-		artPath: "/buildings/black-market.png",
+		artPath: "/buildings/watchtower.png",
 		cost: [],
 		plotType: "default",
 		componentOnClick: undefined
@@ -56,7 +56,7 @@ const buildingRegistry = {
 		name: "Barracks",
 		description: "Houses your soldiers, your max capacity gets increased.",
 		requirements: true,
-		artPath: "/buildings/black-market.png",
+		artPath: "/buildings/barracks.png",
 		cost: [],
 		plotType: "default",
 		componentOnClick: undefined

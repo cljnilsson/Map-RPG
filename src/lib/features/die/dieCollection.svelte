@@ -1,19 +1,35 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import Die from '$lib/features/die/die.svelte';
+	import type { Snippet } from "svelte";
+	import Die from "$lib/features/die/die.svelte";
 
 	let {
 		num,
+		sides,
+		modifier,
 		children
 	}: {
 		num: number;
+		sides: number;
+		modifier: number;
 		children: Snippet<[]>;
 	} = $props();
 
 	let die: Die[] = [];
+	let latestRollResult: number = $state(-1);
+	let grow: boolean = $state(false);
 
-	export async function roll() {
+	export async function roll(): Promise<number[]> {
 		const results = await Promise.all(die.map((d) => d.roll()));
+
+		setTimeout(() => {
+			latestRollResult = results.reduce((newValue, currentValues) => currentValues + newValue);
+			grow = true;
+		}, 1000);
+
+		setTimeout(() => {
+			grow = false;
+		}, 1500);
+
 		return results;
 	}
 </script>
@@ -25,10 +41,38 @@
 		</div>
 	{/if}
 	<div class="row justify-content-center">
-		{#each Array(num) as d, i}
+		{#each Array(num) as _, i}
 			<div class="col-auto">
-				<Die bind:this={die[i]} />
+				<Die {sides} bind:this={die[i]} />
 			</div>
 		{/each}
 	</div>
+	<div class="row justify-content-center my-5">
+		<div class="col-auto text-center">
+			<h2 style="min-height: 1em; opacity: {latestRollResult > 0 ? 1 : 0}">
+				({latestRollResult > 0 ? latestRollResult : 0} + {modifier})
+			</h2>
+			<h2 class:grow-shrink={grow} style="min-height: 1em; opacity: {latestRollResult > 0 ? 1 : 0}">
+				{latestRollResult > 0 ? latestRollResult + modifier : 0}
+			</h2>
+		</div>
+	</div>
 </div>
+
+<style>
+	@keyframes growAndShrink {
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(2);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+
+	.grow-shrink {
+		animation: growAndShrink 0.5s ease-in-out;
+	}
+</style>

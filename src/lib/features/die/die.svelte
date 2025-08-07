@@ -1,16 +1,20 @@
 <script lang="ts">
-	let { dots = randomNumber() }: { dots?: number } = $props();
+	import { onMount } from "svelte";
+
+	let { dots, sides }: { dots?: number; sides: number } = $props();
 	let flip: boolean = $state(false);
 	let grow: boolean = $state(false);
 
-	function randomNumber(dieSize: number = 6): number {
-		return Math.floor(Math.random() * dieSize) + 1;
+	function randomNumber(): number {
+		console.log(sides);
+		return Math.floor(Math.random() * sides) + 1;
 	}
 
-	export async function roll() {
+	export async function roll(): Promise<number> {
 		if (flip) {
-			return;
+			return -1;
 		}
+
 		flip = true;
 
 		return new Promise((resolve) => {
@@ -36,6 +40,10 @@
 			roll();
 		}
 	}
+
+	onMount(() => {
+		dots = randomNumber();
+	});
 </script>
 
 <div
@@ -67,6 +75,7 @@
 			font-size: 2rem;
 		}
 	}
+
 	@keyframes growAndShrink {
 		0% {
 			transform: scale(1);
