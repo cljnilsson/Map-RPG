@@ -19,6 +19,9 @@
 	width={600}
 	x={WindowStore.roll.x}
 	y={WindowStore.roll.y}
+	canClose={false}
+	canLock={false}
+	canMinimize={false}
 	bind:visibility={WindowStore.roll.visible}
 >
 	{#snippet title()}

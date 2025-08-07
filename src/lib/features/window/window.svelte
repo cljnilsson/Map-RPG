@@ -21,7 +21,11 @@
 		x,
 		y,
 		toggleKey,
-		visibility = $bindable(true)
+		visibility = $bindable(true),
+		canMinimize = true,
+		canClose = true,
+		canLock = true,
+		initiallyLocked
 	}: {
 		title?: Snippet;
 		body?: Snippet;
@@ -33,6 +37,10 @@
 		y: number;
 		toggleKey?: string;
 		visibility?: boolean;
+		canMinimize?: boolean;
+		canClose?: boolean;
+		canLock?: boolean;
+		initiallyLocked?: boolean;
 	} = $props();
 
 	let expanded = $state(true);
@@ -42,10 +50,6 @@
 	let containerElement: HTMLElement;
 
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
-
-	/*$effect(() => {
-		console.log(tweenHeight);
-	});*/
 
 	function toggle() {
 		expanded = !expanded;
@@ -85,6 +89,10 @@
 		if (toggleKey && window) {
 			window.addEventListener("keydown", handleKeydown);
 		}
+
+		if (initiallyLocked) {
+			locked = true;
+		}
 	});
 
 	onDestroy(() => {
@@ -111,17 +119,25 @@
 						{@render title()}
 					{/if}
 				</div>
-				<div class="col-auto text-end">
-					<button class="btn btn-sm btn-outline-secondary" aria-label="Lock/Unlock" onclick={() => (locked = !locked)}>
-						<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
-					</button>
-					<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
-						<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
-					</button>
-					<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
-						<i class="bi bi-x"></i>
-					</button>
-				</div>
+				{#if canClose || canLock || canMinimize}
+					<div class="col-auto text-end">
+						{#if canLock}
+							<button class="btn btn-sm btn-outline-secondary" aria-label="Lock/Unlock" onclick={() => (locked = !locked)}>
+								<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
+							</button>
+						{/if}
+						{#if canMinimize}
+							<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
+								<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
+							</button>
+						{/if}
+						{#if canClose}
+							<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
+								<i class="bi bi-x"></i>
+							</button>
+						{/if}
+					</div>
+				{/if}
 			</div>
 		</Title>
 	</DraggableHandle>
