@@ -8,13 +8,13 @@ const resourceRegistry = {
 		name: "Stone", iconPath: "/items/stone0.jpg" 
 	}),
 	"Silk": (): BaseResource => ({
-		name: "Silk", iconPath: "/items/silk.jpg" 
+		name: "Silk", iconPath: "/items/silk.png" 
 	}),
 	"Wheat": (): BaseResource => ({
 		name: "Wheat", iconPath: "/items/wheat.jpg" 
 	}),
 	"Iron": (): BaseResource => ({
-		name: "Iron", iconPath: "/items/ore1.jpg" 
+		name: "Iron", iconPath: "/items/ore1.png" 
 	}),
 	"Wood": (): BaseResource => ({
 		name: "Wood", iconPath: "/items/wood.jpg" 
