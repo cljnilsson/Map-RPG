@@ -1,7 +1,10 @@
 import CityStore from "$lib/stores/city.svelte";
+import MapStore from "$lib/stores/map.svelte";
 import type {City} from "$lib/types/city";
 import type {Resource} from "$lib/types/resource";
 import { LogController } from "$lib/controller/logs.svelte";
+import { isCityMap } from "$lib/typeguards/map";
+import { costToNextLevel } from "$lib/utils/cost";
 
 export class CityController {
 	// ---------------
@@ -63,7 +66,8 @@ export class CityController {
 		let canAfford = true;
 
 		for(const resource of price) {
-			if(resource.amount < this.getResource(resource.name).amount) {
+			console.log(resource.amount, " vs ", this.getResource(resource.name).amount)
+			if(resource.amount > this.getResource(resource.name).amount) {
 				canAfford = false;
 				break;
 			}
@@ -86,5 +90,18 @@ export class CityController {
 		}
 
 		return false;
+	}
+
+	public static upgrade(price: Resource[], plot: number) {
+		if(isCityMap(MapStore.currentMapState.map)) {
+			const level = MapStore.currentMapState.map.city.plots[plot].level;
+			const upgraded = CityController.pay(level === 1 ? price : price.map(v => {
+				return {...v, amount: costToNextLevel(v.amount, level)};
+			}));
+
+			if(upgraded) {
+				MapStore.currentMapState.map.city.plots[plot].level += 1;
+			}
+		}
 	}
 }
