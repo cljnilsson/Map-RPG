@@ -2,7 +2,6 @@
 	import { isCityMap } from "$lib/typeguards/map";
 	import MapStore from "$lib/stores/map.svelte";
 	import { dev } from "$app/environment";
-	import type { BuildingData } from "$lib/types/building";
 	import type { Resource } from "$lib/types/resource";
 	import ResourceCost from "$lib/components/resourceCost.svelte";
 	import { safeGetBuilding } from "$lib/data/buildings";

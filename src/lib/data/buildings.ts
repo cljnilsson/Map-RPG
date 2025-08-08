@@ -5,20 +5,22 @@ const buildingRegistry = {
 	"black-market": (): Building => ({
 		id: "black-market",
 		name: "Black Market",
-		description: "",
+		description: "A dubious establishment that offers a rotating selection of goods from questionable sources for the right buyer. Don't ask questions.",
 		requirements: true,
 		artPath: "/buildings/black-market.png",
 		cost: [],
+		timeInSeconds: 40,
 		plotType: "default",
 		componentOnClick: undefined
 	}),
 	"library": (): Building => ({
 		id: "library",
 		name: "Library",
-		description: "",
+		description: "With both a private and public section the library houses helpful information in its tomes while also storing your personal collection.",
 		requirements: true,
 		artPath: "/buildings/library.png",
 		cost: [],
+		timeInSeconds: 40,
 		plotType: "default",
 		componentOnClick: undefined
 	}),
@@ -36,6 +38,7 @@ const buildingRegistry = {
 			{...getResource("Wheat"), amount: 30},
 			{...getResource("Iron"), amount: 30},
 		],
+		timeInSeconds: 40,
 		plotType: "default",
 		componentOnClick: undefined
 	}),
@@ -46,6 +49,7 @@ const buildingRegistry = {
 		requirements: true,
 		artPath: "/buildings/black-market.png",
 		cost: [],
+		timeInSeconds: 40,
 		plotType: "sacred",
 		componentOnClick: undefined
 	}),
@@ -56,6 +60,7 @@ const buildingRegistry = {
 		requirements: true,
 		artPath: "/buildings/watchtower.png",
 		cost: [],
+		timeInSeconds: 40,
 		plotType: "default",
 		componentOnClick: undefined
 	}),
@@ -66,6 +71,7 @@ const buildingRegistry = {
 		requirements: true,
 		artPath: "/buildings/barracks.png",
 		cost: [],
+		timeInSeconds: 40,
 		plotType: "default",
 		componentOnClick: undefined
 	}),
@@ -76,6 +82,7 @@ const buildingRegistry = {
 		requirements: true,
 		artPath: "/buildings/black-market.png",
 		cost: [],
+		timeInSeconds: 40,
 		plotType: "default",
 		componentOnClick: undefined
 	}),
@@ -86,6 +93,40 @@ const buildingRegistry = {
 		requirements: true,
 		artPath: "/buildings/black-market.png",
 		cost: [],
+		timeInSeconds: 40,
+		plotType: "default",
+		componentOnClick: undefined
+	}),
+	"market": (): Building => ({
+		id: "market",
+		name: "Market",
+		description: "At the market you can trade resources, someone's trash is another's treasure.",
+		requirements: true,
+		artPath: "/buildings/black-market.png",
+		cost: [],
+		timeInSeconds: 40,
+		plotType: "default",
+		componentOnClick: undefined
+	}),
+	"tourney-grounds": (): Building => ({
+		id: "tourney-grounds",
+		name: "Tourney Grounds",
+		description: "A great source of entertainment and a boon to the economy. Skilled soldiers can be turned into knights when a tournament is held.",
+		requirements: true,
+		artPath: "/buildings/black-market.png",
+		cost: [],
+		timeInSeconds: 180,
+		plotType: "default",
+		componentOnClick: undefined
+	}),
+	"beast-pen": (): Building => ({
+		id: "beast-pen",
+		name: "Beast Pen",
+		description: "You choose to not limit yourself to humans, beasts can be trained to fulfil various useful tasks.",
+		requirements: true,
+		artPath: "/buildings/black-market.png",
+		cost: [],
+		timeInSeconds: 150,
 		plotType: "default",
 		componentOnClick: undefined
 	}),

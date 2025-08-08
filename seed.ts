@@ -102,7 +102,7 @@ async function seed() {
 		console.log("✅ Seeded city table");
 
 		await db.insert(cityData).values([
-			{ workers: 5, population: 300, cityId: 1 } // Hardcoded cityId for now
+			{ workers: 5, population: 300, cityId: 1, characterId: 1 } // Hardcoded cityId and Character for now
 		]);
 
 		console.log("✅ Seeded city data table");

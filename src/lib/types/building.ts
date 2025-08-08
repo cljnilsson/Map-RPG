@@ -8,6 +8,7 @@ type Building = {
 	requirements: true;
 	artPath: string;
 	cost: Resource[];
+	timeInSeconds: number,
 	plotType: "default" | "sacred" | "pristine";
 	componentOnClick: Component | undefined;
 };

@@ -10,7 +10,8 @@ export class CityController {
 	// ---------------
 	// Variables
 	// ---------------
-	private static inventorySize = 6 * 8; // 8 rows 6 columns
+	
+	// TODO
 
 	// ---------------
 	// GETTERS / SETTERS
@@ -95,7 +96,7 @@ export class CityController {
 	public static upgrade(price: Resource[], plot: number) {
 		if(isCityMap(MapStore.currentMapState.map)) {
 			const level = MapStore.currentMapState.map.city.plots[plot].level;
-			const upgraded = CityController.pay(level === 1 ? price : price.map(v => {
+			const upgraded = this.pay(level === 1 ? price : price.map(v => {
 				return {...v, amount: costToNextLevel(v.amount, level)};
 			}));
 

@@ -75,7 +75,8 @@ export const plot = sqliteTable("plots", {
 	cityId: integer("city_id")
 		.notNull()
 		.references(() => cityData.id),
-	building: text("building")
+	building: text("building"),
+	level: integer("level").notNull().default(1)
 });
 
 // The city data is per character and reuses data from the 'base' city
