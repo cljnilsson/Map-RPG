@@ -13,7 +13,7 @@
 	const currentMap = MapStore.currentMapState?.map;
 	const isValidPlot = isCityMap(currentMap) && !Number.isNaN(plot) && plot >= 0 && plot < currentMap.city.plots.length;
 	const buildingPlot = isValidPlot ? currentMap.city.plots[plot] : null;
-	const building = buildingPlot ? safeGetBuilding(buildingPlot.building?.toLowerCase() ?? "") : undefined;
+	const building = buildingPlot ? safeGetBuilding(buildingPlot.building?.replaceAll(" ", "-").toLowerCase() ?? "") : undefined;
 
 	function upgrade(price: Resource[]) {
 		CityController.upgrade(price, plot);
@@ -44,11 +44,13 @@
 					<building.componentOnClick />
 				{/if}
 
-				<ResourceCost costs={building.cost} level={buildingPlot.level} />
+				{#if building.cost.length > 0}
+					<ResourceCost costs={building.cost} level={buildingPlot.level} />
+				{/if}
 
 				<div class="row mt-3">
 					<div class="col text-end">
-						<span class="px-3">0:30:14</span>
+						<span class="px-3">00:00:{building.timeInSeconds}</span>
 						<button class="btn btn-primary" onclick={() => upgrade(building.cost)}>Upgrade</button>
 					</div>
 				</div>

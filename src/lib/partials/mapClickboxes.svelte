@@ -104,7 +104,7 @@
 					style="position: absolute; left: {plot.x}px; top: {plot.y}px; width: 220px; height: 120px;"
 				>
 					<HoverOutlineImage
-						src={safeGetBuilding(plot.building.toLowerCase())?.artPath ?? ""}
+						src={safeGetBuilding(plot.building.replaceAll(" ", "-").toLowerCase())?.artPath ?? ""}
 						alt={"The " + plot.building + " building"}
 						width={220}
 						height={120}

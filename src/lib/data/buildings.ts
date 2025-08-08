@@ -1,5 +1,6 @@
 import type { Building } from "$lib/types/building";
 import {getResource} from "$lib/data/resources";
+import BlackMarket from "$lib/features/buildings/black-market/black-market.svelte";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -11,7 +12,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: BlackMarket
 	}),
 	"library": (): Building => ({
 		id: "library",
@@ -183,6 +184,7 @@ export function getBuildingsByPlotType(plotType: "default" | "sacred" | "pristin
 }
 
 export function safeGetBuilding(id: string): Building | undefined {
+	console.log(id);
 	if (id in buildingRegistry) {
 		return buildingRegistry[id as BuildingId]();
 	}
