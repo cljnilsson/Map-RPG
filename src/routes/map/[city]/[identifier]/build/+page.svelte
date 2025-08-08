@@ -5,6 +5,7 @@
 	import { getBuildingsByPlotType } from "$lib/data/buildings";
 	import { dev } from "$app/environment";
 	import type { Building } from "$lib/types/building";
+	import ResourceCost from "$lib/components/resourceCost.svelte";
 	import { goto } from "$app/navigation";
 
 	const { data } = $props();
@@ -57,16 +58,19 @@
 		{#if data.city === MapStore.currentMapState.map.name}
 			{#each buildings as buildingOption}
 				<div class="row justify-content-center my-3">
-					<div class="col-6 border-bottom">
+					<div class="col-xl-8 col-md-10 border-bottom">
 						<h4>{buildingOption.name}</h4>
 					</div>
 				</div>
 				<div class="row justify-content-center">
 					<div class="col-2">
-						<img src={buildingOption.artPath} alt={"image of the building " + buildingOption.name} width={100} height={100} />
+						<img src={buildingOption.artPath} alt={"image of the building " + buildingOption.name} width={200} height={200} />
 					</div>
-					<div class="col-4">
+					<div class="col-xl-6 col-md-8">
 						<p>{buildingOption.description}</p>
+						{#if buildingOption.cost.length > 0}
+							<ResourceCost costs={buildingOption.cost} level={1} />
+						{/if}
 					</div>
 				</div>
 				<div class="row justify-content-center">

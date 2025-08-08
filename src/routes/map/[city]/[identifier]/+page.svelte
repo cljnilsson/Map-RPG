@@ -34,7 +34,7 @@
 	{#if currentMap && data.city === currentMap.name && isValidPlot && building && buildingPlot}
 		<div class="row justify-content-center">
 			<div class="col-auto">
-				<img src={building.artPath} alt={"Art of " + building.name} width="150" height="150" />
+				<img src={building.artPath} alt={"Art of " + building.name} width="200" height="200" />
 			</div>
 			<div class="col-xl-6 col-md-8">
 				<h4 class="border-bottom">{building.name} ({buildingPlot.level})</h4>
