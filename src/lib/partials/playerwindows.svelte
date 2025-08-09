@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MapStore from "$lib/stores/map.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	import UnitWindow from "$lib/components/windows/unit/unitWindow.svelte";
 	import NavigationWindow from "$lib/components/windows/navigator/navigator.svelte";
 	import LogWindow from "$lib/components/windows/logger/logger.svelte";
@@ -10,14 +10,14 @@
 	import { isCityMap } from "$lib/typeguards/map";
 </script>
 
-{#if isCityMap(MapStore.currentMapState.map)}
-	{#if MapStore.currentMapState.map.city.owned}
+{#if isCityMap(MapController.currentMapState.map)}
+	{#if MapController.currentMapState.map.city.owned}
 		<UnitWindow />
 		<ResourceWindow />
 	{/if}
 	<EventWindow />
 {/if}
-{#if MapStore.currentMapState.contains.length > 0}
+{#if MapController.currentMapState.contains.length > 0}
 	<NavigationWindow />
 {/if}
 <InventoryWindow />

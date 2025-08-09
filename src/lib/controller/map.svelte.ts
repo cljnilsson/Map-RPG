@@ -22,12 +22,17 @@ export default class MapController {
 		return MapStore.currentNavigationHover;
 	}
 
+	public static get submaps(): MapWithClickBox[] {
+		return MapStore.currentMapState.contains;
+	}
+
 	public static set editMode(v: boolean) {
 		MapStore.editMode = v;
 	}
 
 	public static set currentMapState(v: CustomMap) {
-		MapStore.currentMapState = v;
+		const current = this.currentMapState;
+		MapStore.currentMapState = { ...v, previous: current }; // Automatically keep up to date
 	}
 
 	public static set selectedBox(v: MapWithClickBox | null) {
@@ -41,4 +46,28 @@ export default class MapController {
 	// ---------------
 	// FUNCTIONS
 	// ---------------
+
+	public static addSubmap(newSubmap: MapWithClickBox) {
+		MapStore.currentMapState.contains = [...this.currentMapState.contains, newSubmap];
+	}
+
+	public static removeSubmapByName(toRemove: string): boolean {
+		const len = this.currentMapState.contains.length;
+
+		this.currentMapState.contains = this.currentMapState?.contains.filter((map) => map.map?.name !== toRemove);
+
+		return len < this.currentMapState.contains.length;
+	}
+
+	public static getSubMapByName(name: string): MapWithClickBox | undefined {
+		return this.submaps.find((map) => map.map?.name === name);
+	}
+
+	// convert to getter maybe
+	public static isSelectedBoxInCurrentMap(): boolean {
+		if (!this.selectedBox) {
+			return false;
+		}
+		return !!this.getSubMapByName(this.selectedBox.map.name);
+	}
 }

@@ -4,7 +4,7 @@
 	import { cubicOut } from "svelte/easing";
 	import CharacterAvatar from "$lib/components/character/CharacterAvatar.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
-	import MapStore from "$lib/stores/map.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
 	
@@ -38,7 +38,7 @@
 			<CharacterAvatar width={100} height={100} onClickCallback={onAvatarClick} />
 		</div>
 		<div class="col px-2">
-			{#if isCityMap(MapStore.currentMapState.map)}
+			{#if isCityMap(MapController.currentMapState.map)}
 				<button
 					class="btn btn-primary btn-sm mb-2 w-100"
 					onclick={() => (WindowStore.unit.visible = !WindowStore.unit.visible)}

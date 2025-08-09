@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MapStore from "$lib/stores/map.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import type { MapWithClickBox } from "$lib/types/mapTypes";
 	import WindowStore from "$lib/stores/windows.svelte";
@@ -7,7 +7,7 @@
 	function handleHover(map: MapWithClickBox) {
 		console.log("Hovered over:", map.map.name);
 		// You can trigger a store update or any other logic here
-		MapStore.currentNavigationHover = map;
+		MapController.currentNavigationHover = map;
 	}
 </script>
 
@@ -25,11 +25,8 @@
 		<h4 class="my-2">Navigation</h4>
 	{/snippet}
 	{#snippet body()}
-		{#each MapStore.currentMapState.contains as map}
-			<p
-				onmouseenter={() => handleHover(map)}
-				onmouseleave={() => (MapStore.currentNavigationHover = null)}
-			>
+		{#each MapController.currentMapState.contains as map}
+			<p onmouseenter={() => handleHover(map)} onmouseleave={() => (MapController.currentNavigationHover = null)}>
 				{map.map.name}
 			</p>
 		{/each}

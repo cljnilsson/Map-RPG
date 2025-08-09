@@ -1,5 +1,5 @@
 import CityStore from "$lib/stores/city.svelte";
-import MapStore from "$lib/stores/map.svelte";
+import MapController from "$lib/stores/map.svelte";
 import type {City} from "$lib/types/city";
 import type {Resource} from "$lib/types/resource";
 import { LogController } from "$lib/controller/logs.svelte";
@@ -104,14 +104,14 @@ export class CityController {
 	}
 
 	public static upgrade(price: Resource[], plot: number) {
-		if(isCityMap(MapStore.currentMapState.map)) {
-			const level = MapStore.currentMapState.map.city.plots[plot].level;
+		if(isCityMap(MapController.currentMapState.map)) {
+			const level = MapController.currentMapState.map.city.plots[plot].level;
 			const upgraded = this.pay(level === 1 ? price : price.map(v => {
 				return {...v, amount: costToNextLevel(v.amount, level)};
 			}));
 
 			if(upgraded) {
-				MapStore.currentMapState.map.city.plots[plot].level += 1;
+				MapController.currentMapState.map.city.plots[plot].level += 1;
 			}
 		}
 	}

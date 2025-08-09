@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import MapStore from "$lib/stores/map.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
 	import { isContainerGameObject, isLootableQuestGameObject, isQuestGameObject, isLootableGameObject } from "$lib/typeguards/gameObject";
 	import type { GameObject } from "$lib/types/gameObject";
@@ -56,7 +56,7 @@
 	}
 </script>
 
-{#each MapStore.currentMapState.objects as object}
+{#each MapController.currentMapState.objects as object}
 	<div
 		class="game-object"
 		style="left: {object.position.x * scaleX}px; top: {object.position.y * scaleY}px;"

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MapClickBoxes from "$lib/partials/mapClickboxes.svelte";
-	import MapStore from "$lib/stores/map.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	import MiniMenu from "$lib/features/miniMenu/miniMenu.svelte";
 	import { onMount } from "svelte";
 	import { isCityMap, isBuildingMap, isWorldMap } from "$lib/typeguards/map";
@@ -20,7 +20,7 @@
 		const scaleY = currentHeight / originalHeight;
 		console.log(scaleX, scaleY);
 
-		MapStore.currentMapState.contains.forEach((rect) => {
+		MapController.currentMapState.contains.forEach((rect) => {
 			rect.clickBox.x = rect.clickBox.originalX * scaleX;
 			rect.clickBox.y = rect.clickBox.originalY * scaleY;
 		});
@@ -28,21 +28,21 @@
 
 	onMount(() => {
 		// For now the world view is not scaled thus this only works for the other views at the moment
-		if (isCityMap(MapStore.currentMapState.map) || isBuildingMap(MapStore.currentMapState.map)) {
+		if (isCityMap(MapController.currentMapState.map) || isBuildingMap(MapController.currentMapState.map)) {
 			scaleClickBoxes();
 		}
 	});
 </script>
 
-{#if MapStore.currentMapState}
+{#if MapController.currentMapState}
 	<div class="map-container">
 		<img
 			bind:this={imgRef}
 			loading="lazy"
-			src={MapStore.currentMapState.map?.imagePath}
-			class:city={isCityMap(MapStore.currentMapState.map)}
-			class:world={isWorldMap(MapStore.currentMapState.map)}
-			class:building={isBuildingMap(MapStore.currentMapState.map)}
+			src={MapController.currentMapState.map?.imagePath}
+			class:city={isCityMap(MapController.currentMapState.map)}
+			class:world={isWorldMap(MapController.currentMapState.map)}
+			class:building={isBuildingMap(MapController.currentMapState.map)}
 			alt="test"
 			draggable="false"
 		/>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { postRequest } from "$lib/utils/request";
 	import { isCityMap } from "$lib/typeguards/map";
-	import MapStore from "$lib/stores/map.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	import { getBuildingsByPlotType } from "$lib/data/buildings";
 	import { dev } from "$app/environment";
 	import type { Building } from "$lib/types/building";
@@ -14,7 +14,7 @@
 	async function confirmBuilding(pickedBuilding: Building) {
 		console.log(pickedBuilding.name);
 
-		if (!isCityMap(MapStore.currentMapState.map)) {
+		if (!isCityMap(MapController.currentMapState.map)) {
 			console.error("Not a city map");
 			return;
 		}
@@ -26,7 +26,7 @@
 			return;
 		}
 
-		const plots = MapStore.currentMapState.map.city.plots;
+		const plots = MapController.currentMapState.map.city.plots;
 
 		if (plotIndex < 0 || plotIndex >= plots.length) {
 			console.error(`Plot index ${plotIndex} is out of bounds`);
@@ -38,7 +38,7 @@
 		const resp = await postRequest<{ success: boolean }, { building: string; plot: string; city: string }>("/api/cities/build", {
 			building: pickedBuilding.name,
 			plot: plotIndex + "",
-			city: MapStore.currentMapState.map.city.name // change to id later?
+			city: MapController.currentMapState.map.city.name // change to id later?
 		});
 
 		console.log(resp);
@@ -51,11 +51,11 @@
 <div class="container mt-3 px-5">
 	<a href="/map">Back</a>
 	{#if dev}
-		<p>{MapStore.currentMapState.map.name} ({isCityMap(MapStore.currentMapState.map)}) slot: {data.plot}</p>
+		<p>{MapController.currentMapState.map.name} ({isCityMap(MapController.currentMapState.map)}) slot: {data.plot}</p>
 	{/if}
 
-	{#if MapStore.currentMapState}
-		{#if data.city === MapStore.currentMapState.map.name}
+	{#if MapController.currentMapState}
+		{#if data.city === MapController.currentMapState.map.name}
 			{#each buildings as buildingOption}
 				<div class="row justify-content-center my-3">
 					<div class="col-xl-8 col-md-10 border-bottom">
