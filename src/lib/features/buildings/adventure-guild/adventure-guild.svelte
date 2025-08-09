@@ -5,6 +5,8 @@
 
 	type Mission = { title: string; description: string };
 
+	// TODO add emblem at random bottom location
+
 	let missions: Mission[] = [
 		{
 			title: "Lost ones",
@@ -36,10 +38,16 @@
 			selectedMission = null;
 		}
 	}
+
+	function closeMissionEnter(e: KeyboardEvent) {
+		if (e.key === "Enter" || e.key === " ") {
+			closeMission();
+		}
+	}
 </script>
 
 <!-- Scrollable board -->
-<div class="row border justify-content-center board">
+<div class="row justify-content-center board">
 	<div class="col mx-3 my-3">
 		{#each missions as task (task.title)}
 			<div
@@ -62,10 +70,18 @@
 
 <!-- Overlay for selected mission -->
 {#if selectedMission}
-	<div class="overlay" onclick={() => closeMission()}>
+	<div class="overlay" onclick={() => closeMission()} role="button" tabindex={0} onkeydown={closeMissionEnter}>
 		<div class="row justify-content-center">
 			<div class="col-xl-5 col-md-8">
-				<div class="mission-popup" onclick={(e) => e.stopPropagation()} in:scale={{ duration: 300 }} out:fade={{ duration: 200 }}>
+				<div
+					class="mission-popup"
+					onclick={(e) => e.stopPropagation()}
+					in:scale={{ duration: 300 }}
+					out:fade={{ duration: 200 }}
+					role="button"
+					tabindex={0}
+					onkeydown={(e) => e.stopPropagation()}
+				>
 					<div class="poster-bg">
 						<h5>{selectedMission.title}</h5>
 						<p>{selectedMission.description}</p>
@@ -90,11 +106,15 @@
 	}
 
 	.board {
-		background-image: url("/modular-board/Notice Board-blank2.jpg");
-		background-repeat: no-repeat;
-		background-size: contain;
-		height: 420px;
-		overflow-y: auto;
+		background: #e3c9b2;
+		//border-color: #64483a;
+		//border-radius: 5px;
+		min-height: 400px;
+		border: solid calc(0.8vw + 4px) #f9e2c3;
+		border-image: url("/parchment-border.avif");
+		border-image-slice: 32 fill;
+		border-image-repeat: stretch;
+		background-clip: padding-box;
 	}
 
 	.mission-text {
