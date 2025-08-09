@@ -1,32 +1,32 @@
-import { getRequest, postRequest } from "$lib/utils/request";
+import { postRequest } from "$lib/utils/request";
 import CharacterStore from "$lib/stores/character.svelte";
 
 type CharacterInput = {
-	oldName: string,
-	name: string,
-	health: number,
-	maxHealth: number,
-	exp: number,
-	level: number,
+	oldName: string;
+	name: string;
+	health: number;
+	maxHealth: number;
+	exp: number;
+	level: number;
 	stats: {
-		str: number,
-		dex: number,
-		int: number,
-		vit: number,
-		char: number
-	},
+		str: number;
+		dex: number;
+		int: number;
+		vit: number;
+		char: number;
+	};
 	inventory: {
-		name: string, // Perhaps a bit missleading, might rename the 'name' attribute to key at some point
-		amount: number
-	}[]
+		name: string; // Perhaps a bit missleading, might rename the 'name' attribute to key at some point
+		amount: number;
+	}[];
 };
 
 export class SaveController {
 	// might rework it in the future so oldname and name are not needed but for now it is needed to have the name currently used in the database
-	public static async saveCharacter(newName: string) {
-		await postRequest<{}, CharacterInput>("/api/characters/save", {
+	public static async saveCharacter(newName?: string) {
+		await postRequest<unknown, CharacterInput>("/api/characters/save", {
 			oldName: CharacterStore.character.name,
-			name: newName,
+			name: newName ?? CharacterStore.character.name,
 			health: CharacterStore.character.health,
 			maxHealth: CharacterStore.character.maxHealth,
 			exp: CharacterStore.character.xp,
@@ -41,18 +41,19 @@ export class SaveController {
 			inventory: CharacterStore.inventory.map((slot) => ({
 				name: slot.item.id,
 				amount: slot.amount
-			})),
-		}
-		);
+			}))
+		});
 	}
 
 	public static async saveWindows(newX: number, newY: number, uniqueKey: string) {
-		const resp = await postRequest<{ success: boolean }, { key: string, x: number, y: number, characterId: number }>("/api/characters/save/windows", {
-			key: uniqueKey,
-			x: newX,
-			y: newY,
-			characterId: CharacterStore.character.id
-		}
+		const resp = await postRequest<{ success: boolean }, { key: string; x: number; y: number; characterId: number }>(
+			"/api/characters/save/windows",
+			{
+				key: uniqueKey,
+				x: newX,
+				y: newY,
+				characterId: CharacterStore.character.id
+			}
 		);
 
 		const { success } = resp;
@@ -64,11 +65,7 @@ export class SaveController {
 		console.log(`Window position saved: ${uniqueKey} at (${newX}, ${newY})`);
 	}
 
-	public static saveCity() {
+	public static saveCity() {}
 
-	}
-
-	public static saveFlag() {
-
-	}
+	public static saveFlag() {}
 }

@@ -5,7 +5,6 @@
 	import type { Resource } from "$lib/types/resource";
 	import ResourceCost from "$lib/components/resourceCost.svelte";
 	import { safeGetBuilding } from "$lib/data/buildings";
-	import { costToNextLevel } from "$lib/utils/cost";
 	import { CityController } from "$lib/controller/city.svelte.js";
 
 	const { data } = $props();
@@ -17,10 +16,6 @@
 
 	function upgrade(price: Resource[]) {
 		CityController.upgrade(price, plot);
-	}
-
-	if (dev) {
-		console.log(costToNextLevel(100, 1), costToNextLevel(100, 5), costToNextLevel(100, 10), costToNextLevel(100, 20));
 	}
 </script>
 
