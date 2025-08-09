@@ -93,6 +93,16 @@ export class CityController {
 		return false;
 	}
 
+	public static give(price: Resource[]) {
+		for(const resource of price) {
+			this.getResource(resource.name).amount += resource.amount; // Might not update object properly
+		}
+		
+		LogController.newLog("You used the city's coffers to pay."); // More detailed resourcec here later
+
+		// Automatically save new resources in db
+	}
+
 	public static upgrade(price: Resource[], plot: number) {
 		if(isCityMap(MapStore.currentMapState.map)) {
 			const level = MapStore.currentMapState.map.city.plots[plot].level;
