@@ -1,6 +1,7 @@
 import type { Building } from "$lib/types/building";
 import {getResource} from "$lib/data/resources";
 import BlackMarket from "$lib/features/buildings/black-market/black-market.svelte";
+import Market from "$lib/features/buildings/market/market.svelte";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -107,7 +108,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: Market
 	}),
 	"tourney-grounds": (): Building => ({
 		id: "tourney-grounds",
