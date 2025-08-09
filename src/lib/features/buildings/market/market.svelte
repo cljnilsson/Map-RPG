@@ -9,25 +9,20 @@
 	let tradeFor = $state<Resource | undefined>(undefined);
 	let tradeWant = $state<Resource | undefined>(undefined);
 
-	let valuesAreSet = $derived(offer !== undefined && tradeFor !== undefined);
-	let canAfford: boolean = $derived(valuesAreSet && (tradeFor?.amount ?? 0) > (offer ?? 0));
+	// Can afford if both values are set and offer is <= resource amount
+	let canAfford = $derived(tradeFor !== undefined && offer !== undefined && (tradeFor.amount ?? 0) >= offer);
 
-	let rate: number = $state(1.2);
+	let rate = $state(1.2);
 
 	function trade() {
-		if(!valuesAreSet || !canAfford) {
-			return;
-		}
+		if (!canAfford || !tradeFor || !tradeWant || offer === undefined) return;
 
-		if(tradeFor && tradeWant && offer) {
-			const success = CityController.pay([{...tradeFor, amount: offer}]);
+		const success = CityController.pay([{ ...tradeFor, amount: offer }]);
 
-			if(success) {
-				CityController.give([{...tradeWant, amount: Math.floor(offer * (2 - rate))}]);
-
-				offer = undefined;
-				LogController.newLog("You traded resources!");
-			}
+		if (success) {
+			CityController.give([{ ...tradeWant, amount: Math.floor(offer * (2 - rate)) }]);
+			offer = undefined;
+			LogController.newLog("You traded resources!");
 		}
 	}
 </script>
@@ -47,18 +42,19 @@
 		</div>
 	{/each}
 </div>
+
 <div class="row mb-5">
 	<div class="col border">
 		<div class="row">
-			<!--Extends col border -->
 			<div class="col-4 mb-4">
 				<ResourceSelection bind:selectedResource={tradeFor} />
 				<input
 					class="form-control form-control-s"
-					class:is-invalid={valuesAreSet && !canAfford}
+					class:is-invalid={offer !== undefined && !canAfford}
 					type="number"
 					bind:value={offer}
 					placeholder="Amount"
+					min="1"
 				/>
 			</div>
 			<div class="col-2 border-end">
