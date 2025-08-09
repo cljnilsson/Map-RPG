@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CityStore from "$lib/stores/city.svelte";
+	import {CityController} from "$lib/controller/city.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import UnitDesignator from "$lib/components/windows/unit/unitDesignator.svelte";
 	import dayjs from "dayjs";
@@ -11,7 +11,7 @@
 		type: "unit",
 		time: { start: new Date(), end: dayjs().add(15, "seconds").toDate() },
 		onComplete: () => {
-			CityStore.units.soldiers += 1;
+			CityController.units.soldiers += 1;
 		}}
 	];
 
@@ -50,36 +50,36 @@
 		<h4 class="my-2">Management</h4>
 	{/snippet}
 	{#snippet body()}
-		<h5>Your city - population {CityStore.population}</h5>
+		<h5>Your city - population {CityController.population}</h5>
 
 		<div class="my-4">
 			<UnitDesignator
 				name="Soldiers"
 				iconPath="/units/soldier.jpg"
-				bind:unit={CityStore.units.soldiers}
-				bind:available={CityStore.workers}
+				bind:unit={CityController.units.soldiers}
+				bind:available={CityController.workers}
 			/>
 			<UnitDesignator
 				name="Merchants"
 				iconPath="/units/merchant.jpg"
-				bind:unit={CityStore.units.merchants}
-				bind:available={CityStore.workers}
+				bind:unit={CityController.units.merchants}
+				bind:available={CityController.workers}
 			/>
 			<UnitDesignator
 				name="Smiths"
 				iconPath="/units/smith.jpg"
-				bind:unit={CityStore.units.smiths}
-				bind:available={CityStore.workers}
+				bind:unit={CityController.units.smiths}
+				bind:available={CityController.workers}
 			/>
 			<UnitDesignator
 				name="Priests"
 				iconPath="/units/priest.jpg"
-				bind:unit={CityStore.units.priests}
-				bind:available={CityStore.workers}
+				bind:unit={CityController.units.priests}
+				bind:available={CityController.workers}
 			/>
 		</div>
 
-		<h5>Workers {CityStore.workers}</h5>
+		<h5>Workers {CityController.workers}</h5>
 	{/snippet}
 	{#snippet footer()}
 		{#each queue.queue as q (q.name + q.time.start)}

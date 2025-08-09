@@ -5,7 +5,7 @@
 	import ResizeAnchors from "$lib/utils/ResizeAnchors.svelte";
 	import MapClickBox from "$lib/components/MapClickBox.svelte";
 	import PlotClickBox from "$lib/components/PlotClickBox.svelte";
-	import MapStore from "$lib/stores/map.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
 	import { safeGetBuilding, getBuildingsByPlotType } from "$lib/data/buildings";
 	import { goto } from "$app/navigation";
@@ -13,30 +13,30 @@
 
 	function toggleSelection(rect: MapWithClickBox) {
 		//MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
-		MapStore.selectedBox = { ...rect };
+		MapController.selectedBox = { ...rect };
 	}
 
 	function handleClick(rect: MapWithClickBox) {
 		const found = maps.find((map) => map.map?.name === rect.map.name);
-		console.log("reee", rect.map.name, found, MapStore.editMode);
+		console.log("reee", rect.map.name, found, MapController.editMode);
 		if (!found) return;
 
-		if (MapStore.editMode) {
+		if (MapController.editMode) {
 			toggleSelection(rect);
 		} else {
-			MapStore.currentMapState = found;
+			MapController.currentMapState = found;
 		}
 	}
 
 	function handlePlotClick(identifier: number, x: number, y: number, rotation: number) {
 		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
 		console.log("options:", getBuildingsByPlotType("default"));
-		goto(`/map/${MapStore.currentMapState.map.name}/${identifier}/build`);
+		goto(`/map/${MapController.currentMapState.map.name}/${identifier}/build`);
 	}
 
 	function handleBuildingClick(identifier: number) {
 		console.log("clicked on building!");
-		goto(`/map/${MapStore.currentMapState.map.name}/${identifier}`)
+		goto(`/map/${MapController.currentMapState.map.name}/${identifier}`)
 	}
 
 	function onBuildingEnter(e: KeyboardEvent, identifier: number) {
@@ -46,27 +46,27 @@
 	}
 
 	$effect(() => {
-		console.log(MapStore.selectedBox?.map.name);
+		console.log(MapController.selectedBox?.map.name);
 		//$inspect(MapStore.selectedBox);
 	});
 </script>
 
-{#if MapStore.currentMapState}
-	{#each MapStore.currentMapState.contains as rect}
-		{#if MapStore.editMode}
+{#if MapController.currentMapState}
+	{#each MapController.currentMapState.contains as rect}
+		{#if MapController.editMode}
 			<Draggable
 				locked={false}
 				bind:x={rect.clickBox.x}
 				bind:y={rect.clickBox.y}
-				editMode={MapStore.editMode}
+				editMode={MapController.editMode}
 				containerWrapper=".map-container"
-				onDragStart={() => (MapStore.selectedBox = rect)}
+				onDragStart={() => (MapController.selectedBox = rect)}
 				onDragEnd={(wasDragged) => {
 					if (!wasDragged) handleClick(rect);
 				}}
 			>
-				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={() => {}} />
-				{#if MapStore.editMode && MapStore.selectedBox?.map.name === rect.map.name}
+				<MapClickBox {rect} selectedBox={MapController.selectedBox} onClickCallback={() => {}} />
+				{#if MapController.editMode && MapController.selectedBox?.map.name === rect.map.name}
 					<ResizeAnchors
 						bind:x={rect.clickBox.x}
 						bind:y={rect.clickBox.y}
@@ -78,12 +78,12 @@
 			</Draggable>
 		{:else}
 			<div style="position: absolute; left: {rect.clickBox.x}px; top: {rect.clickBox.y}px;">
-				<MapClickBox {rect} selectedBox={MapStore.selectedBox} onClickCallback={handleClick} />
+				<MapClickBox {rect} selectedBox={MapController.selectedBox} onClickCallback={handleClick} />
 			</div>
 		{/if}
 	{/each}
-	{#if isCityMap(MapStore.currentMapState.map)}
-		{#each MapStore.currentMapState.map.city.plots as plot, i}
+	{#if isCityMap(MapController.currentMapState.map)}
+		{#each MapController.currentMapState.map.city.plots as plot, i}
 			{#if plot.building === undefined}
 				<div style="position: absolute; left: {plot.x}px; top: {plot.y}px;">
 					<PlotClickBox
@@ -91,7 +91,7 @@
 						x={220}
 						y={120}
 						rotation={0}
-						selectedBox={MapStore.selectedBox}
+						selectedBox={MapController.selectedBox}
 						onClickCallback={handlePlotClick}
 					/>
 				</div>

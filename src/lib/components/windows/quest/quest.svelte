@@ -3,12 +3,12 @@
 	import QuestSection from "$lib/components/windows/quest/questSection.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import WindowStore from "$lib/stores/windows.svelte";
-	import QuestStore from "$lib/stores/quest.svelte";
+	import QuestController from "$lib/controller/quest.svelte";
 	import type { Quest } from "$lib/types/quest";
 
-	let mainQuests: Quest[] = $derived(QuestStore.quests.filter((q) => q.mainQuest && q.status === "active"));
-	let sideQuests: Quest[] = $derived(QuestStore.quests.filter((q) => !q.mainQuest && q.status === "active"));
-	let completedQuests: Quest[] = $derived(QuestStore.quests.filter((q) => q.status === "completed"));
+	let mainQuests: Quest[] = $derived(QuestController.quests.filter((q) => q.mainQuest && q.status === "active"));
+	let sideQuests: Quest[] = $derived(QuestController.quests.filter((q) => !q.mainQuest && q.status === "active"));
+	let completedQuests: Quest[] = $derived(QuestController.quests.filter((q) => q.status === "completed"));
 
 	let active: Quest | undefined = $state(undefined);
 </script>
