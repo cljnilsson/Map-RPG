@@ -42,8 +42,28 @@ const testQuest: Quest = {
 	status: "active"
 };
 
+const missionQuest: Quest = {
+	id: "lost-ones",
+	title: "Lost ones",
+	description: "A group of local children have gone missing, any clues of their whereabouts will be rewarded. Last seen two days ago. Contact Captain Brenoff for further information or to enroll in the formal search efforts.",
+	rewardResources: [{ name: "Copper", amount: 10, icon: "/items/coin2.jpg" }],
+	rewardItems: [],
+	rewardMisc: "",
+	progress: 1,
+	progressGoals: [
+		"Start the quest",
+		"Talk to Captain Brenoff",
+		"Talk to Talk with Julia's parents",
+		"Talk to Talk with Oliver's parents",
+		"Talk to Talk with Robert's parents",
+	],
+	dialogue: [],
+	mainQuest: false,
+	status: "active"
+};
+
 const Store = $state<{ quests: Quest[] }>({
-	quests: [testQuest]
+	quests: [testQuest, missionQuest]
 });
 
 export default Store;

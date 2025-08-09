@@ -1,33 +1,29 @@
 <script lang="ts">
+	import { onMount } from "svelte";
 	import { scale, fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
 	import HoverOutline from "$lib/utils/outline.svelte";
-
-	type Mission = { title: string; description: string };
+	import QuestController from "$lib/controller/quest.svelte";
+	import type {Quest} from "$lib/types/quest";
 
 	// TODO add emblem at random bottom location
 
-	let missions: Mission[] = [
-		{
-			title: "Lost ones",
-			description:
-				"A group of local children have gone missing, any clues of their whereabouts will be rewarded. Last seen two days ago. Contact Captain Brenoff for further information or to enroll in the formal search efforts."
-		},
-		{
-			title: "Lost ones2",
-			description:
-				"A group of local children have gone missing, any clues of their whereabouts will be rewarded. Last seen two days ago. Contact Captain Brenoff for further information or to enroll in the formal search efforts."
-		},
-		{
-			title: "Lost ones3",
-			description:
-				"A group of local children have gone missing, any clues of their whereabouts will be rewarded. Last seen two days ago. Contact Captain Brenoff for further information or to enroll in the formal search efforts."
-		}
-	];
+	let missions: Quest[] = $state([QuestController.quests[1]]);
 
-	let selectedMission: Mission | null = null;
+	let initialSize: number = $state(220);
 
-	function clickedOnMission(task: Mission) {
+	let selectedMission: Quest | null = $state(null);
+
+	onMount(() => {
+		initialSize = missions.length;
+	});
+
+	function accept() {
+		QuestController.addQuest(QuestController.quests[1]);
+		selectedMission = null;
+	}
+
+	function clickedOnMission(task: Quest) {
 		selectedMission = task;
 		missions = missions.filter((v) => v.title !== task.title);
 	}
@@ -47,7 +43,7 @@
 </script>
 
 <!-- Scrollable board -->
-<div class="row justify-content-center board">
+<div class="row justify-content-center board" style="min-height: {310 * initialSize}px;">
 	<div class="col mx-3 my-3">
 		{#each missions as task (task.title)}
 			<div
@@ -56,6 +52,8 @@
 				tabindex="0"
 				onclick={() => clickedOnMission(task)}
 				onkeydown={(e) => e.key === "Enter" && clickedOnMission(task)}
+				out:fade={{ duration: 200 }}
+				in:fade={{ duration: 200 }}
 				animate:flip
 			>
 				<HoverOutline src="/modular-board/Poster3-rot.png" alt="Background parchment spiked upon a noticeboard." width="100%" />
@@ -87,8 +85,8 @@
 						<p>{selectedMission.description}</p>
 					</div>
 					<div class="text-end">
-						<button class="btn btn-primary decline me-2">Decline</button>
-						<button class="btn btn-primary accept me-5">Accept</button>
+						<button class="btn btn-primary decline me-2" onclick={closeMission}>Decline</button>
+						<button class="btn btn-primary accept me-5" onclick={accept}>Accept</button>
 					</div>
 				</div>
 			</div>
