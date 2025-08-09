@@ -67,7 +67,6 @@ export class CityController {
 		let canAfford = true;
 
 		for(const resource of price) {
-			console.log(resource.amount, " vs ", this.getResource(resource.name).amount)
 			if(resource.amount > this.getResource(resource.name).amount) {
 				canAfford = false;
 				break;

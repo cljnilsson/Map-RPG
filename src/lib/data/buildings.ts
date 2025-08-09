@@ -2,6 +2,7 @@ import type { Building } from "$lib/types/building";
 import {getResource} from "$lib/data/resources";
 import BlackMarket from "$lib/features/buildings/black-market/black-market.svelte";
 import Market from "$lib/features/buildings/market/market.svelte";
+import AdventureGuild from "$lib/features/buildings/adventure-guild/adventure-guild.svelte";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -77,8 +78,8 @@ const buildingRegistry = {
 		plotType: "default",
 		componentOnClick: undefined
 	}),
-	"adventure-guild": (): Building => ({
-		id: "adventure-guild",
+	"adventurer's-guild": (): Building => ({
+		id: "adventurer's-guild",
 		name: "Adventurer's Guild",
 		description: "Offers rewarding contracts for various dangerous tasks.",
 		requirements: true,
@@ -86,7 +87,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: AdventureGuild
 	}),
 	"hunter-lodge": (): Building => ({
 		id: "hunter-lodge",

@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { src, alt = "", width = 200, height }: { src: string; alt: string; width: number, height?: number } = $props();
+	let { src, alt = "", width = 200, height, extraClasses = ""}: { src: string; alt: string; width: number | string, height?: number | string, extraClasses?: string } = $props();
 </script>
 
 <svg width="0" height="0" style="position: absolute;">
@@ -16,18 +16,12 @@
 </svg>
 
 <img
-	class="outline-hover"
 	{src}
 	{alt}
 	{width}
+	class={extraClasses}
 	height={height ?? "auto"}
 	style="transition: filter 0.3s ease;"
 	onmouseenter={(e) => (e.currentTarget.style.filter = "url(#outline-filter)")}
 	onmouseleave={(e) => (e.currentTarget.style.filter = "none")}
 />
-
-<style>
-	.outline-hover {
-		display: block;
-	}
-</style>
