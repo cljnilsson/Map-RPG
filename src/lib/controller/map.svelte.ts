@@ -31,8 +31,7 @@ export default class MapController {
 	}
 
 	public static set currentMapState(v: CustomMap) {
-		const current = this.currentMapState;
-		MapStore.currentMapState = { ...v, previous: current }; // Automatically keep up to date
+		MapStore.currentMapState = { ...v };
 	}
 
 	public static set selectedBox(v: MapWithClickBox | null) {

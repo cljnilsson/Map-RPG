@@ -1,4 +1,5 @@
-import { sqliteTable, text, integer, unique } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, unique, uniqueIndex, check } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm";
 
 /*
@@ -126,6 +127,23 @@ export const stats = sqliteTable(
 	})
 );
 
+export const quests = sqliteTable(
+	"quests",
+	{
+		id: integer("id").primaryKey({ autoIncrement: true }),
+		characterId: integer("character_id")
+			.notNull()
+			.references(() => characters.id),
+		key: text("key").notNull(),
+		progress: integer("progress").notNull(),
+		status: text("status").$type<"active" | "completed" | "failed">().notNull()
+	},
+	(table) => ({
+		uniqueCharacterKey: uniqueIndex("unique_character_key").on(table.characterId, table.key),
+		statusCheck: check("status_check", sql`status IN ('active', 'completed', 'failed')`)
+	})
+);
+
 export const unit = sqliteTable("unit", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	iconPath: text("icon_path").notNull(),
@@ -186,7 +204,7 @@ export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 }));
 
 export const plotRelations = relations(plot, ({ one }) => ({
-	city: one(cityData, { fields: [plot.cityId], references: [cityData.id] }),
+	city: one(cityData, { fields: [plot.cityId], references: [cityData.id] })
 }));
 
 export const characterRelations = relations(characters, ({ one, many }) => ({

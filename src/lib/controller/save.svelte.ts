@@ -1,5 +1,6 @@
 import { postRequest } from "$lib/utils/request";
 import CharacterStore from "$lib/stores/character.svelte";
+import QuestController from "./quest.svelte";
 
 type CharacterInput = {
 	oldName: string;
@@ -20,6 +21,15 @@ type CharacterInput = {
 		amount: number;
 	}[];
 };
+
+type QuestInput = {
+	characterId: number;
+	quests: {
+		key: string;
+		progress: number;
+		status: "active" | "completed" | "failed";
+	}[]
+}
 
 export class SaveController {
 	// might rework it in the future so oldname and name are not needed but for now it is needed to have the name currently used in the database
@@ -63,6 +73,19 @@ export class SaveController {
 		}
 
 		console.log(`Window position saved: ${uniqueKey} at (${newX}, ${newY})`);
+	}
+
+	public static async saveQuests() {
+		await postRequest<unknown, QuestInput>("/api/characters/save/quests", {
+			characterId: 4,
+			quests: QuestController.quests.map(q => {
+				return {
+					key: q.id,
+					progress: q.progress,
+					status: q.status
+				};
+			})
+		});
 	}
 
 	public static saveCity() {}

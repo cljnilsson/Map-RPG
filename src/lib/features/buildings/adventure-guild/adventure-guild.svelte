@@ -45,7 +45,7 @@
 <!-- Scrollable board -->
 <div class="row justify-content-center board" style="min-height: {310 * initialSize}px;">
 	<div class="col mx-3 my-3">
-		{#each missions as task (task.title)}
+		{#each missions.filter(v => !QuestController.hasQuest(v)) as task (task.title)}
 			<div
 				class="position-relative"
 				role="button"

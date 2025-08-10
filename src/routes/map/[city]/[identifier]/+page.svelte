@@ -20,7 +20,7 @@
 </script>
 
 <div class="container mt-3 px-5">
-	<a href="/map">Back</a>
+	<a href="/map"><button class="back btn btn-primary">Back</button></a>
 
 	{#if dev}
 		<p>{currentMap?.name} ({isCityMap(currentMap)}) slot: {data.plot}</p>
@@ -58,11 +58,22 @@
 	{/if}
 </div>
 
-<style>
+<style lang="scss">
 	.container {
 		background: rgba(235, 235, 235, 0.6);
 		border-radius: 10px;
 		padding-top: 0.75rem;
 		padding-bottom: 0.75rem;
+	}
+
+	.back {
+		background-color: #e3c9b2;
+		border-color: #794f36;
+		color: #685247;
+		&:hover {
+			background-color: #dfb48e;
+			border-color: #794f36;
+			color: #64483a;
+		}
 	}
 </style>
