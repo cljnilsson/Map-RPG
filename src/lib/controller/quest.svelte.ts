@@ -24,6 +24,6 @@ export default class QuestController {
 	}
 
 	public static hasQuest(quest: Quest): boolean {
-		return !this.quests.some((q) => q.id === quest.id);
+		return this.quests.some((q) => q.id === quest.id);
 	}
 }

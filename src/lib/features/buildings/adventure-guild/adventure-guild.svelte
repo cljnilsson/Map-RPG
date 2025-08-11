@@ -4,11 +4,12 @@
 	import { flip } from "svelte/animate";
 	import HoverOutline from "$lib/utils/outline.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
-	import type {Quest} from "$lib/types/quest";
+	import { getQuest } from "$lib/data/quests";
+	import type { Quest } from "$lib/types/quest";
 
 	// TODO add emblem at random bottom location
 
-	let missions: Quest[] = $state([QuestController.quests[1]]);
+	let missions: Quest[] = $state([getQuest("lost-ones")]);
 
 	let initialSize: number = $state(220);
 
@@ -19,8 +20,10 @@
 	});
 
 	function accept() {
-		QuestController.addQuest(QuestController.quests[1]);
-		selectedMission = null;
+		if (selectedMission) {
+			QuestController.addQuest(selectedMission);
+			selectedMission = null;
+		}
 	}
 
 	function clickedOnMission(task: Quest) {
@@ -42,10 +45,9 @@
 	}
 </script>
 
-<!-- Scrollable board -->
 <div class="row justify-content-center board" style="min-height: {310 * initialSize}px;">
 	<div class="col mx-3 my-3">
-		{#each missions.filter(v => !QuestController.hasQuest(v)) as task (task.title)}
+		{#each missions.filter((v) => !QuestController.hasQuest(v)) as task (task.title)}
 			<div
 				class="position-relative"
 				role="button"
@@ -62,12 +64,21 @@
 					<p class="m-0">{task.description}</p>
 				</div>
 			</div>
+		{:else}
+		<div class="row">
+			<div class="col-auto">
+				<img src="/modular-board/Ruined Poster 5.png" alt="A ruined paper spiked upon a noticeboard" width={200}>
+			</div>
+			<div class="col">
+				<h5><i>*there are no public missions available*</i></h5>
+			</div>
+		</div>
 		{/each}
 	</div>
 </div>
 
 <!-- Overlay for selected mission -->
-{#if selectedMission}
+{#if selectedMission && missions.filter((v) => !QuestController.hasQuest(v)).length > 0}
 	<div class="overlay" onclick={() => closeMission()} role="button" tabindex={0} onkeydown={closeMissionEnter}>
 		<div class="row justify-content-center">
 			<div class="col-xl-5 col-md-8">
