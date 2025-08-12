@@ -23,6 +23,13 @@ export default ts.config(
 			}
 		},
 		rules: {
+			"@typescript-eslint/no-unused-vars": [
+				"warn",
+				{
+					varsIgnorePattern: "^_",
+					argsIgnorePattern: "^_"
+				}
+			],
 			quotes: ["error", "double"],
 			indent: ["error", "tab", { SwitchCase: 1 }],
 			"no-tabs": "off" // allow actual tab characters

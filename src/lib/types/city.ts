@@ -1,17 +1,19 @@
 import type { Resource } from "$lib/types/resource";
 
+type Plot = {
+	x: number;
+	y: number;
+	building: string | undefined;
+	level: number;
+	plotType: "default" | "sacred" | "pristine";
+};
+
 type City = {
 	name: string;
 	unlocked: boolean;
 	owned: boolean;
 	resources: Resource[];
-	plots: {
-		x: number;
-		y: number;
-		building: string | undefined;
-		level: number;
-		plotType: "default" | "sacred" | "pristine"
-	}[]
+	plots: Plot[];
 };
 
-export type { City };
+export type { City, Plot };

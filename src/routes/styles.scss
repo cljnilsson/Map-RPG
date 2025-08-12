@@ -3,6 +3,17 @@ html, body {
     margin: 0;
 }
 
+.btn-primary {
+    background-color: #e3c9b2;
+    border-color: #794f36;
+    color: #685247;
+    &:hover {
+        background-color: #dfb48e;
+        border-color: #794f36;
+        color: #64483a;
+    }
+}
+
 .highlight-pulse {
     border-radius: 8px;
     animation: h-pulse 2s infinite;

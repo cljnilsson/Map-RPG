@@ -3,19 +3,52 @@
 	import MapStore from "$lib/stores/map.svelte";
 	import { dev } from "$app/environment";
 	import type { Resource } from "$lib/types/resource";
+	import type { MapType } from "$lib/types/mapTypes";
+	import type { Plot } from "$lib/types/city";
 	import ResourceCost from "$lib/components/resourceCost.svelte";
 	import { safeGetBuilding } from "$lib/data/buildings";
 	import { CityController } from "$lib/controller/city.svelte.js";
+	import type { Building } from "$lib/types/building";
 
+	// Props
 	const { data } = $props();
-	const plot = Number(data.plot);
-	const currentMap = MapStore.currentMapState?.map;
-	const isValidPlot = isCityMap(currentMap) && !Number.isNaN(plot) && plot >= 0 && plot < currentMap.city.plots.length;
-	const buildingPlot = isValidPlot ? currentMap.city.plots[plot] : null;
-	const building = buildingPlot ? safeGetBuilding(buildingPlot.building?.replaceAll(" ", "-").toLowerCase() ?? "") : undefined;
 
+	// ---- High-level data ----
+	const plotIndex = Number(data.plot);
+	const currentMap = MapStore.currentMapState?.map;
+	const buildingPlot = getBuildingPlot(currentMap, plotIndex);
+	const buildingFull = getBuildingFromPlot(buildingPlot);
+	const { Component, strippedBuilding } = getComponentData(buildingFull);
+
+	// ---- Actions ----
 	function upgrade(price: Resource[]) {
-		CityController.upgrade(price, plot);
+		CityController.upgrade(price, plotIndex);
+	}
+
+	// ---- Helpers ----
+	function getBuildingPlot(map: MapType, index: number) {
+		if (isCityMap(map) && index >= 0 && index < map.city.plots.length) {
+			return map.city.plots[index];
+		}
+		return null;
+	}
+
+	function getBuildingFromPlot(plot: Plot | null) {
+		if (!plot) return undefined;
+		return safeGetBuilding(plot.building?.replaceAll(" ", "-").toLowerCase() ?? "");
+	}
+
+	function getComponentData(building?: Building) {
+		if (!building) return { Component: undefined, strippedBuilding: undefined };
+
+		const Component = building.componentOnClick;
+		type BuildingWithoutClick = Omit<Building, "componentOnClick">;
+
+		// rename to _unused so eslint doesn't complain
+		const { componentOnClick: _unused, ...rest } = building;
+		const strippedBuilding: BuildingWithoutClick = rest;
+
+		return { Component, strippedBuilding };
 	}
 </script>
 
@@ -23,30 +56,31 @@
 	<a href="/map"><button class="back btn btn-primary">Back</button></a>
 
 	{#if dev}
-		<p>{currentMap?.name} ({isCityMap(currentMap)}) slot: {data.plot}</p>
+		<p>{currentMap?.name} slot: {data.plot}</p>
 	{/if}
 
-	{#if currentMap && data.city === currentMap.name && isValidPlot && building && buildingPlot}
+	{#if currentMap && data.city === currentMap.name && buildingPlot && buildingFull}
 		<div class="row justify-content-center">
 			<div class="col-auto">
-				<img src={building.artPath} alt={"Art of " + building.name} width="200" height="200" />
+				<img src={buildingFull.artPath} alt={"Art of " + buildingFull.name} width="200" height="200" />
 			</div>
-			<div class="col-xl-6 col-md-8">
-				<h4 class="border-bottom">{building.name} ({buildingPlot.level})</h4>
-				<p>{building.description}</p>
 
-				{#if building.componentOnClick}
-					<building.componentOnClick />
+			<div class="col-xl-6 col-md-8">
+				<h4 class="border-bottom">{buildingFull.name} ({buildingPlot.level})</h4>
+				<p>{buildingFull.description}</p>
+
+				{#if Component && strippedBuilding}
+					<Component level={buildingPlot.level} building={strippedBuilding} />
 				{/if}
 
-				{#if building.cost.length > 0}
-					<ResourceCost costs={building.cost} level={buildingPlot.level} />
+				{#if buildingFull.cost.length > 0}
+					<ResourceCost costs={buildingFull.cost} level={buildingPlot.level} />
 				{/if}
 
 				<div class="row mt-3">
 					<div class="col text-end">
-						<span class="px-3">00:00:{building.timeInSeconds}</span>
-						<button class="btn btn-primary" onclick={() => upgrade(building.cost)}>Upgrade</button>
+						<span class="px-3">00:00:{buildingFull.timeInSeconds}</span>
+						<button class="btn btn-primary" onclick={() => upgrade(buildingFull.cost)}>Upgrade</button>
 					</div>
 				</div>
 			</div>

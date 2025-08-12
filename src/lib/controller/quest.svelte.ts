@@ -23,6 +23,16 @@ export default class QuestController {
 		return false;
 	}
 
+	public static removeQuest(quest: Quest) {
+		if (this.hasQuest(quest)) {
+			this.quests = this.quests.filter((q) => q.id !== quest.id);
+			LogController.newLog(`You have forfeit the quest: ${quest.title}.`);
+			SaveController.saveQuests();
+			return true;
+		}
+		return false;
+	}
+
 	public static hasQuest(quest: Quest): boolean {
 		return this.quests.some((q) => q.id === quest.id);
 	}

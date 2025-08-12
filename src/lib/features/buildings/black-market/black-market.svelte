@@ -3,6 +3,9 @@
 	import { getItem } from "$lib/data/items";
     import Tooltip from "$lib/features/tooltip/tooltip.svelte";
 	import {q2c} from "$lib/utils/itemQuality";
+	import type { Building } from "$lib/types/building";
+
+	const { level, building }: {level: number, building: Omit<Building, "componentOnClick">} = $props();
 
     // Should be random in the future, 5 items seems fair
 	const currentlyOnOffer: VendorItem[] = $state([

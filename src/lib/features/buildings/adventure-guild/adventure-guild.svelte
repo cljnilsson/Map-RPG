@@ -6,6 +6,9 @@
 	import QuestController from "$lib/controller/quest.svelte";
 	import { getQuest } from "$lib/data/quests";
 	import type { Quest } from "$lib/types/quest";
+	import type { Building } from "$lib/types/building";
+
+	const { level, building }: {level: number, building: Omit<Building, "componentOnClick">} = $props();
 
 	// TODO add emblem at random bottom location
 
@@ -132,26 +135,10 @@
 
 	.decline {
 		margin-top: -5rem;
-		background-color: #e3c9b2;
-		border-color: #794f36;
-		color: #685247;
-		&:hover {
-			background-color: #dfb48e;
-			border-color: #794f36;
-			color: #64483a;
-		}
 	}
 
 	.accept {
 		margin-top: -5rem;
-		background-color: #e3c9b2;
-		border-color: #794f36;
-		color: #685247;
-		&:hover {
-			background-color: #dfb48e;
-			border-color: #794f36;
-			color: #64483a;
-		}
 	}
 
 	.overlay {

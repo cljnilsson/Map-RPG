@@ -4,6 +4,9 @@
 	import type { Resource } from "$lib/types/resource";
 	import { LogController } from "$lib/controller/logs.svelte";
 	import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
+	import type { Building } from "$lib/types/building";
+
+	const { level, building }: {level: number, building: Omit<Building, "componentOnClick">} = $props();
 
 	let offer = $state<number | undefined>(undefined);
 	let tradeFor = $state<Resource | undefined>(undefined);

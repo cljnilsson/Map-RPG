@@ -3,6 +3,7 @@ import {getResource} from "$lib/data/resources";
 import BlackMarket from "$lib/features/buildings/black-market/black-market.svelte";
 import Market from "$lib/features/buildings/market/market.svelte";
 import AdventureGuild from "$lib/features/buildings/adventure-guild/adventure-guild.svelte";
+import Inn from "$lib/features/buildings/inn/inn.svelte";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -32,7 +33,7 @@ const buildingRegistry = {
 		name: "Inn",
 		description: "Not only good for morale, but also makes it easy to find people as the community gathers in the evening.",
 		requirements: true,
-		artPath: "/buildings/black-market.png",
+		artPath: "/buildings/inn.png",
 		cost: [
 			{...getResource("Gold"), amount: 100},
 			{...getResource("Wood"), amount: 50},
@@ -43,7 +44,7 @@ const buildingRegistry = {
 		],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: Inn
 	}),
 	"shrine": (): Building => ({
 		id: "shrine",
@@ -127,7 +128,7 @@ const buildingRegistry = {
 		name: "Beast Pen",
 		description: "You choose to not limit yourself to humans, beasts can be trained to fulfil various useful tasks.",
 		requirements: true,
-		artPath: "/buildings/black-market.png",
+		artPath: "/buildings/beast-pen.png",
 		cost: [],
 		timeInSeconds: 150,
 		plotType: "default",
@@ -138,7 +139,7 @@ const buildingRegistry = {
 		name: "Bank",
 		description: "A rich third party institute allows you to borrow large batches of resources in exchange for paying them back with interest.",
 		requirements: true,
-		artPath: "/buildings/black-market.png",
+		artPath: "/buildings/bank.png",
 		cost: [],
 		timeInSeconds: 150,
 		plotType: "default",
