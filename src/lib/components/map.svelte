@@ -2,6 +2,7 @@
 	import MapClickBoxes from "$lib/partials/mapClickboxes.svelte";
 	import MapController from "$lib/controller/map.svelte";
 	import MiniMenu from "$lib/features/miniMenu/miniMenu.svelte";
+	import WindowMenu from "$lib/features/miniMenu/iconMenu.svelte";
 	import { onMount } from "svelte";
 	import { isCityMap, isBuildingMap, isWorldMap } from "$lib/typeguards/map";
 	import NPCS from "$lib/components/npcs.svelte";
@@ -51,6 +52,7 @@
 		<GameObjects />
 	</div>
 	<MiniMenu />
+	<WindowMenu />
 {/if}
 
 <style>
