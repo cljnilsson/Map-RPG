@@ -1,7 +1,5 @@
 <script lang="ts">
 	import DialogueStore from "$lib/stores/dialogue.svelte";
-	import { Tween } from "svelte/motion";
-	import { cubicOut } from "svelte/easing";
 	import WindowStore from "$lib/stores/windows.svelte";
 	import MapController from "$lib/controller/map.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
@@ -12,7 +10,7 @@
 
 <div
 	id="mini-menu"
-	class="position-fixed bottom-0 end-0 m-3 rounded border shadow p-2 overflow-hidden"
+	class="position-fixed bottom-0 end-0 m-3 rounded border shadow p-2"
 	style="z-index: 1050;"
 	class:d-none={DialogueStore.inDialogue}
 >

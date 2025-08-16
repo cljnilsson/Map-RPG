@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
+	import { portal } from "$lib/features/portal/portal.svelte"; // note: .js if action, not .svelte
 
 	let { children, tooltip }: { children: Snippet; tooltip: Snippet } = $props();
 
@@ -28,8 +29,11 @@
 
 <div class="tooltip-container" onmouseenter={onHover} onmouseleave={stopHover} onmousemove={mouseMove} role="tooltip">
 	{@render children()}
+
 	{#if hovering}
-		<div style="top: {y}px; left: {x}px;" class="c-tooltip">{@render tooltip()}</div>
+		<div class="c-tooltip" use:portal={"body"} style="top: {y}px; left: {x}px;">
+			{@render tooltip()}
+		</div>
 	{/if}
 </div>
 
@@ -37,12 +41,11 @@
 	.tooltip-container {
 		position: relative;
 	}
-
 	.c-tooltip {
 		position: fixed;
-		border: 1px solid #794F36;
+		border: 1px solid #794f36;
 		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-		background: #E3C9B2;
+		background: #e3c9b2;
 		border-radius: 4px;
 		padding: 4px;
 		color: #685247;
@@ -52,5 +55,6 @@
 		word-wrap: break-word;
 		min-width: 200px;
 		pointer-events: none; /* makes the tooltip ignore mouse events */
+		z-index: 99999;
 	}
 </style>

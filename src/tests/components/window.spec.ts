@@ -25,7 +25,7 @@ test("Window renders", async () => {
 
 test("Window closes by click", async () => {
 	const user = userEvent.setup();
-	
+
 	render(Window, renderOptions);
 
 	const buttons = screen.getAllByRole("button");
@@ -39,7 +39,7 @@ test("Window closes by click", async () => {
 
 test("Window closes by keybind", async () => {
 	const user = userEvent.setup();
-	
+
 	render(Window, renderOptions);
 
 	const buttons = screen.getAllByRole("button");

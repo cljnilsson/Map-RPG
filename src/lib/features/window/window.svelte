@@ -10,6 +10,7 @@
 	import DialogueStore from "$lib/stores/dialogue.svelte";
 	import { browser } from "$app/environment";
 	import { SaveController } from "$lib/controller/save.svelte";
+	import { fade } from "svelte/transition";
 
 	let {
 		title,
@@ -48,6 +49,7 @@
 	let dragging = $state(false);
 
 	let containerElement: HTMLElement;
+	const isTest = import.meta.env.MODE === "test";
 
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
 
@@ -104,56 +106,64 @@
 	});
 </script>
 
-<div
-	bind:this={containerElement}
-	class:dragging
-	class="overlay-rect"
-	style="left: {x}px; top: {y}px; width: {width}px;"
-	class:d-none={!visibility || DialogueStore.inDialogue}
->
-	<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDragEnd={saveNewPosition}>
-		<Title>
-			<div class="row align-items-center">
-				<div class="col">
-					{#if title}
-						{@render title()}
-					{/if}
-				</div>
-				{#if canClose || canLock || canMinimize}
-					<div class="col-auto text-end">
-						{#if canLock}
-							<button class="btn btn-sm btn-outline-secondary" aria-label="Lock/Unlock" onclick={() => (locked = !locked)}>
-								<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
-							</button>
-						{/if}
-						{#if canMinimize}
-							<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
-								<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
-							</button>
-						{/if}
-						{#if canClose}
-							<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
-								<i class="bi bi-x"></i>
-							</button>
+{#if visibility}
+	<div
+		bind:this={containerElement}
+		class:dragging
+		in:fade={{ duration: isTest ? 0 : 100 }}
+		out:fade={{ duration: isTest ? 0 : 100 }}
+		class="overlay-rect"
+		style="left: {x}px; top: {y}px; width: {width}px;"
+		class:d-none={DialogueStore.inDialogue}
+	>
+		<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDragEnd={saveNewPosition}>
+			<Title>
+				<div class="row align-items-center">
+					<div class="col">
+						{#if title}
+							{@render title()}
 						{/if}
 					</div>
+					{#if canClose || canLock || canMinimize}
+						<div class="col-auto text-end">
+							{#if canLock}
+								<button
+									class="btn btn-sm btn-outline-secondary"
+									aria-label="Lock/Unlock"
+									onclick={() => (locked = !locked)}
+								>
+									<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
+								</button>
+							{/if}
+							{#if canMinimize}
+								<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
+									<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
+								</button>
+							{/if}
+							{#if canClose}
+								<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
+									<i class="bi bi-x"></i>
+								</button>
+							{/if}
+						</div>
+					{/if}
+				</div>
+			</Title>
+		</DraggableHandle>
+
+		<!-- Manually animated height using tween -->
+		<div class="content-wrapper" style="height: {tweenHeight.current}px;">
+			<div class="inner d-flex flex-column h-100">
+				{#if body}
+					<Body>{@render body()}</Body>
+				{/if}
+				{#if footer}
+					<Footer>{@render footer()}</Footer>
 				{/if}
 			</div>
-		</Title>
-	</DraggableHandle>
-
-	<!-- Manually animated height using tween -->
-	<div class="content-wrapper" style="height: {tweenHeight.current}px;">
-		<div class="inner d-flex flex-column h-100">
-			{#if body}
-				<Body>{@render body()}</Body>
-			{/if}
-			{#if footer}
-				<Footer>{@render footer()}</Footer>
-			{/if}
 		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.overlay-rect {
