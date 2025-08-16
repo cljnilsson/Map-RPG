@@ -48,7 +48,10 @@
 	let locked = $state(false);
 	let dragging = $state(false);
 
-	let containerElement: HTMLElement;
+	let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
+	let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
+
+	let containerElement: HTMLElement | null = $state(null);
 	const isTest = import.meta.env.MODE === "test";
 
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
@@ -132,12 +135,12 @@
 									aria-label="Lock/Unlock"
 									onclick={() => (locked = !locked)}
 								>
-									<i class="bi {locked ? 'bi-unlock' : 'bi-lock-fill'}"></i>
+									<i class="bi {lockIcon}"></i>
 								</button>
 							{/if}
 							{#if canMinimize}
 								<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
-									<i class="bi {expanded ? 'bi-dash' : 'bi-plus'}"></i>
+									<i class="bi {minimizeIcon}"></i>
 								</button>
 							{/if}
 							{#if canClose}
