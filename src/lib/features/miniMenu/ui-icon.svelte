@@ -21,8 +21,16 @@
 	</ClickableElement>
 </div>
 
-<style>
+<style lang="scss">
 	.disabled {
 		filter: grayscale(100%);
+	}
+
+	img {
+		transition: transform 0.1s ease;
+		transform: scale(1);
+		&:hover {
+			transform: scale(1.2);
+		}
 	}
 </style>
