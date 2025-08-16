@@ -1,11 +1,11 @@
 import { getResource } from "$lib/data/resources";
-import type {Resource} from "$lib/types/resource";
+import type {CityResource} from "$lib/types/resource";
 
 const Store = $state<{
 	population: number;
 	workers: number;
 	units: { soldiers: number; merchants: number; smiths: number; priests: number };
-	resources: Resource[];
+	resources: CityResource[];
 }>({
 	population: 300,
 	workers: 6,
@@ -16,12 +16,12 @@ const Store = $state<{
 		priests: 0
 	},
 	resources: [
-		{...getResource("Gold"), amount: 100},
-		{...getResource("Wood"), amount: 50},
-		{...getResource("Stone"), amount: 30},
-		{...getResource("Silk"), amount: 30},
-		{...getResource("Wheat"), amount: 30},
-		{...getResource("Iron"), amount: 30},
+		{...getResource("Gold"), amount: 100, production: 0}, // Base productions, should combine with other factors once implemented
+		{...getResource("Wood"), amount: 50, production: 1},
+		{...getResource("Stone"), amount: 30, production: 2},
+		{...getResource("Silk"), amount: 30, production: 0},
+		{...getResource("Wheat"), amount: 30, production: 3},
+		{...getResource("Iron"), amount: 30, production: 1},
 	]
 });
 

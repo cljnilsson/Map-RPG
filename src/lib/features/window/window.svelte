@@ -11,6 +11,7 @@
 	import { browser } from "$app/environment";
 	import { SaveController } from "$lib/controller/save.svelte";
 	import { fade } from "svelte/transition";
+	import { dev } from "$app/environment";
 
 	let {
 		title,
@@ -127,6 +128,11 @@
 							{@render title()}
 						{/if}
 					</div>
+					{#if dev}
+						<div class="col-auto">
+							<small>x: {Math.round(x)}</small><small class="ms-3">y: {Math.round(y)}</small>
+						</div>
+					{/if}
 					{#if canClose || canLock || canMinimize}
 						<div class="col-auto text-end">
 							{#if canLock}

@@ -11,6 +11,7 @@
 	import Tutorial from "$lib/game/tutorial.svelte";
 	import Notification from "$lib/features/notification/notification.svelte";
 	import { getItem } from "$lib/data/items";
+	import "$lib/utils/resources"; // 60 second timer to update resources
 
 	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
 

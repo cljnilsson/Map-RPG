@@ -6,4 +6,8 @@ type Resource = BaseResource & {
 	amount: number;
 };
 
-export type { BaseResource, Resource };
+type CityResource = Resource & {
+	production: number;
+}
+
+export type { BaseResource, Resource, CityResource };

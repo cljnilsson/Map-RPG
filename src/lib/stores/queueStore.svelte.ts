@@ -1,5 +1,5 @@
 import type { QueueItem } from "$lib/types/queueItem";
-import LoggerStore from "$lib/stores/logs.svelte";
+import { LogController } from "$lib/controller/logs.svelte";
 import dayjs from "dayjs";
 
 const store = $state({
@@ -18,14 +18,7 @@ if (typeof window !== "undefined") {
 				if (dayjs(q.time.end).isBefore(now)) {
 					q.onComplete();
 
-					LoggerStore.logs = [
-						...LoggerStore.logs,
-						{
-							type: "info",
-							timestamp: new Date(),
-							message: `Finished ${q.type ?? "task"}: ${q.name}`
-						}
-					];
+					LogController.newLog(`Finished ${q.type ?? "task"}: ${q.name}`);
 
 					store.queue = store.queue.filter((item) => item !== q);
 				}

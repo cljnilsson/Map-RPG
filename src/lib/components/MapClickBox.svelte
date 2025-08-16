@@ -12,14 +12,36 @@
 		selectedBox: MapWithClickBox | null;
 	} = $props();
 
+	let buttonEl: HTMLButtonElement | null = $state(null);
+
+	function isInViewport(el: HTMLElement | null): boolean {
+		if (!el) return false;
+		const r = el.getBoundingClientRect();
+		return (
+			r.bottom >= 0 &&
+			r.right >= 0 &&
+			r.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+			r.left <= (window.innerWidth || document.documentElement.clientWidth)
+		);
+	}
+
+	// Run an effect when dependencies change
+	$effect(() => {
+		const isHovered = MapController.currentNavigationHover?.map.name === rect.map.name;
+		if (isHovered && buttonEl && !isInViewport(buttonEl)) {
+			buttonEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+		}
+	});
+
 	function onClick(rect: MapWithClickBox) {
-		if(onClickCallback) {
-			onClickCallback(rect)
+		if (onClickCallback) {
+			onClickCallback(rect);
 		}
 	}
 </script>
 
 <button
+	bind:this={buttonEl}
 	class="overlay-rect"
 	class:overlay-rect-editing={selectedBox?.map.name === rect.map.name}
 	class:overlay-rect-navigation={MapController.currentNavigationHover?.map.name === rect.map.name}

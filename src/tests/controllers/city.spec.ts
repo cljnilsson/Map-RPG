@@ -42,7 +42,7 @@ import { LogController } from "$lib/controller/logs.svelte";
 import { isCityMap } from "$lib/typeguards/map";
 import { costToNextLevel } from "$lib/utils/cost";
 import { CityController } from "$lib/controller/city.svelte";
-import type { Resource } from "$lib/types/resource";
+import type { CityResource, Resource } from "$lib/types/resource";
 import type { CityMap, WorldMap, MapType } from "$lib/types/mapTypes";
 
 describe("CityController", () => {
@@ -52,8 +52,8 @@ describe("CityController", () => {
 		CityStore.workers = 20;
 		CityStore.units = { soldiers: 10, merchants: 5, smiths: 2, priests: 1 };
 		CityStore.resources = [
-			{ name: "gold", iconPath: "gold.png", amount: 100 },
-			{ name: "wood", iconPath: "wood.png", amount: 50 }
+			{ name: "gold", iconPath: "gold.png", amount: 100, production: 0 },
+			{ name: "wood", iconPath: "wood.png", amount: 50, production: 0 }
 		];
 
 		mockedIsCityMap.mockClear();
@@ -84,7 +84,7 @@ describe("CityController", () => {
 
 	it("should get and set resources", () => {
 		expect(CityController.resources.length).toBe(2);
-		const newResources: Resource[] = [{ name: "stone", iconPath: "stone.png", amount: 99 }];
+		const newResources: CityResource[] = [{ name: "stone", iconPath: "stone.png", amount: 99, production: 0 }];
 		CityController.resources = newResources;
 		expect(CityStore.resources).toEqual(newResources);
 	});
@@ -143,8 +143,8 @@ describe("CityController", () => {
 				unlocked: true,
 				owned: true,
 				resources: [
-					{ name: "gold", iconPath: "gold.png", amount: 100 },
-					{ name: "wood", iconPath: "wood.png", amount: 50 }
+					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0 },
+					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0 }
 				],
 				plots: [{ x: 0, y: 0, building: undefined, level: 1, plotType: "default" }]
 			}
@@ -174,8 +174,8 @@ describe("CityController", () => {
 				unlocked: true,
 				owned: true,
 				resources: [
-					{ name: "gold", iconPath: "gold.png", amount: 100 },
-					{ name: "wood", iconPath: "wood.png", amount: 50 }
+					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0 },
+					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0 }
 				],
 				plots: [{ x: 0, y: 0, building: undefined, level: 3, plotType: "default" }]
 			}

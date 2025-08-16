@@ -1,7 +1,7 @@
 import CityStore from "$lib/stores/city.svelte";
 import MapController from "$lib/stores/map.svelte";
 import type {City} from "$lib/types/city";
-import type {Resource} from "$lib/types/resource";
+import type {CityResource, Resource} from "$lib/types/resource";
 import { LogController } from "$lib/controller/logs.svelte";
 import { isCityMap } from "$lib/typeguards/map";
 import { costToNextLevel } from "$lib/utils/cost";
@@ -45,7 +45,7 @@ export class CityController {
 		CityStore.units = v;
 	}
 
-	public static set resources(v: Resource[]) {
+	public static set resources(v: CityResource[]) {
 		CityStore.resources = v;
 	}
 
@@ -53,7 +53,7 @@ export class CityController {
 	// FUNCTIONS
 	// ---------------
 
-	public static getResource(resource: string): Resource {
+	public static getResource(resource: string): CityResource {
 		const found = CityStore.resources.find((v) => v.name === resource);
 
 		if (!found) {

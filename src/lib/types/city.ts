@@ -1,4 +1,4 @@
-import type { Resource } from "$lib/types/resource";
+import type { CityResource } from "$lib/types/resource";
 
 type Plot = {
 	x: number;
@@ -12,7 +12,7 @@ type City = {
 	name: string;
 	unlocked: boolean;
 	owned: boolean;
-	resources: Resource[];
+	resources: CityResource[];
 	plots: Plot[];
 };
 

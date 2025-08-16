@@ -10,7 +10,7 @@
 	import { getRequest } from "$lib/utils/request";
 	import {maps} from "$lib/tempData";
 	import { isCityMap } from "$lib/typeguards/map";
-	import type {Resource} from "$lib/types/resource";
+	import type {CityResource} from "$lib/types/resource";
 
 	type WindowPosition = {
 		id: number;
@@ -86,7 +86,7 @@
 				population: number;
 				workers: number;
 				name: string;
-				resources: Resource[];
+				resources: CityResource[];
 				plots: {
 					building: string,
 					cityId: number,
