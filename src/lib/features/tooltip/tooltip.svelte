@@ -74,7 +74,8 @@
 		max-width: 300px;
 		white-space: normal;
 		word-wrap: break-word;
-		min-width: 200px;
+		min-width: 100px;
+		max-width: 300px;
 		pointer-events: none;
 	}
 </style>

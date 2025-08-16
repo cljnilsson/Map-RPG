@@ -14,13 +14,76 @@
 	style="z-index: 1050;"
 	class:d-none={DialogueStore.inDialogue}
 >
-	<Icon iconPath="/items/note1.png" alt="" onClickCallback={() => (WindowStore.quest.visible = !WindowStore.quest.visible)} disabled={false} />
-	<Icon iconPath="/items/bag3.png" alt="" onClickCallback={() => (WindowStore.inventory.visible = !WindowStore.inventory.visible)} disabled={false} />
-	<Icon iconPath="/items/default.png" alt="" onClickCallback={() => (WindowStore.logger.visible = !WindowStore.logger.visible)} disabled={false} />
-	<Icon iconPath="/items/map1.jpg" alt="" onClickCallback={() => (WindowStore.navigation.visible = !WindowStore.navigation.visible)} disabled={false} />
-	<Icon iconPath="/items/note4.png" alt="" onClickCallback={() => (WindowStore.events.visible = !WindowStore.events.visible)} disabled={!isCurrentCityMap}/>
-	<Icon iconPath="/items/helmet7.png" alt="" onClickCallback={() => (WindowStore.unit.visible = !WindowStore.unit.visible)} disabled={!isCurrentCityMap} />
-	<Icon iconPath="/items/gem2.jpg" alt="" onClickCallback={() => (WindowStore.resources.visible = !WindowStore.resources.visible)} disabled={!isCurrentCityMap} />
+	<Icon
+		iconPath="/items/note1.png"
+		alt=""
+		onClickCallback={() => (WindowStore.quest.visible = !WindowStore.quest.visible)}
+		disabled={false}
+	>
+		{#snippet tooltipHtml()}
+			<h5 class="mb-0">Quests</h5>
+		{/snippet}
+	</Icon>
+	<Icon
+		iconPath="/items/bag3.png"
+		alt=""
+		onClickCallback={() => (WindowStore.inventory.visible = !WindowStore.inventory.visible)}
+		disabled={false}
+	>
+		{#snippet tooltipHtml()}
+			<h5 class="mb-0">Inventory</h5>
+		{/snippet}
+	</Icon>
+	<Icon
+		iconPath="/items/default.png"
+		alt=""
+		onClickCallback={() => (WindowStore.logger.visible = !WindowStore.logger.visible)}
+		disabled={false}
+	>
+		{#snippet tooltipHtml()}
+			<h5 class="mb-0">Logs</h5>
+		{/snippet}
+	</Icon>
+	<Icon
+		iconPath="/items/map1.jpg"
+		alt=""
+		onClickCallback={() => (WindowStore.navigation.visible = !WindowStore.navigation.visible)}
+		disabled={false}
+	>
+		{#snippet tooltipHtml()}
+			<h5 class="mb-0">Navigation</h5>
+		{/snippet}
+	</Icon>
+	<Icon
+		iconPath="/items/note4.png"
+		alt=""
+		onClickCallback={() => (WindowStore.events.visible = !WindowStore.events.visible)}
+		disabled={!isCurrentCityMap}
+	>
+		{#snippet tooltipHtml()}
+			<h5 class="mb-0">Events</h5>
+		{/snippet}
+	</Icon>
+	<Icon
+		iconPath="/items/helmet7.png"
+		alt=""
+		onClickCallback={() => (WindowStore.unit.visible = !WindowStore.unit.visible)}
+		disabled={!isCurrentCityMap}
+	>
+		{#snippet tooltipHtml()}
+			<h5 class="mb-0">Unit Management</h5>
+		{/snippet}
+	</Icon>
+	<Icon
+		iconPath="/items/gem2.jpg"
+		alt=""
+		onClickCallback={() => (WindowStore.resources.visible = !WindowStore.resources.visible)}
+		disabled={!isCurrentCityMap}
+	>
+		{#snippet tooltipHtml()}
+			<h5 class="mb-0">City Resources</h5>
+		{/snippet}
+	</Icon>
 </div>
 
 <style>

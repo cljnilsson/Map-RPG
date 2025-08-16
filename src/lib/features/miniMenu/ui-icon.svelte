@@ -1,8 +1,15 @@
 <script lang="ts">
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+	import type { Snippet } from "svelte";
 
-	let { iconPath, alt, onClickCallback, disabled }: { iconPath: string; alt: string, onClickCallback: () => void, disabled: boolean } = $props();
+	let {
+		iconPath,
+		alt,
+		onClickCallback,
+		disabled,
+		tooltipHtml
+	}: { iconPath: string; alt: string; onClickCallback: () => void; disabled: boolean; tooltipHtml: Snippet } = $props();
 
 	function onClick() {
 		console.log("Icon clicked");
@@ -14,9 +21,9 @@
 	<ClickableElement onClickCallback={onClick}>
 		<Tooltip>
 			{#snippet tooltip()}
-				<p>ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+				{@render tooltipHtml()}
 			{/snippet}
-			<img src={iconPath} {alt} class:disabled={disabled} />
+			<img src={iconPath} {alt} class:disabled />
 		</Tooltip>
 	</ClickableElement>
 </div>
