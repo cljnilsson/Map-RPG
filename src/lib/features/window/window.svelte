@@ -12,6 +12,7 @@
 	import { SaveController } from "$lib/controller/save.svelte";
 	import { fade } from "svelte/transition";
 	import { dev } from "$app/environment";
+	import WindowController from "$lib/controller/window.svelte";
 
 	let {
 		title,
@@ -117,7 +118,7 @@
 		in:fade={{ duration: isTest ? 0 : 100 }}
 		out:fade={{ duration: isTest ? 0 : 100 }}
 		class="overlay-rect"
-		style="left: {x}px; top: {y}px; width: {width}px;"
+		style="left: {x}px; top: {y}px; width: {width}px; z-index: {WindowController.latestWindowOpened === uniqueKey ? 550 : 500};"
 		class:d-none={DialogueStore.inDialogue}
 	>
 		<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDragEnd={saveNewPosition}>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DialogueStore from "$lib/stores/dialogue.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import MapController from "$lib/controller/map.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
 	import Icon from "$lib/features/miniMenu/ui-icon.svelte";
@@ -17,7 +17,7 @@
 	<Icon
 		iconPath="/items/note1.png"
 		alt=""
-		onClickCallback={() => (WindowStore.quest.visible = !WindowStore.quest.visible)}
+		onClickCallback={() => (WindowController.quest = { ...WindowController.quest, visible: !WindowController.quest.visible })}
 		disabled={false}
 	>
 		{#snippet tooltipHtml()}
@@ -27,7 +27,8 @@
 	<Icon
 		iconPath="/items/bag3.png"
 		alt=""
-		onClickCallback={() => (WindowStore.inventory.visible = !WindowStore.inventory.visible)}
+		onClickCallback={() =>
+			(WindowController.inventory = { ...WindowController.inventory, visible: !WindowController.inventory.visible })}
 		disabled={false}
 	>
 		{#snippet tooltipHtml()}
@@ -37,7 +38,7 @@
 	<Icon
 		iconPath="/items/default.png"
 		alt=""
-		onClickCallback={() => (WindowStore.logger.visible = !WindowStore.logger.visible)}
+		onClickCallback={() => (WindowController.logger = { ...WindowController.logger, visible: !WindowController.logger.visible })}
 		disabled={false}
 	>
 		{#snippet tooltipHtml()}
@@ -47,7 +48,8 @@
 	<Icon
 		iconPath="/items/map1.jpg"
 		alt=""
-		onClickCallback={() => (WindowStore.navigation.visible = !WindowStore.navigation.visible)}
+		onClickCallback={() =>
+			(WindowController.navigation = { ...WindowController.navigation, visible: !WindowController.navigation.visible })}
 		disabled={false}
 	>
 		{#snippet tooltipHtml()}
@@ -57,7 +59,7 @@
 	<Icon
 		iconPath="/items/note4.png"
 		alt=""
-		onClickCallback={() => (WindowStore.events.visible = !WindowStore.events.visible)}
+		onClickCallback={() => (WindowController.events = { ...WindowController.events, visible: !WindowController.events.visible })}
 		disabled={!isCurrentCityMap}
 	>
 		{#snippet tooltipHtml()}
@@ -67,7 +69,7 @@
 	<Icon
 		iconPath="/items/helmet7.png"
 		alt=""
-		onClickCallback={() => (WindowStore.unit.visible = !WindowStore.unit.visible)}
+		onClickCallback={() => (WindowController.unit = { ...WindowController.unit, visible: !WindowController.unit.visible })}
 		disabled={!isCurrentCityMap}
 	>
 		{#snippet tooltipHtml()}
@@ -77,7 +79,8 @@
 	<Icon
 		iconPath="/items/gem2.jpg"
 		alt=""
-		onClickCallback={() => (WindowStore.resources.visible = !WindowStore.resources.visible)}
+		onClickCallback={() =>
+			(WindowController.resources = { ...WindowController.resources, visible: !WindowController.resources.visible })}
 		disabled={!isCurrentCityMap}
 	>
 		{#snippet tooltipHtml()}

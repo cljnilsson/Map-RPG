@@ -1,6 +1,6 @@
 import type { ContainerGameObject } from "$lib/types/gameObject";
 
-type WindowData = {
+export type WindowData = {
 	visible: boolean;
 	x: number;
 	y: number;

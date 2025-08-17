@@ -10,7 +10,8 @@
 	import { getRequest } from "$lib/utils/request";
 	import {maps} from "$lib/tempData";
 	import { isCityMap } from "$lib/typeguards/map";
-	import type {CityResource} from "$lib/types/resource";
+	import type {Resource} from "$lib/types/resource";
+	import { CityController } from "$lib/controller/city.svelte";
 
 	type WindowPosition = {
 		id: number;
@@ -86,7 +87,7 @@
 				population: number;
 				workers: number;
 				name: string;
-				resources: CityResource[];
+				resources: Resource[];
 				plots: {
 					building: string,
 					cityId: number,
@@ -105,7 +106,9 @@
 
 				const found = maps.find(v => v.map.name === city.name);
 				if(found && isCityMap(found.map)) {
-					found.map.city.resources = city.resources;
+					found.map.city.resources = city.resources.map(r => {
+						return {...r, production: CityController.getResource(r.name).production}; // Assumes the production is already calculated and only changes the amount
+					});
 
 					for(const plot of city.plots) {
 						const id = parseInt(plot.identifier);
