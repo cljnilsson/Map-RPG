@@ -3,7 +3,7 @@
 	import Window from "$lib/features/window/window.svelte";
 	import UnitDesignator from "$lib/components/windows/unit/unitDesignator.svelte";
 	import dayjs from "dayjs";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import queue from "$lib/stores/queueStore.svelte";
 
 	queue.queue = [...queue.queue, {
@@ -41,10 +41,10 @@
 	uniqueKey="UnitManagement"
 	height={500}
 	width={400}
-	x={WindowStore.unit.x}
-	y={WindowStore.unit.y}
+	x={WindowController.unit.x}
+	y={WindowController.unit.y}
 	toggleKey="u"
-	bind:visibility={WindowStore.unit.visible}
+	bind:visibility={WindowController.unit.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Management</h4>

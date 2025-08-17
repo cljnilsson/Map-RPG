@@ -2,7 +2,7 @@
 	import MapController from "$lib/controller/map.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import type { MapWithClickBox } from "$lib/types/mapTypes";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 
 	function handleHover(map: MapWithClickBox) {
 		console.log("Hovered over:", map.map.name);
@@ -16,10 +16,10 @@
 	uniqueKey="Navigator"
 	height={200}
 	width={300}
-	x={WindowStore.navigation.x}
-	y={WindowStore.navigation.y}
+	x={WindowController.navigation.x}
+	y={WindowController.navigation.y}
 	toggleKey="n"
-	bind:visibility={WindowStore.navigation.visible}
+	bind:visibility={WindowController.navigation.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Navigation</h4>

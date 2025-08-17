@@ -3,14 +3,14 @@
 	import ContainerWindow from "$lib/components/windows/container/container.svelte";
 	import Book from "$lib/features/book/book.svelte";
 	import VendorStore from "$lib/stores/vendor.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 </script>
 
 {#if !!VendorStore.currentVendor}
 	<VendorWindow vendor={VendorStore.currentVendor} />
 {/if}
 
-{#if !!WindowStore.container.object}
+{#if !!WindowController.container.object}
 	<ContainerWindow />
 {/if}
 

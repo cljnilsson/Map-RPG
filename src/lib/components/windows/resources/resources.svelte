@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Window from "$lib/features/window/window.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import CityStore from "$lib/stores/city.svelte";
 
 </script>
@@ -10,10 +10,10 @@
 	uniqueKey="Resources"
 	height={310}
 	width={280}
-	x={WindowStore.resources.x}
-	y={WindowStore.resources.y}
+	x={WindowController.resources.x}
+	y={WindowController.resources.y}
 	toggleKey="r"
-	bind:visibility={WindowStore.resources.visible}
+	bind:visibility={WindowController.resources.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Resources</h4>

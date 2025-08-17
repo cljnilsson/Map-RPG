@@ -3,7 +3,7 @@
 	import { Tween } from "svelte/motion";
 	import { cubicOut } from "svelte/easing";
 	import CharacterAvatar from "$lib/components/character/CharacterAvatar.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import MapController from "$lib/controller/map.svelte";
 	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
@@ -41,19 +41,19 @@
 			{#if isCityMap(MapController.currentMapState.map)}
 				<button
 					class="btn btn-primary btn-sm mb-2 w-100"
-					onclick={() => (WindowStore.unit.visible = !WindowStore.unit.visible)}
+					onclick={() => (WindowController.unit.visible = !WindowController.unit.visible)}
 					>Units</button
 				>
 			{/if}
 			<button
 				class="btn btn-secondary btn-sm mb-2 w-100"
 				onclick={() =>
-					(WindowStore.navigation.visible = !WindowStore.navigation.visible)}
+					(WindowController.navigation.visible = !WindowController.navigation.visible)}
 				>Navigation</button
 			>
 			<button
 				class="btn btn-danger btn-sm w-100"
-				onclick={() => (WindowStore.logger.visible = !WindowStore.logger.visible)}
+				onclick={() => (WindowController.logger.visible = !WindowController.logger.visible)}
 				>Logs</button
 			>
 		</div>

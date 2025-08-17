@@ -4,7 +4,7 @@
 	import type { NPC } from "$lib/types/npc";
 	import HoverOutlineImage from "$lib/utils/outline.svelte";
 	import { isNPCQuestGiver, isNPCVendor } from "$lib/typeguards/npc";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import VendorStore from "$lib/stores/vendor.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
 
@@ -29,7 +29,7 @@
 		console.log("Clicked on NPC:", npc.name);
 		if (isNPCVendor(npc)) {
 			console.log("Is vendor!");
-			WindowStore.vendor.visible = true;
+			WindowController.vendor = {...WindowController.vendor , visible: true};
 			VendorStore.currentVendor = npc;
 		} else if (isNPCQuestGiver(npc) && npc.quests.length > 0) {
 			QuestController.addQuest(npc.quests[0]);

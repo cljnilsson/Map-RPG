@@ -2,7 +2,7 @@
 	import dayjs from "dayjs";
 	import LogStore from "$lib/stores/logs.svelte";
 	import Window from "$lib/features/window/window.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 
 	let currentLogs = $derived(
 		LogStore.logs.slice((LogStore.currentPage - 1) * 8, LogStore.currentPage * 8)
@@ -14,10 +14,10 @@
 	uniqueKey="Logger"
 	height={400}
 	width={700}
-	x={WindowStore.logger.x}
-	y={WindowStore.logger.y}
+	x={WindowController.logger.x}
+	y={WindowController.logger.y}
 	toggleKey="l"
-	bind:visibility={WindowStore.logger.visible}
+	bind:visibility={WindowController.logger.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Log</h4>

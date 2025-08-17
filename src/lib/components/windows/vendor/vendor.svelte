@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Window from "$lib/features/window/window.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import { NotificationController } from "$lib/controller/notification.svelte";
 	import type { VendorNPC } from "$lib/types/npc";
 	import { q2c } from "$lib/utils/itemQuality";
@@ -27,9 +27,9 @@
 		uniqueKey="Vendor"
 		height={700}
 		width={480}
-		x={WindowStore.vendor.x}
-		y={WindowStore.vendor.y}
-		bind:visibility={WindowStore.vendor.visible}
+		x={WindowController.vendor.x}
+		y={WindowController.vendor.y}
+		bind:visibility={WindowController.vendor.visible}
 	>
 		{#snippet title()}
 			<h4 class="my-2">{vendor.name}</h4>

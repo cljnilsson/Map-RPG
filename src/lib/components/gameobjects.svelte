@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import MapController from "$lib/controller/map.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import { isContainerGameObject, isLootableQuestGameObject, isQuestGameObject, isLootableGameObject } from "$lib/typeguards/gameObject";
 	import type { GameObject } from "$lib/types/gameObject";
 	import HoverOutlineImage from "$lib/utils/outline.svelte";
@@ -46,8 +46,8 @@
 
 			console.log("Opening container", o);
 			if(o.contains.length > 0) {
-				WindowStore.container.visible = true;
-				WindowStore.container.object = o;
+				WindowController.container = {...WindowController.container, visible: true};
+				WindowController.container.object = o;
 			}
 		} else if(isLootableGameObject(o)) {
 			console.log("Adding item");

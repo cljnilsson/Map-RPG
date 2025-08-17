@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Window from "$lib/features/window/window.svelte";
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import DieCollection from "$lib/features/die/dieCollection.svelte";
 
 	let diceRef: DieCollection;
@@ -17,12 +17,12 @@
 	uniqueKey="Roll"
 	height={400}
 	width={600}
-	x={WindowStore.roll.x}
-	y={WindowStore.roll.y}
+	x={WindowController.roll.x}
+	y={WindowController.roll.y}
 	canClose={false}
 	canLock={false}
 	canMinimize={false}
-	bind:visibility={WindowStore.roll.visible}
+	bind:visibility={WindowController.roll.visible}
 >
 	{#snippet title()}
 		<h2 class="text-center">Roll!</h2>
