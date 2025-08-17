@@ -12,7 +12,7 @@ let latestWindowOpenedState = $derived(openWindows.length > 0 ? openWindows[open
 	Mixed feelings on this approach.
 	latestWindowOpenedState was previously inside the setters which I felt was more tradional.
 	However this did not work if the visibility was manipulated directly. Eg:
-	WindowStore.logger.visible = true;
+	WindowController.logger.visible = true;
 	I could work around this with: WindowController.logger = {...WindowController.logger, visible: true};
 	HOWEVER, if visibility is :binded to a component then it would not work.
 	Thus this approach which at least works and seems.. robust? event if I don't really like the style.
@@ -34,8 +34,10 @@ $effect.root(() => {
 		$effect(() => {
 			const win = getWindow();
 			if (win.visible && !openWindows.includes(name)) {
+				console.log(`WindowController: ${name} opened`);
 				openWindows = [...openWindows, name];
 			} else if (!win.visible && openWindows.includes(name)) {
+				console.log(`WindowController: ${name} closed`);
 				openWindows = openWindows.filter(w => w !== name);
 			}
 		});
@@ -50,15 +52,15 @@ export default class WindowController {
 	// ---------------
 	// GETTERS / SETTERS
 	// ---------------
-
+	public static get openWindows() {
+		return openWindows;
+	}
 	public static get latestWindowOpened() {
 		return latestWindowOpenedState;
 	}
-
 	public static set latestWindowOpened(v: WindowTypes) {
 		latestWindowOpenedState = v;
 	}
-
 	public static get logger(): WindowData {
 		return WindowStore.logger;
 	}
@@ -113,7 +115,6 @@ export default class WindowController {
 	public static set roll(value: WindowData) {
 		WindowStore.roll = value;
 	}
-
 	public static get container(): (WindowData & {
 		object: ContainerGameObject | null;
 	}) {
@@ -139,5 +140,17 @@ export default class WindowController {
 		this.unit.visible = false;
 		this.navigation.visible = false;
 		this.logger.visible = false;
+	}
+
+	public static isOpen(window: WindowTypes): boolean {
+		return openWindows.includes(window);
+	}
+
+	public static isOpenAt(window: WindowTypes): number {
+		return openWindows.indexOf(window);
+	}
+
+	public static isWindowType(key: string): key is WindowTypes {
+		return ["Logger", "Navigator", "UnitManagement", "Resources", "Events", "Quests", "Inventory", "Vendor", "Roll"].includes(key);
 	}
 }

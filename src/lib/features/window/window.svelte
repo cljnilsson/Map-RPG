@@ -49,6 +49,7 @@
 	let expanded = $state(true);
 	let locked = $state(false);
 	let dragging = $state(false);
+	let visibilityPriority = $derived(WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(uniqueKey) : -1);
 
 	let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
 	let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
@@ -57,7 +58,7 @@
 	const isTest = import.meta.env.MODE === "test";
 
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
-
+	
 	function toggle() {
 		expanded = !expanded;
 		tweenHeight.set(expanded ? height : 0);
@@ -118,7 +119,7 @@
 		in:fade={{ duration: isTest ? 0 : 100 }}
 		out:fade={{ duration: isTest ? 0 : 100 }}
 		class="overlay-rect"
-		style="left: {x}px; top: {y}px; width: {width}px; z-index: {WindowController.latestWindowOpened === uniqueKey ? 550 : 500};"
+		style="left: {x}px; top: {y}px; width: {width}px; z-index: {500 + visibilityPriority};"
 		class:d-none={DialogueStore.inDialogue}
 	>
 		<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDragEnd={saveNewPosition}>
