@@ -32,6 +32,10 @@ if (typeof window !== "undefined") {
 
 	// Use `queueEffect` instead of onMount/onDestroy for SSR-safe reactivity
 	queueMicrotask(() => {
+		if(timer) {
+			console.warn("Resource timer already running, skipping initialization.");
+			return;
+		}
 		timer = setInterval(() => {
 			getResources();
 		}, 60 * 1000);

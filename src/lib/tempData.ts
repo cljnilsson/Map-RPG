@@ -22,7 +22,13 @@ const winterfellO: CityMap = {
 			{ x: 150, y: 430, building: undefined, plotType: "default", level: 1 },
 			{ x: 485, y: 430, building: undefined, plotType: "default", level: 1 },
 			{ x: 275, y: 560, building: undefined, plotType: "default", level: 1 },
-			{ x: 670, y: 600, building: undefined, plotType: "default", level: 1 }
+			{ x: 670, y: 600, building: undefined, plotType: "default", level: 1 },
+			{ x: 860, y: 470, building: undefined, plotType: "default", level: 1 },
+			{ x: 1040, y: 640, building: undefined, plotType: "default", level: 1 },
+			{ x: 1330, y: 570, building: undefined, plotType: "default", level: 1 },
+			{ x: 1165, y: 410, building: undefined, plotType: "default", level: 1 },
+			{ x: 1165, y: 770, building: undefined, plotType: "default", level: 1 },
+			{ x: 475, y: 940, building: undefined, plotType: "default", level: 1 },
 		],
 	}
 };
