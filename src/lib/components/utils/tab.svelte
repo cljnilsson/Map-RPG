@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
-	let { id, children }: { id: string; children: Snippet } = $props();
+	let { id, first = false, children }: { id: string; first?: boolean; children: Snippet } = $props();
 </script>
 
-<div class="tab-pane fade show" id={id} role="tabpanel">
+<div class="tab-pane fade show" class:active={first} id={id} role="tabpanel">
 	{@render children()}
 </div>
