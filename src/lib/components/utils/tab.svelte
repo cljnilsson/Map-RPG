@@ -4,6 +4,6 @@
 	let { id, children }: { id: string; children: Snippet } = $props();
 </script>
 
-<div class="tab-pane fade show active" id={id} role="tabpanel">
+<div class="tab-pane fade show" id={id} role="tabpanel">
 	{@render children()}
 </div>
