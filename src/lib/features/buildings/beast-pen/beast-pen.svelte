@@ -5,6 +5,7 @@
 	import type { Building } from "$lib/types/building";
 	import Tabs from "$lib/components/utils/tabs.svelte";
 	import Tab from "$lib/components/utils/tab.svelte";
+	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
 	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
 	const tabs = [
@@ -65,7 +66,9 @@
 			<div class="row">
 				{#each beastKnowledge as beast}
 					<div class="col-auto">
-						<img src={beast.icon} alt={beast.name} onclick={() => (selectedBeast = beast.name)} />
+						<ClickableElement onClickCallback={() => (selectedBeast = beast.name)}>
+							<img src={beast.icon} alt={beast.name} />
+						</ClickableElement>
 					</div>
 				{:else}
 					<span>You have no knowledge about any beasts</span>
