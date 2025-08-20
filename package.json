@@ -27,7 +27,7 @@
 		"@eslint/js": "^9.25.1",
 		"@playwright/test": "^1.52.0",
 		"@sveltejs/adapter-auto": "^4.0.0",
-		"@sveltejs/kit": "^2.22.0",
+		"@sveltejs/kit": "^2.33.0",
 		"@sveltejs/vite-plugin-svelte": "^6.1.0",
 		"@tauri-apps/cli": "^2.6.0",
 		"@testing-library/jest-dom": "^6.6.3",
@@ -61,6 +61,7 @@
 		"bootstrap-icons": "^1.11.3",
 		"dayjs": "^1.11.13",
 		"drizzle-orm": "^0.38.4",
-		"sass": "^1.89.2"
+		"sass": "^1.89.2",
+		"valibot": "^1.1.0"
 	}
 }

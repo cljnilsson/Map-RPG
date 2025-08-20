@@ -5,6 +5,7 @@
 	import type { Character } from "$lib/server/db/schema";
 	import { getRequest } from "$lib/utils/request";
 	import { SaveController } from "$lib/controller/save.svelte";
+	import {getFlags} from "$lib/test.remote";
 
 	let { data }: { data: PageServerData } = $props();
 
@@ -36,11 +37,8 @@
 		console.log(chars);
 		characters = [...chars.characters];
 
-		const allFlags = await getRequest<{ success: boolean; flags: { name: string; value: boolean }[] }>("/api/flag");
+		const allFlags = await getFlags(data.user.id); // Experimental remote function
 		console.log(allFlags);
-		if (allFlags?.success) {
-			flags = allFlags.flags;
-		}
 	});
 </script>
 
