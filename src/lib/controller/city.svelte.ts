@@ -63,6 +63,10 @@ export class CityController {
 		return found;
 	}
 
+	public static updateResourceAmount(resource: CityResource, newAmount: number) {
+		resource = {...resource, amount: newAmount};
+	}
+
 	public static canAfford(price: Resource[]): boolean {
 		let canAfford = true;
 

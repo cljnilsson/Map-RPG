@@ -4,6 +4,8 @@ import { flags } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import { query } from "$app/server";
 
+// For more full validation: https://valibot.dev/guides/introduction/
+
 async function get(userId: number): Promise<{ name: string; value: number }[]> {
 	const resp = await db
 		.select({

@@ -2,8 +2,20 @@ import type { Handle } from "@sveltejs/kit";
 import * as auth from "$lib/server/auth.js";
 import { dev } from "$app/environment";
 
-const handleAuth: Handle = async ({ event, resolve }) => {
-	// To turn off chrome workspace support in dev mode, suggested in docs: https://svelte.dev/docs/cli/devtools-json
+let started = false;
+
+export const handle: Handle = async ({ event, resolve }) => {
+	// 🔹 Start the interval once when server boots
+	if (!started) {
+		started = true;
+
+		// Repeat every 60s
+		const interval = 60;
+		setInterval(() => {
+			runTask();
+		}, interval * 1000);
+	}
+
 	if (dev && event.url.pathname === "/.well-known/appspecific/com.chrome.devtools.json") {
 		return new Response(undefined, { status: 404 });
 	}
@@ -28,4 +40,8 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle: Handle = handleAuth;
+function runTask() {
+	console.log("Running server task at", new Date().toISOString());
+	const limit: number = 200; // Hardcoded until a proper gameplay inplementation is made
+	
+}
