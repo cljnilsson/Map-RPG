@@ -11,7 +11,7 @@
 	import Tutorial from "$lib/game/tutorial.svelte";
 	import Notification from "$lib/features/notification/notification.svelte";
 	import { getItem } from "$lib/data/items";
-	import "$lib/utils/resources"; // 60 second timer to update resources
+	import { startResourceTimer, stopResourceTimer } from "$lib/utils/resources";
 
 	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
 
@@ -41,6 +41,8 @@
 				{ item: getItem("old-book"), amount: 1 }
 			];
 		}
+		startResourceTimer();
+		return stopResourceTimer;
 	});
 </script>
 
