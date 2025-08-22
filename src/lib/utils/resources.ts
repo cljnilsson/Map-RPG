@@ -50,7 +50,7 @@ export async function getCityResources() {
 	for (const resource of cityData.resources) {
 		const existing = CityController.getResource(resource.name);
 		if (existing.amount !== resource.value) {
-			CityController.updateResourceAmount(existing, resource.value);
+			CityController.updateResourceAmount(resource.name, resource.value);
 			console.log(`Resource ${resource.name} updated: ${existing.amount} -> ${resource.value}`);
 		} else {
 			console.log(`Resource ${resource.name} unchanged: ${existing.amount}`);

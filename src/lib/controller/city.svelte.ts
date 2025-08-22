@@ -63,8 +63,15 @@ export class CityController {
 		return found;
 	}
 
-	public static updateResourceAmount(resource: CityResource, newAmount: number) {
-		resource = {...resource, amount: newAmount};
+	public static updateResourceAmount(resource: string, newAmount: number) {
+		const toUpdate = this.getResource(resource);
+
+		if(!toUpdate) {
+			console.warn("Trying to update resource that does not exist");
+			return;
+		}
+
+		toUpdate.amount = newAmount;
 	}
 
 	public static canAfford(price: Resource[]): boolean {
