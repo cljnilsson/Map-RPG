@@ -9,7 +9,7 @@
 	import { isCityMap } from "$lib/typeguards/map";
 	
 	const h = 140;
-	const w = 230;
+	const w = 120;
 
 	let menuWidth = new Tween(w, { duration: 300, easing: cubicOut });
 	let menuHeight = new Tween(h, { duration: 300, easing: cubicOut });
@@ -36,26 +36,6 @@
 	<div class="row mb-3 g-0">
 		<div class="col-auto px-2">
 			<CharacterAvatar width={100} height={100} onClickCallback={onAvatarClick} />
-		</div>
-		<div class="col px-2">
-			{#if isCityMap(MapController.currentMapState.map)}
-				<button
-					class="btn btn-primary btn-sm mb-2 w-100"
-					onclick={() => (WindowController.unit.visible = !WindowController.unit.visible)}
-					>Units</button
-				>
-			{/if}
-			<button
-				class="btn btn-secondary btn-sm mb-2 w-100"
-				onclick={() =>
-					(WindowController.navigation.visible = !WindowController.navigation.visible)}
-				>Navigation</button
-			>
-			<button
-				class="btn btn-danger btn-sm w-100"
-				onclick={() => (WindowController.logger.visible = !WindowController.logger.visible)}
-				>Logs</button
-			>
 		</div>
 	</div>
 	<div class="row border-top">
