@@ -9,7 +9,7 @@
 <Window
 	uniqueKey="Resources"
 	height={310}
-	width={280}
+	width={300}
 	x={WindowController.resources.x}
 	y={WindowController.resources.y}
 	toggleKey="r"
@@ -24,11 +24,14 @@
 			<div class="col-auto">
 				<img src={resource.iconPath} alt={resource.name} style="max-width: 40px; max-height: 40px;">
 			</div>
-			<div class="col-6">
+			<div class="col-3">
 				{resource.name}
 			</div>
 			<div class="col-auto">
-				{resource.amount}
+				{resource.amount} / {resource.baseLimit}
+			</div>
+			<div class="col-auto">
+				{resource.production}/m
 			</div>
 		</div>
 		{/each}

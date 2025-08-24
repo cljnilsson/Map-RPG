@@ -11,7 +11,7 @@
 		type: "unit",
 		time: { start: new Date(), end: dayjs().add(15, "seconds").toDate() },
 		onComplete: () => {
-			CityController.units.soldiers += 1;
+			CityController.getUnitByName("Soldier").amount += 1;
 		}}
 	];
 
@@ -53,30 +53,14 @@
 		<h5>Your city - population {CityController.population}</h5>
 
 		<div class="my-4">
-			<UnitDesignator
-				name="Soldiers"
-				iconPath="/units/soldier.jpg"
-				bind:unit={CityController.units.soldiers}
-				bind:available={CityController.workers}
-			/>
-			<UnitDesignator
-				name="Merchants"
-				iconPath="/units/merchant.jpg"
-				bind:unit={CityController.units.merchants}
-				bind:available={CityController.workers}
-			/>
-			<UnitDesignator
-				name="Smiths"
-				iconPath="/units/smith.jpg"
-				bind:unit={CityController.units.smiths}
-				bind:available={CityController.workers}
-			/>
-			<UnitDesignator
-				name="Priests"
-				iconPath="/units/priest.jpg"
-				bind:unit={CityController.units.priests}
-				bind:available={CityController.workers}
-			/>
+			{#each CityController.units as unit}
+					<UnitDesignator
+					name={unit.name}
+					iconPath={unit.icon}
+					bind:unit={unit.amount}
+					bind:available={CityController.workers}
+				/>
+			{/each}
 		</div>
 
 		<h5>Workers {CityController.workers}</h5>

@@ -1,17 +1,14 @@
 import dayjs from "dayjs";
 import { getResources } from "$lib/api/resources.remote";
 import { CityController } from "$lib/controller/city.svelte";
-import { isCityMap } from "$lib/typeguards/map";
-import { maps } from "$lib/tempData";
+import MapController from "$lib/controller/map.svelte";
 import type { CityMap } from "$lib/types/mapTypes";
 
 let lastCalled: Date = new Date(); // TODO: Replace with DB lookup for persistence
 
 /** Get the single owned & unlocked city from maps */
 function getOwnedCity(): CityMap | null {
-	const cities: CityMap[] = maps.map((entry) => entry.map).filter(isCityMap);
-
-	const owned = cities.filter((city) => city.city.owned && city.city.unlocked);
+	const owned: CityMap[] = MapController.ownedCities;
 
 	if (owned.length === 0) {
 		console.warn("No owned cities found");
@@ -51,9 +48,9 @@ export async function getCityResources() {
 		const existing = CityController.getResource(resource.name);
 		if (existing.amount !== resource.value) {
 			CityController.updateResourceAmount(resource.name, resource.value);
-			console.log(`Resource ${resource.name} updated: ${existing.amount} -> ${resource.value}`);
+			//console.log(`Resource ${resource.name} updated: ${existing.amount} -> ${resource.value}`);
 		} else {
-			console.log(`Resource ${resource.name} unchanged: ${existing.amount}`);
+			//console.log(`Resource ${resource.name} unchanged: ${existing.amount}`);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 import type { CityResource } from "$lib/types/resource";
+import type { Unit } from "$lib/types/unit";
 
 type Plot = {
 	x: number;
@@ -14,6 +15,9 @@ type City = {
 	owned: boolean;
 	resources: CityResource[];
 	plots: Plot[];
+	population: number;
+	workers: number;
+	units: Unit[];
 };
 
 export type { City, Plot };

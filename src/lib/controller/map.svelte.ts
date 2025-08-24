@@ -1,5 +1,7 @@
 import MapStore from "$lib/stores/map.svelte";
-import type { MapWithClickBox, CustomMap } from "$lib/types/mapTypes";
+import type { MapWithClickBox, CustomMap, CityMap } from "$lib/types/mapTypes";
+import { maps } from "$lib/tempData";
+import { isCityMap } from "$lib/typeguards/map";
 
 export default class MapController {
 	// ---------------
@@ -42,9 +44,47 @@ export default class MapController {
 		MapStore.currentNavigationHover = v;
 	}
 
+	public static get maps(): CustomMap[] {
+		return maps;
+	}
+
+	// Helper getters
+	public static get cityMaps(): CustomMap[] {
+		const cities: CustomMap[] = [];
+
+		for (const map of maps) {
+			if (isCityMap(map.map)) {
+				cities.push(map);
+			}
+		}
+
+		return cities;
+	}
+
+	public static get cities(): CityMap[] {
+		const cities: CityMap[] = [];
+
+		for (const map of this.cityMaps) {
+			// can be replaced with maps directly instead
+			if (isCityMap(map.map)) {
+				cities.push(map.map);
+			}
+		}
+
+		return cities;
+	}
+
+	public static get ownedCities(): CityMap[] {
+		return this.cities.filter((city) => city.city.owned && city.city.unlocked);
+	}
+
 	// ---------------
 	// FUNCTIONS
 	// ---------------
+
+	public static getMapByName(name: string) {
+		return this.maps.find((map) => map.map.name === name);
+	}
 
 	public static addSubmap(newSubmap: MapWithClickBox) {
 		MapStore.currentMapState.contains = [...this.currentMapState.contains, newSubmap];

@@ -112,10 +112,10 @@ async function seed() {
 		console.log("Unit table already seeded, skipping...");
 	} else {
 		await db.insert(unit).values([
-			{ name: "Merchant", iconPath: "/items/mechant.jpg" },
-			{ name: "Soldier", iconPath: "/items/soldier.jpg" },
-			{ name: "Smith", iconPath: "/items/smith.jpg" },
-			{ name: "Priest", iconPath: "/items/priest.jpg" }
+			{ name: "Merchant", iconPath: "/units/merchant.jpg" },
+			{ name: "Soldier", iconPath: "/units/soldier.jpg" },
+			{ name: "Smith", iconPath: "/units/smith.jpg" },
+			{ name: "Priest", iconPath: "/units/priest.jpg" }
 		]);
 
 		console.log("✅ Seeded unit table");

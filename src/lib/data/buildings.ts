@@ -157,6 +157,17 @@ const buildingRegistry = {
 		plotType: "default",
 		componentOnClick: undefined
 	}),
+	"storage": (): Building => ({
+		id: "storage",
+		name: "Storage",
+		description: "Resources are useless without a safe location to store them, this building increases your max capacity for all resources.",
+		requirements: true,
+		artPath: "/buildings/storage.png",
+		cost: [],
+		timeInSeconds: 70,
+		plotType: "default",
+		componentOnClick: undefined
+	}),
 } as const;
 
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety

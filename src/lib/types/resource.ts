@@ -8,6 +8,7 @@ type Resource = BaseResource & {
 
 type CityResource = Resource & {
 	production: number;
+	baseLimit: number;
 }
 
 export type { BaseResource, Resource, CityResource };

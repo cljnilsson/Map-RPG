@@ -170,7 +170,8 @@ export const units = sqliteTable(
 export const resource = sqliteTable("resource", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	name: text("name").notNull().unique(),
-	iconPath: text("icon_path").notNull().unique()
+	iconPath: text("icon_path").notNull().unique(),
+	baseLimit: integer("base_limit").notNull().default(100),
 });
 
 export const resources = sqliteTable(

@@ -8,9 +8,9 @@
 	import WindowController from "$lib/controller/window.svelte";
 	import { onMount } from "svelte";
 	import { getRequest } from "$lib/utils/request";
-	import { maps } from "$lib/tempData";
+	import MapController from "$lib/controller/map.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
-	import type { Resource } from "$lib/types/resource";
+	import type { CityResource } from "$lib/types/resource";
 	import { CityController } from "$lib/controller/city.svelte";
 
 	type WindowPosition = {
@@ -87,7 +87,12 @@
 				population: number;
 				workers: number;
 				name: string;
-				resources: Resource[];
+				units: {
+					iconPath: string;
+					value: number;
+					name: string;
+				}[];
+				resources: CityResource[];
 				plots: {
 					building: string;
 					cityId: number;
@@ -99,26 +104,35 @@
 		}>("/api/cities");
 
 		if (success) {
+			// There has to be a cleaner way to do this, maybe send data more selectively from server so don't have to cleanup
 			for (const city of cities) {
 				if (city.resources.length === 0) {
 					console.warn("City has no resources which is probably invalid");
 				}
 
-				const found = maps.find((v) => v.map.name === city.name);
+				const found = MapController.getMapByName(city.name);
 				if (found && isCityMap(found.map)) {
 					found.map.city.resources = city.resources.map((r) => {
-						return { ...r, production: CityController.getResource(r.name).production }; // Assumes the production is already calculated and only changes the amount
+						return { ...r, production: CityController.getResource(r.name).production }; // Production should be calculated and provided by server in future.
+					});
+
+					found.map.city.units= city.units.map((u) => {
+						return { icon: u.iconPath, amount: u.value, name: u.name, unlocked: true }; 
 					});
 
 					for (const plot of city.plots) {
 						const id = parseInt(plot.identifier);
 						found.map.city.plots[id].building = plot.building;
 					}
+
+					found.map.city.workers = city.workers;
+					found.map.city.population = city.population;
 				}
 			}
 			console.log("Cities:", cities);
+			CityController.setMainCityFromCurrentOwned();
 		} else {
-			console.error("Failed to fetch window positions");
+			console.error("Failed to fetch cities");
 		}
 	}
 

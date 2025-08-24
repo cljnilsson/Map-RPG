@@ -1,6 +1,7 @@
 import CityStore from "$lib/stores/city.svelte";
-import MapController from "$lib/stores/map.svelte";
+import MapController from "$lib/controller/map.svelte";
 import type {City} from "$lib/types/city";
+import type {Unit} from "$lib/types/unit";
 import type {CityResource, Resource} from "$lib/types/resource";
 import { LogController } from "$lib/controller/logs.svelte";
 import { isCityMap } from "$lib/typeguards/map";
@@ -41,7 +42,7 @@ export class CityController {
 		CityStore.workers = v;
 	}
 
-	public static set units(v: { soldiers: number; merchants: number; smiths: number; priests: number }) {
+	public static set units(v: Unit[]) {
 		CityStore.units = v;
 	}
 
@@ -124,5 +125,27 @@ export class CityController {
 				MapController.currentMapState.map.city.plots[plot].level += 1;
 			}
 		}
+	}
+
+	public static setMainCityFromCurrentOwned() {
+		const owned = MapController.ownedCities;
+		if(owned.length === 0) {
+			return null;
+		}
+
+		CityStore.population = owned[0].city.population;
+		CityStore.workers = owned[0].city.workers;
+		CityStore.units = owned[0].city.units;
+		CityStore.resources = owned[0].city.resources;
+	}
+
+	public static getUnitByName(name: string) {
+		const unit = CityStore.units.find((v) => v.name === name);
+
+		if (!unit) {
+			throw Error("Requesting city unit that does not exist");
+		}
+
+		return unit;
 	}
 }

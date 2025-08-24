@@ -17,6 +17,9 @@ const winterfellO: CityMap = {
 		name: "Winterfell",
 		owned: true,
 		unlocked: true,
+		workers: 0,
+		population: 1000,
+		units: [],
 		resources: [],
 		plots: [
 			{ x: 150, y: 430, building: undefined, plotType: "default", level: 1 },
@@ -41,7 +44,10 @@ const kingsLandingO: CityMap = {
 		name: "King's Landing",
 		owned: false,
 		unlocked: true,
+		workers: 0,
+		population: 1000,
 		resources: [],
+		units: [],
 		plots: []
 	}
 };

@@ -50,10 +50,15 @@ describe("CityController", () => {
 		// Reset store state before each test
 		CityStore.population = 100;
 		CityStore.workers = 20;
-		CityStore.units = { soldiers: 10, merchants: 5, smiths: 2, priests: 1 };
+		CityStore.units = [
+			{ name: "Soldier", icon: "soldier.png", amount: 10, unlocked: true },
+			{ name: "Merchant", icon: "merchant.png", amount: 5, unlocked: true },
+			{ name: "Smith", icon: "smith.png", amount: 2, unlocked: true },
+			{ name: "Priest", icon: "priest.png", amount: 1, unlocked: true }
+		];
 		CityStore.resources = [
-			{ name: "gold", iconPath: "gold.png", amount: 100, production: 0 },
-			{ name: "wood", iconPath: "wood.png", amount: 50, production: 0 }
+			{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0 },
+			{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0 }
 		];
 
 		mockedIsCityMap.mockClear();
@@ -77,14 +82,19 @@ describe("CityController", () => {
 	});
 
 	it("should get and set units", () => {
-		expect(CityController.units.soldiers).toBe(10);
-		CityController.units = { soldiers: 1, merchants: 2, smiths: 3, priests: 4 };
-		expect(CityStore.units.smiths).toBe(3);
+		expect(CityController.getUnitByName("Soldier").amount).toBe(10);
+		CityController.units = [
+			{ name: "Soldier", icon: "soldier.png", amount: 1, unlocked: true },
+			{ name: "Merchant", icon: "merchant.png", amount: 2, unlocked: true },
+			{ name: "Smith", icon: "smith.png", amount: 3, unlocked: true },
+			{ name: "Priest", icon: "priest.png", amount: 4, unlocked: true }
+		];
+		expect(CityController.getUnitByName("Smith").amount).toBe(3);
 	});
 
 	it("should get and set resources", () => {
 		expect(CityController.resources.length).toBe(2);
-		const newResources: CityResource[] = [{ name: "stone", iconPath: "stone.png", amount: 99, production: 0 }];
+		const newResources: CityResource[] = [{ name: "stone", iconPath: "stone.png", amount: 99, production: 0, baseLimit: 0 }];
 		CityController.resources = newResources;
 		expect(CityStore.resources).toEqual(newResources);
 	});
@@ -142,9 +152,12 @@ describe("CityController", () => {
 				name: "Test City",
 				unlocked: true,
 				owned: true,
+				units: [],
+				workers: 3,
+				population: 100,
 				resources: [
-					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0 },
-					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0 }
+					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0 },
+					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0 }
 				],
 				plots: [{ x: 0, y: 0, building: undefined, level: 1, plotType: "default" }]
 			}
@@ -173,9 +186,12 @@ describe("CityController", () => {
 				name: "Test City",
 				unlocked: true,
 				owned: true,
+				units: [],
+				workers: 3,
+				population: 100,
 				resources: [
-					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0 },
-					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0 }
+					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0 },
+					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0 }
 				],
 				plots: [{ x: 0, y: 0, building: undefined, level: 3, plotType: "default" }]
 			}
