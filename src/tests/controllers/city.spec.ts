@@ -7,7 +7,7 @@ vi.mock("$lib/stores/city.svelte", () => ({
 	default: {
 		population: 0,
 		workers: 0,
-		units: { soldiers: 0, merchants: 0, smiths: 0, priests: 0 },
+		units: [],
 		resources: []
 	}
 }));
@@ -40,7 +40,6 @@ const mockedIsCityMap = isCityMap as unknown as Mock<(map: MapType) => map is Ci
 const mockedCostToNextLevel = costToNextLevel as unknown as Mock<typeof costToNextLevel>;
 const mockedNewLog = LogController.newLog as unknown as Mock<typeof LogController.newLog>;
 
-import CityStore from "$lib/stores/city.svelte";
 import MapStore from "$lib/stores/map.svelte";
 import { LogController } from "$lib/controller/logs.svelte";
 import { isCityMap } from "$lib/typeguards/map";
@@ -52,15 +51,15 @@ import type { CityMap, WorldMap, MapType } from "$lib/types/mapTypes";
 describe("CityController", () => {
 	beforeEach(() => {
 		// Reset store state before each test
-		CityStore.population = 100;
-		CityStore.workers = 20;
-		CityStore.units = [
+		CityController.population = 100;
+		CityController.workers = 20;
+		CityController.units = [
 			{ name: "Soldier", icon: "soldier.png", amount: 10, unlocked: true },
 			{ name: "Merchant", icon: "merchant.png", amount: 5, unlocked: true },
 			{ name: "Smith", icon: "smith.png", amount: 2, unlocked: true },
 			{ name: "Priest", icon: "priest.png", amount: 1, unlocked: true }
 		];
-		CityStore.resources = [
+		CityController.resources = [
 			{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 },
 			{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 }
 		];
@@ -76,13 +75,13 @@ describe("CityController", () => {
 	it("should get and set population", () => {
 		expect(CityController.population).toBe(100);
 		CityController.population = 200;
-		expect(CityStore.population).toBe(200);
+		expect(CityController.population).toBe(200);
 	});
 
 	it("should get and set workers", () => {
 		expect(CityController.workers).toBe(20);
 		CityController.workers = 30;
-		expect(CityStore.workers).toBe(30);
+		expect(CityController.workers).toBe(30);
 	});
 
 	it("should get and set units", () => {
@@ -102,7 +101,7 @@ describe("CityController", () => {
 			{ name: "stone", iconPath: "stone.png", amount: 99, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 }
 		];
 		CityController.resources = newResources;
-		expect(CityStore.resources).toEqual(newResources);
+		expect(CityController.resources).toEqual(newResources);
 	});
 
 	// --- getResource ---
