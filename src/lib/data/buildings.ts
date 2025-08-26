@@ -163,7 +163,14 @@ const buildingRegistry = {
 		description: "Resources are useless without a safe location to store them, this building increases your max capacity for all resources.",
 		requirements: true,
 		artPath: "/buildings/storage.png",
-		cost: [],
+		cost: [
+			{...getResource("Gold"), amount: 50},
+			{...getResource("Wood"), amount: 30},
+			{...getResource("Stone"), amount: 20},
+			{...getResource("Silk"), amount: 0},
+			{...getResource("Wheat"), amount: 10},
+			{...getResource("Iron"), amount: 10},
+		],
 		timeInSeconds: 70,
 		plotType: "default",
 		componentOnClick: undefined

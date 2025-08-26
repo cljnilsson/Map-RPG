@@ -12,6 +12,9 @@
 	}: { iconPath: string; alt: string; onClickCallback: () => void; disabled: boolean; tooltipHtml: Snippet } = $props();
 
 	function onClick() {
+		if(disabled) {
+			return;
+		}
 		console.log("Icon clicked");
 		onClickCallback();
 	}
@@ -31,12 +34,13 @@
 <style lang="scss">
 	.disabled {
 		filter: grayscale(100%);
+		cursor: not-allowed;
 	}
 
 	img {
 		transition: transform 0.1s ease;
 		transform: scale(1);
-		&:hover {
+		&:hover:not(.disabled) {
 			transform: scale(1.2);
 		}
 	}

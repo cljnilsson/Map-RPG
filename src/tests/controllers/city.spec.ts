@@ -32,6 +32,10 @@ vi.mock("$lib/utils/cost", () => ({
 	costToNextLevel: vi.fn((amount: number, level: number) => amount * level)
 }));
 
+vi.mock("$lib/api/resources.remote", () => ({
+	postResources: vi.fn()
+}));
+
 const mockedIsCityMap = isCityMap as unknown as Mock<(map: MapType) => map is CityMap>;
 const mockedCostToNextLevel = costToNextLevel as unknown as Mock<typeof costToNextLevel>;
 const mockedNewLog = LogController.newLog as unknown as Mock<typeof LogController.newLog>;
@@ -57,8 +61,8 @@ describe("CityController", () => {
 			{ name: "Priest", icon: "priest.png", amount: 1, unlocked: true }
 		];
 		CityStore.resources = [
-			{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0 },
-			{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0 }
+			{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 },
+			{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 }
 		];
 
 		mockedIsCityMap.mockClear();
@@ -94,7 +98,9 @@ describe("CityController", () => {
 
 	it("should get and set resources", () => {
 		expect(CityController.resources.length).toBe(2);
-		const newResources: CityResource[] = [{ name: "stone", iconPath: "stone.png", amount: 99, production: 0, baseLimit: 0 }];
+		const newResources: CityResource[] = [
+			{ name: "stone", iconPath: "stone.png", amount: 99, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 }
+		];
 		CityController.resources = newResources;
 		expect(CityStore.resources).toEqual(newResources);
 	});
@@ -156,8 +162,8 @@ describe("CityController", () => {
 				workers: 3,
 				population: 100,
 				resources: [
-					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0 },
-					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0 }
+					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 },
+					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 }
 				],
 				plots: [{ x: 0, y: 0, building: undefined, level: 1, plotType: "default" }]
 			}
@@ -190,8 +196,8 @@ describe("CityController", () => {
 				workers: 3,
 				population: 100,
 				resources: [
-					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0 },
-					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0 }
+					{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 },
+					{ name: "wood", iconPath: "wood.png", amount: 50, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 }
 				],
 				plots: [{ x: 0, y: 0, building: undefined, level: 3, plotType: "default" }]
 			}

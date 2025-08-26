@@ -113,7 +113,7 @@
 				const found = MapController.getMapByName(city.name);
 				if (found && isCityMap(found.map)) {
 					found.map.city.resources = city.resources.map((r) => {
-						return { ...r, production: CityController.getResource(r.name).production }; // Production should be calculated and provided by server in future.
+						return { ...r };
 					});
 
 					found.map.city.units= city.units.map((u) => {

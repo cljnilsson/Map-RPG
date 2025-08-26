@@ -6,6 +6,7 @@ import type {CityResource, Resource} from "$lib/types/resource";
 import { LogController } from "$lib/controller/logs.svelte";
 import { isCityMap } from "$lib/typeguards/map";
 import { costToNextLevel } from "$lib/utils/cost";
+import { postResources } from "$lib/api/resources.remote";
 
 export class CityController {
 	// ---------------
@@ -96,7 +97,13 @@ export class CityController {
 			
 			LogController.newLog("You used the city's coffers to pay."); // More detailed costs here later
 
-			// Automatically save new resources in db
+
+			// Make a helper function to slim down resources later
+			const slimmedResources = this.resources.map(r => {
+				return {resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount};
+			})
+
+			postResources(slimmedResources);
 
 			return true;
 		}
@@ -109,7 +116,7 @@ export class CityController {
 			this.getResource(resource.name).amount += resource.amount; // Might not update object properly
 		}
 		
-		LogController.newLog("You used the city's coffers to pay."); // More detailed resourcec here later
+		LogController.newLog("You gained new resources"); // More detailed resources here later
 
 		// Automatically save new resources in db
 	}
