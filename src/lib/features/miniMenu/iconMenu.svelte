@@ -11,6 +11,16 @@
 	function toggleWindow(name: WindowTypes) {
 		WindowController.getByName(name).visible = !WindowController.getByName(name).visible;
 	}
+
+	const menuItems: { iconPath: string; name: WindowTypes; label: string; cityOnly: boolean }[] = [
+		{ iconPath: "/items/note1.png", name: "Quests", label: "Quests", cityOnly: false },
+		{ iconPath: "/items/bag3.png", name: "Inventory", label: "Inventory", cityOnly: false },
+		{ iconPath: "/items/default.png", name: "Logger", label: "Logs", cityOnly: false },
+		{ iconPath: "/items/map1.jpg", name: "Navigator", label: "Navigation", cityOnly: false },
+		{ iconPath: "/items/note4.png", name: "Events", label: "Events", cityOnly: true },
+		{ iconPath: "/items/helmet7.png", name: "UnitManagement", label: "Unit Management", cityOnly: true },
+		{ iconPath: "/items/gem2.jpg", name: "Resources", label: "City Resources", cityOnly: true }
+	];
 </script>
 
 <div
@@ -19,76 +29,18 @@
 	style="z-index: 1050;"
 	class:d-none={DialogueStore.inDialogue}
 >
-	<Icon
-		iconPath="/items/note1.png"
-		alt=""
-		onClickCallback={() => toggleWindow("Quests")}
-		disabled={false}
-	>
-		{#snippet tooltipHtml()}
-			<h5 class="mb-0">Quests</h5>
-		{/snippet}
-	</Icon>
-	<Icon
-		iconPath="/items/bag3.png"
-		alt=""
-		onClickCallback={() => toggleWindow("Inventory")}
-		disabled={false}
-	>
-		{#snippet tooltipHtml()}
-			<h5 class="mb-0">Inventory</h5>
-		{/snippet}
-	</Icon>
-	<Icon
-		iconPath="/items/default.png"
-		alt=""
-		onClickCallback={() => toggleWindow("Logger")}
-		disabled={false}
-	>
-		{#snippet tooltipHtml()}
-			<h5 class="mb-0">Logs</h5>
-		{/snippet}
-	</Icon>
-	<Icon
-		iconPath="/items/map1.jpg"
-		alt=""
-		onClickCallback={() => toggleWindow("Navigator")}
-		disabled={false}
-	>
-		{#snippet tooltipHtml()}
-			<h5 class="mb-0">Navigation</h5>
-		{/snippet}
-	</Icon>
-	<Icon
-		iconPath="/items/note4.png"
-		alt=""
-		onClickCallback={() => toggleWindow("Events")}
-		disabled={!isCurrentCityMap}
-	>
-		{#snippet tooltipHtml()}
-			<h5 class="mb-0">Events</h5>
-		{/snippet}
-	</Icon>
-	<Icon
-		iconPath="/items/helmet7.png"
-		alt=""
-		onClickCallback={() => toggleWindow("UnitManagement")}
-		disabled={!isCurrentCityMap}
-	>
-		{#snippet tooltipHtml()}
-			<h5 class="mb-0">Unit Management</h5>
-		{/snippet}
-	</Icon>
-	<Icon
-		iconPath="/items/gem2.jpg"
-		alt=""
-		onClickCallback={() => toggleWindow("Resources")}
-		disabled={!isCurrentCityMap}
-	>
-		{#snippet tooltipHtml()}
-			<h5 class="mb-0">City Resources</h5>
-		{/snippet}
-	</Icon>
+	{#each menuItems as { iconPath, name, label, cityOnly }}
+		<Icon
+			{iconPath}
+			alt=""
+			onClickCallback={() => toggleWindow(name)}
+			disabled={cityOnly ? (isCityMap(MapController.currentMapState.map) ? false : true) : false}
+		>
+			{#snippet tooltipHtml()}
+				<h5 class="mb-0">{label}</h5>
+			{/snippet}
+		</Icon>
+	{/each}
 </div>
 
 <style>
