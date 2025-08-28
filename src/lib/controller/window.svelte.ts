@@ -1,48 +1,5 @@
 import type { WindowTypes } from "$lib/types/window";
 
-let openWindows = $state<WindowController[]>([]);
-let latestWindowOpenedState: WindowController | null = $derived(openWindows.length > 0 ? openWindows[openWindows.length - 1] : null);
-
-/*
-	Mixed feelings on this approach.
-	latestWindowOpenedState was previously inside the setters which I felt was more tradional.
-	However this did not work if the visibility was manipulated directly. Eg:
-	WindowController.logger.visible = true;
-	I could work around this with: WindowController.logger = {...WindowController.logger, visible: true};
-	HOWEVER, if visibility is :binded to a component then it would not work.
-	Thus this approach which at least works and seems.. robust? event if I don't really like the style.
-*/
-$effect.root(() => {
-	const windows: WindowTypes[] = [
-		"Logger",
-		"Navigator",
-		"UnitManagement",
-		"Resources",
-		"Events", 
-		"Quests",
-		"Inventory",
-		"Vendor",
-	]
-
-	for (const name of windows) {
-		$effect(() => {
-			const win = WindowController.getByName(name);
-			if (win.visible && !openWindows.includes(win)) {
-				console.log(`WindowController: ${name} opened`);
-				openWindows = [...openWindows, win];
-				latestWindowOpenedState = win;
-			} else if (!win.visible && openWindows.includes(win)) {
-				console.log(`WindowController: ${name} closed`);
-				openWindows = openWindows.filter((w) => w.name !== name);
-			}
-		});
-	}
-
-	$effect(() => {
-		//console.log(latestWindowOpenedState);
-	});
-});
-
 // Maybe reuse later
 class LinkedList {
 	public static all: LinkedList[] = []; // static $state is not supported, going to see if this matters.
@@ -56,10 +13,14 @@ class LinkedList {
 	}
 }
 
+// Cannot use static $state
+let _latestWindowOpenedState: WindowController | null = $state(null);
+let _openWindows = $state<WindowController[]>([]);
+
 export default class WindowController extends LinkedList {
 	// Default values don't matter since they're always assigned in constructur but needed for $state
 	private _x: number = $state(0);
-	private _y: number = $state(0);;
+	private _y: number = $state(0);
 	private _visible: boolean = $state(false);
 	private _name: WindowTypes = $state("");
 
@@ -109,6 +70,14 @@ export default class WindowController extends LinkedList {
 	}
 
 	public set visible(v: boolean) {
+		// Ensure the order of the array refers to the order of which they were opened
+		if (v === true) {
+			WindowController.latestWindowOpened = this;
+			_openWindows = [..._openWindows, this];
+		} else {
+			_openWindows = _openWindows.filter((w) => w !== this);
+		}
+
 		this._visible = v;
 	}
 
@@ -116,16 +85,12 @@ export default class WindowController extends LinkedList {
 		this._name = v;
 	}
 
-	public static get openWindows(): WindowController[] {
-		return [];
-	}
-
 	public static get latestWindowOpened() {
-		return latestWindowOpenedState;
+		return _latestWindowOpenedState;
 	}
 
 	public static set latestWindowOpened(v: WindowController | null) {
-		latestWindowOpenedState = v;
+		_latestWindowOpenedState = v;
 	}
 
 	// ---------------
@@ -137,21 +102,34 @@ export default class WindowController extends LinkedList {
 	}
 
 	public static hideAll() {
-		/*for(const window of WindowController.allTyped) {
-			window.visible = false;
-		}*/
+		for (const window of WindowController.all) {
+			if (window instanceof WindowController) {
+				window.visible = false;
+			}
+		}
 	}
 
 	public static isOpen(window: WindowController): boolean {
-		return openWindows.includes(window);
+		return _openWindows.includes(window);
 	}
 
 	public static isOpenAt(window: WindowController): number {
-		return openWindows.indexOf(window);
+		return _openWindows.indexOf(window);
 	}
 
 	public static isWindowType(key: string): key is WindowTypes {
-		return ["Logger", "Navigator", "UnitManagement", "Resources", "Events", "Quests", "Inventory", "Vendor", "Roll", "Container"].includes(key); // reuse windowtypes here
+		return [
+			"Logger",
+			"Navigator",
+			"UnitManagement",
+			"Resources",
+			"Events",
+			"Quests",
+			"Inventory",
+			"Vendor",
+			"Roll",
+			"Container"
+		].includes(key); // reuse windowtypes here
 	}
 }
 
@@ -165,3 +143,6 @@ new WindowController(false, 300, 450, "Inventory");
 new WindowController(false, 300, 450, "Vendor");
 new WindowController(false, 800, 450, "Roll");
 new WindowController(false, 300, 400, "Container");
+
+// Setting to initial visible values
+_openWindows = WindowController.all.filter((w): w is WindowController => w instanceof WindowController && w.visible);
