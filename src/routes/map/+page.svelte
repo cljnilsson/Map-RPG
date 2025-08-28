@@ -12,6 +12,8 @@
 	import { isCityMap } from "$lib/typeguards/map";
 	import type { CityResource } from "$lib/types/resource";
 	import { CityController } from "$lib/controller/city.svelte";
+	import {getUnit, safeGetUnit} from "$lib/data/units";
+	import type {Unit} from "$lib/types/unit";
 
 	type WindowPosition = {
 		id: number;
@@ -107,11 +109,16 @@
 						return { ...r };
 					});
 
-					// Needs to update db schema first
-					/*found.map.city.units = city.units.map((u) => {
-						return { icon: u.iconPath, amount: u.value, name: u.name, unlocked: true }; 
-					});*/
-					found.map.city.units = [];
+					// Missing an attribute or two?
+					const toAdd: Unit[] = [];
+					for(const u of city.units) {
+						const temp = safeGetUnit(u.name);
+						if(temp) {
+							toAdd.push({...temp, amount: u.value, unlocked: true}); // hardcoded to true, unlocked will be deprecated most likely
+						}
+					}
+					
+					found.map.city.units = toAdd;
 
 					for (const plot of city.plots) {
 						const id = parseInt(plot.identifier);

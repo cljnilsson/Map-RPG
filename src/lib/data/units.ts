@@ -1,12 +1,38 @@
 import type { BaseUnit } from "$lib/types/unit";
 
 const unitRegistry = {
-	"black-market": (): BaseUnit => ({
-		id: "black-market",
-		name: "Black Market",
-		description:
-			"A dubious establishment that offers a rotating selection of goods from questionable sources for the right buyer. Don't ask questions.",
-		icon: "/buildings/black-market.png",
+	"Soldier": (): BaseUnit => ({
+		id: "Soldier",
+		name: "Soldier",
+		description: "",
+		icon: "/units/soldier.jpg",
+		cost: [],
+		timeInSeconds: 40,
+		unlockedBy: true
+	}),
+	"Priest": (): BaseUnit => ({
+		id: "Priest",
+		name: "Priest",
+		description: "",
+		icon: "/units/priest.jpg",
+		cost: [],
+		timeInSeconds: 40,
+		unlockedBy: true
+	}),
+	"Merchant": (): BaseUnit => ({
+		id: "Merchant",
+		name: "Merchant",
+		description: "",
+		icon: "/units/merchant.jpg",
+		cost: [],
+		timeInSeconds: 40,
+		unlockedBy: true
+	}),
+	"Smith": (): BaseUnit => ({
+		id: "Smith",
+		name: "Smith",
+		description: "",
+		icon: "/units/smith.jpg",
 		cost: [],
 		timeInSeconds: 40,
 		unlockedBy: true
