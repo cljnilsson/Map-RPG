@@ -54,10 +54,10 @@ describe("CityController", () => {
 		CityController.population = 100;
 		CityController.workers = 20;
 		CityController.units = [
-			{ name: "Soldier", icon: "soldier.png", amount: 10, unlocked: true },
-			{ name: "Merchant", icon: "merchant.png", amount: 5, unlocked: true },
-			{ name: "Smith", icon: "smith.png", amount: 2, unlocked: true },
-			{ name: "Priest", icon: "priest.png", amount: 1, unlocked: true }
+			{ id:"Soldier", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Soldier", icon: "soldier.png", amount: 10, unlocked: true },
+			{ id:"Merchant", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Merchant", icon: "merchant.png", amount: 5, unlocked: true },
+			{ id:"Smith", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Smith", icon: "smith.png", amount: 2, unlocked: true },
+			{ id:"Priest", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Priest", icon: "priest.png", amount: 1, unlocked: true }
 		];
 		CityController.resources = [
 			{ name: "gold", iconPath: "gold.png", amount: 100, production: 0, baseLimit: 0, resourceId: 1, cityId: 1 },
@@ -87,10 +87,10 @@ describe("CityController", () => {
 	it("should get and set units", () => {
 		expect(CityController.getUnitByName("Soldier").amount).toBe(10);
 		CityController.units = [
-			{ name: "Soldier", icon: "soldier.png", amount: 1, unlocked: true },
-			{ name: "Merchant", icon: "merchant.png", amount: 2, unlocked: true },
-			{ name: "Smith", icon: "smith.png", amount: 3, unlocked: true },
-			{ name: "Priest", icon: "priest.png", amount: 4, unlocked: true }
+			{ id:"Soldier", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Soldier", icon: "soldier.png", amount: 1, unlocked: true },
+			{ id:"Merchant", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Merchant", icon: "merchant.png", amount: 2, unlocked: true },
+			{ id:"Smith", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Smith", icon: "smith.png", amount: 3, unlocked: true },
+			{ id:"Priest", description: "", cost: [], timeInSeconds: 0, unlockedBy: true, name: "Priest", icon: "priest.png", amount: 4, unlocked: true }
 		];
 		expect(CityController.getUnitByName("Smith").amount).toBe(3);
 	});

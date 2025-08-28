@@ -107,9 +107,11 @@
 						return { ...r };
 					});
 
-					found.map.city.units= city.units.map((u) => {
+					// Needs to update db schema first
+					/*found.map.city.units = city.units.map((u) => {
 						return { icon: u.iconPath, amount: u.value, name: u.name, unlocked: true }; 
-					});
+					});*/
+					found.map.city.units = [];
 
 					for (const plot of city.plots) {
 						const id = parseInt(plot.identifier);
