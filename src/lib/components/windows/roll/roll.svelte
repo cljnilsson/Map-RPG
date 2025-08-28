@@ -11,18 +11,20 @@
 
 		console.log(total);
 	}
+
+	let rollWindow = WindowController.getByName("Roll");
 </script>
 
 <Window
 	uniqueKey="Roll"
 	height={400}
 	width={600}
-	x={WindowController.roll.x}
-	y={WindowController.roll.y}
+	x={rollWindow.x}
+	y={rollWindow.y}
 	canClose={false}
 	canLock={false}
 	canMinimize={false}
-	bind:visibility={WindowController.roll.visible}
+	bind:visibility={rollWindow.visible}
 >
 	{#snippet title()}
 		<h2 class="text-center">Roll!</h2>

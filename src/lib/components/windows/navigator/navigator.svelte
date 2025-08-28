@@ -9,6 +9,8 @@
 		// You can trigger a store update or any other logic here
 		MapController.currentNavigationHover = map;
 	}
+
+	let navWindow = WindowController.getByName("Navigator");
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -16,10 +18,10 @@
 	uniqueKey="Navigator"
 	height={200}
 	width={300}
-	x={WindowController.navigation.x}
-	y={WindowController.navigation.y}
+	x={navWindow.x}
+	y={navWindow.y}
 	toggleKey="n"
-	bind:visibility={WindowController.navigation.visible}
+	bind:visibility={navWindow.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Navigation</h4>

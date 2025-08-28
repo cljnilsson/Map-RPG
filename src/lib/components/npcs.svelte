@@ -29,7 +29,7 @@
 		console.log("Clicked on NPC:", npc.name);
 		if (isNPCVendor(npc)) {
 			console.log("Is vendor!");
-			WindowController.vendor = {...WindowController.vendor , visible: true};
+			WindowController.getByName("Vendor").visible = true;
 			VendorStore.currentVendor = npc;
 		} else if (isNPCQuestGiver(npc) && npc.quests.length > 0) {
 			QuestController.addQuest(npc.quests[0]);

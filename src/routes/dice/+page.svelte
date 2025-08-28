@@ -1,9 +1,9 @@
 <script lang="ts">
-	import WindowStore from "$lib/stores/windows.svelte";
+	import WindowController from "$lib/controller/window.svelte";
 	import RollWindow from "$lib/components/windows/roll/roll.svelte";
 
 	async function roll() {
-		WindowStore.roll.visible = true;
+		WindowController.getByName("Roll").visible = true;
 	}
 </script>
 

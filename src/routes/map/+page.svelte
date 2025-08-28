@@ -35,40 +35,31 @@
 			for (const pos of slimmedPositions) {
 				switch (pos.windowsKey) {
 					case "Quests":
-						WindowController.quest.x = pos.x;
-						WindowController.quest.y = pos.y;
+						WindowController.getByName("Quests").position = {x: pos.x, y: pos.y};
 						break;
 					case "Inventory":
-						WindowController.inventory.x = pos.x;
-						WindowController.inventory.y = pos.y;
+						WindowController.getByName("Inventory").position = {x: pos.x, y: pos.y};
 						break;
 					case "Logger":
-						WindowController.logger.x = pos.x;
-						WindowController.logger.y = pos.y;
+						WindowController.getByName("Logger").position = {x: pos.x, y: pos.y};
 						break;
 					case "Navigator":
-						WindowController.navigation.x = pos.x;
-						WindowController.navigation.y = pos.y;
+						WindowController.getByName("Navigator").position = {x: pos.x, y: pos.y};
 						break;
 					case "Vendor":
-						WindowController.vendor.x = pos.x;
-						WindowController.vendor.y = pos.y;
+						WindowController.getByName("Vendor").position = {x: pos.x, y: pos.y};
 						break;
 					case "Resources":
-						WindowController.resources.x = pos.x;
-						WindowController.resources.y = pos.y;
+						WindowController.getByName("Resources").position = {x: pos.x, y: pos.y};
 						break;
 					case "Events":
-						WindowController.events.x = pos.x;
-						WindowController.events.y = pos.y;
+						WindowController.getByName("Events").position = {x: pos.x, y: pos.y};
 						break;
 					case "Container":
-						WindowController.container.x = pos.x;
-						WindowController.container.y = pos.y;
+						WindowController.getByName("Container").position = {x: pos.x, y: pos.y};
 						break;
 					case "UnitManagement":
-						WindowController.unit.x = pos.x;
-						WindowController.unit.y = pos.y;
+						WindowController.getByName("UnitManagement").position = {x: pos.x, y: pos.y};
 						break;
 					default:
 						console.warn(`Unknown window key: ${pos.windowsKey}`);

@@ -7,6 +7,8 @@
 	let currentLogs = $derived(
 		LogStore.logs.slice((LogStore.currentPage - 1) * 8, LogStore.currentPage * 8)
 	);
+
+	let logsWindow = WindowController.getByName("Logger");
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -14,10 +16,10 @@
 	uniqueKey="Logger"
 	height={400}
 	width={700}
-	x={WindowController.logger.x}
-	y={WindowController.logger.y}
+	x={logsWindow.x}
+	y={logsWindow.y}
 	toggleKey="l"
-	bind:visibility={WindowController.logger.visible}
+	bind:visibility={logsWindow.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Log</h4>

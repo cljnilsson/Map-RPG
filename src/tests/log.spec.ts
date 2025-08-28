@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/svelte";
 
 import LoggerWindow from "$lib/components/windows/logger/logger.svelte";
 import LoggerStore from "$lib/stores/logs.svelte";
-import WindowStore from "$lib/stores/windows.svelte";
+import WindowController from "$lib/controller/window.svelte";
 
 describe("Logger", () => {
 	it("Works", () => {
@@ -19,7 +19,7 @@ describe("Logger", () => {
 });
 
 test("Logger renders", async () => {
-	WindowStore.logger.visible = true;
+	WindowController.getByName("Logger").visible = true;
 
 	const { component } = render(LoggerWindow);
 	expect(component).toBeTruthy();

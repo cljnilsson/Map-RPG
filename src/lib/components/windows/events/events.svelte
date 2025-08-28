@@ -3,6 +3,8 @@
 	import Window from "$lib/features/window/window.svelte";
 	//import type { MapWithClickBox } from "$lib/types/mapTypes";
 	import WindowController from "$lib/controller/window.svelte";
+
+	let eventWindow = WindowController.getByName("Events");
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -10,10 +12,10 @@
 	uniqueKey="Events"
 	height={200}
 	width={300}
-	x={WindowController.events.x}
-	y={WindowController.events.y}
+	x={eventWindow.x}
+	y={eventWindow.y}
 	toggleKey="e"
-	bind:visibility={WindowController.events.visible}
+	bind:visibility={eventWindow.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Events</h4>

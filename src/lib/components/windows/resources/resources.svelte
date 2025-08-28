@@ -3,6 +3,7 @@
 	import WindowController from "$lib/controller/window.svelte";
 	import CityStore from "$lib/stores/city.svelte";
 
+	let resourceWindow = WindowController.getByName("Resources");
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -10,10 +11,10 @@
 	uniqueKey="Resources"
 	height={310}
 	width={300}
-	x={WindowController.resources.x}
-	y={WindowController.resources.y}
+	x={resourceWindow.x}
+	y={resourceWindow.y}
 	toggleKey="r"
-	bind:visibility={WindowController.resources.visible}
+	bind:visibility={resourceWindow.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Resources</h4>

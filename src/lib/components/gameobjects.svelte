@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ContainerStore from "$lib/stores/container.svelte";
 	import { onMount } from "svelte";
 	import MapController from "$lib/controller/map.svelte";
 	import WindowController from "$lib/controller/window.svelte";
@@ -38,18 +39,18 @@
 		} else if (isQuestGameObject(o) && o.quests.length > 0) {
 			console.log("adding quest");
 			QuestController.addQuest(o.quests[0]);
-		} else if(isContainerGameObject(o)) {
-			if(o.requiredItems.length > 0 &&  !PlayerController.hasItems(o.requiredItems)) {
+		} else if (isContainerGameObject(o)) {
+			if (o.requiredItems.length > 0 && !PlayerController.hasItems(o.requiredItems)) {
 				console.log("You do not have the required items to open this container.");
 				return;
 			}
 
 			console.log("Opening container", o);
-			if(o.contains.length > 0) {
-				WindowController.container = {...WindowController.container, visible: true};
-				WindowController.container.object = o;
+			if (o.contains.length > 0) {
+				WindowController.getByName("Container").visible = true;
+				ContainerStore.object = o;
 			}
-		} else if(isLootableGameObject(o)) {
+		} else if (isLootableGameObject(o)) {
 			console.log("Adding item");
 			PlayerController.giveItem(o.pickedUpItem.item);
 		}

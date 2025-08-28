@@ -49,7 +49,7 @@
 	let expanded = $state(true);
 	let locked = $state(false);
 	let dragging = $state(false);
-	let visibilityPriority = $derived(WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(uniqueKey) : -1);
+	let visibilityPriority = $derived(WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(WindowController.getByName(uniqueKey)) : -1);
 
 	let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
 	let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");

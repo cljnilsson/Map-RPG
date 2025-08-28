@@ -20,6 +20,8 @@
 			NotificationController.newNotification("You cannot afford " + item.name, "error");
 		}
 	}
+
+	let vendorWindow = WindowController.getByName("Vendor");
 </script>
 
 {#if vendor}
@@ -27,9 +29,9 @@
 		uniqueKey="Vendor"
 		height={700}
 		width={480}
-		x={WindowController.vendor.x}
-		y={WindowController.vendor.y}
-		bind:visibility={WindowController.vendor.visible}
+		x={vendorWindow.x}
+		y={vendorWindow.y}
+		bind:visibility={vendorWindow.visible}
 	>
 		{#snippet title()}
 			<h4 class="my-2">{vendor.name}</h4>

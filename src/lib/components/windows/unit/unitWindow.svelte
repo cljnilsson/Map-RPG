@@ -34,6 +34,8 @@
 	/*onDestroy(() => {
 		clearInterval(timer);
 	});*/
+
+	let unitWindow = WindowController.getByName("UnitManagement");
 </script>
 
 <!-- Assume the player owns all cities for testing purposes -->
@@ -41,10 +43,10 @@
 	uniqueKey="UnitManagement"
 	height={500}
 	width={400}
-	x={WindowController.unit.x}
-	y={WindowController.unit.y}
+	x={unitWindow.x}
+	y={unitWindow.y}
 	toggleKey="u"
-	bind:visibility={WindowController.unit.visible}
+	bind:visibility={unitWindow.visible}
 >
 	{#snippet title()}
 		<h4 class="my-2">Management</h4>

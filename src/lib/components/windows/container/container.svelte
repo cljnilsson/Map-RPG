@@ -6,43 +6,46 @@
 	import type { InventoryItem } from "$lib/types/item";
 	import { PlayerController } from "$lib/controller/character.svelte";
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+	import ContainerStore from "$lib/stores/container.svelte";
 
 	let baseHeight = 100;
 	let perItemHeight = 64;
-	let totalHeight = $derived((WindowController.container.object?.contains ?? []).length * perItemHeight + baseHeight); // Flawed calculation, put more thought into this later, set a max height at some point
+	let totalHeight = $derived((ContainerStore.object?.contains ?? []).length * perItemHeight + baseHeight); // Flawed calculation, put more thought into this later, set a max height at some point
 
 	function onClick(item: InventoryItem) {
-		if (!WindowController.container.object) {
+		if (!ContainerStore.object) {
 			return; // No container object, nothing to do
 		}
 
-		if (WindowController.container.object.contains.findIndex((i) => i.item.id === item.item.id) === -1) {
+		if (ContainerStore.object.contains.findIndex((i) => i.item.id === item.item.id) === -1) {
 			console.warn("Item not found in container:", item);
 			return; // Item not found in the container, nothing to do
 		}
 
 		const worked = PlayerController.giveItem(item.item);
 		if (worked) {
-			WindowController.container.object.contains = WindowController.container.object.contains.filter(
+			ContainerStore.object.contains = ContainerStore.object.contains.filter(
 				(i) => i.item.id !== item.item.id
 			);
 		}
 	}
+
+	let containerWindow = WindowController.getByName("Container");
 </script>
 
 <Window
 	uniqueKey="Container"
 	height={totalHeight}
 	width={380}
-	x={WindowController.container.x}
-	y={WindowController.container.y}
-	bind:visibility={WindowController.container.visible}
+	x={containerWindow.x}
+	y={containerWindow.y}
+	bind:visibility={containerWindow.visible}
 >
 	{#snippet title()}
-		<h4 class="my-2">{WindowController.container.object?.name}</h4>
+		<h4 class="my-2">{ContainerStore.object?.name}</h4>
 	{/snippet}
 	{#snippet body()}
-		{#each WindowController.container.object?.contains ?? [] as item}
+		{#each ContainerStore.object?.contains ?? [] as item}
 			<Tooltip>
 				{#snippet tooltip()}
 					<h5 style={"color: " + q2c(item.item) + ";"}>{item.item.name}</h5>

@@ -11,9 +11,11 @@
 	let completedQuests: Quest[] = $derived(QuestController.quests.filter((q) => q.status === "completed"));
 
 	let active: Quest | undefined = $state(undefined);
+
+	let questWindow = WindowController.getByName("Quests");
 </script>
 
-<Window uniqueKey="Quests" height={700} width={600} x={WindowController.quest.x} y={WindowController.quest.y} toggleKey="q" bind:visibility={WindowController.quest.visible}>
+<Window uniqueKey="Quests" height={700} width={600} x={questWindow.x} y={questWindow.y} toggleKey="q" bind:visibility={questWindow.visible}>
 	{#snippet title()}
 		<h4 class="my-2">Quests</h4>
 	{/snippet}

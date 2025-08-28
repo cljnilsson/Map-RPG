@@ -20,12 +20,12 @@ async function getCities() {
 }
 
 async function updateResource(cityDataId: number, resourceId: number, value: number): Promise<boolean> {
-	await db
+	const rows = await db
 		.update(resources)
 		.set({ value })
 		.where(and(eq(resources.cityId, cityDataId), eq(resources.resourceId, resourceId)));
 
-	return true;
+	return rows.changes > 0;
 }
 
 type GetReturnType = {
@@ -75,11 +75,19 @@ type ResourceArrayData = v.InferOutput<typeof ResourceArraySchema>;
 
 async function post(body: ResourceArrayData) {
 	console.log(body);
+	const failed: ResourceArrayData = [];
 	
 	for (const resource of body) {
-		updateResource(resource.cityDataId, resource.resourceId, resource.value);
+		const success = updateResource(resource.cityDataId, resource.resourceId, resource.value);
+		if(!success) {
+			failed.push(resource);
+		}
 	}
 
+	if(failed.length > 0) {
+		return { success: false, failed };
+	}
+	
 	return { success: true };
 }
 

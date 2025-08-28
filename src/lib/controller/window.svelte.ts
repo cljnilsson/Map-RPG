@@ -1,12 +1,7 @@
-import type { WindowData } from "$lib/stores/windows.svelte";
-import type { ContainerGameObject } from "$lib/types/gameObject";
-import WindowStore from "$lib/stores/windows.svelte";
+import type { WindowTypes } from "$lib/types/window";
 
-type WindowTypes = "Logger" | "Navigator" | "UnitManagement" | "Resources" | "Events" | "Quests" | "Inventory" | "Vendor" | "Roll" | "";
-
-//because state does not work inside classes
-let openWindows = $state<WindowTypes[]>([]);
-let latestWindowOpenedState = $derived(openWindows.length > 0 ? openWindows[openWindows.length - 1] : "");
+let openWindows = $state<WindowController[]>([]);
+let latestWindowOpenedState: WindowController | null = $derived(openWindows.length > 0 ? openWindows[openWindows.length - 1] : null);
 
 /*
 	Mixed feelings on this approach.
@@ -18,139 +13,155 @@ let latestWindowOpenedState = $derived(openWindows.length > 0 ? openWindows[open
 	Thus this approach which at least works and seems.. robust? event if I don't really like the style.
 */
 $effect.root(() => {
-	const windows: [WindowTypes, () => WindowData][] = [
-		["Logger", () => WindowStore.logger],
-		["Navigator", () => WindowStore.navigation],
-		["UnitManagement", () => WindowStore.unit],
-		["Resources", () => WindowStore.resources],
-		["Events", () => WindowStore.events],
-		["Quests", () => WindowStore.quest],
-		["Inventory", () => WindowStore.inventory],
-		["Vendor", () => WindowStore.vendor],
-		["Roll", () => WindowStore.roll],
-	];
+	const windows: WindowTypes[] = [
+		"Logger",
+		"Navigator",
+		"UnitManagement",
+		"Resources",
+		"Events", 
+		"Quests",
+		"Inventory",
+		"Vendor",
+	]
 
-	for (const [name, getWindow] of windows) {
+	for (const name of windows) {
 		$effect(() => {
-			const win = getWindow();
-			if (win.visible && !openWindows.includes(name)) {
+			const win = WindowController.getByName(name);
+			if (win.visible && !openWindows.includes(win)) {
 				console.log(`WindowController: ${name} opened`);
-				openWindows = [...openWindows, name];
-			} else if (!win.visible && openWindows.includes(name)) {
+				openWindows = [...openWindows, win];
+				latestWindowOpenedState = win;
+			} else if (!win.visible && openWindows.includes(win)) {
 				console.log(`WindowController: ${name} closed`);
-				openWindows = openWindows.filter(w => w !== name);
+				openWindows = openWindows.filter((w) => w.name !== name);
 			}
 		});
 	}
 
 	$effect(() => {
-		console.log(latestWindowOpenedState);
+		//console.log(latestWindowOpenedState);
 	});
 });
 
-export default class WindowController {
+// Maybe reuse later
+class LinkedList {
+	public static all: LinkedList[] = []; // static $state is not supported, going to see if this matters.
+
+	constructor() {
+		LinkedList.all = [...LinkedList.all, this];
+	}
+
+	public destroy() {
+		LinkedList.all = LinkedList.all.filter((i) => i !== this);
+	}
+}
+
+export default class WindowController extends LinkedList {
+	// Default values don't matter since they're always assigned in constructur but needed for $state
+	private _x: number = $state(0);
+	private _y: number = $state(0);;
+	private _visible: boolean = $state(false);
+	private _name: WindowTypes = $state("");
+
+	constructor(visible: boolean, x: number, y: number, name: WindowTypes) {
+		super();
+		this._x = x;
+		this._y = y;
+		this._visible = visible;
+		this._name = name;
+	}
+
 	// ---------------
 	// GETTERS / SETTERS
 	// ---------------
-	public static get openWindows() {
-		return openWindows;
+
+	public get x(): number {
+		return this._x;
 	}
+
+	public get y(): number {
+		return this._y;
+	}
+
+	public get position(): { x: number; y: number } {
+		return { x: this.x, y: this.y };
+	}
+
+	public get visible(): boolean {
+		return this._visible;
+	}
+
+	public get name(): string {
+		return this._name;
+	}
+
+	public set x(v: number) {
+		this._x = v;
+	}
+
+	public set y(v: number) {
+		this._y = v;
+	}
+
+	public set position({ x, y }: { x: number; y: number }) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public set visible(v: boolean) {
+		this._visible = v;
+	}
+
+	public set name(v: WindowTypes) {
+		this._name = v;
+	}
+
+	public static get openWindows(): WindowController[] {
+		return [];
+	}
+
 	public static get latestWindowOpened() {
 		return latestWindowOpenedState;
 	}
-	public static set latestWindowOpened(v: WindowTypes) {
+
+	public static set latestWindowOpened(v: WindowController | null) {
 		latestWindowOpenedState = v;
-	}
-	public static get logger(): WindowData {
-		return WindowStore.logger;
-	}
-	public static set logger(value: WindowData) {
-		WindowStore.logger = value;
-	}
-	public static get navigation(): WindowData {
-		return WindowStore.navigation;
-	}
-	public static set navigation(value: WindowData) {
-		WindowStore.navigation = value;
-	}
-	public static get unit(): WindowData {
-		return WindowStore.unit;
-	}
-	public static set unit(value: WindowData) {
-		WindowStore.unit = value;
-	}
-	public static get resources(): WindowData {
-		return WindowStore.resources;
-	}
-	public static set resources(value: WindowData) {
-		WindowStore.resources = value;
-	}
-	public static get events(): WindowData {
-		return WindowStore.events;
-	}
-	public static set events(value: WindowData) {
-		WindowStore.events = value;
-	}
-	public static get quest(): WindowData {
-		return WindowStore.quest;
-	}
-	public static set quest(value: WindowData) {
-		WindowStore.quest = value;
-	}
-	public static get inventory(): WindowData {
-		return WindowStore.inventory;
-	}
-	public static set inventory(value: WindowData) {
-		WindowStore.inventory = value;
-	}
-	public static get vendor(): WindowData {
-		return WindowStore.vendor;
-	}
-	public static set vendor(value: WindowData) {
-		WindowStore.vendor = value;
-	}
-	public static get roll(): WindowData {
-		return WindowStore.roll;
-	}
-	public static set roll(value: WindowData) {
-		WindowStore.roll = value;
-	}
-	public static get container(): (WindowData & {
-		object: ContainerGameObject | null;
-	}) {
-		return WindowStore.container;
-	}
-	public static set container(value: WindowData & {
-		object: ContainerGameObject | null;
-	}) {
-		WindowStore.container = value;
 	}
 
 	// ---------------
 	// FUNCTIONS
 	// ---------------
 
-	public static hideAll() {
-		this.roll.visible = false;
-		this.vendor.visible = false;
-		this.inventory.visible = false;
-		this.quest.visible = false;
-		this.events.visible = false;
-		this.resources.visible = false;
-		this.unit.visible = false;
-		this.navigation.visible = false;
-		this.logger.visible = false;
+	public static getByName(name: WindowTypes): WindowController {
+		return this.all.filter((w): w is WindowController => w instanceof WindowController && w.name === name)[0];
 	}
 
-	public static isOpen(window: WindowTypes): boolean {
+	public static hideAll() {
+		/*for(const window of WindowController.allTyped) {
+			window.visible = false;
+		}*/
+	}
+
+	public static isOpen(window: WindowController): boolean {
 		return openWindows.includes(window);
 	}
 
-	public static isOpenAt(window: WindowTypes): number {
+	public static isOpenAt(window: WindowController): number {
 		return openWindows.indexOf(window);
 	}
 
 	public static isWindowType(key: string): key is WindowTypes {
-		return ["Logger", "Navigator", "UnitManagement", "Resources", "Events", "Quests", "Inventory", "Vendor", "Roll"].includes(key);
+		return ["Logger", "Navigator", "UnitManagement", "Resources", "Events", "Quests", "Inventory", "Vendor", "Roll", "Container"].includes(key); // reuse windowtypes here
 	}
 }
+
+new WindowController(false, 50, 900, "Logger");
+new WindowController(true, 1000, 1250, "Navigator");
+new WindowController(true, 1300, 1250, "Resources");
+new WindowController(true, 600, 950, "UnitManagement");
+new WindowController(true, 1600, 1250, "Events");
+new WindowController(true, 1300, 450, "Quests");
+new WindowController(false, 300, 450, "Inventory");
+new WindowController(false, 300, 450, "Vendor");
+new WindowController(false, 800, 450, "Roll");
+new WindowController(false, 300, 400, "Container");

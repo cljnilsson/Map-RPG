@@ -2,9 +2,11 @@
 	import Window from "$lib/features/window/window.svelte";
 	import WindowController from "$lib/controller/window.svelte";
     import Inventory from "$lib/features/inventory/inventory.svelte";
+
+	let inventoryWindow = WindowController.getByName("Inventory");
 </script>
 
-<Window uniqueKey="Inventory" height={700} width={480} x={WindowController.inventory.x} y={WindowController.inventory.y} toggleKey="i" bind:visibility={WindowController.inventory.visible}>
+<Window uniqueKey="Inventory" height={700} width={480} x={inventoryWindow.x} y={inventoryWindow.y} toggleKey="i" bind:visibility={inventoryWindow.visible}>
 	{#snippet title()}
 		<h4 class="my-2">Inventory</h4>
 	{/snippet}
