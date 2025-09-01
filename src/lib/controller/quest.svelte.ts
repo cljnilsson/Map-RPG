@@ -1,4 +1,3 @@
-//import type { Character } from "$lib/types/character";
 import type { Quest } from "$lib/types/quest";
 import QuestStore from "$lib/stores/quest.svelte";
 import { LogController } from "$lib/controller/logs.svelte";

@@ -25,6 +25,7 @@
 				rotation: 0
 			},
 			map: {
+				type: "world",
 				name: "New Zone",
 				imagePath: ""
 			}

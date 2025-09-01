@@ -95,7 +95,7 @@ export default class MapController {
 
 		this.currentMapState.contains = this.currentMapState?.contains.filter((map) => map.map?.name !== toRemove);
 
-		return len < this.currentMapState.contains.length;
+		return len > this.currentMapState.contains.length;
 	}
 
 	public static getSubMapByName(name: string): MapWithClickBox | undefined {

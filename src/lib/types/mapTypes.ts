@@ -34,12 +34,12 @@ type ClickBox = {
 };
 
 type MapWithClickBox = {
-	map: MapType;
+	map: WorldMap | BuildingMap | CityMap;
 	clickBox: ClickBox;
 };
 
 type CustomMap = {
-	map: MapType;
+	map: WorldMap | BuildingMap | CityMap;
 	previous: CustomMap | null;
 	contains: MapWithClickBox[];
 	npcs: NPC[];
