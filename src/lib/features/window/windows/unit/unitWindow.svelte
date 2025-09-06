@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {CityController} from "$lib/controller/city.svelte";
 	import Window from "$lib/features/window/window.svelte";
-	import UnitDesignator from "$lib/components/windows/unit/unitDesignator.svelte";
+	import UnitDesignator from "$lib/features/window/windows/unit/unitDesignator.svelte";
 	import dayjs from "dayjs";
 	import WindowController from "$lib/controller/window.svelte";
 	import queue from "$lib/stores/queueStore.svelte";

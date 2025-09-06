@@ -1,6 +1,6 @@
 <script lang="ts">
 	import WindowController from "$lib/controller/window.svelte";
-	import RollWindow from "$lib/components/windows/roll/roll.svelte";
+	import RollWindow from "$lib/features/window/windows/roll/roll.svelte";
 
 	async function roll() {
 		WindowController.getByName("Roll").visible = true;

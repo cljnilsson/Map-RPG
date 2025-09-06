@@ -1,6 +1,6 @@
 <script lang="ts">
-	import QuestDetails from "$lib/components/windows/quest//questDetails.svelte";
-	import QuestSection from "$lib/components/windows/quest/questSection.svelte";
+	import QuestDetails from "$lib/features/window/windows/quest//questDetails.svelte";
+	import QuestSection from "$lib/features/window/windows/quest/questSection.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import WindowController from "$lib/controller/window.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
