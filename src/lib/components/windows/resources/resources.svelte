@@ -10,7 +10,7 @@
 <Window
 	uniqueKey="Resources"
 	height={310}
-	width={300}
+	width={350}
 	x={resourceWindow.x}
 	y={resourceWindow.y}
 	toggleKey="r"
@@ -28,10 +28,10 @@
 			<div class="col-3">
 				{resource.name}
 			</div>
-			<div class="col-auto">
+			<div class="col-4">
 				{resource.amount} / {resource.baseLimit}
 			</div>
-			<div class="col-auto">
+			<div class="col-2 text-end">
 				{resource.production}/m
 			</div>
 		</div>

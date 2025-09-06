@@ -130,11 +130,6 @@
 							{@render title()}
 						{/if}
 					</div>
-					{#if dev}
-						<div class="col-auto">
-							<small>x: {Math.round(x)}</small><small class="ms-3">y: {Math.round(y)}</small>
-						</div>
-					{/if}
 					{#if canClose || canLock || canMinimize}
 						<div class="col-auto text-end">
 							{#if canLock}
@@ -159,6 +154,13 @@
 						</div>
 					{/if}
 				</div>
+				{#if dev}
+					<div class="row">
+						<div class="col-auto">
+							<small>x: {Math.round(x)}</small><small class="ms-3">y: {Math.round(y)}</small>
+						</div>
+					</div>
+				{/if}
 			</Title>
 		</DraggableHandle>
 
