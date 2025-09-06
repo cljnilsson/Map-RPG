@@ -1,23 +1,11 @@
 import type { WindowTypes } from "$lib/types/window";
-
-// Maybe reuse later
-class LinkedList {
-	public static all: LinkedList[] = []; // static $state is not supported, going to see if this matters.
-
-	constructor() {
-		LinkedList.all = [...LinkedList.all, this];
-	}
-
-	public destroy() {
-		LinkedList.all = LinkedList.all.filter((i) => i !== this);
-	}
-}
+import ClassInstanceList from "$lib/utils/ClassInstanceList";
 
 // Cannot use static $state
 let _latestWindowOpenedState: WindowController | null = $state(null);
 let _openWindows = $state<WindowController[]>([]);
 
-export default class WindowController extends LinkedList {
+export default class WindowController extends ClassInstanceList {
 	// Default values don't matter since they're always assigned in constructur but needed for $state
 	private _x: number = $state(0);
 	private _y: number = $state(0);
