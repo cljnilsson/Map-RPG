@@ -44,6 +44,11 @@ export async function getCityResources() {
 		return;
 	}
 
+	if(CityController.resources.length === 0) {
+		console.warn("CityController has no resources, this is probably because you're not in the map view");
+		return;
+	}
+
 	for (const resource of cityData.resources) {
 		const existing = CityController.getResource(resource.name);
 		if (existing.amount !== resource.value) {

@@ -1,14 +1,14 @@
-import MapStore from "$lib/stores/map.svelte";
 import type { Message, CharSprite } from "$lib/types/message";
 import type { Snippet } from "svelte";
 import ClassInstanceList from "$lib/utils/ClassInstanceList";
+import DialogueStore from "$lib/stores/dialogue.svelte";
 
 type DialogueArgs = {
 	msgs: Message[];
 	player: CharSprite;
 	onEnd?: () => void;
 	leftCol?: Snippet;
-	current: number;
+	current?: number;
 };
 
 export default class DialogueController extends ClassInstanceList {
@@ -18,7 +18,7 @@ export default class DialogueController extends ClassInstanceList {
 	private _leftCol?: Snippet;
 	private _current: number = $state(-1);
 
-	constructor({msgs, player, onEnd, leftCol, current}: DialogueArgs) {
+	constructor({msgs, player, onEnd = () => this.defaultOnEnd, leftCol, current = 0}: DialogueArgs) {
 		super();
 		this._msgs = msgs;
 		this._player = player;
@@ -31,8 +31,20 @@ export default class DialogueController extends ClassInstanceList {
 	// GETTERS / SETTERS
 	// ---------------
 
+	public static get inDialogue(): boolean {
+		return DialogueStore.inDialogue;
+	}
+
+	public static set inDialogue(v: boolean) {
+		DialogueStore.inDialogue = v;
+	}
+
 	public get msgs() {
 		return this._msgs;
+	}
+
+	public set msgs(v: Message[]) {
+		this._msgs = v;
 	}
 
 	public get player() {
@@ -51,6 +63,10 @@ export default class DialogueController extends ClassInstanceList {
 		return this._current;
 	}
 
+	public set current(v: number) {
+		this._current = v;
+	}
+
 	// ---------------
 	// FUNCTIONS
 	// ---------------
@@ -66,5 +82,14 @@ export default class DialogueController extends ClassInstanceList {
 		this.destroy();
 
 		return next as DialogueController;
+	}
+
+	public defaultOnEnd() {
+		console.log("Dialogue ended, default callback used,");
+		if(DialogueController.all.length === 1) {
+			this.destroy();
+		} else {
+			this.next();
+		}
 	}
 }

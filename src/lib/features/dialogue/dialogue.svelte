@@ -2,7 +2,7 @@
 	import type { Message, CharSprite } from "$lib/types/message";
 	import DialogueButtons from "$lib/features/dialogue/dialogueButtons.svelte";
 	import DialogueBody from "$lib/features/dialogue/dialogueBody.svelte";
-	import DialogueStore from "$lib/stores/dialogue.svelte";
+	import DialogueController from "$lib/controller/dialogue.svelte";
 	import { dev } from "$app/environment";
 	import { onMount } from "svelte";
 	import type { Snippet } from "svelte";
@@ -27,7 +27,7 @@
 		if (onEnd) {
 			onEnd();
 		}
-		DialogueStore.inDialogue = false;
+		DialogueController.inDialogue = false;
 		done = true;
 	}
 
@@ -56,7 +56,7 @@
 	}
 
 	onMount(() => {
-		DialogueStore.inDialogue = true;
+		DialogueController.inDialogue = true;
 	});
 </script>
 

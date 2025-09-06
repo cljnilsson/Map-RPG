@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Dialogue from "$lib/features/dialogue/dialogue.svelte";
 	import type { Message, CharSprite } from "$lib/types/message";
-	import DialogueController from "$lib/controller/dialogue";
+	import DialogueController from "$lib/controller/dialogue.svelte";
 
 	const alice: CharSprite = { name: "Alice", image: "alice.png" } as const;
 	const bob: CharSprite = { name: "Bob", image: "bob.png" } as const;
@@ -37,27 +37,19 @@
 	let choice1 = new DialogueController({
 		msgs: msgs,
 		player: you,
-		onEnd: onEnd,
-		current: 0
 	});
 
 	let choice2 = new DialogueController({
 		msgs: msgs2,
-		player: you,
-		onEnd: onEnd,
-		current: 0
+		player: you
 	});
 
 	let active: DialogueController | undefined = $state(undefined);
-
-	function onEnd() {
-		console.log("Dialogue ended");
-	}
 </script>
 
 <div class="mt-5 mx-5 px-3">
-	<button onclick={() => active = choice1}>Talk to Alice</button>
-	<button onclick={() => active = choice2}>Talk to ALice and Bob</button>
+	<button onclick={() => active = choice2}>Talk to Alice</button>
+	<button onclick={() => active = choice1}>Talk to ALice and Bob</button>
 	{#if active}
 		<Dialogue bind:current={active.current} msgs={active.msgs} player={active.player} onEnd={active.onEnd}></Dialogue>
 	{/if}
