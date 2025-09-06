@@ -90,7 +90,7 @@
 </script>
 
 <div class="row justify-content-center px-3 mt-5 position-relative">
-	<div class="col-xl-5 col-md-8 wrapper">
+	<div class="col-xl-10 col-md-12 wrapper">
 		<div class="c-header">
 			{#if name.length === 0}
 				<h3 class="text-center">Create your character!</h3>
@@ -129,8 +129,8 @@
 					<!-- Main stats/content -->
 					<div class="main-content offset">
 						{#if view === "character"}
-							<div class="row">
-								<div class="col">
+							<div class="row justify-content-center">
+								<div class="col-auto">
 									<div class="c-avatar text-center">
 										<img
 											src={avatar.length > 0

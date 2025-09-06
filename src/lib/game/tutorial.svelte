@@ -3,17 +3,18 @@
 	import type { Message, CharSprite } from "$lib/types/message";
 	import Creator from "$lib/features/creator/creator.svelte";
 	import Highlight from "$lib/utils/Highlight.svelte";
+	import { onMount } from "svelte";
+	import DialogueController from "$lib/controller/dialogue.svelte";
 
 	let alice: CharSprite = { name: "Vik", image: "vik.png" };
 	let you: CharSprite = { name: "You", image: "char.jpg" };
 	let tutorialStage = $state(1);
-	let tutorialSubStage = $state(0);
 	let creatorSelector: string = $derived.by(() => {
 		if (tutorialStage < 2) return "";
 
 		let className = "";
 
-		switch (tutorialSubStage) {
+		switch (DialogueController.active?.current) {
 			case 0:
 				className = ".c-avatar";
 				break;
@@ -47,8 +48,6 @@
 
 		return className;
 	});
-
-	$inspect(tutorialSubStage, creatorSelector);
 
 	let msgs: Message[] = [
 		{ type: "text", text: "Greetings, you're not from here are you?", from: alice, next: 1 },
@@ -123,16 +122,16 @@
 		{ type: "text", text: "Finally, what's your name?", from: alice, next: -1 }
 	];
 
-	let activeDialogue: Message[] = $state(msgs);
-
-	let dialogueRef: Dialogue | null = $state(null);
-
-	async function onTutorialEnd() {
-		console.log("THE TUTORIAL IS OVER");
-		activeDialogue = creatorDialogue;
-		tutorialSubStage = 0;
+	function onTutorialEnd() {
+		console.log("THE TUTORIAL IS OVER1");
 		tutorialStage = 2;
-		//dialogueRef?.reset();
+		DialogueController.active?.destroy();
+	}
+
+	async function onTutorialEnd2() {
+		console.log("THE TUTORIAL IS OVER2");
+		tutorialStage = 3;
+		DialogueController.active?.destroy();
 		// only run this if the user is logged in, TODO
 		if (false) {
 			await fetch("/api/flag", {
@@ -145,32 +144,29 @@
 			});
 		}
 	}
+
+	onMount(() => {
+		new DialogueController({
+			msgs: msgs,
+			player: you,
+			onEnd: onTutorialEnd,
+		});
+		new DialogueController({
+			msgs: creatorDialogue,
+			player: you,
+			onEnd: onTutorialEnd2,
+		});
+	});
 </script>
 
-{#if tutorialStage === 1}
-	<Dialogue
-		bind:this={dialogueRef}
-		bind:msgs={activeDialogue}
-		player={you}
-		onEnd={onTutorialEnd}
-		bind:current={tutorialSubStage}
-	/>
-{:else if tutorialStage === 2}
-	<Dialogue
-		bind:this={dialogueRef}
-		bind:msgs={activeDialogue}
-		player={you}
-		onEnd={onTutorialEnd}
-		bind:current={tutorialSubStage}
-	>
-		{#snippet leftCol()}
-			{#if tutorialStage === 2}
-				<div class="col-xl-6">
-					<Highlight selector={creatorSelector}>
-						<Creator />
-					</Highlight>
-				</div>
-			{/if}
-		{/snippet}
-	</Dialogue>
-{/if}
+<Dialogue maxWidth={1300}>
+	{#snippet leftCol()}
+		{#if tutorialStage === 2}
+			<div class="col-7">
+				<Highlight selector={creatorSelector}>
+					<Creator />
+				</Highlight>
+			</div>
+		{/if}
+	{/snippet}
+</Dialogue>

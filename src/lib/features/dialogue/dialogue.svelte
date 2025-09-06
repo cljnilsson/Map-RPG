@@ -1,38 +1,36 @@
 <script lang="ts">
-	import type { Message, CharSprite } from "$lib/types/message";
 	import DialogueButtons from "$lib/features/dialogue/dialogueButtons.svelte";
 	import DialogueBody from "$lib/features/dialogue/dialogueBody.svelte";
 	import DialogueController from "$lib/controller/dialogue.svelte";
 	import { dev } from "$app/environment";
-	import { onMount } from "svelte";
 	import type { Snippet } from "svelte";
 
-	let {
-		msgs = $bindable(),
-		player,
-		onEnd,
-		leftCol,
-		current = $bindable()
-	}: { msgs: Message[]; player: CharSprite; onEnd?: () => void; leftCol?: Snippet, current: number } = $props();
+	let { leftCol, maxWidth = 1300 }: { leftCol?: Snippet, maxWidth?: number } = $props();
+	let active: DialogueController | undefined = $derived(DialogueController.all[0] ? DialogueController.all[0] : undefined);
 
-	let done: boolean = $state(false);
-
-	export function reset() {
-		console.log("Trying to reset");
-		current = 0;
-		done = false;
-	}
+	$effect(() => {
+		DialogueController.inDialogue = active !== undefined; // don't like using $effect for this, will reconsider later
+	});
 
 	function endDialogue() {
-		if (onEnd) {
-			onEnd();
+		if (!active) {
+			console.error("No active dialogue to end");
+			return;
 		}
-		DialogueController.inDialogue = false;
-		done = true;
+
+		if (active.onEnd) {
+			active.onEnd();
+		}
+
+		//DialogueController.inDialogue = false;
 	}
 
 	function checkEnd() {
-		const currentMsg = msgs[current];
+		if (!active) {
+			return;
+		}
+
+		const currentMsg = active.msgs[active.current];
 		/*console.log("---");
 		console.log(msgs, current);
 		console.log(currentMsg);
@@ -42,7 +40,7 @@
 			console.warn("Choice should not end a dialogue (probably)");
 		} else if ("next" in currentMsg) {
 			//current = currentMsg.next as number;
-			const nextMsg = msgs[currentMsg.next as number];
+			const nextMsg = active.msgs[currentMsg.next as number];
 
 			console.log(nextMsg);
 			if (nextMsg === undefined) {
@@ -54,18 +52,14 @@
 			return;
 		}
 	}
-
-	onMount(() => {
-		DialogueController.inDialogue = true;
-	});
 </script>
 
-{#if !done}
+{#if active}
 	<div
 		class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
 		style="z-index: 1050; background-color: rgba(0, 0, 0, 0.5);"
 	>
-		<div style="width: 100%; max-width: 1300px;">
+		<div style="width: 100%; max-width: {maxWidth}px;">
 			<div class="row justify-content-center">
 				{@render leftCol?.()}
 				<!-- defines its own width -->
@@ -73,8 +67,8 @@
 					<div class="row justify-content-center">
 						<div class="col">
 							<img
-								src={msgs[current].from.image}
-								alt={msgs[current].from.name}
+								src={active.msgs[active.current].from.image}
+								alt={active.msgs[active.current].from.name}
 								class="img-fluid"
 								style="max-width: 200px; max-height: 200px;"
 							/>
@@ -83,11 +77,11 @@
 					<div class="row justify-content-center">
 						<div class="col wrapper position-relative">
 							<h5>
-								{msgs[current].from.name}
-								{#if dev}({current}){/if}
+								{active.msgs[active.current].from.name}
+								{#if dev}({active.current}){/if}
 							</h5>
-							<DialogueBody {player} bind:current bind:msgs onEnd={checkEnd} />
-							<DialogueButtons {msgs} bind:current onEnd={checkEnd} />
+							<DialogueBody player={active.player} bind:current={active.current} bind:msgs={active.msgs} onEnd={checkEnd} />
+							<DialogueButtons msgs={active.msgs} bind:current={active.current} onEnd={checkEnd} />
 						</div>
 					</div>
 				</div>

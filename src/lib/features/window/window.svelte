@@ -7,7 +7,7 @@
 	import Body from "$lib/features/window/windowBody.svelte";
 	import Footer from "$lib/features/window/windowFooter.svelte";
 	import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
-	import DialogueStore from "$lib/stores/dialogue.svelte";
+	import DialogueController from "$lib/controller/dialogue.svelte";
 	import { browser } from "$app/environment";
 	import { SaveController } from "$lib/controller/save.svelte";
 	import { fade } from "svelte/transition";
@@ -120,7 +120,7 @@
 		out:fade={{ duration: isTest ? 0 : 100 }}
 		class="overlay-rect"
 		style="left: {x}px; top: {y}px; width: {width}px; z-index: {500 + visibilityPriority};"
-		class:d-none={DialogueStore.inDialogue}
+		class:d-none={DialogueController.inDialogue}
 	>
 		<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDragEnd={saveNewPosition}>
 			<Title>

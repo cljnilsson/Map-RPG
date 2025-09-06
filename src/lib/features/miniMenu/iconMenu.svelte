@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DialogueStore from "$lib/stores/dialogue.svelte";
+	import DialogueController from "$lib/controller/dialogue.svelte";
 	import WindowController from "$lib/controller/window.svelte";
 	import MapController from "$lib/controller/map.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
@@ -27,7 +27,7 @@
 	id="mini-menu"
 	class="position-fixed bottom-0 end-0 m-3 rounded border shadow p-2"
 	style="z-index: 1050;"
-	class:d-none={DialogueStore.inDialogue}
+	class:d-none={DialogueController.inDialogue}
 >
 	{#each menuItems as { iconPath, name, label, cityOnly }}
 		<Icon

@@ -34,23 +34,28 @@
 		{ type: "text", text: "Looks like he is coming over.", from: alice, next: -1 }
 	];
 
-	let choice1 = new DialogueController({
-		msgs: msgs,
-		player: you,
-	});
-
-	let choice2 = new DialogueController({
-		msgs: msgs2,
-		player: you
-	});
-
-	let active: DialogueController | undefined = $state(undefined);
+	function makeDialogue(msgs: Message[]) {
+		new DialogueController({
+			msgs: msgs,
+			player: you
+		});
+	}
 </script>
 
-<div class="mt-5 mx-5 px-3">
-	<button onclick={() => active = choice2}>Talk to Alice</button>
-	<button onclick={() => active = choice1}>Talk to ALice and Bob</button>
-	{#if active}
-		<Dialogue bind:current={active.current} msgs={active.msgs} player={active.player} onEnd={active.onEnd}></Dialogue>
-	{/if}
+<div class="mt-5 mx-5 px-3 wrapper">
+	<button onclick={() => makeDialogue(msgs2)}>Talk to Alice</button>
+	<button onclick={() => makeDialogue(msgs)}>Talk to ALice and Bob</button>
+	{DialogueController.all.length}
+	<Dialogue />
 </div>
+
+
+<style>
+	.wrapper {
+		background: rgba(235, 235, 235, 0.6);
+		border-radius: 10px;
+		padding-top: 0.75rem;
+		padding-bottom: 0.75rem;
+		max-width: 1000px;
+	}
+</style>

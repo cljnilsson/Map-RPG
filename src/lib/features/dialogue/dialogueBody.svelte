@@ -1,11 +1,5 @@
 <script lang="ts">
-	import type {
-		Message,
-		TextMessage,
-		CharSprite,
-		ChoiceMessage,
-		ChoiceOption
-	} from "$lib/types/message";
+	import type { Message, TextMessage, CharSprite, ChoiceMessage, ChoiceOption } from "$lib/types/message";
 
 	let {
 		msgs = $bindable(),
@@ -36,12 +30,14 @@
 {#if msgs[current]?.type === "text"}
 	<p>{(msgs[current] as TextMessage).text}</p>
 {:else if msgs[current]?.type === "choice"}
-	<div class="choices-grid">
+	<div
+		class="choices-grid"
+		class:choice-grid-sm={(msgs[current] as ChoiceMessage).choices.length <= 4}
+		class:choice-grid-md={(msgs[current] as ChoiceMessage).choices.length > 4 && (msgs[current] as ChoiceMessage).choices.length < 8}
+		class:choice-grid-lg={(msgs[current] as ChoiceMessage).choices.length >= 8}
+	>
 		{#each (msgs[current] as ChoiceMessage).choices as choice}
-			<button
-				class="choice-btn btn btn-sm btn-outline-primary"
-				onclick={() => selectChoice(choice)}
-			>
+			<button class="choice-btn btn btn-sm btn-outline-primary" onclick={() => selectChoice(choice)}>
 				{choice.text}
 			</button>
 		{/each}
@@ -53,9 +49,20 @@
 <style>
 	.choices-grid {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
 		gap: 0.5rem;
 		margin-top: 1rem;
+	}
+
+	.choice-grid-sm {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.choice-grid-md {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.choice-grid-lg {
+		grid-template-columns: repeat(4, 1fr);
 	}
 
 	.choice-btn {
