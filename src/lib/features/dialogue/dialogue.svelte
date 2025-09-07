@@ -5,7 +5,7 @@
 	import { dev } from "$app/environment";
 	import type { Snippet } from "svelte";
 
-	let { leftCol, maxWidth = 1300 }: { leftCol?: Snippet, maxWidth?: number } = $props();
+	let { leftCol, maxWidth = 1300 }: { leftCol?: Snippet; maxWidth?: number } = $props();
 	let active: DialogueController | undefined = $derived(DialogueController.all[0] ? DialogueController.all[0] : undefined);
 
 	$effect(() => {
@@ -27,29 +27,32 @@
 
 	function checkEnd(by: "Next" | "Close" | "Choice") {
 		if (!active) {
+			console.error("No active dialogue to end");
 			return;
 		}
 
-		const currentMsg = active.msgs[active.current];
-		/*console.log("---");
-		console.log(msgs, current);
-		console.log(currentMsg);
-		console.log("---");*/
+		if (by === "Next" || by === "Choice") {
+			const currentMsg = active.msgs[active.current];
 
-		if ("choices" in currentMsg) {
-			console.warn("Choice should not end a dialogue (probably)");
-		} else if ("next" in currentMsg) {
-			//current = currentMsg.next as number;
-			const nextMsg = active.msgs[currentMsg.next as number];
+			if ("choices" in currentMsg) {
+				console.warn("Choice should not end a dialogue (probably)");
+			} else if ("next" in currentMsg) {
+				//current = currentMsg.next as number;
+				const nextMsg = active.msgs[currentMsg.next as number];
 
-			console.log(nextMsg);
-			if (nextMsg === undefined) {
-				console.log("pass");
-				endDialogue();
+				console.log(nextMsg);
+				if (nextMsg === undefined) {
+					console.log("pass");
+					endDialogue();
+				}
+			} else {
+				console.error("Invalid message type");
+				return;
 			}
 		} else {
-			console.error("Invalid message type");
-			return;
+			// Ended by close button
+			console.log("Closed dialogue");
+			endDialogue();
 		}
 	}
 </script>
@@ -99,5 +102,6 @@
 		min-height: 10rem; /* attempt to have the box same size always */
 		position: relative;
 		overflow: visible;
+		min-width: 300px;
 	}
 </style>

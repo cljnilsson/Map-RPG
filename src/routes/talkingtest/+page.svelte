@@ -37,7 +37,8 @@
 	function makeDialogue(msgs: Message[]) {
 		new DialogueController({
 			msgs: msgs,
-			player: you
+			player: you,
+			canClose: true
 		});
 	}
 </script>
