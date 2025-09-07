@@ -25,7 +25,7 @@
 		//DialogueController.inDialogue = false;
 	}
 
-	function checkEnd() {
+	function checkEnd(by: "Next" | "Close" | "Choice") {
 		if (!active) {
 			return;
 		}
@@ -81,7 +81,7 @@
 								{#if dev}({active.current}){/if}
 							</h5>
 							<DialogueBody player={active.player} bind:current={active.current} bind:msgs={active.msgs} onEnd={checkEnd} />
-							<DialogueButtons msgs={active.msgs} bind:current={active.current} onEnd={checkEnd} />
+							<DialogueButtons msgs={active.msgs} bind:current={active.current} onEnd={checkEnd} canClose={active.canClose} />
 						</div>
 					</div>
 				</div>

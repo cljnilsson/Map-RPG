@@ -26,7 +26,7 @@
 		return flags.find((flag) => flag.name === name)?.value;
 	}
 
-	let tutorialCompleted = false; //$state(getFlagByName("tutorialCompleted"));
+	let tutorialCompleted = true; //$state(getFlagByName("tutorialCompleted"));
 
 	onMount(() => {
 		// Will load from DB eventually

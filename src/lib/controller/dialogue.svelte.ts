@@ -6,6 +6,7 @@ type DialogueArgs = {
 	player: CharSprite;
 	onEnd?: () => void;
 	current?: number;
+	canClose?: boolean;
 };
 
 let all: DialogueController[] = $state([]);
@@ -15,12 +16,14 @@ export default class DialogueController {
 	private _player: CharSprite;
 	private _onEnd?: () => void;
 	private _current: number = $state(-1);
+	private _canClose: boolean = $state(false);
 
-	constructor({msgs, player, onEnd = () => this.defaultOnEnd(), current = 0}: DialogueArgs) {
+	constructor({ msgs, player, onEnd = () => this.defaultOnEnd(), current = 0, canClose = false }: DialogueArgs) {
 		this._msgs = msgs;
 		this._player = player;
 		this._onEnd = onEnd;
 		this._current = current;
+		this._canClose = canClose;
 		all = [...all, this];
 	}
 
@@ -56,6 +59,14 @@ export default class DialogueController {
 		this._msgs = v;
 	}
 
+	public get canClose() {
+		return this._canClose;
+	}
+
+	public set canClose(v: boolean) {
+		this._canClose = v;
+	}
+
 	public get player() {
 		return this._player;
 	}
@@ -77,7 +88,7 @@ export default class DialogueController {
 	// ---------------
 
 	public next(): DialogueController | undefined {
-		if(all.length === 1) {
+		if (all.length === 1) {
 			return undefined;
 		}
 

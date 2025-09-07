@@ -4,15 +4,16 @@
 	let {
 		current = $bindable(),
 		msgs,
-		onEnd
-	}: { current: number; msgs: Message[]; onEnd: () => void } = $props();
+		onEnd,
+		canClose = false
+	}: { current: number; msgs: Message[]; onEnd: (by: "Next" | "Close") => void, canClose: boolean } = $props();
 
 	function next() {
 		const msg = msgs[current];
 		if (msg.type === "text") {
 			if (!msg.next || msg.next === -1) {
 				if (onEnd) {
-					onEnd();
+					onEnd("Next");
 				}
 			} else {
 				current = msg.next;
@@ -22,12 +23,21 @@
 		}
 	}
 
+	function close() {
+		if (onEnd) {
+			onEnd("Close");
+		}
+	}
+
 	function prev() {
 		if (current > 0) current--;
 	}
 </script>
 
 <div class="button-container">
+	{#if canClose}
+		<button class="btn btn-dark" onclick={close}>Leave</button>
+	{/if}
 	<button class="btn btn-dark" onclick={prev} disabled={current === 0}>Previous</button>
 	<button class="btn btn-dark" onclick={next} disabled={msgs[current].type === "choice"}>Next</button>
 </div>

@@ -6,7 +6,7 @@
 		player,
 		current = $bindable(),
 		onEnd
-	}: { msgs: Message[]; player: CharSprite; current: number; onEnd?: () => void } = $props();
+	}: { msgs: Message[]; player: CharSprite; current: number; onEnd?: (by: "Next" | "Close" | "Choice") => void } = $props();
 
 	async function selectChoice(choice: ChoiceOption) {
 		if (choice.onChoice) {
@@ -18,12 +18,11 @@
 		if (choice.next) {
 			current = choice.next;
 		} else {
-			console.warn("Is undefined, might be unwaranted");
+			console.warn("Is undefined, might be unwaranted, ending with choice node?");
+			if (onEnd) {
+				onEnd("Choice");
+			}
 		}
-
-		/*if (onEnd) {
-			onEnd();
-		}*/
 	}
 </script>
 
