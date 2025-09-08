@@ -6,6 +6,7 @@ import AdventureGuild from "$lib/features/buildings/adventure-guild/adventure-gu
 import BeastPen from "$lib/features/buildings/beast-pen/beast-pen.svelte";
 import Inn from "$lib/features/buildings/inn/inn.svelte";
 import Storage from "$lib/features/buildings/storage/storage.svelte";
+import Bank from "$lib/features/buildings/bank/bank.svelte";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -145,7 +146,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 150,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: Bank
 	}),
 	"slave-market": (): Building => ({
 		id: "slave-market",

@@ -6,8 +6,15 @@
 		inventory = $bindable(),
 		selectedItem = $bindable(),
 		item = $bindable(),
-		currentSearchTerm
-	}: { inventory: InventoryItem[]; selectedItem: InventoryItem | null; item: InventoryItem; currentSearchTerm: string } = $props();
+		currentSearchTerm,
+		mode
+	}: {
+		inventory: InventoryItem[];
+		selectedItem: InventoryItem | null;
+		item: InventoryItem;
+		currentSearchTerm: string;
+		mode: "Normal" | "Bank";
+	} = $props();
 
 	function onSelect() {
 		if (selectedItem === item) {
@@ -19,22 +26,28 @@
 
 	function onClick(e: MouseEvent) {
 		e.preventDefault();
-		if (isUsableItem(item.item)) {
-			console.log("Trying to activiate item: ", item.item.name, " amount: ", item.amount);
-			const usedSuccessfully = item.item.onUse();
+		if (mode === "Normal") {
+			if (isUsableItem(item.item)) {
+				console.log("Trying to activiate item: ", item.item.name, " amount: ", item.amount);
+				const usedSuccessfully = item.item.onUse();
 
-			// Ideally want to automate this later
-			if (usedSuccessfully) {
-				if (item.item.consumable) {
-					item.amount -= 1;
-					if (item.amount <= 0) {
-						inventory = inventory.filter((i) => i.item.name !== item.item.name);
-						if (selectedItem?.item.name === item.item.name) {
-							selectedItem = null;
+				// Ideally want to automate this later
+				if (usedSuccessfully) {
+					if (item.item.consumable) {
+						item.amount -= 1;
+						if (item.amount <= 0) {
+							inventory = inventory.filter((i) => i.item.name !== item.item.name);
+							if (selectedItem?.item.name === item.item.name) {
+								selectedItem = null;
+							}
 						}
 					}
 				}
 			}
+		} else if (mode === "Bank") {
+			console.log("xoxo");
+		} else {
+			console.error("Invalid mode");
 		}
 	}
 
@@ -65,7 +78,7 @@
 		{#if item.item.iconPath}
 			<div class="icon-wrapper">
 				<img src={item.item.iconPath} alt={item.item.name} width="64" height="64" />
-				<img src="/highlight.png" alt="A gentle glow to indicate the quality of the hovered item based on color" class="glow"/>
+				<img src="/highlight.png" alt="A gentle glow to indicate the quality of the hovered item based on color" class="glow" />
 			</div>
 		{:else}
 			<i class={item.item.iconClass}></i>
@@ -134,7 +147,6 @@
 					opacity: 0;
 					transition: opacity 0.1s ease;
 					pointer-events: none; // prevent glow from blocking hover
-					
 				}
 			}
 

@@ -3,22 +3,30 @@
 	import InventoryItemComponent from "$lib/features/inventory/inventoryItem.svelte";
 	import type { InventoryItem } from "$lib/types/item";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import {q2c} from "$lib/utils/itemQuality";
+	import { q2c } from "$lib/utils/itemQuality";
+
+	let { title = "" }: { title?: string } = $props();
 
 	const rows = 8;
 	const slots = 6 * rows;
 
 	let selectedItem: InventoryItem | null = $state(null);
 	let searchString: string = $state("");
+	let mode: "Normal" | "Bank" = $state("Normal");
 
 	$effect(() => {
 		$inspect(selectedItem);
 	});
 </script>
 
-<div class="row justify-content-end">
-	<div class="col-xl-5 col-md-6">
-		<input type="text" class="form-control mb-3" placeholder="Search inventory..." bind:value={searchString} />
+<div class="row align-items-center pb-3">
+	{#if title.length > 0}
+		<div class="col text-start ps-4">
+			<h5 class="mb-0">{title}</h5>
+		</div>
+	{/if}
+	<div class="col d-flex justify-content-end pe-4">
+		<input type="text" class="form-control w-auto" placeholder="Search inventory..." bind:value={searchString} />
 	</div>
 </div>
 <div class="row gx-2 gy-2">
@@ -37,6 +45,7 @@
 						bind:item={inventory[index]}
 						currentSearchTerm={searchString}
 						bind:selectedItem
+						{mode}
 					/>
 				</Tooltip>
 			{:else}
@@ -45,6 +54,7 @@
 					bind:item={inventory[index]}
 					currentSearchTerm={searchString}
 					bind:selectedItem
+					{mode}
 				/>
 			{/if}
 		</div>
