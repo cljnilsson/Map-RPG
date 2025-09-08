@@ -5,7 +5,7 @@
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
 	import { q2c } from "$lib/utils/itemQuality";
 
-	let { title = "" }: { title?: string } = $props();
+	let { title = "", showEmptySlots = true, showMoney = true }: { title?: string, showEmptySlots?: boolean, showMoney?: boolean } = $props();
 
 	const rows = 8;
 	const slots = 6 * rows;
@@ -13,6 +13,7 @@
 	let selectedItem: InventoryItem | null = $state(null);
 	let searchString: string = $state("");
 	let mode: "Normal" | "Bank" = $state("Normal");
+	let array = $derived([...Array(showEmptySlots ? slots : CharacterStore.inventory.length)]);
 
 	$effect(() => {
 		$inspect(selectedItem);
@@ -30,7 +31,7 @@
 	</div>
 </div>
 <div class="row gx-2 gy-2">
-	{#each [...Array(slots)] as i, index}
+	{#each array as i, index}
 		{@const inventory = CharacterStore.inventory}
 		<div class="col-2 d-flex justify-content-center align-items-center">
 			{#if inventory[index]}
@@ -60,13 +61,15 @@
 		</div>
 	{/each}
 </div>
-<div class="row justify-content-end money mt-2">
-	<div class="col-auto d-flex align-items-center">
-		<img src="/items/coin1.jpg" alt="Copper coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.copper}</span>
-		<img src="/items/coin2.jpg" alt="Silver coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.silver}</span>
-		<img src="/items/coin3.jpg" alt="Gold coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.gold}</span>
+{#if showMoney}
+	<div class="row justify-content-end money mt-2">
+		<div class="col-auto d-flex align-items-center">
+			<img src="/items/coin1.jpg" alt="Copper coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.copper}</span>
+			<img src="/items/coin2.jpg" alt="Silver coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.silver}</span>
+			<img src="/items/coin3.jpg" alt="Gold coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.gold}</span>
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.money {
