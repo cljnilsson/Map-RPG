@@ -5,9 +5,8 @@
 	import Inventory from "$lib/features/inventory/inventory.svelte";
 	import Storage from "$lib/features/buildings/bank/storage.svelte";
 
-	const { level, building }: {level: number, building: Omit<Building, "componentOnClick">} = $props();
-
-    let maxLoan = $state(5000);
+	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
+	let maxLoan = $state(5000);
 	let currentLoans: {
 		full: number;
 		paid: number;
@@ -15,7 +14,7 @@
 	}[] = $state([]);
 	const tabs = [
 		{ title: "Loans", target: "loans" },
-		{ title: "Storage", target: "storage" },
+		{ title: "Storage", target: "storage" }
 	];
 </script>
 
@@ -24,14 +23,10 @@
 		<Tab id={tabs[0].target} first={true}>
 			<h4>Loans</h4>
 			<div class="row border justify-content-center">
-				{#each currentLoans as loan}
-					<div class="col">
-						wow!
-					</div>
+				{#each currentLoans as loan, index (index)}
+					<div class="col">wow!</div>
 				{:else}
-					<div class="col">
-						No loans yet!
-					</div>
+					<div class="col">No loans yet!</div>
 				{/each}
 			</div>
 		</Tab>

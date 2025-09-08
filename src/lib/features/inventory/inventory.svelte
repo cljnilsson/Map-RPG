@@ -4,8 +4,13 @@
 	import type { InventoryItem } from "$lib/types/item";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
 	import { q2c } from "$lib/utils/itemQuality";
+	import ItemGrid from "$lib/components/itemGrid.svelte";
 
-	let { title = "", showEmptySlots = true, showMoney = true }: { title?: string, showEmptySlots?: boolean, showMoney?: boolean } = $props();
+	let {
+		title = "",
+		showEmptySlots = true,
+		showMoney = true
+	}: { title?: string; showEmptySlots?: boolean; showMoney?: boolean } = $props();
 
 	const rows = 8;
 	const slots = 6 * rows;
@@ -13,7 +18,7 @@
 	let selectedItem: InventoryItem | null = $state(null);
 	let searchString: string = $state("");
 	let mode: "Normal" | "Bank" = $state("Normal");
-	let array = $derived([...Array(showEmptySlots ? slots : CharacterStore.inventory.length)]);
+	let size: number = $derived(showEmptySlots ? slots : CharacterStore.inventory.length);
 
 	$effect(() => {
 		$inspect(selectedItem);
@@ -30,42 +35,32 @@
 		<input type="text" class="form-control w-auto" placeholder="Search inventory..." bind:value={searchString} />
 	</div>
 </div>
-<div class="row gx-2 gy-2">
-	{#each array as i, index}
-		{@const inventory = CharacterStore.inventory}
-		<div class="col-2 d-flex justify-content-center align-items-center">
-			{#if inventory[index]}
-				<Tooltip>
-					{#snippet tooltip()}
-						<h5 style={"color: " + q2c(inventory[index].item) + ";"}>{inventory[index].item.name}</h5>
-						<p>{inventory[index].item.description}</p>
-					{/snippet}
+<ItemGrid items={CharacterStore.inventory} {size}>
+	{#snippet item(gridItem)}
+		<Tooltip>
+			{#snippet tooltip()}
+				<h5 style={"color: " + q2c(gridItem.item) + ";"}>{gridItem.item.name}</h5>
+				<p>{gridItem.item.description}</p>
+			{/snippet}
 
-					<InventoryItemComponent
-						bind:inventory={CharacterStore.inventory}
-						bind:item={inventory[index]}
-						currentSearchTerm={searchString}
-						bind:selectedItem
-						{mode}
-					/>
-				</Tooltip>
-			{:else}
-				<InventoryItemComponent
-					bind:inventory={CharacterStore.inventory}
-					bind:item={inventory[index]}
-					currentSearchTerm={searchString}
-					bind:selectedItem
-					{mode}
-				/>
-			{/if}
-		</div>
-	{/each}
-</div>
+			<InventoryItemComponent
+				bind:inventory={CharacterStore.inventory}
+				item={gridItem}
+				currentSearchTerm={searchString}
+				bind:selectedItem
+				{mode}
+			/>
+		</Tooltip>
+	{/snippet}
+</ItemGrid>
+
 {#if showMoney}
 	<div class="row justify-content-end money mt-2">
 		<div class="col-auto d-flex align-items-center">
-			<img src="/items/coin1.jpg" alt="Copper coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.copper}</span>
-			<img src="/items/coin2.jpg" alt="Silver coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.silver}</span>
+			<img src="/items/coin1.jpg" alt="Copper coin" height="24" />
+			<span class="coin-text">{CharacterStore.character.money.copper}</span>
+			<img src="/items/coin2.jpg" alt="Silver coin" height="24" />
+			<span class="coin-text">{CharacterStore.character.money.silver}</span>
 			<img src="/items/coin3.jpg" alt="Gold coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.gold}</span>
 		</div>
 	</div>

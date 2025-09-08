@@ -5,7 +5,7 @@
 	let {
 		inventory = $bindable(),
 		selectedItem = $bindable(),
-		item = $bindable(),
+		item,
 		currentSearchTerm,
 		mode
 	}: {

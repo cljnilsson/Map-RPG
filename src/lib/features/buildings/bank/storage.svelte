@@ -4,17 +4,16 @@
     import Tooltip from "$lib/features/tooltip/tooltip.svelte";
 	import {q2c} from "$lib/utils/itemQuality";
 	import type { Building } from "$lib/types/building";
-
-    let maxLoan = $state(5000);
-	let currentLoans: {
-		full: number;
-		paid: number;
-		interestRate: number;
-	}[] = $state([]);
-	const tabs = [
-		{ title: "Loans", target: "loans" },
-		{ title: "Storage", target: "storage" },
-	];
+    import ItemGrid from "$lib/components/itemGrid.svelte";
+    
+	const rows = 8;
+	const slots = 6 * rows;
+    let arrayDemo = [1, 2, 3]
 </script>
 
-stuff
+
+<ItemGrid items={arrayDemo} size={slots}>
+    {#snippet item(test: number)}
+        {test}
+    {/snippet}
+</ItemGrid>
