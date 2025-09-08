@@ -63,7 +63,10 @@
 			<small>{item.amount}</small>
 		{/if}
 		{#if item.item.iconPath}
-			<img src={item.item.iconPath} alt={item.item.name} width="64" height="64" />
+			<div class="icon-wrapper">
+				<img src={item.item.iconPath} alt={item.item.name} width="64" height="64" />
+				<img src="/highlight.png" alt="A gentle glow to indicate the quality of the hovered item based on color" class="glow"/>
+			</div>
 		{:else}
 			<i class={item.item.iconClass}></i>
 		{/if}
@@ -114,10 +117,31 @@
 			}
 		}
 
-		img {
+		.icon-wrapper {
+			position: relative;
+			width: 64px;
+			height: 64px;
+
+			img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 64px;
+				height: 64px;
+				display: block;
+
+				&.glow {
+					opacity: 0;
+					transition: opacity 0.1s ease;
+					pointer-events: none; // prevent glow from blocking hover
+					
+				}
+			}
+
 			&:hover {
-				filter: brightness(0.8) sepia(1) hue-rotate(-50deg) saturate(2);
-				cursor: pointer;
+				.glow {
+					opacity: 1;
+				}
 			}
 		}
 	}

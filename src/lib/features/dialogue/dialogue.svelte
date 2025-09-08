@@ -102,6 +102,6 @@
 		min-height: 10rem; /* attempt to have the box same size always */
 		position: relative;
 		overflow: visible;
-		min-width: 300px;
+		min-width: 300px; /* To ensure the buttons have space */
 	}
 </style>
