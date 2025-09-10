@@ -6,6 +6,7 @@
 	import type { Resource } from "$lib/types/resource";
 	import Storage from "$lib/features/buildings/bank/storage.svelte";
 	import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
+	import dayjs from "dayjs";
 
 	/*
 	TODO
@@ -22,6 +23,8 @@
 		full: number;
 		paid: number;
 		interestRate: number;
+		resource: Resource;
+		date: Date;
 	}[] = $state([]);
 	let tradeFor = $state<Resource | undefined>(undefined);
 	let toLoan: number | undefined = $state(undefined);
@@ -30,6 +33,26 @@
 		{ title: "Loans", target: "loans" },
 		{ title: "Storage", target: "storage" }
 	];
+
+	function newLoan() {
+		if (!toLoan || !tradeFor) {
+			return;
+		}
+
+		currentLoans = [
+			...currentLoans,
+			{
+				full: toLoan,
+				paid: 0,
+				interestRate: 0,
+				resource: tradeFor,
+				date: new Date()
+			}
+		];
+
+		toLoan = 0;
+		tradeFor = undefined;
+	}
 </script>
 
 <div class="py-5">
@@ -41,24 +64,27 @@
 					<ResourceSelection bind:selectedResource={tradeFor} />
 				</div>
 			</div>
-			<div class="input-group mb-3">
-				<input
-					type="number"
-					class="form-control"
-					bind:value={toLoan}
-					placeholder={!tradeFor ? "Amount to loan" : "Amount " + tradeFor.name + " to loan"}
-					aria-label="Amount of resource(s) to loan"
-					aria-describedby="button-new-loan"
-				/>
-				<button class="btn btn-outline-secondary" type="button" id="button-new-loan">Loan!</button>
+			<div class="row justify-content-center">
+				<div class="col-7 px-0">
+					<div class="input-group mb-3">
+						<input
+							type="number"
+							class="form-control"
+							bind:value={toLoan}
+							placeholder={!tradeFor ? "Amount to loan" : "Amount " + tradeFor.name + " to loan"}
+							aria-label="Amount of resource(s) to loan"
+							aria-describedby="button-new-loan"
+						/>
+						<button class="btn btn-outline-dark" type="button" id="button-new-loan" onclick={newLoan}>Loan!</button>
+					</div>
+				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col">
-					<table class="table">
+					<table class="table table-secondary">
 						<thead>
 							<tr>
 								<th scope="col">Resource(s)</th>
-								<th scope="col">Amount</th>
 								<th scope="col">Date</th>
 								<th scope="col">Paid</th>
 							</tr>
@@ -66,11 +92,9 @@
 						<tbody>
 							{#each currentLoans as loan, index (index)}
 								<tr>
-									<td> </td>
-								</tr>
-							{:else}
-								<tr>
-									<td>No loans yet!</td>
+									<td>{loan.resource.name}</td>
+									<td>{dayjs(loan.date).format("MM/DD hh:ss")}</td>
+									<td>{loan.paid} / {loan.full}</td>
 								</tr>
 							{/each}
 						</tbody>
