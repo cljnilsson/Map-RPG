@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import type { LayoutData } from "$lib/types/layoutData";
+	import { resolve } from "$app/paths";
 
 	let { data }: { data: LayoutData } = $props();
 
@@ -23,19 +24,19 @@
 </script>
 
 <nav class="text-center">
-	<a href="/">Overview</a>
-	<a href="/map">Map</a>
-	<a href="/dice">Dice demo</a>
-	<a href="/talkingtest">Dialogue demo</a>
-	<a href="/creator">Creator demo</a>
+	<a href={resolve("/")}>Overview</a>
+	<a href={resolve("/map")}>Map</a>
+	<a href={resolve("/dice")}>Dice demo</a>
+	<a href={resolve("/talkingtest")}>Dialogue demo</a>
+	<a href={resolve("/creator")}>Creator demo</a>
 	{#if isLoggedIn}
 		<form method="POST" action="/api/logout" style="display: inline;" use:enhance>
 			<button type="submit" class="btn btn-link p-0 m-0 align-baseline"> Logout </button>
 		</form>
 	{:else}
-		<a href="/login">Login</a>
+		<a href={resolve("/login")}>Login</a>
 	{/if}
-	<a href="/data">Data Visualizer</a>
+	<a href={resolve("/data")}>Data Visualizer</a>
 </nav>
 
 <style lang="scss">

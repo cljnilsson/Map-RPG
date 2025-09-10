@@ -29,7 +29,7 @@
 	style="z-index: 1050;"
 	class:d-none={DialogueController.inDialogue}
 >
-	{#each menuItems as { iconPath, name, label, cityOnly }}
+	{#each menuItems as { iconPath, name, label, cityOnly } (name)}
 		<Icon
 			{iconPath}
 			alt=""

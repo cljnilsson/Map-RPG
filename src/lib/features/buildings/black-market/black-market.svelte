@@ -31,7 +31,7 @@
 </script>
 
 <div class="row border justify-content-center">
-    {#each currentlyOnOffer as item}
+    {#each currentlyOnOffer as item (item.id)}
         <div class="col-auto my-3">
             <Tooltip>
                 {#snippet tooltip()}

@@ -25,7 +25,7 @@
 		<h4 class="my-2">Log</h4>
 	{/snippet}
 	{#snippet body()}
-		{#each currentLogs as logEntry}
+		{#each currentLogs as logEntry, i (i)}
 			<p>[{dayjs(logEntry.timestamp).format("HH:mm")}] {logEntry.message}</p>
 		{/each}
 	{/snippet}

@@ -31,7 +31,7 @@
 </script>
 
 <div class="row justify-content-center align-items-center my-5">
-	{#each CityController.resources as resource}
+	{#each CityController.resources as resource (resource.name)}
 		<div class="col-auto">
 			<Tooltip>
 				{#snippet tooltip()}

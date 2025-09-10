@@ -7,14 +7,14 @@
 
 <div class="rewards">
 	<h5>Rewards:</h5>
-	{#each active.rewardResources as resource}
+	{#each active.rewardResources as resource (resource.name)}
 		<p>
 			<img src={resource.icon} alt={resource.name} />
 			{resource.amount}
 			{resource.name}
 		</p>
 	{/each}
-	{#each active.rewardItems as item}
+	{#each active.rewardItems as item (item.name)}
 		<div class="row my-3">
 			<div class="col-auto position-relative d-inline-block">
 				<Tooltip>

@@ -52,7 +52,7 @@
 </script>
 
 {#if MapController.currentMapState}
-	{#each MapController.currentMapState.contains as rect}
+	{#each MapController.currentMapState.contains as rect(rect.map.name)}
 		{#if MapController.editMode}
 			<Draggable
 				locked={false}
@@ -83,7 +83,7 @@
 		{/if}
 	{/each}
 	{#if isCityMap(MapController.currentMapState.map)}
-		{#each MapController.currentMapState.map.city.plots as plot, i}
+		{#each MapController.currentMapState.map.city.plots as plot, i (i)}
 			{#if plot.building === undefined}
 				<div style="position: absolute; left: {plot.x}px; top: {plot.y}px;">
 					<PlotClickBox

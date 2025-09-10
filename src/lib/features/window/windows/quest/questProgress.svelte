@@ -6,7 +6,7 @@
 
 <div class="py-3">
     <ul>
-        {#each active.progressGoals as goal, index}
+        {#each active.progressGoals as goal, index (goal)}
             <li class:muted={index < active.progress}>{goal}</li>
         {/each}
     </ul>

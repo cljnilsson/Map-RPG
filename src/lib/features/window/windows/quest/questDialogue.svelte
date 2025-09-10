@@ -5,7 +5,7 @@
     let {active} : {active: Quest} = $props();
 </script>
 
-{#each active.dialogue as d}
+{#each active.dialogue as d, i (i)}
 	<div class="questDialogue">
 		{#if isMessageText(d)}
 			<p><b>{d.from.name}</b>: {d.text}</p>

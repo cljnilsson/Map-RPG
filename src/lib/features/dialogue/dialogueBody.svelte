@@ -35,7 +35,7 @@
 		class:choice-grid-md={(msgs[current] as ChoiceMessage).choices.length > 4 && (msgs[current] as ChoiceMessage).choices.length < 8}
 		class:choice-grid-lg={(msgs[current] as ChoiceMessage).choices.length >= 8}
 	>
-		{#each (msgs[current] as ChoiceMessage).choices as choice}
+		{#each (msgs[current] as ChoiceMessage).choices as choice (choice.text)}
 			<button class="choice-btn btn btn-sm btn-outline-primary" onclick={() => selectChoice(choice)}>
 				{choice.text}
 			</button>

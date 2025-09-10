@@ -27,7 +27,7 @@
 		<h4 class="my-2">Navigation</h4>
 	{/snippet}
 	{#snippet body()}
-		{#each MapController.currentMapState.contains as map}
+		{#each MapController.currentMapState.contains as map (map.map.name)}
 			<p onmouseenter={() => handleHover(map)} onmouseleave={() => (MapController.currentNavigationHover = null)}>
 				{map.map.name}
 			</p>

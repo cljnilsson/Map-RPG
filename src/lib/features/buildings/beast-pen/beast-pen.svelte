@@ -30,7 +30,7 @@
 	<Tabs {tabs}>
 		<Tab id={tabs[0].target} first={true}>
 			<h4>Pen</h4>
-			{#each beasts as beast}
+			{#each beasts as beast(beast.name)}
 				<div class="beast-item my-3">
 					<div class="row">
 						<div class="col-auto">
@@ -64,7 +64,7 @@
 		<Tab id={tabs[2].target}>
 			<h4>Beastiary</h4>
 			<div class="row">
-				{#each beastKnowledge as beast}
+				{#each beastKnowledge as beast (beast.name)}
 					<div class="col-auto">
 						<ClickableElement onClickCallback={() => (selectedBeast = beast.name)}>
 							<img src={beast.icon} alt={beast.name} />
@@ -77,7 +77,7 @@
 					<div class="row mt-3">
 						<div class="col">
 							<h5>{foundBeast?.name ?? ""}</h5>
-							{#each foundBeast?.description ?? [] as line}
+							{#each foundBeast?.description ?? [] as line, i (i)}
 								<p>{line}</p>
 							{/each}
 						</div>

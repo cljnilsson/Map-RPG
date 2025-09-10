@@ -8,7 +8,7 @@
 </script>
 
 <div class="row align-items-center my-2">
-	{#each CityController.resources as resource, i}
+	{#each CityController.resources as resource, i (resource)}
 		<div
 			class="col-4 my-1
 				{i % 3 === 1 ? ' text-center' : ''}

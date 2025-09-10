@@ -145,7 +145,7 @@
 							</div>
 							<div class="row mt-5">
 								<div class="col text-center">
-									Suggested stats: {#each selectedClass?.suggestedStats ?? [] as stat, index}
+									Suggested stats: {#each selectedClass?.suggestedStats ?? [] as stat, index (stat)}
 										<strong>{stat}</strong>{index < (selectedClass?.suggestedStats?.length ?? 0) - 1 ? ", " : ""}
 									{/each}
 								</div>
@@ -222,9 +222,9 @@
 									</div>
 								</div>
 							</div>
-							{#each Array.from({ length: Math.ceil(avatarList.length / 3) }) as _, i}
+							{#each Array.from({ length: Math.ceil(avatarList.length / 3) }) as _, i (i)}
 								<div class="row justify-content-center">
-									{#each avatarList.slice(i * 3, i * 3 + 3) as tavatar}
+									{#each avatarList.slice(i * 3, i * 3 + 3) as tavatar (tavatar)}
 										<div class="col-3 text-center my-2">
 											<ClickableElement onClickCallback={() => (avatar = tavatar)}>
 												<img src={tavatar} alt="Character avatar" width="100px" height="100px" />
