@@ -4,7 +4,7 @@ import { loans } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
 
-async function getLoans() {
+async function getAllLoans() {
 	return await db.query.loans.findMany({
 		with: {
 			city: true,
@@ -13,11 +13,23 @@ async function getLoans() {
 	});
 }
 
-async function updateLoan(cityDataId: number, resourceId: number, value: number): Promise<boolean> {
+async function updateOneLoan(cityDataId: number, resourceId: number, value: number): Promise<boolean> {
 	const rows = await db
 		.update(loans)
 		.set({ paid: value })
 		.where(and(eq(loans.cityId, cityDataId), eq(loans.resourceId, resourceId)));
+
+	return rows.changes > 0;
+}
+
+async function createLoan(full: number, resourceId: number, cityId: number) {
+	const rows = await db
+		.insert(loans).values([{
+			full: full,
+			paid: 0,
+			cityId: cityId,
+			resourceId: resourceId,
+		}]);
 
 	return rows.changes > 0;
 }
@@ -30,7 +42,7 @@ type GetReturnType = {
 };
 
 async function get(): Promise<GetReturnType[]> {
-	const existing = await getLoans();
+	const existing = await getAllLoans();
 
 	const loans = existing.map(({ resource, paid, full, timestamp }) => ({
 		paid,
@@ -49,27 +61,42 @@ const LoanSchema = v.object({
 	value: v.pipe(v.number(), v.integer(), v.toMinValue(0))
 });
 
-const LoanArraySchema = v.array(LoanSchema);
 
-type LoanArrayData = v.InferOutput<typeof LoanArraySchema>;
+type LoanData = v.InferOutput<typeof LoanSchema>;
 
-async function post(body: LoanArrayData) {
+async function createPost(body: LoanData) {
 	console.log(body);
-	const failed: LoanArrayData = [];
-	
-	for (const resource of body) {
-		const success = updateLoan(resource.cityDataId, resource.resourceId, resource.value);
-		if(!success) {
-			failed.push(resource);
-		}
-	}
+	let failed: LoanData | false = false;
 
-	if(failed.length > 0) {
+	const success = createLoan(body.cityDataId, body.resourceId, body.value);
+	if(!success) {
+		failed = body;
+	}
+	
+	if(failed) {
 		return { success: false, failed };
 	}
 	
 	return { success: true };
 }
 
-export const postResources = command(LoanArraySchema, post);
-export const getResources = query(get);
+async function updatePost(body: LoanData) {
+	console.log(body);
+	let failed: LoanData | false = false;
+
+	const success = updateOneLoan(body.cityDataId, body.resourceId, body.value);
+	if(!success) {
+		failed = body;
+	}
+	
+
+	if(failed) {
+		return { success: false, failed };
+	}
+	
+	return { success: true };
+}
+
+export const postLoan = command(LoanSchema, createPost);
+export const updateLoan = command(LoanSchema, updatePost);
+export const getLoans = query(get);

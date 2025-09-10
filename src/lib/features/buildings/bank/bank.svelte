@@ -7,6 +7,8 @@
 	import Storage from "$lib/features/buildings/bank/storage.svelte";
 	import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
 	import dayjs from "dayjs";
+	import { onMount } from "svelte";
+	import { getLoans, postLoan } from "$lib/api/loans.remote";
 
 	/*
 		TODO
@@ -44,21 +46,30 @@
 			console.warn("Too many existing loans or the amount is too large");
 			return;
 		}
+		const newLoan = {
+			full: toLoan,
+			paid: 0,
+			interestRate: 0,
+			resource: tradeFor,
+			date: new Date()
+		};
 
-		currentLoans = [
-			...currentLoans,
-			{
-				full: toLoan,
-				paid: 0,
-				interestRate: 0,
-				resource: tradeFor,
-				date: new Date()
-			}
-		];
+		currentLoans = [...currentLoans, newLoan];
 
 		toLoan = 0;
 		tradeFor = undefined;
+
+		postLoan({
+			cityDataId: 1,
+			resourceId: 1,
+			value: newLoan.full
+		});
 	}
+
+	onMount(async () => {
+		const allLoans = await getLoans();
+		console.log(allLoans);
+	});
 </script>
 
 <div class="py-5">
