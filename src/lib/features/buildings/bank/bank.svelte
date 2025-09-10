@@ -9,16 +9,17 @@
 	import dayjs from "dayjs";
 
 	/*
-	TODO
-	allow multiple resources in one loan
-	allow toggle
-	set inventorty mode to storage to modify click behavior
-	storage controller?
-	storage db schema
-*/
+		TODO
+		allow multiple resources in one loan
+		allow toggle
+		set inventorty mode to storage to modify click behavior
+		storage controller?
+		storage db schema
+	*/
 
 	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
-	let maxLoan = $state(5000);
+	let maxLoanAmount = $state(5000);
+	let maxLoans = $state(5);
 	let currentLoans: {
 		full: number;
 		paid: number;
@@ -36,6 +37,11 @@
 
 	function newLoan() {
 		if (!toLoan || !tradeFor) {
+			return;
+		}
+
+		if (currentLoans.length < maxLoans || toLoan >= maxLoanAmount) {
+			console.warn("Too many existing loans or the amount is too large");
 			return;
 		}
 
@@ -75,7 +81,13 @@
 							aria-label="Amount of resource(s) to loan"
 							aria-describedby="button-new-loan"
 						/>
-						<button class="btn btn-outline-dark" type="button" id="button-new-loan" onclick={newLoan}>Loan!</button>
+						<button
+							class="btn btn-outline-dark"
+							type="button"
+							id="button-new-loan"
+							onclick={newLoan}
+							disabled={!tradeFor || !toLoan}>Loan!</button
+						>
 					</div>
 				</div>
 			</div>

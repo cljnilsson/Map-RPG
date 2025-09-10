@@ -91,7 +91,6 @@ export const cityData = sqliteTable("cityData", {
 		.references(() => characters.id),
 	population: integer("population").notNull().default(1),
 	workers: integer("workers").notNull().default(0)
-	// Add the roles once defined, e.g soldiers, merchants, smiths, priests etc
 });
 
 export const windowPositions = sqliteTable("windowPositions", {
@@ -191,6 +190,23 @@ export const resources = sqliteTable(
 	})
 );
 
+export const loans = sqliteTable(
+	"loans",
+	{
+		id: integer("id").primaryKey({ autoIncrement: true }),
+		cityId: integer("cityData_id")
+			.notNull()
+			.references(() => cityData.id),
+		resourceId: integer("resource_id")
+			.notNull()
+			.references(() => resource.id),
+		paid: integer("paid").notNull(),
+		full: integer("full").notNull(),
+		timestamp: text().notNull().default(sql`(CURRENT_TIMESTAMP)`)
+	}
+);
+
+
 // RELATIONS
 
 export const userRelations = relations(user, ({ many }) => ({
@@ -201,7 +217,8 @@ export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 	resources: many(resources),
 	city: one(city, { fields: [cityData.cityId], references: [city.id] }),
 	units: many(units),
-	plots: many(plot)
+	plots: many(plot),
+	loans: many(loans),
 }));
 
 export const plotRelations = relations(plot, ({ one }) => ({
@@ -237,6 +254,17 @@ export const resourcesRelations = relations(resources, ({ one }) => ({
 		fields: [resources.resourceId],
 		references: [resource.id]
 	})
+}));
+
+export const loanRelations = relations(loans, ({ one }) => ({
+	city: one(cityData, {
+	  fields: [loans.cityId],
+	  references: [cityData.id],
+	}),
+	resource: one(resource, {
+	  fields: [loans.resourceId],
+	  references: [resource.id],
+	}),
 }));
 
 export const itemRelations = relations(items, ({ one }) => ({
