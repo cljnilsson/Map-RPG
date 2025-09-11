@@ -1,6 +1,6 @@
 import CityStore from "$lib/stores/city.svelte";
 import MapController from "$lib/controller/map.svelte";
-import type {City} from "$lib/types/city";
+//import type {City} from "$lib/types/city";
 import type {Unit} from "$lib/types/unit";
 import type {CityResource, Resource} from "$lib/types/resource";
 import { LogController } from "$lib/controller/logs.svelte";
@@ -59,7 +59,7 @@ export class CityController {
 		const found = CityStore.resources.find((v) => v.name === resource);
 
 		if (!found) {
-			throw Error("Requesting city resource that does not exist");
+			throw Error("Requesting city resource that does not exist: " + resource);
 		}
 
 		return found;
@@ -69,7 +69,7 @@ export class CityController {
 		const toUpdate = this.getResource(resource);
 
 		if(!toUpdate) {
-			console.warn("Trying to update resource that does not exist");
+			console.warn("Trying to update resource that does not exist " + resource);
 			return;
 		}
 

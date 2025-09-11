@@ -49,7 +49,10 @@
 	let expanded = $state(true);
 	let locked = $state(false);
 	let dragging = $state(false);
-	let visibilityPriority = $derived(WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(WindowController.getByName(uniqueKey)) : -1);
+
+	let visibilityPriority = $derived(
+		WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(WindowController.getByName(uniqueKey)) : -1
+	);
 
 	let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
 	let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
@@ -58,7 +61,7 @@
 	const isTest = import.meta.env.MODE === "test";
 
 	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
-	
+
 	function toggle() {
 		expanded = !expanded;
 		tweenHeight.set(expanded ? height : 0);
@@ -116,13 +119,12 @@
 	<div
 		bind:this={containerElement}
 		class:dragging
-		in:fade={{ duration: isTest ? 0 : 100 }}
-		out:fade={{ duration: isTest ? 0 : 100 }}
+		transition:fade={{ duration: isTest ? 0 : 100 }}
 		class="overlay-rect"
 		style="left: {x}px; top: {y}px; width: {width}px; z-index: {500 + visibilityPriority};"
 		class:d-none={DialogueController.inDialogue}
 	>
-		<DraggableHandle bind:dragging bind:x bind:y containerWrapper={".overlay-rect"} {locked} onDragEnd={saveNewPosition}>
+		<DraggableHandle bind:dragging bind:x bind:y containerWrapper=".overlay-rect" {locked} onDragEnd={saveNewPosition}>
 			<Title>
 				<div class="row align-items-center">
 					<div class="col">
