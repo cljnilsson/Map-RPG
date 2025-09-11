@@ -1,0 +1,110 @@
+import type { RequestHandler } from "./$types";
+import { produce } from "sveltekit-sse";
+import { resources } from "$lib/server/db/schema";
+import { eq, and } from "drizzle-orm";
+import { db } from "$lib/server/db";
+import dayjs from "dayjs";
+
+const intervalSeconds = 60;
+
+async function runTask() {
+	console.log("Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"));
+
+	const limit = 200; // Hardcoded until proper gameplay implementation
+	const production = 1; // Hardcoded
+
+	const cities = await db.query.cityData.findMany({
+		with: {
+			resources: { with: { resource: true } },
+			city: true
+		}
+	});
+
+	for (const city of cities) {
+		for (const res of city.resources) {
+			if (res.value < limit) {
+				await db
+					.update(resources)
+					.set({ value: res.value + production })
+					.where(and(eq(resources.cityId, city.city.id), eq(resources.resourceId, res.resource.id)));
+			}
+		}
+	}
+}
+
+async function getResources() {
+	const existing = await db.query.resources.findMany({
+		with: {
+			resource: true,
+			city: {
+				with: {
+					city: true
+				}
+			}
+		}
+	});
+
+	return existing.map(({ city, resource, resourceId, id, ...rest }) => ({
+		...rest,
+		name: city.city.name,
+		resource: resource.name
+	}));
+}
+
+type Client = {
+	emit: (event: "message", payload: string) => { error?: unknown };
+};
+
+const connections: Set<Client> = new Set();
+let loopRunning = false;
+
+function delay(ms: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function resourceLoop() {
+	if (loopRunning) return;
+	loopRunning = true;
+
+	while (connections.size > 0) {
+		console.log("wop wop");
+		await runTask();
+		const newResources = await getResources();
+
+		for (const client of [...connections]) {
+			const { emit } = client;
+			const payload = {
+				timestamp: Date.now(),   // ensures uniqueness
+				data: newResources
+			};
+			const { error } = emit("message", JSON.stringify(payload));
+			if (error) {
+				console.error("Emit failed:", error);
+				connections.delete(client);
+			}
+		}
+
+		console.log("Active connections:", connections.size);
+		await delay(1000 * intervalSeconds);
+	}
+
+	loopRunning = false;
+}
+
+export const POST: RequestHandler = async () => {
+	return produce(
+		async ({ emit }) => {
+			const client = { emit };
+			connections.add(client);
+
+			if (!loopRunning) resourceLoop();
+
+			// cleanup when this client disconnects
+			return () => {
+				connections.delete(client);
+				console.log("Client disconnected, total:", connections.size);
+			};
+		},
+		{ ping: 10 }
+	);
+};

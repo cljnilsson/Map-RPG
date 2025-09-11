@@ -12,8 +12,9 @@
 	import Notification from "$lib/features/notification/notification.svelte";
 	import { getItem } from "$lib/data/items";
 	import { getRequest } from "$lib/utils/request";
-	import { startResourceTimer, stopResourceTimer } from "$lib/utils/resources";
+	import { getCityResources } from "$lib/utils/resources";
 	import type { Character } from "$lib/server/db/schema";
+	import { source } from "sveltekit-sse";
 
 	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
 
@@ -66,7 +67,39 @@
 		}
 	}
 
+	type serverPing = {
+		cityId: number;
+		name: string;
+		resource: string;
+		value: number;
+	};
+
 	onMount(() => {
+		const hr = source("/api/resources");
+		const json = hr.select("message").json<{ timpStamp: Date; data: serverPing[] }>((or) => {
+			console.log("new ping");
+			if (!or.raw) {
+				// nothing in the event → keep previous value
+				return or.previous;
+			}
+
+			try {
+				return JSON.parse(or.raw);
+			} catch (err) {
+				console.error(`Could not parse "${or.raw}" as json.`, err);
+				return or.previous;
+			}
+		});
+
+		json.subscribe((message) => {
+			if (!message || !message.data) return;
+			console.log("Got the ping");
+			if (message.data) {
+				console.log(message.data);
+				getCityResources(message.data);
+			}
+		});
+
 		loadCharacter();
 
 		// Will load from DB eventually
@@ -81,8 +114,6 @@
 				{ item: getItem("old-book"), amount: 1 }
 			];
 		}
-		startResourceTimer();
-		return stopResourceTimer;
 	});
 </script>
 
@@ -90,7 +121,7 @@
 	<script src={scriptSrc} defer></script>
 	<link rel="icon" type="image/svg" href="/facicon.png" />
 	<title>Travian x DnD</title>
-	<meta name=description content="A SPA-ish web game based on both Travian and DnD.">
+	<meta name="description" content="A SPA-ish web game based on both Travian and DnD." />
 </svelte:head>
 
 <div class="container-fluid p-0">

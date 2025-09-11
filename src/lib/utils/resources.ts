@@ -1,10 +1,6 @@
-import dayjs from "dayjs";
-import { getResources } from "$lib/api/resources.remote";
 import { CityController } from "$lib/controller/city.svelte";
 import MapController from "$lib/controller/map.svelte";
 import type { CityMap } from "$lib/types/mapTypes";
-
-let lastCalled: Date = new Date(); // TODO: Replace with DB lookup for persistence
 
 /** Get the single owned & unlocked city from maps */
 function getOwnedCity(): CityMap | null {
@@ -21,19 +17,17 @@ function getOwnedCity(): CityMap | null {
 	return owned[0];
 }
 
+type NewResource = {
+    cityId: number,
+	name: string,
+	resource: string,
+    value: number,
+}
+
 /** Updates resources if enough time has passed since last run */
-export async function getCityResources() {
-	const now = new Date();
-	const minutesSinceLastCall = dayjs(now).diff(dayjs(lastCalled), "minute");
-
-	if (minutesSinceLastCall <= 0) {
-		return; // Skip until a minute has passed
-	}
-
-	lastCalled = now;
+export async function getCityResources(latestResources: NewResource[]) {
 	console.log("Updating resources…");
 
-	const latestResources = await getResources();
 	const ownedCity = getOwnedCity();
 
 	if (!ownedCity) return;
@@ -49,7 +43,7 @@ export async function getCityResources() {
 		return;
 	}
 
-	for (const resource of cityData.resources) {
+	for (const resource of latestResources.filter(v => v.name === ownedCity.name)) {
 		const existing = CityController.getResource(resource.name);
 		if (existing.amount !== resource.value) {
 			CityController.updateResourceAmount(resource.name, resource.value);
@@ -57,29 +51,5 @@ export async function getCityResources() {
 		} else {
 			//console.log(`Resource ${resource.name} unchanged: ${existing.amount}`);
 		}
-	}
-}
-
-let timer: ReturnType<typeof setInterval> | null = null;
-
-export function startResourceTimer() {
-	if (typeof window === "undefined") return;
-
-	// Prevent multiple timers globally
-	if (timer) {
-		console.warn("Resource timer already running, skipping initialization.");
-		return;
-	}
-
-	timer = setInterval(getCityResources, 10 * 1000);
-
-	// Clean up when navigating away or refreshing
-	window.addEventListener("beforeunload", stopResourceTimer);
-}
-
-export function stopResourceTimer() {
-	if (timer) {
-		clearInterval(timer);
-		timer = null;
 	}
 }

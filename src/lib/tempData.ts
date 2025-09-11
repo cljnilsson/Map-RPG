@@ -6,7 +6,7 @@ import { getGameobject } from "./data/gameObjects";
 const wo: WorldMap = {
 	name: "Westeros",
 	type: "world",
-	imagePath: "/map1.jpg"
+	imagePath: "/map1.webp"
 };
 
 const winterfellO: CityMap = {

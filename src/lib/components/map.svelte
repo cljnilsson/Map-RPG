@@ -39,12 +39,12 @@
 	<div class="map-container">
 		<img
 			bind:this={imgRef}
-			loading="lazy"
+			fetchpriority="high"
 			src={MapController.currentMapState.map?.imagePath}
 			class:city={isCityMap(MapController.currentMapState.map)}
 			class:world={isWorldMap(MapController.currentMapState.map)}
 			class:building={isBuildingMap(MapController.currentMapState.map)}
-			alt="test"
+			alt="A zoomed out view of the map"
 			draggable="false"
 		/>
 		<MapClickBoxes />
