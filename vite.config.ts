@@ -10,18 +10,24 @@ export default defineConfig({
 	test: {
 		environment: "jsdom",
 		setupFiles: ["./vitest-setup.js"],
-		include: ["src/**/*.{test,spec}.{js,ts}"]
+		include: ["src/**/*.{test,spec}.{js,ts}"],
+		pool: "threads"
 	},
+	resolve: process.env.VITEST
+		? {
+			conditions: ["browser"]
+		}
+		: undefined,
 	server: {
 		port: 1420,
 		strictPort: true,
 		host: host || false,
 		hmr: host
 			? {
-					protocol: "ws",
-					host,
-					port: 1421
-				}
+				protocol: "ws",
+				host,
+				port: 1421
+			}
 			: undefined,
 		watch: {
 			// 3. tell vite to ignore watching `src-tauri`

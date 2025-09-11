@@ -157,11 +157,11 @@
 								</div>
 							</div>
 							<div class="c-stats">
-								<CreatorStat name="Str" {min} {max} {total} {totalMax} bind:stat={str} />
-								<CreatorStat name="Dex" {min} {max} {total} {totalMax} bind:stat={dex} />
-								<CreatorStat name="Int" {min} {max} {total} {totalMax} bind:stat={int} />
-								<CreatorStat name="Vit" {min} {max} {total} {totalMax} bind:stat={vitality} />
-								<CreatorStat name="Charisma" {min} {max} {total} {totalMax} bind:stat={charisma} />
+								<CreatorStat name="Str" {min} {max} {total} {totalMax} {totalLeft} bind:stat={str} />
+								<CreatorStat name="Dex" {min} {max} {total} {totalMax} {totalLeft} bind:stat={dex} />
+								<CreatorStat name="Int" {min} {max} {total} {totalMax} {totalLeft} bind:stat={int} />
+								<CreatorStat name="Vit" {min} {max} {total} {totalMax} {totalLeft} bind:stat={vitality} />
+								<CreatorStat name="Charisma" {min} {max} {total} {totalMax} {totalLeft} bind:stat={charisma} />
 							</div>
 						{:else if view === "class"}
 							<div class="row">

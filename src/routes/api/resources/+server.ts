@@ -10,14 +10,11 @@ const intervalSeconds = 60;
 async function runTask() {
 	console.log("Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"));
 
-	const limit = 200; // Hardcoded until proper gameplay implementation
-	const production = 1; // Hardcoded
+	const limit = 200;
+	const production = 1;
 
 	const cities = await db.query.cityData.findMany({
-		with: {
-			resources: { with: { resource: true } },
-			city: true
-		}
+		with: { resources: { with: { resource: true } }, city: true }
 	});
 
 	for (const city of cities) {
@@ -51,6 +48,11 @@ async function getResources() {
 	}));
 }
 
+type ServerPing = {
+	timestamp: number;
+	data: ReturnType<typeof getResources> extends Promise<infer R> ? R : unknown;
+};
+
 type Client = {
 	emit: (event: "message", payload: string) => { error?: unknown };
 };
@@ -58,30 +60,21 @@ type Client = {
 const connections: Set<Client> = new Set();
 let loopRunning = false;
 
-function delay(ms: number) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 
 async function resourceLoop() {
 	if (loopRunning) return;
 	loopRunning = true;
 
 	while (connections.size > 0) {
-		console.log("wop wop");
 		await runTask();
 		const newResources = await getResources();
+		const payload: ServerPing = { timestamp: Date.now(), data: newResources };
 
 		for (const client of [...connections]) {
-			const { emit } = client;
-			const payload = {
-				timestamp: Date.now(),   // ensures uniqueness
-				data: newResources
-			};
-			const { error } = emit("message", JSON.stringify(payload));
-			if (error) {
-				console.error("Emit failed:", error);
-				connections.delete(client);
-			}
+			const { error } = client.emit("message", JSON.stringify(payload));
+			if (error) connections.delete(client);
 		}
 
 		console.log("Active connections:", connections.size);

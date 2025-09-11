@@ -1,2 +1,2 @@
-bun run test
+bun run test:silent
 npx svelte-check

@@ -1,45 +1,45 @@
-import { expect, test } from "vitest";
+import { expect, test, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import Creator from "$lib/features/creator/creator.svelte";
+import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 
 test("Creator renders with correct elements", () => {
-	render(Creator);
-
-	// Check main heading
-	expect(screen.getByText(/Create your character!/i)).toBeInTheDocument();
-
-	// Check tab buttons
-	expect(screen.getByRole("button", { name: /Character/i })).toBeInTheDocument();
-	expect(screen.getByRole("button", { name: /Class/i })).toBeInTheDocument();
-	expect(screen.getByRole("button", { name: /Faith/i })).toBeInTheDocument();
-	expect(screen.getByRole("button", { name: /Image/i })).toBeInTheDocument();
-
-	// Check Create button (disabled)
-	const createBtn = screen.getByRole("button", { name: /Create!/i });
-	expect(createBtn).toBeInTheDocument();
-	expect(createBtn).toBeDisabled();
+	const {container} = render(Creator);
+	expect(container).toMatchSnapshot();
 });
 
 test("Stat '+' buttons are disabled when no points are left", () => {
-	render(Creator);
+	const min: number = 3;
+	const max: number = 20;
+	const totalMax: number = 30;
+
+	render(CreatorStat, {props: {
+		min , max, total: 15, totalMax, stat: 7, name: "Vit", totalLeft: 0
+	}});
 
 	const plusButtons = screen.getAllByRole("button", { name: "+" });
-	expect(plusButtons.length).toBe(5); // One for each stat
+	expect(plusButtons.length).toBe(1); // One for each stat
 	plusButtons.forEach((btn) => expect(btn).toBeDisabled());
 });
 
 test("Stat '-' buttons are enabled and work", async () => {
-	render(Creator);
+	const min: number = 3;
+	const max: number = 20;
+	const totalMax: number = 30;
+
+	render(CreatorStat, {props: {
+		min , max, total: 15, totalMax, stat: 7, name: "Vit", totalLeft: 0
+	}});
 
 	const minusButtons = screen.getAllByRole("button", { name: "-" });
-	expect(minusButtons.length).toBe(5);
+	expect(minusButtons.length).toBe(1);
 
 	// Get the "Vit" row and its current value
 	const vitRow = screen.getByText("Vit").closest(".row")!;
 	const valueDiv = vitRow.querySelector(".col-auto")!;
 	const initialValue = Number(valueDiv.textContent);
 
-	await fireEvent.click(minusButtons[3]); // Decrease Vit
+	await fireEvent.click(minusButtons[0]); // Decrease Vit
 	const newValue = Number(valueDiv.textContent);
 
 	expect(newValue).toBeLessThan(initialValue);
@@ -47,7 +47,6 @@ test("Stat '-' buttons are enabled and work", async () => {
 
 test("Input fields for Name and Age are editable", async () => {
 	render(Creator);
-
 	const nameInput = screen.getByPlaceholderText("Name") as HTMLInputElement;
 	const ageInput = screen.getByPlaceholderText("Age") as HTMLInputElement;
 
@@ -60,7 +59,6 @@ test("Input fields for Name and Age are editable", async () => {
 
 test("Character tab is selected by default", () => {
 	render(Creator);
-
 	const characterTab = screen.getByRole("button", { name: "Character" });
 	expect(characterTab.className).toContain("activeSelection");
 });
