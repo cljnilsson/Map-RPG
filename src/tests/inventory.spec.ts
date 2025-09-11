@@ -1,12 +1,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { getItem } from "$lib/data/items";
 import { PlayerController } from "$lib/controller/character.svelte";
-import PlayerStore from "$lib/stores/character.svelte";
 
 describe("Inventory", () => {
 	beforeEach(() => {
 		// Reset or mock PlayerController inventory before each test
-		PlayerStore.inventory = [
+		PlayerController.inventory = [
 			{ item: getItem("test-item-1"), amount: 1 },
 			{ item: getItem("test-item-2"), amount: 1 },
 			{ item: getItem("test-item-3"), amount: 3 }

@@ -1,10 +1,7 @@
-import { describe, it, expect, test } from "vitest";
-import { render, screen } from "@testing-library/svelte";
+import { describe, it, expect } from "vitest";
 
-//import InventoryWindow from "$lib/components/windows/inventory/inventory.svelte";
 import type {NPC} from "$lib/types/npc";
 import {PlayerController} from "$lib/controller/character.svelte";
-import PlayerStore from "$lib/stores/character.svelte";
 
 describe("Damage", () => {
 	it("Player attacks NPC", () => {
@@ -28,10 +25,10 @@ describe("Damage", () => {
 
 	it("Player takes damage from unknown source", () => {
 		const toDeal = 2;
-		const startingHP = PlayerStore.character.health;
+		const startingHP = PlayerController.health;
 
 		PlayerController.damage(toDeal);
 
-		expect(PlayerStore.character.health).toBe(startingHP - toDeal);
+		expect(PlayerController.health).toBe(startingHP - toDeal);
 	});
 });

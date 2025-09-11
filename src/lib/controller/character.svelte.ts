@@ -98,6 +98,14 @@ export class PlayerController extends CharacterController {
 		// Current save does not support money nor does the database itself if I recall
 	}
 
+	public static get inventory() {
+		return PlayerStore.inventory;
+	}
+
+	public static set inventory(v: InventoryItem[]) {
+		 PlayerStore.inventory = v;
+	}
+
 	// ---------------
 	// FUNCTIONS
 	// ---------------
