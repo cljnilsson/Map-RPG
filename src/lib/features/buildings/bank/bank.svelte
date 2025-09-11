@@ -9,7 +9,8 @@
 	import dayjs from "dayjs";
 	import { onMount } from "svelte";
 	import { getLoans, postLoan } from "$lib/api/loans.remote";
-
+	import {PlayerController} from "$lib/controller/character.svelte";
+	import MapController from "$lib/controller/map.svelte";
 	/*
 		TODO
 		allow multiple resources in one loan
@@ -19,7 +20,7 @@
 		storage db schema
 	*/
 
-	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
+	const { level, building, cityName }: { level: number; building: Omit<Building, "componentOnClick">, cityName: string } = $props();
 	let maxLoanAmount = $state(5000);
 	let maxLoans = $state(5);
 	let currentLoans: {
@@ -59,9 +60,11 @@
 		toLoan = 0;
 		tradeFor = undefined;
 
+		// characterId is not implemented but easy to get in theory
 		postLoan({
-			cityDataId: 1,
-			resourceId: 1,
+			charaacterId: PlayerController.id,
+			cityName: cityName,
+			resourceName: newLoan.resource.name,
 			value: newLoan.full
 		});
 	}

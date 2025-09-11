@@ -37,7 +37,7 @@ async function updateCharacter(
 	int: number,
 	vit: number,
 	charisma: number,
-	exp: number,
+	xp: number,
 	health: number,
 	maxHealth: number,
 	level: number,
@@ -45,7 +45,7 @@ async function updateCharacter(
 ): Promise<boolean> {
 	await db
 		.update(characters)
-		.set({ name, exp, health, maxHealth, level })
+		.set({ name, xp, health, maxHealth, level })
 		.where(and(eq(characters.userId, userId), eq(characters.name, oldName)));
 
 	const character = await db.query.characters.findFirst({
@@ -115,7 +115,7 @@ function isUpdateCharacterPayload(data: any): data is UpdateCharacterPayload {
 		data === null ||
 		typeof data.oldName !== "string" ||
 		typeof data.name !== "string" ||
-		typeof data.exp !== "number" ||
+		typeof data.xp !== "number" ||
 		typeof data.health !== "number" ||
 		typeof data.maxHealth !== "number" ||
 		typeof data.level !== "number" ||

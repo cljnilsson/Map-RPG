@@ -163,7 +163,7 @@
 		</div>
 	{:else}
 		<p>No map chosen</p>
-		{#each [world, winterfell, kingsLanding] as map}
+		{#each [world, winterfell, kingsLanding] as map (map.map.name)}
 			<button
 				onclick={() => {
 					MapStore.currentMapState = map;

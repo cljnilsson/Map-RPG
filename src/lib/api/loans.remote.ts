@@ -1,6 +1,6 @@
 import { db } from "$lib/server/db";
 import { query, command } from "$app/server";
-import { loans } from "$lib/server/db/schema";
+import { loans, resource, city, cityData } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
 
@@ -11,6 +11,18 @@ async function getAllLoans() {
 			resource: true
 		}
 	});
+}
+
+async function getResourceByName(name: string) {
+	return await db.select().from(resource).where(eq(resource.name, name)).get();
+}
+
+async function getCity(name: string) {
+	return await db.select().from(city).where(eq(city.name, name)).get();
+}
+
+async function getCityData(characterId: number, cityId: number) {
+	return await db.select().from(cityData).where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId))).get();
 }
 
 async function updateOneLoan(cityDataId: number, resourceId: number, value: number): Promise<boolean> {
@@ -39,16 +51,26 @@ type GetReturnType = {
 	paid: number;
 	resource: string;
 	date: string;
+	cityData: {
+		id: number;
+		characterId: number;
+		cityId: number;
+	};
 };
 
 async function get(): Promise<GetReturnType[]> {
 	const existing = await getAllLoans();
 
-	const loans = existing.map(({ resource, paid, full, timestamp }) => ({
+	const loans = existing.map(({ resource, paid, full, timestamp, city}) => ({
 		paid,
 		full,
 		date: timestamp,
-		resource: resource.name
+		resource: resource.name,
+		cityData: {
+			id: city.id,
+			characterId: city.characterId,
+			cityId: city.cityId
+		}, 
 	}));
 
 	return loans;
@@ -56,8 +78,9 @@ async function get(): Promise<GetReturnType[]> {
 
 
 const LoanSchema = v.object({
-	cityDataId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
-	resourceId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+	charaacterId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+	cityName: v.string(),
+	resourceName: v.string(),
 	value: v.pipe(v.number(), v.integer(), v.toMinValue(0))
 });
 
@@ -68,7 +91,23 @@ async function createPost(body: LoanData) {
 	console.log(body);
 	let failed: LoanData | false = false;
 
-	const success = createLoan(body.cityDataId, body.resourceId, body.value);
+	// Clean up returns later
+	const resource = await getResourceByName(body.resourceName);
+	if(!resource) {
+		return { success: false, failed };
+	}
+
+	const city = await getCity(body.cityName);
+	if(!city) {
+		return { success: false, failed };
+	}
+
+	const cityData = await getCityData(body.charaacterId, city.id);
+	if(!cityData) {
+		return { success: false, failed };
+	}
+
+	const success = createLoan(cityData.id, resource.id, body.value);
 	if(!success) {
 		failed = body;
 	}
@@ -84,11 +123,26 @@ async function updatePost(body: LoanData) {
 	console.log(body);
 	let failed: LoanData | false = false;
 
-	const success = updateOneLoan(body.cityDataId, body.resourceId, body.value);
+	// Clean up returns later
+	const resource = await getResourceByName(body.resourceName);
+	if(!resource) {
+		return { success: false, failed };
+	}
+
+	const city = await getCity(body.cityName);
+	if(!city) {
+		return { success: false, failed };
+	}
+
+	const cityData = await getCityData(body.charaacterId, city.id);
+	if(!cityData) {
+		return { success: false, failed };
+	}
+
+	const success = updateOneLoan(cityData.id, resource.id, body.value);
 	if(!success) {
 		failed = body;
 	}
-	
 
 	if(failed) {
 		return { success: false, failed };

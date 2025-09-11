@@ -11,7 +11,9 @@
 	import Tutorial from "$lib/game/tutorial.svelte";
 	import Notification from "$lib/features/notification/notification.svelte";
 	import { getItem } from "$lib/data/items";
+	import { getRequest } from "$lib/utils/request";
 	import { startResourceTimer, stopResourceTimer } from "$lib/utils/resources";
+	import type { Character } from "$lib/server/db/schema";
 
 	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
 
@@ -27,8 +29,46 @@
 	}
 
 	let tutorialCompleted = true; //$state(getFlagByName("tutorialCompleted"));
+	type CharacterWithStats = Character & {
+		stats: { name: string; value: number }[];
+	};
+
+	async function loadCharacter() {
+		const chars = await getRequest<{ success: boolean; characters: CharacterWithStats[] }>("/api/characters");
+
+		if (chars.characters.length > 0) {
+			const character = chars.characters[0];
+
+			CharacterStore.character = {
+				id: character.id,
+				name: character.name,
+				health: character.health,
+				maxHealth: character.maxHealth,
+				age: character.age,
+				gender: character.gender,
+				race: character.race,
+				conditions: [],
+				xp: character.xp,
+				level: character.level,
+				stats: {
+					str: character.stats.filter((v) => v.name === "Strength")[0].value,
+					int: character.stats.filter((v) => v.name === "Intelligence")[0].value,
+					vit: character.stats.filter((v) => v.name === "Vitality")[0].value,
+					char: character.stats.filter((v) => v.name === "Charisma")[0].value,
+					dex: character.stats.filter((v) => v.name === "Dexterity")[0].value
+				},
+				money: {
+					gold: character.gold,
+					silver: character.silver,
+					copper: character.copper
+				}
+			};
+		}
+	}
 
 	onMount(() => {
+		loadCharacter();
+
 		// Will load from DB eventually
 		if (CharacterStore.inventory.length === 0) {
 			CharacterStore.inventory = [

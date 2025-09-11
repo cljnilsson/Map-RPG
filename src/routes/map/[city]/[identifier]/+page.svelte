@@ -9,6 +9,7 @@
 	import { safeGetBuilding } from "$lib/data/buildings";
 	import { CityController } from "$lib/controller/city.svelte.js";
 	import type { Building } from "$lib/types/building";
+	import { resolve } from "$app/paths";
 
 	// Props
 	const { data } = $props();
@@ -53,7 +54,7 @@
 </script>
 
 <div class="container mt-3 px-5">
-	<a href="/map"><button class="back btn btn-primary">Back</button></a>
+	<a href={resolve("/map")}><button class="back btn btn-primary">Back</button></a>
 
 	{#if dev}
 		<p>{currentMap?.name} slot: {data.plot}</p>
@@ -70,7 +71,7 @@
 				<p>{buildingFull.description}</p>
 
 				{#if Component && strippedBuilding}
-					<Component level={buildingPlot.level} building={strippedBuilding} />
+					<Component level={buildingPlot.level} building={strippedBuilding} cityName={data.city} />
 				{/if}
 
 				{#if buildingFull.cost.length > 0}
