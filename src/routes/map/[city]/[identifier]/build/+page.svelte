@@ -56,7 +56,7 @@
 
 	{#if MapController.currentMapState}
 		{#if data.city === MapController.currentMapState.map.name}
-			{#each buildings as buildingOption}
+			{#each buildings as buildingOption (buildingOption.name)}
 				<div class="row justify-content-center my-3">
 					<div class="col-xl-8 col-md-10 border-bottom">
 						<h4>{buildingOption.name}</h4>

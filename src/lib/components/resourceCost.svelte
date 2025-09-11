@@ -8,14 +8,14 @@
 
 <div class="row justify-content-center align-items-center py-3">
 	<div class="col-auto px-3 py-3 border resources">
-		{#each costs as resource}
+		{#each costs as resource (resource.name)}
 			{@const matchingCityResource = CityController.getResource(resource.name)}
 			<div
 				class="resource d-inline-flex align-items-center border-bottom border-4"
 				class:border-danger={matchingCityResource.amount < resource.amount}
 				class:border-success={matchingCityResource.amount >= resource.amount}
 			>
-				<img src={resource.iconPath} alt={"icon of " + resource.name} />
+				<img src={resource.iconPath} alt={"icon of " + resource.name} loading="lazy" />
 				{#if level > 1}
 					<span>{costToNextLevel(resource.amount, level)}</span>
 				{:else}

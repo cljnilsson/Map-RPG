@@ -20,6 +20,7 @@
 		src="/char.jpg"
 		alt="Your character"
 		loading="lazy"
+		fetchpriority="high"
 		style="width: {width}px;
         height: {height}px;"
 	/>

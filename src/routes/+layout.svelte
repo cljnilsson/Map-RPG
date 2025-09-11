@@ -87,8 +87,10 @@
 </script>
 
 <svelte:head>
+	<script src={scriptSrc} defer></script>
 	<link rel="icon" type="image/svg" href="/facicon.png" />
-	<script src={scriptSrc}></script>
+	<title>Travian x DnD</title>
+	<meta name=description content="A SPA-ish web game based on both Travian and DnD.">
 </svelte:head>
 
 <div class="container-fluid p-0">
@@ -104,7 +106,7 @@
 <style>
 	.container-fluid {
 		min-height: 100%;
-		background-image: url("/bg.jpg");
+		background-image: url("/bg.webp");
 		background-size: cover;
 		background-repeat: repeat-y;
 	}

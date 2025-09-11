@@ -10,6 +10,7 @@
 	import { safeGetBuilding, getBuildingsByPlotType } from "$lib/data/buildings";
 	import { goto } from "$app/navigation";
 	import HoverOutlineImage from "$lib/utils/outline.svelte";
+	import { resolve } from "$app/paths";
 
 	function toggleSelection(rect: MapWithClickBox) {
 		//MapStore.selectedBox = MapStore.selectedBox === rect ? null : rect;
@@ -31,12 +32,12 @@
 	function handlePlotClick(identifier: number, x: number, y: number, rotation: number) {
 		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
 		console.log("options:", getBuildingsByPlotType("default"));
-		goto(`/map/${MapController.currentMapState.map.name}/${identifier}/build`);
+		goto(resolve(`/map/${MapController.currentMapState.map.name}/${identifier}/build`));
 	}
 
 	function handleBuildingClick(identifier: number) {
 		console.log("clicked on building!");
-		goto(`/map/${MapController.currentMapState.map.name}/${identifier}`)
+		goto(resolve(`/map/${MapController.currentMapState.map.name}/${identifier}`))
 	}
 
 	function onBuildingEnter(e: KeyboardEvent, identifier: number) {
