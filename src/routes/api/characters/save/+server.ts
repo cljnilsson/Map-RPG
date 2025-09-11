@@ -3,30 +3,34 @@ import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
 import { characters, stats, stat, items } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
+import * as v from "valibot";
 
-type CharacterStats = {
-	str: number;
-	dex: number;
-	int: number;
-	vit: number;
-	char: number;
-};
+const CharacterStatsSchema = v.object({
+	str: v.number(),
+	dex: v.number(),
+	int: v.number(),
+	vit: v.number(),
+	char: v.number(),
+});
+  
+const InventoryItemSchema = v.object({
+	// use a pipeline: first ensure it's a string, then require min length 1
+	name: v.pipe(v.string(), v.minLength(1)),
+	amount: v.number(),
+});
+  
+const UpdateCharacterPayloadSchema = v.object({
+	oldName: v.pipe(v.string(), v.minLength(1)),
+	name: v.pipe(v.string(), v.minLength(1)),
+	stats: CharacterStatsSchema,
+	xp: v.number(),
+	health: v.number(),
+	maxHealth: v.number(),
+	level: v.number(),
+	inventory: v.array(InventoryItemSchema),
+});
 
-type InventoryItem = {
-	name: string;
-	amount: number;
-};
-
-type UpdateCharacterPayload = {
-	oldName: string;
-	name: string;
-	stats: CharacterStats;
-	exp: number;
-	health: number;
-	maxHealth: number;
-	level: number;
-	inventory: InventoryItem[];
-};
+type UpdateCharacterPayload = v.InferOutput<typeof UpdateCharacterPayloadSchema>;
 
 async function updateCharacter(
 	userId: number,
@@ -109,32 +113,8 @@ async function updateCharacter(
 	return true;
 }
 
-function isUpdateCharacterPayload(data: any): data is UpdateCharacterPayload {
-	if (
-		typeof data !== "object" ||
-		data === null ||
-		typeof data.oldName !== "string" ||
-		typeof data.name !== "string" ||
-		typeof data.xp !== "number" ||
-		typeof data.health !== "number" ||
-		typeof data.maxHealth !== "number" ||
-		typeof data.level !== "number" ||
-		typeof data.stats !== "object" ||
-		data.stats === null ||
-		typeof data.stats.str !== "number" ||
-		typeof data.stats.dex !== "number" ||
-		typeof data.stats.int !== "number" ||
-		typeof data.stats.vit !== "number" ||
-		typeof data.stats.char !== "number" ||
-		!Array.isArray(data.inventory) ||
-		!data.inventory.every(
-			(item: any) =>
-				item && typeof item === "object" && typeof item.name === "string" && item.name.length > 0 && typeof item.amount === "number"
-		)
-	) {
-		return false;
-	}
-	return true;
+function isUpdateCharacterPayload(data: unknown): data is UpdateCharacterPayload {
+	return v.safeParse(UpdateCharacterPayloadSchema, data).success;
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
@@ -148,7 +128,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		return new Response("Invalid input", { status: 400 });
 	}
 
-	const { oldName, name, stats, exp, health, maxHealth, level, inventory } = body;
+	const { oldName, name, stats, xp, health, maxHealth, level, inventory } = body;
 	const userId = locals.user.id;
 
 	const success = await updateCharacter(
@@ -160,7 +140,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		stats.int,
 		stats.vit,
 		stats.char,
-		exp,
+		xp,
 		health,
 		maxHealth,
 		level,

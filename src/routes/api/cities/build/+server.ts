@@ -3,12 +3,15 @@ import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
 import { cityData, plot } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
+import * as v from "valibot";
 
-type UpdatePlotPayload = {
-	building: string,
-	plot: string,
-	city: string
-};
+const UpdatePlotPayloadSchema = v.object({
+	building: v.pipe(v.string(), v.minLength(1)),
+	plot: v.pipe(v.string(), v.minLength(1)),
+	city: v.pipe(v.string(), v.minLength(1)),
+});
+
+type UpdatePlotPayload = v.InferOutput<typeof UpdatePlotPayloadSchema>;
 
 async function updatePlot(cityId: number, plotId: string, building: string): Promise<boolean> {
 	await db
@@ -44,17 +47,8 @@ async function getCityDataByNameAndCharacter(cityName: string, characterId: numb
 	return !!exists;
 }*/
 
-function isUpdateCharacterPayload(data: any): data is UpdatePlotPayload {
-	if (
-		typeof data !== "object" ||
-		data === null ||
-		typeof data.building !== "string" ||
-		typeof data.plot !== "string" ||
-		typeof data.city !== "string"
-	) {
-		return false;
-	}
-	return true;
+export function isUpdatePlotPayload(data: unknown): data is UpdatePlotPayload {
+	return v.safeParse(UpdatePlotPayloadSchema, data).success;
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
@@ -64,7 +58,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
 	const body = await request.json();
 
-	if (!isUpdateCharacterPayload(body)) {
+	if (!isUpdatePlotPayload(body)) {
 		return new Response("Invalid input", { status: 400 });
 	}
 
