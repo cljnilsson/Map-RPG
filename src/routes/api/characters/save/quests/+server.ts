@@ -3,15 +3,20 @@ import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
 import { quests } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
+import * as v from "valibot";
 
-type UpdateQuestsPayload = {
-	characterId: number;
-	quests: {
-		key: string;
-		progress: number;
-		status: "active" | "completed" | "failed";
-	}[];
-};
+const QuestSchema = v.object({
+	key: v.pipe(v.string(), v.minLength(1)),
+	progress: v.number(),
+	status: v.union([v.literal("active"), v.literal("completed"), v.literal("failed")])
+});
+
+const UpdateQuestsPayloadSchema = v.object({
+	characterId: v.pipe(v.number(), v.minValue(1)), // adjust to minValue(0) if 0 is allowed
+	quests: v.array(QuestSchema)
+});
+
+type UpdateQuestsPayload = v.InferOutput<typeof UpdateQuestsPayloadSchema>;
 
 async function updateQuest(
 	characterId: number,
@@ -41,24 +46,8 @@ async function questExists(characterId: number, key: string): Promise<boolean> {
 	return !!exists;
 }
 
-function isUpdateQuestsPayload(data: any): data is UpdateQuestsPayload {
-	if (typeof data !== "object" || data === null || typeof data.characterId !== "number" || !Array.isArray(data.quests)) {
-		return false;
-	}
-
-	for (const q of data.quests) {
-		if (
-			typeof q !== "object" ||
-			q === null ||
-			typeof q.key !== "string" ||
-			typeof q.progress !== "number" ||
-			!["active", "completed", "failed"].includes(q.status)
-		) {
-			return false;
-		}
-	}
-
-	return true;
+function isUpdateQuestsPayload(data: unknown): data is UpdateQuestsPayload {
+	return v.safeParse(UpdateQuestsPayloadSchema, data).success;
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {

@@ -3,13 +3,16 @@ import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
 import { windowPositions } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
+import * as v from "valibot";
 
-type UpdateCharacterPayload = {
-	key: string;
-	x: number;
-	y: number;
-	characterId: number;
-};
+const UpdateCharacterPayloadSchema = v.object({
+	key: v.pipe(v.string(), v.minLength(1)),
+	x: v.number(),
+	y: v.number(),
+	characterId: v.pipe(v.number(), v.minValue(0)), 
+});
+
+type UpdateCharacterPayload = v.InferOutput<typeof UpdateCharacterPayloadSchema>;
 
 async function updateWindowPositions(characterId: number, key: string, x: number, y: number): Promise<boolean> {
 	await db
@@ -34,18 +37,8 @@ async function windowPositionsExists(characterId: number, key: string): Promise<
 	return !!exists;
 }
 
-function isUpdateCharacterPayload(data: any): data is UpdateCharacterPayload {
-	if (
-		typeof data !== "object" ||
-		data === null ||
-		typeof data.key !== "string" ||
-		typeof data.x !== "number" ||
-		typeof data.y !== "number" ||
-		typeof data.characterId !== "number"
-	) {
-		return false;
-	}
-	return true;
+function isUpdateWindowPositionPayload(data: unknown): data is UpdateCharacterPayload {
+	return v.safeParse(UpdateCharacterPayloadSchema, data).success;
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
@@ -55,7 +48,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
 	const body = await request.json();
 
-	if (!isUpdateCharacterPayload(body)) {
+	if (!isUpdateWindowPositionPayload(body)) {
 		return new Response("Invalid input", { status: 400 });
 	}
 
