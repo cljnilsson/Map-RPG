@@ -101,3 +101,7 @@ export const POST: RequestHandler = async () => {
 		{ ping: 10 }
 	);
 };
+
+export function _getConnections() {
+	return connections;
+}

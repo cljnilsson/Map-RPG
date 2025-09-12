@@ -13,11 +13,12 @@ export default defineConfig({
 		include: ["src/**/*.{test,spec}.{js,ts}"],
 		pool: "threads"
 	},
-	resolve: process.env.VITEST
-		? {
-			conditions: ["browser"]
-		}
-		: undefined,
+	resolve: {
+		alias: {
+			$routes: "/src/routes"
+		},
+		...(process.env.VITEST ? { conditions: ["browser"] } : {})
+	},
 	server: {
 		port: 1420,
 		strictPort: true,

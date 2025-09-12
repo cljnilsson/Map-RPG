@@ -19,3 +19,5 @@ Object.defineProperty(window, "matchMedia", {
 const style = document.createElement("style");
 style.innerHTML = `.d-none { display: none !important; }`;
 document.head.appendChild(style);
+
+process.env.NODE_ENV = "test";

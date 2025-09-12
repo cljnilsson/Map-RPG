@@ -43,7 +43,7 @@
 		</div>
 	{/if}
 	<div class="row justify-content-center">
-		{#each Array(num) as _, i (i)}
+		{#each { length: num }, i (i)}
 			<div class="col-auto">
 				<Die {sides} {clickable} bind:this={die[i]} />
 			</div>
