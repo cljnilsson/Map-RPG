@@ -35,6 +35,10 @@ export class CityController {
 		return CityStore.resources;
 	}
 
+	public static get storage() {
+		return CityStore.storage;
+	}
+
 	public static set population(v: number) {
 		CityStore.population = v;
 	}
@@ -49,6 +53,10 @@ export class CityController {
 
 	public static set resources(v: CityResource[]) {
 		CityStore.resources = v;
+	}
+
+	public static set storage(v: {key: string, amount: number}[]) {
+		CityStore.storage = v;
 	}
 
 	// ---------------

@@ -206,6 +206,19 @@ export const loans = sqliteTable(
 	}
 );
 
+export const storage = sqliteTable(
+	"storage",
+	{
+		id: integer("id").primaryKey({ autoIncrement: true }),
+		cityId: integer("cityData_id")
+			.notNull()
+			.references(() => cityData.id),
+		itemKey: text("item_key")
+			.notNull()
+			.references(() => resource.id),
+		amount: integer("amount").notNull()
+	}
+);
 
 // RELATIONS
 
@@ -216,6 +229,7 @@ export const userRelations = relations(user, ({ many }) => ({
 export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 	resources: many(resources),
 	city: one(city, { fields: [cityData.cityId], references: [city.id] }),
+	storage: many(storage),
 	units: many(units),
 	plots: many(plot),
 	loans: many(loans),
@@ -223,6 +237,10 @@ export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 
 export const plotRelations = relations(plot, ({ one }) => ({
 	city: one(cityData, { fields: [plot.cityId], references: [cityData.id] })
+}));
+
+export const storageRelations = relations(storage, ({ one }) => ({
+	city: one(cityData, { fields: [storage.cityId], references: [cityData.id] })
 }));
 
 export const characterRelations = relations(characters, ({ one, many }) => ({
