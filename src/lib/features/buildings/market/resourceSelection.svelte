@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { CityController } from "$lib/controller/city.svelte";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { Resource } from "$lib/types/resource";
+	import type { Resource, BaseResource } from "$lib/types/resource";
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
-	let { selectedResource = $bindable() }: { selectedResource: Resource | undefined } = $props();
+	let { selectedResource = $bindable() }: { selectedResource: Resource | BaseResource | undefined } = $props();
 </script>
 
 <div class="row align-items-center my-2">

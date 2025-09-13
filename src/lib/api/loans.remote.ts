@@ -93,21 +93,25 @@ async function createPost(body: LoanData) {
 
 	// Clean up returns later
 	const resource = await getResourceByName(body.resourceName);
+	console.log(resource);
 	if(!resource) {
 		return { success: false, failed };
 	}
 
 	const city = await getCity(body.cityName);
+	console.log(city);
 	if(!city) {
 		return { success: false, failed };
 	}
 
 	const cityData = await getCityData(body.charaacterId, city.id);
+	console.log(cityData);
 	if(!cityData) {
 		return { success: false, failed };
 	}
 
-	const success = createLoan(cityData.id, resource.id, body.value);
+	const success = await createLoan(body.value, resource.id, cityData.id);
+	console.log(success);
 	if(!success) {
 		failed = body;
 	}

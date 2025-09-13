@@ -3,14 +3,16 @@
 	import Tabs from "$lib/components/utils/tabs.svelte";
 	import Tab from "$lib/components/utils/tab.svelte";
 	import Inventory from "$lib/features/inventory/inventory.svelte";
-	import type { Resource } from "$lib/types/resource";
+	import type { BaseResource } from "$lib/types/resource";
 	import Storage from "$lib/features/buildings/bank/storage.svelte";
 	import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
 	import dayjs from "dayjs";
 	import { onMount } from "svelte";
 	import { getLoans, postLoan } from "$lib/api/loans.remote";
-	import {PlayerController} from "$lib/controller/character.svelte";
+	import { PlayerController } from "$lib/controller/character.svelte";
+	import { getResource, safeGetResource } from "$lib/data/resources";
 	import MapController from "$lib/controller/map.svelte";
+
 	/*
 		TODO
 		allow multiple resources in one loan
@@ -20,17 +22,17 @@
 		storage db schema
 	*/
 
-	const { level, building, cityName }: { level: number; building: Omit<Building, "componentOnClick">, cityName: string } = $props();
+	const { level, building, cityName }: { level: number; building: Omit<Building, "componentOnClick">; cityName: string } = $props();
 	let maxLoanAmount = $state(5000);
 	let maxLoans = $state(5);
 	let currentLoans: {
 		full: number;
 		paid: number;
 		interestRate: number;
-		resource: Resource;
+		resource: BaseResource;
 		date: Date;
 	}[] = $state([]);
-	let tradeFor = $state<Resource | undefined>(undefined);
+	let tradeFor = $state<BaseResource | undefined>(undefined);
 	let toLoan: number | undefined = $state(undefined);
 
 	const tabs = [
@@ -43,7 +45,7 @@
 			return;
 		}
 
-		if (currentLoans.length < maxLoans || toLoan >= maxLoanAmount) {
+		if (currentLoans.length > maxLoans || toLoan >= maxLoanAmount) {
 			console.warn("Too many existing loans or the amount is too large");
 			return;
 		}
@@ -61,6 +63,12 @@
 		tradeFor = undefined;
 
 		// characterId is not implemented but easy to get in theory
+		/*
+			charaacterId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+			cityName: v.string(),
+			resourceName: v.string(),
+			value: v.pipe(v.number(), v.integer(), v.toMinValue(0))
+		*/
 		postLoan({
 			charaacterId: PlayerController.id,
 			cityName: cityName,
@@ -72,6 +80,20 @@
 	onMount(async () => {
 		const allLoans = await getLoans();
 		console.log(allLoans);
+		currentLoans = allLoans.map((v) => {
+			const tResource = safeGetResource(v.resource);
+			if (!tResource) {
+				throw Error("Resource from database does not exist on client.");
+			}
+
+			return {
+				full: v.full,
+				paid: v.paid,
+				interestRate: 0,
+				resource: tResource,
+				date: new Date(v.date)
+			};
+		});
 	});
 </script>
 
