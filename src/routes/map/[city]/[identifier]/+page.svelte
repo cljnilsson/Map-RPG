@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { isCityMap } from "$lib/typeguards/map";
-	import MapStore from "$lib/stores/map.svelte";
 	import { dev } from "$app/environment";
 	import type { Resource } from "$lib/types/resource";
 	import type { MapType } from "$lib/types/mapTypes";
@@ -10,16 +9,23 @@
 	import { CityController } from "$lib/controller/city.svelte.js";
 	import type { Building } from "$lib/types/building";
 	import { resolve } from "$app/paths";
+	import { onMount, tick } from "svelte";
+	import { maps } from "$lib/tempData";
+	import MapController from "$lib/controller/map.svelte";
+	import { getRequest } from "$lib/utils/request";
+	import type { CityResource } from "$lib/types/resource";
+	import { getUnit, safeGetUnit } from "$lib/data/units";
+	import type { Unit } from "$lib/types/unit";
 
 	// Props
 	const { data } = $props();
 
 	// ---- High-level data ----
 	const plotIndex = Number(data.plot);
-	const currentMap = MapStore.currentMapState?.map;
-	const buildingPlot = getBuildingPlot(currentMap, plotIndex);
-	const buildingFull = getBuildingFromPlot(buildingPlot);
-	const { Component, strippedBuilding } = getComponentData(buildingFull);
+	let currentMap = $state(MapController.currentMapState?.map);
+	let buildingPlot = $derived(getBuildingPlot(currentMap, plotIndex));
+	let buildingFull = $derived(getBuildingFromPlot(buildingPlot));
+	let { Component, strippedBuilding } = $derived(getComponentData(buildingFull));
 
 	// ---- Actions ----
 	function upgrade(price: Resource[]) {
@@ -51,6 +57,78 @@
 
 		return { Component, strippedBuilding };
 	}
+
+	async function getCities() {
+		const { cities, success } = await getRequest<{
+			cities: Array<{
+				id: number;
+				cityId: number;
+				population: number;
+				workers: number;
+				name: string;
+				units: {
+					iconPath: string;
+					value: number;
+					name: string;
+				}[];
+				resources: CityResource[];
+				plots: {
+					building: string;
+					cityId: number;
+					id: number;
+					identifier: string;
+				}[];
+			}>;
+			success: boolean;
+		}>("/api/cities");
+
+		if (success) {
+			// There has to be a cleaner way to do this, maybe send data more selectively from server so don't have to cleanup
+			for (const city of cities) {
+				if (city.resources.length === 0) {
+					console.warn("City has no resources which is probably invalid");
+				}
+
+				const found = MapController.getMapByName(city.name);
+				if (found && isCityMap(found.map)) {
+					found.map.city.resources = city.resources.map((r) => {
+						return { ...r };
+					});
+
+					// Missing an attribute or two?
+					const toAdd: Unit[] = [];
+					for (const u of city.units) {
+						const temp = safeGetUnit(u.name);
+						if (temp) {
+							toAdd.push({ ...temp, amount: u.value, unlocked: true }); // hardcoded to true, unlocked will be deprecated most likely
+						}
+					}
+
+					found.map.city.units = toAdd;
+
+					for (const plot of city.plots) {
+						const id = parseInt(plot.identifier);
+						found.map.city.plots[id].building = plot.building;
+					}
+
+					found.map.city.workers = city.workers;
+					found.map.city.population = city.population;
+				}
+			}
+			console.log("Cities:", cities);
+			CityController.setMainCityFromCurrentOwned();
+			currentMap = MapController.cityMaps.filter((v) => v.map.name === data.city)[0].map;
+		} else {
+			console.error("Failed to fetch cities");
+		}
+	}
+
+	onMount(() => {
+		// If data does not match state (such as after some SSR or refreshing the page) then fetch data based on props, while this should never happen in production it is annoying in development.
+		if (currentMap.name !== data.city && dev) {
+			getCities();
+		}
+	});
 </script>
 
 <div class="container mt-3 px-5">
@@ -59,7 +137,6 @@
 	{#if dev}
 		<p>{currentMap?.name} slot: {data.plot}</p>
 	{/if}
-
 	{#if currentMap && data.city === currentMap.name && buildingPlot && buildingFull}
 		<div class="row justify-content-center">
 			<div class="col-auto">
