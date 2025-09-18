@@ -9,7 +9,7 @@ export default class StorageController {
 	// ---------------
 	// Variables
 	// ---------------
-	private static inventorySize = 6 * 8; // 8 rows 6 columns
+	public static  readonly inventorySize = 6 * 8; // 8 rows 6 columns
 
 	// ---------------
 	// GETTERS / SETTERS

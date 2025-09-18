@@ -142,7 +142,7 @@
 	<a href={resolve("/map")}><button class="back btn btn-primary">Back</button></a>
 
 	{#if dev}
-		<p>{currentMap?.name} slot: {data.plot}</p>
+		<p>{currentMap?.name} (cityDataId: {cityData?.id}) slot: {data.plot}</p>
 	{/if}
 	{#if currentMap && data.city === currentMap.name && buildingPlot && buildingFull}
 		<div class="row justify-content-center">

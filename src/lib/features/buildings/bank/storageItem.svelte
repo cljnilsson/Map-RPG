@@ -6,19 +6,17 @@
 
 	let {
 		inventory = $bindable(),
-		selectedItem = $bindable(),
 		item,
 		currentSearchTerm,
-		mode,
 		cityDataId
 	}: {
 		inventory: InventoryItem[];
-		selectedItem: InventoryItem | null;
 		item: InventoryItem;
 		currentSearchTerm: string;
-		mode: "Normal" | "Bank";
-		cityDataId: number
+		cityDataId: number;
 	} = $props();
+
+	let selectedItem: InventoryItem | null = $state(null);
 
 	function onSelect() {
 		if (selectedItem === item) {
@@ -30,34 +28,13 @@
 
 	async function onClick(e: MouseEvent) {
 		e.preventDefault();
-		if (mode === "Normal") {
-			if (isUsableItem(item.item)) {
-				console.log("Trying to activiate item: ", item.item.name, " amount: ", item.amount);
-				const usedSuccessfully = item.item.onUse();
 
-				// Ideally want to automate this later
-				if (usedSuccessfully) {
-					if (item.item.consumable) {
-						item.amount -= 1;
-						if (item.amount <= 0) {
-							inventory = inventory.filter((i) => i.item.name !== item.item.name);
-							if (selectedItem?.item.name === item.item.name) {
-								selectedItem = null;
-							}
-						}
-					}
-				}
-			}
-		} else if (mode === "Bank") {
-			if(cityDataId > 0) {
-				PlayerController.removeItemByName(item.item.name);
-				let success = await StorageController.addItem(item, cityDataId);
-				console.log("Added item to storage:", success);
-			} else {
-				console.error("cityDataId is 0 or negative ", cityDataId);
-			}
+		if (cityDataId > 0) {
+			PlayerController.removeItemByName(item.item.name);
+			let success = await StorageController.addItem(item, cityDataId);
+			console.log("Added item to storage:", success);
 		} else {
-			console.error("Invalid mode");
+			console.error("cityDataId is 0 or negative ", cityDataId);
 		}
 	}
 

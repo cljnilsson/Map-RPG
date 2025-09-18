@@ -2,6 +2,7 @@ import healthPotion from "$lib/data/items/healthPotion";
 import resetPotion from "$lib/data/items/restorePotion";
 import oldBook from "$lib/data/items/oldBook";
 import tempItems from "$lib/data/items/testItems";
+import type { Item } from "$lib/types/item";
 
 // Types are either Item, VendorItem or UsableItem all of which are subtypes of Item if not Item itself
 const itemRegistry = {
@@ -31,4 +32,12 @@ export type ItemId = keyof typeof itemRegistry;
 
 export function getItem<T extends ItemId>(id: T) {
 	return itemRegistry[id]();
+}
+
+export function safeGetItem(id: string): Item | undefined {
+	console.log(id);
+	if (id in itemRegistry) {
+		return itemRegistry[id as ItemId]();
+	}
+	return undefined;
 }

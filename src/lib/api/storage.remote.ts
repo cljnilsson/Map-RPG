@@ -13,13 +13,22 @@ async function getAllStorage() {
 }
 
 async function getStorageByCity(cityDataId: number) {
-	return await db.query.storage.findFirst({
+	return await db.query.storage.findMany({
 		where: (storage, { eq }) => eq(storage.cityId, cityDataId),
 		with: {
 			city: true
 		}
 	});
 }
+
+async function cityDataExists(id: number) : Promise<boolean> {
+	const found = await db.query.cityData.findFirst({
+		where: (cityData, { eq }) => eq(cityData.id, id),
+	});
+
+	return found != undefined;
+}
+
 /*
 async function getResourceByName(name: string) {
 	return await db.select().from(resource).where(eq(resource.name, name)).get();
@@ -74,7 +83,7 @@ const GetOneSchema = v.object({
 
 type GetOneData = v.InferOutput<typeof GetOneSchema>;
 
-async function get(body: GetOneData): Promise<GetReturnType | undefined> {
+async function get(body: GetOneData): Promise<GetReturnType[] | undefined> {
 	const existing = await getStorageByCity(body.cityId);
 
 	return existing;
@@ -95,15 +104,17 @@ const AddOneSchema = v.object({
 type AddOneData = v.InferOutput<typeof AddOneSchema>;
 
 async function addOne(body: AddOneData): Promise<boolean> {
-	const existing = await getStorageByCity(body.cityId);
+	const existing = await cityDataExists(body.cityId);
 
 	if (!existing) {
+		console.log("Trying to add storage to citydata that does not exist", body.cityId)
 		return false;
 	}
 
-	const addedToStorage = addOneToStorage(body.cityId, body.key, body.amount);
+	const addedToStorage = await addOneToStorage(body.cityId, body.key, body.amount);
 
 	if (!addedToStorage) {
+		console.log("Something went wrong when trying to add to storage");
 		return false;
 	}
 

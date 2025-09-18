@@ -19,6 +19,9 @@ const config = {
 			$routes: "src/routes"
 		}
 	},
+	vitePlugin: {
+		inspector: true
+	},
 	compilerOptions: {
 		experimental: {
 			async: true
