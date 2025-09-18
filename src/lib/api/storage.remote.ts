@@ -30,18 +30,6 @@ async function cityDataExists(id: number) : Promise<boolean> {
 }
 
 /*
-async function getResourceByName(name: string) {
-	return await db.select().from(resource).where(eq(resource.name, name)).get();
-}
-
-async function getCity(name: string) {
-	return await db.select().from(city).where(eq(city.name, name)).get();
-}
-
-async function getCityData(characterId: number, cityId: number) {
-	return await db.select().from(cityData).where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId))).get();
-}
-
 async function updateOneLoan(cityDataId: number, resourceId: number, value: number): Promise<boolean> {
 	const rows = await db
 		.update(loans)
@@ -59,6 +47,13 @@ async function addOneToStorage(cityId: number, key: string, amount: number) {
 			amount: amount
 		}
 	]);
+
+	return rows.changes > 0;
+}
+
+async function removeOneFromStorage(cityId: number, key: string, amount: number) {
+	// TODO, if amount is less than current amount just reduce amount instead
+	const rows = await db.delete(storage).where(and(eq(storage.cityId, cityId), eq(storage.itemKey, key))).limit(1);
 
 	return rows.changes > 0;
 }
@@ -121,87 +116,33 @@ async function addOne(body: AddOneData): Promise<boolean> {
 	return true;
 }
 
-/*
-const LoanSchema = v.object({
-	charaacterId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
-	cityName: v.string(),
-	resourceName: v.string(),
-	value: v.pipe(v.number(), v.integer(), v.toMinValue(0))
+const RemoveOneSchema = v.object({
+	cityId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+	key: v.string(),
+	amount: v.pipe(v.number(), v.integer(), v.toMinValue(1))
 });
 
+type RemoveOneData = v.InferOutput<typeof RemoveOneSchema>;
 
-type LoanData = v.InferOutput<typeof LoanSchema>;*/
-/*
-async function createPost(body: LoanData) {
-	console.log(body);
-	let failed: LoanData | false = false;
+async function removeOne(body: RemoveOneData): Promise<boolean> {
+	const existing = await cityDataExists(body.cityId);
 
-	// Clean up returns later
-	const resource = await getResourceByName(body.resourceName);
-	console.log(resource);
-	if(!resource) {
-		return { success: false, failed };
+	if (!existing) {
+		console.log("Trying to remove storage from citydata that does not exist", body.cityId)
+		return false;
 	}
 
-	const city = await getCity(body.cityName);
-	console.log(city);
-	if(!city) {
-		return { success: false, failed };
+	const removedFromStorage = await removeOneFromStorage(body.cityId, body.key, body.amount);
+
+	if (!removedFromStorage) {
+		console.log("Something went wrong when trying to remove from storage");
+		return false;
 	}
 
-	const cityData = await getCityData(body.charaacterId, city.id);
-	console.log(cityData);
-	if(!cityData) {
-		return { success: false, failed };
-	}
-
-	const success = await createLoan(body.value, resource.id, cityData.id);
-	console.log(success);
-	if(!success) {
-		failed = body;
-	}
-	
-	if(failed) {
-		return { success: false, failed };
-	}
-	
-	return { success: true };
+	return true;
 }
 
-async function updatePost(body: LoanData) {
-	console.log(body);
-	let failed: LoanData | false = false;
-
-	// Clean up returns later
-	const resource = await getResourceByName(body.resourceName);
-	if(!resource) {
-		return { success: false, failed };
-	}
-
-	const city = await getCity(body.cityName);
-	if(!city) {
-		return { success: false, failed };
-	}
-
-	const cityData = await getCityData(body.charaacterId, city.id);
-	if(!cityData) {
-		return { success: false, failed };
-	}
-
-	const success = updateOneLoan(cityData.id, resource.id, body.value);
-	if(!success) {
-		failed = body;
-	}
-
-	if(failed) {
-		return { success: false, failed };
-	}
-	
-	return { success: true };
-}*/
-
-//export const postLoan = command(LoanSchema, createPost);
-//export const updateLoan = command(LoanSchema, updatePost);
 export const getStorages = query(getAll);
 export const getStorage = command(GetOneSchema, get);
 export const addItem = command(AddOneSchema, addOne);
+export const removeItem = command(RemoveOneSchema, removeOne);

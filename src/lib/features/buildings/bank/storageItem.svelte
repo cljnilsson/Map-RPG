@@ -30,9 +30,11 @@
 		e.preventDefault();
 
 		if (cityDataId > 0) {
-			PlayerController.removeItemByName(item.item.name);
-			let success = await StorageController.addItem(item, cityDataId);
-			console.log("Added item to storage:", success);
+			let success = await StorageController.removeItemByName(item.item.name, cityDataId);
+			console.log("removed item from storage:", success);
+			if(success) {
+				PlayerController.giveItem(item.item, item.amount);
+			}
 		} else {
 			console.error("cityDataId is 0 or negative ", cityDataId);
 		}

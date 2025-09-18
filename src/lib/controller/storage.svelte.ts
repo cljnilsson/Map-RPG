@@ -1,7 +1,7 @@
 //import type { Character } from "$lib/types/character";
 import type { Item, VendorItem, InventoryItem } from "$lib/types/item";
 import { LogController } from "$lib/controller/logs.svelte";
-import { addItem } from "$lib/api/storage.remote";
+import { addItem, removeItem } from "$lib/api/storage.remote";
 
 const storageState: { storage: InventoryItem[] } = $state({ storage: [] });
 
@@ -30,6 +30,7 @@ export default class StorageController {
 	public static async addItem({ item, amount }: InventoryItem, cityId: number): Promise<boolean> {
 		if (StorageController.inventory.length < StorageController.inventorySize) {
 			// TODO, check if item.id exists in client database
+			console.log("Addding: ", item.id, item.name);
 			const getMyStorage = await addItem({
 				cityId: cityId,
 				key: item.id,
@@ -67,16 +68,31 @@ export default class StorageController {
 		return item !== undefined && item.amount >= amount;
 	}
 
-	public static removeItemByName(name: string) {
+	public static async removeItemByName(name: string, cityId: number): Promise<boolean> {
 		const itemIndex = StorageController.inventory.findIndex((slot) => slot.item.name === name);
 
 		if (itemIndex !== -1) {
 			const removedItem = StorageController.inventory[itemIndex];
-			StorageController.inventory = StorageController.inventory.filter((_, index) => index !== itemIndex);
+			const success = await removeItem({
+				cityId: cityId,
+				key: removedItem.item.id,
+				amount: removedItem.amount
+			});
 
-			LogController.newLog(`You lost ${removedItem.item.name}.`, "info");
+			if(success) {
+				StorageController.inventory = StorageController.inventory.filter((_, index) => index !== itemIndex);
+	
+				LogController.newLog(`You lost ${removedItem.item.name}.`, "info");
+				return true;
+			}
+
+			console.error("Could not remove the item from storage");
+
+			return false;
+
 		} else {
 			console.error("Trying to remove item that does not exist");
+			return false;
 		}
 	}
 }

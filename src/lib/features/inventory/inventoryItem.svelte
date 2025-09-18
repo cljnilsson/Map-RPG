@@ -50,9 +50,15 @@
 			}
 		} else if (mode === "Bank") {
 			if(cityDataId > 0) {
-				PlayerController.removeItemByName(item.item.name);
+				console.log("clicked on: ", item.item.name);
+				
 				let success = await StorageController.addItem(item, cityDataId);
-				console.log("Added item to storage:", success);
+				if(success) {
+					console.log("Added item to storage:", success);
+					PlayerController.removeItemByName(item.item.name);
+				} else {
+					console.error("Could not remove from storage");
+				}
 			} else {
 				console.error("cityDataId is 0 or negative ", cityDataId);
 			}
