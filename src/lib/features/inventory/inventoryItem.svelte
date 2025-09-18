@@ -1,19 +1,23 @@
 <script lang="ts">
 	import type { InventoryItem } from "$lib/types/item";
 	import { isUsableItem } from "$lib/typeguards/item";
+	import { PlayerController } from "$lib/controller/character.svelte";
+	import StorageController from "$lib/controller/storage.svelte";
 
 	let {
 		inventory = $bindable(),
 		selectedItem = $bindable(),
 		item,
 		currentSearchTerm,
-		mode
+		mode,
+		cityDataId
 	}: {
 		inventory: InventoryItem[];
 		selectedItem: InventoryItem | null;
 		item: InventoryItem;
 		currentSearchTerm: string;
 		mode: "Normal" | "Bank";
+		cityDataId: number
 	} = $props();
 
 	function onSelect() {
@@ -45,7 +49,12 @@
 				}
 			}
 		} else if (mode === "Bank") {
-			console.log("xoxo");
+			if(cityDataId > 0) {
+				PlayerController.removeItemByName(item.item.name);
+				StorageController.addItem(item, cityDataId);
+			} else {
+				console.error("cityDataId is 0 or negative ", cityDataId);
+			}
 		} else {
 			console.error("Invalid mode");
 		}

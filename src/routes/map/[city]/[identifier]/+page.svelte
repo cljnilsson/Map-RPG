@@ -27,6 +27,12 @@
 	let buildingFull = $derived(getBuildingFromPlot(buildingPlot));
 	let { Component, strippedBuilding } = $derived(getComponentData(buildingFull));
 
+	let cityData:
+		{
+			id: number | undefined;
+			// Can add other of the props later if needed but for now I only need the ID but I am future proofing it a bit with the approach
+		} = $state({id: undefined});
+
 	// ---- Actions ----
 	function upgrade(price: Resource[]) {
 		CityController.upgrade(price, plotIndex);
@@ -118,6 +124,7 @@
 			console.log("Cities:", cities);
 			CityController.setMainCityFromCurrentOwned();
 			currentMap = MapController.cityMaps.filter((v) => v.map.name === data.city)[0].map;
+			cityData.id = cities.find(v => v.name === currentMap.name)?.id; 
 		} else {
 			console.error("Failed to fetch cities");
 		}
@@ -147,8 +154,8 @@
 				<h4 class="border-bottom">{buildingFull.name} ({buildingPlot.level})</h4>
 				<p>{buildingFull.description}</p>
 
-				{#if Component && strippedBuilding}
-					<Component level={buildingPlot.level} building={strippedBuilding} cityName={data.city} />
+				{#if Component && strippedBuilding && cityData.id}
+					<Component level={buildingPlot.level} building={strippedBuilding} cityName={data.city} cityDataId={cityData.id} />
 				{/if}
 
 				{#if buildingFull.cost.length > 0}

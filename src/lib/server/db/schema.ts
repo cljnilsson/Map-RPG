@@ -170,7 +170,7 @@ export const resource = sqliteTable("resource", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	name: text("name").notNull().unique(),
 	iconPath: text("icon_path").notNull().unique(),
-	baseLimit: integer("base_limit").notNull().default(100),
+	baseLimit: integer("base_limit").notNull().default(100)
 });
 
 export const resources = sqliteTable(
@@ -190,35 +190,29 @@ export const resources = sqliteTable(
 	})
 );
 
-export const loans = sqliteTable(
-	"loans",
-	{
-		id: integer("id").primaryKey({ autoIncrement: true }),
-		cityId: integer("cityData_id")
-			.notNull()
-			.references(() => cityData.id),
-		resourceId: integer("resource_id")
-			.notNull()
-			.references(() => resource.id),
-		paid: integer("paid").notNull(),
-		full: integer("full").notNull(),
-		timestamp: text().notNull().default(sql`(CURRENT_TIMESTAMP)`)
-	}
-);
+export const loans = sqliteTable("loans", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	cityId: integer("cityData_id")
+		.notNull()
+		.references(() => cityData.id),
+	resourceId: integer("resource_id")
+		.notNull()
+		.references(() => resource.id),
+	paid: integer("paid").notNull(),
+	full: integer("full").notNull(),
+	timestamp: text()
+		.notNull()
+		.default(sql`(CURRENT_TIMESTAMP)`)
+});
 
-export const storage = sqliteTable(
-	"storage",
-	{
-		id: integer("id").primaryKey({ autoIncrement: true }),
-		cityId: integer("cityData_id")
-			.notNull()
-			.references(() => cityData.id),
-		itemKey: text("item_key")
-			.notNull()
-			.references(() => resource.id),
-		amount: integer("amount").notNull()
-	}
-);
+export const storage = sqliteTable("storage", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	cityId: integer("cityData_id")
+		.notNull()
+		.references(() => cityData.id),
+	itemKey: text("item_key").notNull(),
+	amount: integer("amount").notNull()
+});
 
 // RELATIONS
 
@@ -232,7 +226,7 @@ export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 	storage: many(storage),
 	units: many(units),
 	plots: many(plot),
-	loans: many(loans),
+	loans: many(loans)
 }));
 
 export const plotRelations = relations(plot, ({ one }) => ({
@@ -276,13 +270,13 @@ export const resourcesRelations = relations(resources, ({ one }) => ({
 
 export const loanRelations = relations(loans, ({ one }) => ({
 	city: one(cityData, {
-	  fields: [loans.cityId],
-	  references: [cityData.id],
+		fields: [loans.cityId],
+		references: [cityData.id]
 	}),
 	resource: one(resource, {
-	  fields: [loans.resourceId],
-	  references: [resource.id],
-	}),
+		fields: [loans.resourceId],
+		references: [resource.id]
+	})
 }));
 
 export const itemRelations = relations(items, ({ one }) => ({

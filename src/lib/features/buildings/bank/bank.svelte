@@ -22,7 +22,7 @@
 		storage db schema
 	*/
 
-	const { level, building, cityName }: { level: number; building: Omit<Building, "componentOnClick">; cityName: string } = $props();
+	const { level, building, cityName, cityDataId }: { level: number; building: Omit<Building, "componentOnClick">; cityName: string, cityDataId: number } = $props();
 	let maxLoanAmount = $state(5000);
 	let maxLoans = $state(5);
 	let currentLoans: {
@@ -152,8 +152,8 @@
 		</Tab>
 		<Tab id={tabs[1].target}>
 			<h4>Storage</h4>
-			<Storage />
-			<Inventory title="Inventory" showEmptySlots={false} showMoney={false} />
+			<Storage {cityDataId}/>
+			<Inventory title="Inventory" showEmptySlots={false} showMoney={false} mode="Bank" {cityDataId} />
 		</Tab>
 	</Tabs>
 </div>

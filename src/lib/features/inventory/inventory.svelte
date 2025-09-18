@@ -9,15 +9,16 @@
 	let {
 		title = "",
 		showEmptySlots = true,
-		showMoney = true
-	}: { title?: string; showEmptySlots?: boolean; showMoney?: boolean } = $props();
+		showMoney = true,
+		mode = "Normal",
+		cityDataId = -1,
+	}: { title?: string; showEmptySlots?: boolean; showMoney?: boolean, mode?: "Normal" | "Bank", cityDataId?: number } = $props();
 
 	const rows = 8;
 	const slots = 6 * rows;
 
 	let selectedItem: InventoryItem | null = $state(null);
 	let searchString: string = $state("");
-	let mode: "Normal" | "Bank" = $state("Normal");
 	let size: number = $derived(showEmptySlots ? slots : CharacterStore.inventory.length);
 
 	$effect(() => {
@@ -49,6 +50,7 @@
 				currentSearchTerm={searchString}
 				bind:selectedItem
 				{mode}
+				{cityDataId}
 			/>
 		</Tooltip>
 	{/snippet}
