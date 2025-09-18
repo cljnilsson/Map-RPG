@@ -30,6 +30,7 @@
 		e.preventDefault();
 
 		if (cityDataId > 0) {
+			// Order matters, modifying the inventory shuffles everything so the reference gets jumbled, need a better each index or save/lock the reference or swap the order
 			let success = await StorageController.removeItemByName(item.item.name, cityDataId);
 			console.log("removed item from storage:", success);
 			if(success) {
