@@ -1,8 +1,10 @@
 <script lang="ts">
 	import CharacterStore from "$lib/stores/character.svelte";
-	import "bootstrap/dist/css/bootstrap.min.css";
-	import scriptSrc from "bootstrap/dist/js/bootstrap.bundle.js?url";
-	import "bootstrap-icons/font/bootstrap-icons.css";
+
+	//import "bootstrap/dist/css/bootstrap.min.css";
+	//import scriptSrc from "bootstrap/dist/js/bootstrap.bundle.js?url";
+	//import "bootstrap-icons/font/bootstrap-icons.css";
+
 	import "./styles.scss";
 	import "animate.css";
 	import Nav from "$lib/partials/nav.svelte";
@@ -118,10 +120,13 @@
 </script>
 
 <svelte:head>
-	<script src={scriptSrc} defer></script>
+	<!-- <script src={scriptSrc} defer></script> -->
 	<link rel="icon" type="image/svg" href="/facicon.png" />
 	<title>Travian x DnD</title>
 	<meta name="description" content="A SPA-ish web game based on both Travian and DnD." />
+	<link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="/bootstrap/bootstrap-icons.min.css">
+	<script src="/bootstrap/bootstrap.bundle.min.js" defer></script>
 </svelte:head>
 
 <div class="container-fluid p-0">

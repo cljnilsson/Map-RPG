@@ -28,8 +28,8 @@
 
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
-	let isScratching = false;
-	let isComplete = false;
+	let isScratching = $state(false);
+	let isComplete = $state(false);
 	let animationId: number | null = null;
 
 	onMount(() => {

@@ -58,8 +58,6 @@
 		"@oslojs/encoding": "^1.1.0",
 		"animate.css": "^4.1.1",
 		"better-sqlite3": "^11.9.1",
-		"bootstrap": "^5.3.5",
-		"bootstrap-icons": "^1.11.3",
 		"dayjs": "^1.11.13",
 		"drizzle-orm": "^0.38.4",
 		"sass": "^1.89.2",
