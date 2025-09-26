@@ -2,7 +2,7 @@
 	import type { Snippet } from "svelte";
 	import { portal } from "$lib/features/portal/portal.svelte";
 
-	let { children, tooltip }: { children: Snippet; tooltip: Snippet } = $props();
+	let { children, tooltip, disable = false }: { children: Snippet; tooltip: Snippet, disable?: boolean } = $props();
 
 	let hovering: boolean = $state(false);
 	let x = $state(0);
@@ -51,7 +51,7 @@
 <div class="tooltip-container" onmouseenter={onHover} onmouseleave={stopHover} onmousemove={mouseMove} role="tooltip">
 	{@render children()}
 
-	{#if hovering}
+	{#if hovering && !disable}
 		<div class="c-tooltip" bind:this={tooltipEl} use:portal={"body"} style="top: {y}px; left: {x}px;">
 			{@render tooltip()}
 		</div>

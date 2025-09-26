@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Window from "$lib/features/window/window.svelte";
 	import WindowController from "$lib/controller/window.svelte";
-	import Inventory from "$lib/features/inventory/inventory.svelte";
 
 	let { min = 1, max }: { min: number; max: number } = $props();
 
@@ -14,24 +13,26 @@
 
 <Window
 	uniqueKey="InventorySplitter"
-	height={150}
-	width={280}
+	height={50}
+	width={300}
 	x={inventoryWindow.x}
 	y={inventoryWindow.y}
-	toggleKey="i"
+	toggleKey={undefined}
 	bind:visibility={inventoryWindow.visible}
+	canMinimize={false}
+	canLock={false}
 >
-	{#snippet title()}{/snippet}
+	{#snippet title()}<h4 class="my-2">Splitter</h4>{/snippet}
 	{#snippet body()}
-		<div class="row justify-content-center bg-light align-items-center">
-			<div class="col-auto">
-				{leftStack}
+		<div class="row justify-content-center align-items-center h-100">
+			<div class="col-2 text-center">
+				<span class:fw-bold={leftStack > rightStack}>{leftStack}</span>
 			</div>
-			<div class="col-auto d-flex align-items-center">
+			<div class="col-auto px-0 d-flex align-items-center h-100">
 				<input type="range" class="form-range" bind:value={current} {min} {max} />
 			</div>
-			<div class="col-auto">
-				{rightStack}
+			<div class="col-2 text-center">
+				<span class:fw-bold={leftStack < rightStack}>{rightStack}</span>
 			</div>
 		</div>
 	{/snippet}

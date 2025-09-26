@@ -7,8 +7,8 @@
 
 	function openSplitter(e: MouseEvent) {
 		inventoryWindow.visible = true;
-		inventoryWindow.x = e.clientX;
-		inventoryWindow.y = e.clientY;
+		inventoryWindow.x = e.clientX + 10;
+		inventoryWindow.y = e.clientY + 10;
 	}
 </script>
 
@@ -36,7 +36,7 @@
 <div class="px-5 py-5">
 	<div class="row justify-content-center">
 		<div class="col-auto">
-			<Tooltip>
+			<Tooltip disable={inventoryWindow.visible}>
 				<div class="demo" onclick={openSplitter}>click me</div>
 				{#snippet tooltip()}
 					<h3>Title</h3>
