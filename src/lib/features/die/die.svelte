@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	let { dots, sides, clickable }: { dots?: number; sides: number, clickable: boolean } = $props();
+	let { dots, sides, clickable }: { dots?: number; sides: number; clickable: boolean } = $props();
 	let flip: boolean = $state(false);
 	let grow: boolean = $state(false);
 
@@ -36,7 +36,7 @@
 	}
 
 	function onEnter(event: KeyboardEvent) {
-		if(clickable) {
+		if (clickable) {
 			if (event.key === "Enter" || event.key === " ") {
 				roll();
 			}
@@ -44,7 +44,7 @@
 	}
 
 	function onClick() {
-		if(clickable) {
+		if (clickable) {
 			roll();
 		}
 	}
@@ -54,16 +54,7 @@
 	});
 </script>
 
-<div
-	onclick={onClick}
-	class="face"
-	class:animate__animated={flip}
-	class:animate__flip={flip}
-	onanimationend={rollComplete}
-	tabindex="0"
-	role="button"
-	onkeydown={onEnter}
->
+<div onclick={onClick} class="face" class:flip onanimationend={rollComplete} tabindex="0" role="button" onkeydown={onEnter}>
 	<span class:grow-shrink={grow}>{dots}</span>
 </div>
 
@@ -98,5 +89,35 @@
 
 	.grow-shrink {
 		animation: growAndShrink 0.5s ease-in-out;
+	}
+
+	/* From animate.css */
+	@keyframes flip {
+		from {
+			transform: perspective(400px) rotateY(0);
+			animation-timing-function: ease-out;
+		}
+		40% {
+			transform: perspective(400px) translateZ(150px) rotateY(170deg);
+			animation-timing-function: ease-in;
+		}
+		50% {
+			transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+			animation-timing-function: ease-out;
+		}
+		80% {
+			transform: perspective(400px) rotateY(360deg) scale(0.95);
+			animation-timing-function: ease-in;
+		}
+		to {
+			transform: perspective(400px) scale(1);
+			animation-timing-function: ease-out;
+		}
+	}
+
+	.flip {
+		backface-visibility: visible;
+		animation-name: flip;
+		animation-duration: 1s;
 	}
 </style>

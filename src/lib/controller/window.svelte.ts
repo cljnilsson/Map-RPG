@@ -11,6 +11,7 @@ export default class WindowController extends ClassInstanceList {
 	private _y: number = $state(0);
 	private _visible: boolean = $state(false);
 	private _name: WindowTypes = $state("");
+	private savePosition: boolean = true; // Implement later, for example the inventory splitter should not be saved in DB
 
 	constructor(visible: boolean, x: number, y: number, name: WindowTypes) {
 		super();
@@ -116,7 +117,8 @@ export default class WindowController extends ClassInstanceList {
 			"Inventory",
 			"Vendor",
 			"Roll",
-			"Container"
+			"Container",
+			"InventorySplitter"
 		].includes(key); // reuse windowtypes here
 	}
 }
@@ -131,6 +133,7 @@ new WindowController(false, 300, 450, "Inventory");
 new WindowController(false, 300, 450, "Vendor");
 new WindowController(false, 800, 450, "Roll");
 new WindowController(false, 300, 400, "Container");
+new WindowController(false, 0, 0, "InventorySplitter");
 
 // Setting to initial visible values
 _openWindows = WindowController.all.filter((w): w is WindowController => w instanceof WindowController && w.visible);

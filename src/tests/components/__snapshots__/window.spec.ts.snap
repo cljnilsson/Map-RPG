@@ -4,7 +4,7 @@ exports[`Window renders 1`] = `
 <div>
   <!---->
   <div
-    class="overlay-rect svelte-na9ayw"
+    class="overlay-rect svelte-110qxpm"
     style="left: 4px; top: 5.333333333333333px; width: 400px; z-index: 499;"
   >
     <div
@@ -13,7 +13,7 @@ exports[`Window renders 1`] = `
       tabindex="0"
     >
       <div
-        class="row wrapper svelte-h797yu"
+        class="row wrapper svelte-yibhvk"
       >
         <div
           class="col"
@@ -35,7 +35,7 @@ exports[`Window renders 1`] = `
                 class="btn btn-sm btn-outline-secondary"
               >
                 <i
-                  class="bi bi-lock-fill svelte-na9ayw"
+                  class="bi bi-lock-fill svelte-110qxpm"
                 />
               </button>
               <!---->
@@ -45,7 +45,7 @@ exports[`Window renders 1`] = `
                 class="btn btn-sm btn-outline-secondary"
               >
                 <i
-                  class="bi bi-dash svelte-na9ayw"
+                  class="bi bi-dash svelte-110qxpm"
                 />
               </button>
               <!---->
@@ -88,11 +88,11 @@ exports[`Window renders 1`] = `
     <!---->
      
     <div
-      class="content-wrapper svelte-na9ayw"
+      class="content-wrapper svelte-110qxpm"
       style="height: 600px;"
     >
       <div
-        class="inner d-flex flex-column h-100 svelte-na9ayw"
+        class="inner d-flex flex-column h-100 svelte-110qxpm"
       >
         <!---->
          

@@ -1,12 +1,7 @@
 <script lang="ts">
 	import CharacterStore from "$lib/stores/character.svelte";
 
-	//import "bootstrap/dist/css/bootstrap.min.css";
-	//import scriptSrc from "bootstrap/dist/js/bootstrap.bundle.js?url";
-	//import "bootstrap-icons/font/bootstrap-icons.css";
-
 	import "./styles.scss";
-	import "animate.css";
 	import Nav from "$lib/partials/nav.svelte";
 	import { onMount, type Snippet } from "svelte";
 	import type { LayoutData } from "$lib/types/layoutData";
@@ -120,7 +115,6 @@
 </script>
 
 <svelte:head>
-	<!-- <script src={scriptSrc} defer></script> -->
 	<link rel="icon" type="image/svg" href="/facicon.png" />
 	<title>Travian x DnD</title>
 	<meta name="description" content="A SPA-ish web game based on both Travian and DnD." />
@@ -147,3 +141,4 @@
 		background-repeat: repeat-y;
 	}
 </style>
+

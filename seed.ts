@@ -61,7 +61,7 @@ async function seed() {
 				level: 1,
 				health: 10,
 				maxHealth: 100,
-				exp: 5,
+				xp: 5,
 				userId: 1
 			} // Hardcoded userId for now
 		]);

@@ -6,7 +6,7 @@ exports[`Creator renders with correct elements 1`] = `
     class="row justify-content-center px-3 mt-5 position-relative"
   >
     <div
-      class="col-xl-10 col-md-12 wrapper svelte-17t8ei6"
+      class="col-xl-10 col-md-12 wrapper svelte-1vun6ic"
     >
       <div
         class="c-header"
@@ -29,11 +29,11 @@ exports[`Creator renders with correct elements 1`] = `
             class="col-12 position-relative"
           >
             <div
-              class="char-menu svelte-17t8ei6"
+              class="char-menu svelte-1vun6ic"
             >
               <div>
                 <button
-                  class="btn svelte-17t8ei6 activeSelection"
+                  class="btn svelte-1vun6ic activeSelection"
                 >
                   <h5>
                     Character
@@ -43,7 +43,7 @@ exports[`Creator renders with correct elements 1`] = `
                
               <div>
                 <button
-                  class="btn svelte-17t8ei6"
+                  class="btn svelte-1vun6ic"
                 >
                   <h5>
                     Class
@@ -53,7 +53,7 @@ exports[`Creator renders with correct elements 1`] = `
                
               <div>
                 <button
-                  class="btn svelte-17t8ei6"
+                  class="btn svelte-1vun6ic"
                 >
                   <h5>
                     Faith
@@ -63,7 +63,7 @@ exports[`Creator renders with correct elements 1`] = `
                
               <div>
                 <button
-                  class="btn svelte-17t8ei6"
+                  class="btn svelte-1vun6ic"
                 >
                   <h5>
                     Image

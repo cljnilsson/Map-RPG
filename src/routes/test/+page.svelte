@@ -1,0 +1,65 @@
+<script lang="ts">
+	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+	import InventorySplitter from "$lib/features/window/windows/inventory/inventorySplitter.svelte";
+	import WindowController from "$lib/controller/window.svelte";
+
+	let inventoryWindow = WindowController.getByName("InventorySplitter");
+
+	function openSplitter(e: MouseEvent) {
+		inventoryWindow.visible = true;
+		inventoryWindow.x = e.clientX;
+		inventoryWindow.y = e.clientY;
+	}
+</script>
+
+<div class="px-5 py-5">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<Tooltip>
+				<div class="demo"></div>
+				{#snippet tooltip()}
+					<h3>Title</h3>
+					<p>Text</p>
+					<div class="border-top py-1">
+						<p class="my-1"><span class="badge text-bg-secondary">Left Click</span>: <b>Highlight</b></p>
+						<p class="my-1"><span class="badge text-bg-secondary">Right Click</span>: <b>Use / Sell</b></p>
+						<p class="my-1">
+							<span class="badge text-bg-secondary">Shift</span> + <span class="badge text-bg-secondary">Left Click</span>:
+							<b>Split</b>
+						</p>
+					</div>
+				{/snippet}
+			</Tooltip>
+		</div>
+	</div>
+</div>
+<div class="px-5 py-5">
+	<div class="row justify-content-center">
+		<div class="col-auto">
+			<Tooltip>
+				<div class="demo" onclick={openSplitter}>click me</div>
+				{#snippet tooltip()}
+					<h3>Title</h3>
+					<p>Text</p>
+					<div class="border-top py-1">
+						<p class="my-1"><span class="badge text-bg-secondary">Left Click</span>: <b>Highlight</b></p>
+						<p class="my-1"><span class="badge text-bg-secondary">Right Click</span>: <b>Use / Sell</b></p>
+						<p class="my-1">
+							<span class="badge text-bg-secondary">Shift</span> + <span class="badge text-bg-secondary">Left Click</span>:
+							<b>Split</b>
+						</p>
+					</div>
+				{/snippet}
+			</Tooltip>
+		</div>
+	</div>
+</div>
+<InventorySplitter min={1} max={14} />
+
+<style>
+	.demo {
+		width: 100px;
+		height: 100px;
+		background-color: red;
+	}
+</style>
