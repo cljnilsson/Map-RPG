@@ -13,9 +13,7 @@ export const user = sqliteTable(
 		username: text("username").notNull(),
 		passwordHash: text("password_hash").notNull()
 	},
-	(t) => [
-		uniqueIndex("user_username_unique").on(t.username)
-	]
+	(t) => [uniqueIndex("user_username_unique").on(t.username)]
 );
 
 export const session = sqliteTable(
@@ -23,12 +21,12 @@ export const session = sqliteTable(
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
 		token: text("token").notNull(),
-		userId: integer("user_id").notNull().references(() => user.id),
+		userId: integer("user_id")
+			.notNull()
+			.references(() => user.id),
 		expiresAt: integer("expires_at").notNull()
 	},
-	(t) => [
-		uniqueIndex("session_token_unique").on(t.token)
-	]
+	(t) => [uniqueIndex("session_token_unique").on(t.token)]
 );
 
 /*
@@ -37,14 +35,18 @@ export const session = sqliteTable(
 
 export const flags = sqliteTable("flags", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	userId: integer("user_id").notNull().references(() => user.id),
+	userId: integer("user_id")
+		.notNull()
+		.references(() => user.id),
 	name: text("name").notNull(),
 	value: integer("value").notNull().default(0) // Use 0 for false, 1 for true
 });
 
 export const characters = sqliteTable("characters", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	userId: integer("user_id").notNull().references(() => user.id),
+	userId: integer("user_id")
+		.notNull()
+		.references(() => user.id),
 	name: text("name").notNull(),
 	age: integer("age").notNull().default(18),
 	level: integer("level").notNull().default(1),
@@ -62,10 +64,32 @@ export const characters = sqliteTable("characters", {
 
 export const items = sqliteTable("items", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	characterId: integer("character_id").notNull().references(() => characters.id),
+	characterId: integer("character_id")
+		.notNull()
+		.references(() => characters.id),
 	itemKey: text("itemKey").notNull(),
 	amount: integer("amount").notNull().default(1)
 });
+
+export const settings = sqliteTable(
+	"settings",
+	{
+		userId: integer("user_id")
+			.notNull()
+			.references(() => user.id),
+		darkMode: integer({ mode: "boolean" }).notNull().default(false),
+		offlineMode: integer({ mode: "boolean" }).notNull().default(false),
+		keybindTooltips: integer({ mode: "boolean" }).notNull().default(false),
+		keybinds: text("keybinds").notNull().default("{}").$type<Record<string, string>>()
+	},
+	(table) => [
+		// enforce min/max length on the JSON string
+		check("keybinds_length", sql`length(${table.keybinds}) BETWEEN 1 AND 150`),
+
+		// enforce that the value is valid JSON
+		check("keybinds_valid", sql`json_valid(${table.keybinds}) = 1`)
+	]
+);
 
 export const city = sqliteTable("city", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
@@ -75,7 +99,9 @@ export const city = sqliteTable("city", {
 export const plot = sqliteTable("plots", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	identifier: text("identifier").notNull(),
-	cityId: integer("city_id").notNull().references(() => cityData.id),
+	cityId: integer("city_id")
+		.notNull()
+		.references(() => cityData.id),
 	building: text("building"),
 	level: integer("level").notNull().default(1)
 });
@@ -83,15 +109,21 @@ export const plot = sqliteTable("plots", {
 // The city data is per character and reuses data from the 'base' city
 export const cityData = sqliteTable("cityData", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	cityId: integer("city_id").notNull().references(() => characters.id),
-	characterId: integer("character_id").notNull().references(() => characters.id),
+	cityId: integer("city_id")
+		.notNull()
+		.references(() => characters.id),
+	characterId: integer("character_id")
+		.notNull()
+		.references(() => characters.id),
 	population: integer("population").notNull().default(1),
 	workers: integer("workers").notNull().default(0)
 });
 
 export const windowPositions = sqliteTable("windowPositions", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	characterId: integer("character_id").notNull().references(() => characters.id),
+	characterId: integer("character_id")
+		.notNull()
+		.references(() => characters.id),
 	windowKey: text("windowKey").notNull(),
 	x: integer("x").notNull(),
 	y: integer("y").notNull()
@@ -103,29 +135,31 @@ export const stat = sqliteTable(
 		id: integer("id").primaryKey({ autoIncrement: true }),
 		name: text("name").notNull()
 	},
-	(t) => [
-		uniqueIndex("stat_name_unique").on(t.name)
-	]
+	(t) => [uniqueIndex("stat_name_unique").on(t.name)]
 );
 
 export const stats = sqliteTable(
 	"stats",
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
-		characterId: integer("character_id").notNull().references(() => characters.id),
-		statId: integer("stat_id").notNull().references(() => stat.id),
+		characterId: integer("character_id")
+			.notNull()
+			.references(() => characters.id),
+		statId: integer("stat_id")
+			.notNull()
+			.references(() => stat.id),
 		value: integer("value").notNull()
 	},
-	(t) => [
-		uniqueIndex("stats_characterId_statId_unique").on(t.characterId, t.statId)
-	]
+	(t) => [uniqueIndex("stats_characterId_statId_unique").on(t.characterId, t.statId)]
 );
 
 export const quests = sqliteTable(
 	"quests",
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
-		characterId: integer("character_id").notNull().references(() => characters.id),
+		characterId: integer("character_id")
+			.notNull()
+			.references(() => characters.id),
 		key: text("key").notNull(),
 		progress: integer("progress").notNull(),
 		status: text("status").$type<"active" | "completed" | "failed">().notNull()
@@ -143,22 +177,22 @@ export const unit = sqliteTable(
 		iconPath: text("icon_path").notNull(),
 		name: text("name").notNull()
 	},
-	(t) => [
-		uniqueIndex("unit_name_unique").on(t.name)
-	]
+	(t) => [uniqueIndex("unit_name_unique").on(t.name)]
 );
 
 export const units = sqliteTable(
 	"units",
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
-		cityId: integer("city_id").notNull().references(() => cityData.id),
-		unitId: integer("stat_id").notNull().references(() => unit.id),
+		cityId: integer("city_id")
+			.notNull()
+			.references(() => cityData.id),
+		unitId: integer("stat_id")
+			.notNull()
+			.references(() => unit.id),
 		value: integer("value").notNull()
 	},
-	(t) => [
-		uniqueIndex("units_cityId_unitId_unique").on(t.cityId, t.unitId)
-	]
+	(t) => [uniqueIndex("units_cityId_unitId_unique").on(t.cityId, t.unitId)]
 );
 
 export const resource = sqliteTable(
@@ -169,37 +203,44 @@ export const resource = sqliteTable(
 		iconPath: text("icon_path").notNull(),
 		baseLimit: integer("base_limit").notNull().default(100)
 	},
-	(t) => [
-		uniqueIndex("resource_name_unique").on(t.name),
-		uniqueIndex("resource_iconPath_unique").on(t.iconPath)
-	]
+	(t) => [uniqueIndex("resource_name_unique").on(t.name), uniqueIndex("resource_iconPath_unique").on(t.iconPath)]
 );
 
 export const resources = sqliteTable(
 	"resources",
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
-		cityId: integer("cityData_id").notNull().references(() => cityData.id),
-		resourceId: integer("resource_id").notNull().references(() => resource.id),
+		cityId: integer("cityData_id")
+			.notNull()
+			.references(() => cityData.id),
+		resourceId: integer("resource_id")
+			.notNull()
+			.references(() => resource.id),
 		value: integer("value").notNull()
 	},
-	(t) => [
-		uniqueIndex("resources_cityId_resourceId_unique").on(t.cityId, t.resourceId)
-	]
+	(t) => [uniqueIndex("resources_cityId_resourceId_unique").on(t.cityId, t.resourceId)]
 );
 
 export const loans = sqliteTable("loans", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	cityId: integer("cityData_id").notNull().references(() => cityData.id),
-	resourceId: integer("resource_id").notNull().references(() => resource.id),
+	cityId: integer("cityData_id")
+		.notNull()
+		.references(() => cityData.id),
+	resourceId: integer("resource_id")
+		.notNull()
+		.references(() => resource.id),
 	paid: integer("paid").notNull(),
 	full: integer("full").notNull(),
-	timestamp: text().notNull().default(sql`(CURRENT_TIMESTAMP)`)
+	timestamp: text()
+		.notNull()
+		.default(sql`(CURRENT_TIMESTAMP)`)
 });
 
 export const storage = sqliteTable("storage", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
-	cityId: integer("cityData_id").notNull().references(() => cityData.id),
+	cityId: integer("cityData_id")
+		.notNull()
+		.references(() => cityData.id),
 	itemKey: text("item_key").notNull(),
 	amount: integer("amount").notNull()
 });
@@ -275,3 +316,4 @@ export type ResouceType = typeof resource.$inferSelect;
 export type City = typeof city.$inferSelect;
 export type CityData = typeof cityData.$inferSelect;
 export type Plot = typeof plot.$inferInsert;
+export type Settings = typeof settings.$inferSelect;

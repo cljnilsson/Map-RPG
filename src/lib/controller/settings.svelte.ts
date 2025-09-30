@@ -3,6 +3,7 @@ import { LogController } from "$lib/controller/logs.svelte";
 class QuestController {
 	private _keybindTooltips: boolean = $state(true);
 	private _offlineMode: boolean = $state(false);
+	private _darkMode: boolean = $state(false);
 	private _inventoryKeybind: string = $state("i");
 
 	get keybindTooltips() {
@@ -21,6 +22,15 @@ class QuestController {
 	set offlineMode(value: boolean) {
 		this._offlineMode = value;
 		LogController.newLog(`offline mode set to ${value}`, "info");
+	}
+
+	get darkMode() {
+		return this._darkMode;
+	}
+
+	set darkMode(value: boolean) {
+		this._darkMode = value;
+		LogController.newLog(`dark mode set to ${value}`, "info");
 	}
 
 	get inventoryKeybind() {
