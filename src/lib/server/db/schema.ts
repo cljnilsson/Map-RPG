@@ -10,23 +10,21 @@ export const user = sqliteTable(
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
 		age: integer("age"),
-		username: text("username").notNull(),
+		username: text("username").unique().notNull(),
 		passwordHash: text("password_hash").notNull()
-	},
-	(t) => [uniqueIndex("user_username_unique").on(t.username)]
+	}
 );
 
 export const session = sqliteTable(
 	"session",
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
-		token: text("token").notNull(),
+		token: text("token").unique().notNull(),
 		userId: integer("user_id")
 			.notNull()
 			.references(() => user.id),
 		expiresAt: integer("expires_at").notNull()
-	},
-	(t) => [uniqueIndex("session_token_unique").on(t.token)]
+	}
 );
 
 /*
@@ -80,7 +78,7 @@ export const settings = sqliteTable(
 		darkMode: integer({ mode: "boolean" }).notNull().default(false),
 		offlineMode: integer({ mode: "boolean" }).notNull().default(false),
 		keybindTooltips: integer({ mode: "boolean" }).notNull().default(false),
-		keybinds: text("keybinds").notNull().default("{}").$type<Record<string, string>>()
+		keybinds: text("keybinds", {mode: "json"}).notNull().default("{}").$type<Record<string, string>>()
 	},
 	(table) => [
 		// enforce min/max length on the JSON string
@@ -133,9 +131,8 @@ export const stat = sqliteTable(
 	"stat",
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
-		name: text("name").notNull()
-	},
-	(t) => [uniqueIndex("stat_name_unique").on(t.name)]
+		name: text("name").unique().notNull()
+	}
 );
 
 export const stats = sqliteTable(
@@ -175,9 +172,8 @@ export const unit = sqliteTable(
 	{
 		id: integer("id").primaryKey({ autoIncrement: true }),
 		iconPath: text("icon_path").notNull(),
-		name: text("name").notNull()
-	},
-	(t) => [uniqueIndex("unit_name_unique").on(t.name)]
+		name: text("name").unique().notNull()
+	}
 );
 
 export const units = sqliteTable(

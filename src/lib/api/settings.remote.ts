@@ -1,7 +1,7 @@
 import { db } from "$lib/server/db";
 import { query, command } from "$app/server";
 import { settings, type Settings } from "$lib/server/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import * as v from "valibot";
 
 async function getAllSettings() {
@@ -58,7 +58,12 @@ const UserIdSchema = v.object({
 type UserIdData = v.InferOutput<typeof UserIdSchema>;
 
 async function getOneSetting({ userId }: UserIdData): Promise<Settings | undefined> {
-	const existing = await getSetting(userId);
+	let existing = await getSetting(userId);
+
+	if(!existing) {
+		await createSettings(userId);
+		existing = await getSetting(userId);
+	}
 
 	return existing;
 }

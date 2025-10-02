@@ -69,13 +69,27 @@ exports[`Window renders 1`] = `
             <div
               class="col-auto"
             >
-              <small>
+              <small
+                class="me-1"
+              >
                 x: 4
               </small>
               <small
-                class="ms-3"
+                class="mx-1"
               >
                 y: 5
+              </small>
+               
+              <small
+                class="mx-1"
+              >
+                h: 600
+              </small>
+               
+              <small
+                class="mx-1"
+              >
+                w: 400
               </small>
             </div>
           </div>

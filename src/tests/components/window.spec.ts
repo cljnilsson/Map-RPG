@@ -16,7 +16,7 @@ const renderOptions = {
 
 test("Window renders", async () => {
 	const { component, container } = render(Window, renderOptions);
-
+	console.log(component);
 	expect(component).toBeTruthy();
 	expect(container).toMatchSnapshot();
 });

@@ -12,6 +12,7 @@
 	import { getCityResources } from "$lib/utils/resources";
 	import type { Character } from "$lib/server/db/schema";
 	import { source } from "sveltekit-sse";
+	import SettingsController from "$lib/controller/settings.svelte";
 
 	let { children, data }: { children: Snippet<[]>; data: LayoutData } = $props();
 
@@ -34,8 +35,14 @@
 	async function loadCharacter() {
 		const chars = await getRequest<{ success: boolean; characters: CharacterWithStats[] }>("/api/characters");
 
+		// Always loads the first one rather than selecting from user choice, fix later
 		if (chars.characters.length > 0) {
 			const character = chars.characters[0];
+
+			if(character.stats.length < 5) {
+				console.error("Something is wrong with the loaded character, missing stats.");
+				return;
+			}
 
 			CharacterStore.character = {
 				id: character.id,
@@ -98,6 +105,9 @@
 		});
 
 		loadCharacter();
+		if(data.user) {
+			SettingsController.load(data.user.id);
+		}
 
 		// Will load from DB eventually
 		if (CharacterStore.inventory.length === 0) {

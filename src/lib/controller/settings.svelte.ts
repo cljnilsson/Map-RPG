@@ -1,4 +1,5 @@
 import { LogController } from "$lib/controller/logs.svelte";
+import { getSettingForUser } from "$lib/api/settings.remote";
 
 class QuestController {
 	private _keybindTooltips: boolean = $state(true);
@@ -40,6 +41,22 @@ class QuestController {
 	set inventoryKeybind(value: string) {
 		this._inventoryKeybind = value;
 		LogController.newLog(`inventory keybind set to ${value}`, "info");
+	}
+
+	async load(userId: number) {
+		const resp = await getSettingForUser({ userId });
+
+		if(!resp) {
+			LogController.newLog(`Failed to load settings for user ${userId}`, "error");
+			return;
+		}
+
+		this.offlineMode = resp.offlineMode;
+		this.darkMode = resp.darkMode;
+		this.keybindTooltips = resp.keybindTooltips;
+		if(resp.keybinds["inventory"]) {
+			this.inventoryKeybind = resp.keybinds["inventory"];
+		}
 	}
 }
 
