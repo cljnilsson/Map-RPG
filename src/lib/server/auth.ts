@@ -25,7 +25,7 @@ export async function createSession(token: string, userId: number) {
 	};
 
 	await db.insert(table.session).values(session);
-	
+
 	return session;
 }
 
@@ -55,10 +55,7 @@ export async function validateSessionToken(token: string) {
 	const renewSession = Date.now() >= session.expiresAt - DAY_IN_MS * 15;
 	if (renewSession) {
 		session.expiresAt = Date.now() + DAY_IN_MS * 30;
-		await db
-			.update(table.session)
-			.set({ expiresAt: session.expiresAt })
-			.where(eq(table.session.id, session.id));
+		await db.update(table.session).set({ expiresAt: session.expiresAt }).where(eq(table.session.id, session.id));
 	}
 
 	return { session, user };
@@ -74,6 +71,9 @@ export function setSessionTokenCookie(event: RequestEvent, token: string, expire
 	console.log("Setting cookie: ", sessionCookieName, "with token:", token, "expires at:", new Date(expiresAt));
 	event.cookies.set(sessionCookieName, token, {
 		expires: new Date(expiresAt),
+		httpOnly: true,
+		sameSite: "lax",
+		secure: true,
 		path: "/"
 	});
 }

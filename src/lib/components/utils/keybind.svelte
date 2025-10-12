@@ -1,15 +1,17 @@
 <script lang="ts">
+	import SettingsController from "$lib/controller/settings.svelte";
 	import { onDestroy } from "svelte";
 	import { SvelteSet } from "svelte/reactivity";
 	import { browser } from "$app/environment";
 
 	let { keybind = $bindable() }: { keybind: string } = $props();
-
+	let allKeybinds = $derived([SettingsController.inventoryKeybind]); // List of current keybinds
 	let listening = $state(false);
 	let pressed = new SvelteSet<string>();
 	let finalizeTimer: number | null = $state(null);
 
 	const keypressAllowance = 200; //in ms
+	const blacklist = new Set(["Ctrl + H", "Ctrl + W", "Ctrl + R", "Alt + F4"]); // Browser reserved
 
 	function normalize(e: KeyboardEvent) {
 		if (e.key === " " || e.key === "Spacebar") return "Space";
@@ -53,10 +55,15 @@
 			return;
 		}
 
-		// Start a grace timer if not already started
-		if (!finalizeTimer) {
-			finalizeTimer = window.setTimeout(() => finalize(), keypressAllowance);
+		// If a non-modifier key was pressed, finalize right away
+		if (!["Control", "Shift", "Alt", "Meta"].includes(name)) {
+			finalize();
+			return;
 		}
+
+		// Otherwise, start or refresh the grace timer for combos
+		if (finalizeTimer) clearTimeout(finalizeTimer);
+		finalizeTimer = window.setTimeout(() => finalize(), keypressAllowance);
 	}
 
 	function onKeyup(e: KeyboardEvent) {
@@ -72,8 +79,22 @@
 		if (pressed.has("Meta")) parts.push("Meta");
 
 		// choose one non-modifier (the last pressed is ideal, but here just any)
+		console.log(pressed.values());
 		const nonMods = [...pressed].filter((k) => !["Control", "Shift", "Alt", "Meta"].includes(k));
+		console.log(pressed.values(), nonMods);
 		if (nonMods.length) parts.push(nonMods[nonMods.length - 1]);
+
+		const combo = parts.join(" + ") || "None";
+
+		if (blacklist.has(combo)) {
+			console.error("This keybind is reserved by the browser.");
+			return;
+		}
+
+		if (Object.values(allKeybinds).includes(combo)) {
+			console.error("This keybind is already in use.");
+			return;
+		}
 
 		keybind = parts.join(" + ") || "None";
 		stopListening();
