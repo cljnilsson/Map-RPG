@@ -7,10 +7,11 @@
 	import type { WindowTypes } from "$lib/types/window";
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
-	let isCurrentCityMap = $derived(isCityMap(MapController.currentMapState.map));
+	let expanded = $state(true);
 
 	function toggleWindow(name: WindowTypes) {
-		WindowController.getByName(name).visible = !WindowController.getByName(name).visible;
+		const win = WindowController.getByName(name);
+		win.visible = !win.visible;
 	}
 
 	const menuItems: { iconPath: string; name: WindowTypes; label: string; cityOnly: boolean }[] = [
@@ -24,36 +25,46 @@
 	];
 
 	function minimizeToggle() {
-		// Todo, change width
+		expanded = !expanded;
 	}
 </script>
 
 <div
 	id="mini-menu"
-	class="position-fixed bottom-0 end-0 m-3 rounded border shadow p-2"
+	class="position-fixed bottom-0 end-0 m-3 rounded border shadow p-2 d-flex align-items-center"
 	style="z-index: 1050;"
 	class:d-none={DialogueController.inDialogue}
 >
-	{#each menuItems as { iconPath, name, label, cityOnly } (name)}
-		<Icon
-			{iconPath}
-			alt=""
-			onClickCallback={() => toggleWindow(name)}
-			disabled={cityOnly ? (isCityMap(MapController.currentMapState.map) ? false : true) : false}
-		>
-			{#snippet tooltipHtml()}
-				<h5 class="mb-0">{label}</h5>
-			{/snippet}
-		</Icon>
-	{/each}
-	<ClickableElement onClickCallback={minimizeToggle}>
-		<i class="bi bi-arrow-bar-right fs-1"></i>
-	</ClickableElement>
+	{#if expanded}
+		{#each menuItems as { iconPath, name, label, cityOnly } (name)}
+			<Icon
+				{iconPath}
+				alt=""
+				onClickCallback={() => toggleWindow(name)}
+				disabled={cityOnly ? !isCityMap(MapController.currentMapState.map) : false}
+			>
+				{#snippet tooltipHtml()}
+					<h5 class="mb-0">{label}</h5>
+				{/snippet}
+			</Icon>
+		{/each}
+	{/if}
+
+	<!-- toggle button always visible -->
+	<div class="ms-2">
+		<ClickableElement onClickCallback={minimizeToggle}>
+			<i class="bi" class:bi-arrow-bar-right={expanded} class:bi-arrow-bar-left={!expanded}></i>
+		</ClickableElement>
+	</div>
 </div>
 
 <style>
 	#mini-menu {
 		backdrop-filter: blur(20px);
 		background-color: rgba(255, 255, 255, 0.5);
+	}
+
+	i {
+		font-size: 44px;
 	}
 </style>
