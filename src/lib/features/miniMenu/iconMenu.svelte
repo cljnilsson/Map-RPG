@@ -5,6 +5,7 @@
 	import { isCityMap } from "$lib/typeguards/map";
 	import Icon from "$lib/features/miniMenu/ui-icon.svelte";
 	import type { WindowTypes } from "$lib/types/window";
+	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
 	let isCurrentCityMap = $derived(isCityMap(MapController.currentMapState.map));
 
@@ -21,6 +22,10 @@
 		{ iconPath: "/items/helmet7.png", name: "UnitManagement", label: "Unit Management", cityOnly: true },
 		{ iconPath: "/items/gem2.jpg", name: "Resources", label: "City Resources", cityOnly: true }
 	];
+
+	function minimizeToggle() {
+		// Todo, change width
+	}
 </script>
 
 <div
@@ -41,6 +46,9 @@
 			{/snippet}
 		</Icon>
 	{/each}
+	<ClickableElement onClickCallback={minimizeToggle}>
+		<i class="bi bi-arrow-bar-right fs-1"></i>
+	</ClickableElement>
 </div>
 
 <style>
