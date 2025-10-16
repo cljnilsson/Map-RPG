@@ -3,6 +3,7 @@ import { query, command } from "$app/server";
 import { settings, type Settings } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
 import * as v from "valibot";
+import { matchingUserId, getUser } from "$lib/utils/remoteAuthHelper";
 
 async function getAllSettings() {
 	return await db.query.settings.findMany();
@@ -25,6 +26,10 @@ async function updateSettingsForUser(
 	keybindTooltips: boolean,
 	keybinds: Record<string, string>
 ): Promise<boolean> {
+	if (!matchingUserId(userId)) {
+		return false;
+	}
+
 	const rows = await db.update(settings).set({ darkMode, offlineMode, keybindTooltips, keybinds }).where(eq(settings.userId, userId));
 
 	return rows.changes > 0;
@@ -45,6 +50,7 @@ async function createSettings(userId: number) {
 }
 
 async function get(): Promise<Settings[]> {
+	getUser();
 	const existing = await getAllSettings();
 
 	return existing;
@@ -58,9 +64,13 @@ const UserIdSchema = v.object({
 type UserIdData = v.InferOutput<typeof UserIdSchema>;
 
 async function getOneSetting({ userId }: UserIdData): Promise<Settings | undefined> {
+	if (!matchingUserId(userId)) {
+		return undefined;
+	}
+
 	let existing = await getSetting(userId);
 
-	if(!existing) {
+	if (!existing) {
 		await createSettings(userId);
 		existing = await getSetting(userId);
 	}
@@ -79,6 +89,10 @@ const SettingsSchema = v.object({
 type SettingData = v.InferOutput<typeof SettingsSchema>;
 
 async function createPost(body: SettingData) {
+	if (!matchingUserId(body.userId)) {
+		return { success: false };
+	}
+
 	console.log(body);
 	let failed: SettingData | false = false;
 
@@ -101,8 +115,13 @@ async function createPost(body: SettingData) {
 	return { success: true };
 }
 
-async function updatePost(body: SettingData) {
+async function updatePost(body: SettingData): Promise<{ success: boolean; failed?: SettingData | false }> {
 	console.log(body);
+
+	if (!matchingUserId(body.userId)) {
+		return { success: false };
+	}
+
 	let failed: SettingData | false = false;
 
 	// Clean up returns later
