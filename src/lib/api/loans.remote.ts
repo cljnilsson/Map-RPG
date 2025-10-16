@@ -3,6 +3,7 @@ import { query, command } from "$app/server";
 import { loans, resource, city, cityData } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
+import { getUser } from "$lib/utils/remoteAuthHelper";
 
 async function getAllLoans() {
 	return await db.query.loans.findMany({
@@ -23,6 +24,22 @@ async function getCity(name: string) {
 
 async function getCityData(characterId: number, cityId: number) {
 	return await db.select().from(cityData).where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId))).get();
+}
+
+async function getCityDataOwnerById(id: number) {
+	const data =  await db.query.cityData.findFirst({
+		where: (cityData, { eq }) => eq(cityData.id, id),
+		with: {
+			city: true,
+			character: {
+				with: {
+					user: true
+				}
+			}
+		}
+	});
+
+	return data?.character.user;
 }
 
 async function updateOneLoan(cityDataId: number, resourceId: number, value: number): Promise<boolean> {
@@ -110,6 +127,11 @@ async function createPost(body: LoanData) {
 		return { success: false, failed };
 	}
 
+	const user = await getCityDataOwnerById(cityData.id);
+	if(!user || getUser().id !== user.id) {
+		return { success: false, failed };
+	}
+
 	const success = await createLoan(body.value, resource.id, cityData.id);
 	console.log(success);
 	if(!success) {
@@ -140,6 +162,11 @@ async function updatePost(body: LoanData) {
 
 	const cityData = await getCityData(body.charaacterId, city.id);
 	if(!cityData) {
+		return { success: false, failed };
+	}
+
+	const user = await getCityDataOwnerById(cityData.id);
+	if(!user || getUser().id !== user.id) {
 		return { success: false, failed };
 	}
 
