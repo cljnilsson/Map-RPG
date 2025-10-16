@@ -6,6 +6,11 @@ class QuestController {
 	private _offlineMode: boolean = $state(false);
 	private _darkMode: boolean = $state(false);
 	private _inventoryKeybind: string = $state("i");
+	private _resourcesKeybind: string = $state("r");
+	private _questsKeybind: string = $state("q");
+	private _logsKeybind: string = $state("l");
+	private _eventsKeybind: string = $state("e");
+	private _navigationKeybind: string = $state("n");
 
 	get keybindTooltips() {
 		return this._keybindTooltips;
@@ -41,6 +46,51 @@ class QuestController {
 	set inventoryKeybind(value: string) {
 		this._inventoryKeybind = value;
 		LogController.newLog(`inventory keybind set to ${value}`, "info");
+	}
+
+	get resourcesKeybind() {
+		return this._resourcesKeybind;
+	}
+
+	set resourcesKeybind(value: string) {
+		this._resourcesKeybind = value;
+		LogController.newLog(`resources keybind set to ${value}`, "info");
+	}
+
+	get questsKeybind() {
+		return this._questsKeybind;
+	}
+
+	set questsKeybind(value: string) {
+		this._questsKeybind = value;
+		LogController.newLog(`quests keybind set to ${value}`, "info");
+	}
+
+	get logsKeybind() {
+		return this._logsKeybind;
+	}
+
+	set logsKeybind(value: string) {
+		this._logsKeybind = value;
+		LogController.newLog(`logs keybind set to ${value}`, "info");
+	}
+
+	get eventsKeybind() {
+		return this._eventsKeybind;
+	}
+
+	set eventsKeybind(value: string) {
+		this._eventsKeybind = value;
+		LogController.newLog(`events keybind set to ${value}`, "info");
+	}
+
+	get navigationKeybind() {
+		return this._navigationKeybind;
+	}
+	
+	set navigationKeybind(value: string) {
+		this._navigationKeybind = value;
+		LogController.newLog(`navigation keybind set to ${value}`, "info");
 	}
 
 	async load(userId: number) {

@@ -5,7 +5,15 @@
 	import { browser } from "$app/environment";
 
 	let { keybind = $bindable() }: { keybind: string } = $props();
-	let allKeybinds = $derived([SettingsController.inventoryKeybind]); // List of current keybinds
+	
+	let allKeybinds = $derived([
+		SettingsController.inventoryKeybind,
+		SettingsController.eventsKeybind,
+		SettingsController.navigationKeybind,
+		SettingsController.logsKeybind,
+		SettingsController.resourcesKeybind,
+		SettingsController.questsKeybind
+	]); // List of current keybinds
 	let listening = $state(false);
 	let pressed = new SvelteSet<string>();
 	let finalizeTimer: number | null = $state(null);
@@ -16,7 +24,7 @@
 	function normalize(e: KeyboardEvent) {
 		if (e.key === " " || e.key === "Spacebar") return "Space";
 		if (e.key === "Esc") return "Escape";
-		if (e.key.length === 1) return e.key.toUpperCase();
+		if (e.key.length === 1) return e.key.toLowerCase();
 		return e.key;
 	}
 

@@ -7,7 +7,12 @@
 		{ name: "Keybinds", value: SettingsController.keybindTooltips, description: "Show keybinds in the UI" },
 		{ name: "Offline Mode", value: SettingsController.offlineMode, description: "Don't attempt to save data in the database" },
 		{ name: "Dark Mode", value: SettingsController.darkMode, description: "Enable dark mode" },
-		{ name: "Inventory Keybind", value: SettingsController.inventoryKeybind, description: "Keybind to open the inventory window" }
+		{ name: "Inventory Keybind", value: SettingsController.inventoryKeybind, description: "Keybind to open the inventory window" },
+		{ name: "Navigation Keybind", value: SettingsController.navigationKeybind, description: "Keybind to open the navigation window" },
+		{ name: "Quest Keybind", value: SettingsController.questsKeybind, description: "Keybind to open the quest window" },
+		{ name: "Events Keybind", value: SettingsController.eventsKeybind, description: "Keybind to open the events window" },
+		{ name: "Logs Keybind", value: SettingsController.logsKeybind, description: "Keybind to open the logs window" },
+		{ name: "Resources Keybind", value: SettingsController.resourcesKeybind, description: "Keybind to open the resources window" },
 	];
 </script>
 
