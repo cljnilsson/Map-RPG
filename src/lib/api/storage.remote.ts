@@ -3,6 +3,7 @@ import { query, command } from "$app/server";
 import { storage } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
+import { getUser } from "$lib/utils/remoteAuthHelper";
 
 async function getAllStorage() {
 	return await db.query.storage.findMany({
@@ -27,6 +28,22 @@ async function cityDataExists(id: number) : Promise<boolean> {
 	});
 
 	return found != undefined;
+}
+
+async function getCityDataOwnerById(id: number) {
+	const data =  await db.query.cityData.findFirst({
+		where: (cityData, { eq }) => eq(cityData.id, id),
+		with: {
+			city: true,
+			character: {
+				with: {
+					user: true
+				}
+			}
+		}
+	});
+
+	return data?.character.user;
 }
 
 /*
@@ -102,14 +119,21 @@ async function addOne(body: AddOneData): Promise<boolean> {
 	const existing = await cityDataExists(body.cityId);
 
 	if (!existing) {
-		console.log("Trying to add storage to citydata that does not exist", body.cityId)
+		console.warn("Trying to add storage to citydata that does not exist", body.cityId)
+		return false;
+	}
+
+	const user = await getCityDataOwnerById(body.cityId);
+
+	if (!user || user.id !== getUser().id) {
+		console.warn("Trying to add to storage from citydata that is not owned by the logged in user", body.cityId);
 		return false;
 	}
 
 	const addedToStorage = await addOneToStorage(body.cityId, body.key, body.amount);
 
 	if (!addedToStorage) {
-		console.log("Something went wrong when trying to add to storage");
+		console.warn("Something went wrong when trying to add to storage");
 		return false;
 	}
 
@@ -128,7 +152,14 @@ async function removeOne(body: RemoveOneData): Promise<boolean> {
 	const existing = await cityDataExists(body.cityId);
 
 	if (!existing) {
-		console.log("Trying to remove storage from citydata that does not exist", body.cityId)
+		console.warn("Trying to remove storage from citydata that does not exist", body.cityId)
+		return false;
+	}
+
+	const user = await getCityDataOwnerById(body.cityId);
+
+	if (!user || user.id !== getUser().id) {
+		console.warn("Trying to remove storage from citydata that is not owned by the logged in user", body.cityId);
 		return false;
 	}
 

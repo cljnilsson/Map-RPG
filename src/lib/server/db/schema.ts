@@ -253,7 +253,8 @@ export const cityDataRelations = relations(cityData, ({ many, one }) => ({
 	storage: many(storage),
 	units: many(units),
 	plots: many(plot),
-	loans: many(loans)
+	loans: many(loans),
+	character: one(characters, { fields: [cityData.characterId], references: [characters.id]})
 }));
 
 export const plotRelations = relations(plot, ({ one }) => ({
@@ -268,7 +269,8 @@ export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),
 	user: one(user),
 	inventory: many(items),
-	windowPositions: many(windowPositions)
+	windowPositions: many(windowPositions),
+	cities: many(cityData),
 }));
 
 export const statsRelations = relations(stats, ({ one }) => ({

@@ -26,7 +26,7 @@ async function updateSettingsForUser(
 	keybindTooltips: boolean,
 	keybinds: Record<string, string>
 ): Promise<boolean> {
-	if (!matchingUserId(userId)) {
+	if (!matchingUserId(userId, "updateSettingsForUser")) {
 		return false;
 	}
 
@@ -64,7 +64,7 @@ const UserIdSchema = v.object({
 type UserIdData = v.InferOutput<typeof UserIdSchema>;
 
 async function getOneSetting({ userId }: UserIdData): Promise<Settings | undefined> {
-	if (!matchingUserId(userId)) {
+	if (!matchingUserId(userId, "getOneSetting")) {
 		return undefined;
 	}
 
@@ -89,7 +89,7 @@ const SettingsSchema = v.object({
 type SettingData = v.InferOutput<typeof SettingsSchema>;
 
 async function createPost(body: SettingData) {
-	if (!matchingUserId(body.userId)) {
+	if (!matchingUserId(body.userId, "createPost")) {
 		return { success: false };
 	}
 
@@ -118,7 +118,7 @@ async function createPost(body: SettingData) {
 async function updatePost(body: SettingData): Promise<{ success: boolean; failed?: SettingData | false }> {
 	console.log(body);
 
-	if (!matchingUserId(body.userId)) {
+	if (!matchingUserId(body.userId, "updatePost")) {
 		return { success: false };
 	}
 
