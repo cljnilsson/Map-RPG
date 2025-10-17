@@ -1,7 +1,7 @@
 import { LogController } from "$lib/controller/logs.svelte";
 import { getSettingForUser } from "$lib/api/settings.remote";
 
-class QuestController {
+class SettingsController {
 	private _keybindTooltips: boolean = $state(true);
 	private _offlineMode: boolean = $state(false);
 	private _darkMode: boolean = $state(false);
@@ -87,16 +87,27 @@ class QuestController {
 	get navigationKeybind() {
 		return this._navigationKeybind;
 	}
-	
+
 	set navigationKeybind(value: string) {
 		this._navigationKeybind = value;
 		LogController.newLog(`navigation keybind set to ${value}`, "info");
 	}
 
+	get allKeybinds() {
+		return [
+			this.inventoryKeybind,
+			this.resourcesKeybind,
+			this.questsKeybind,
+			this.logsKeybind,
+			this.eventsKeybind,
+			this.navigationKeybind,
+		];
+	}
+
 	async load(userId: number) {
 		const resp = await getSettingForUser({ userId });
 
-		if(!resp) {
+		if (!resp) {
 			LogController.newLog(`Failed to load settings for user ${userId}`, "error");
 			return;
 		}
@@ -104,12 +115,12 @@ class QuestController {
 		this.offlineMode = resp.offlineMode;
 		this.darkMode = resp.darkMode;
 		this.keybindTooltips = resp.keybindTooltips;
-		if(resp.keybinds["inventory"]) {
+		if (resp.keybinds["inventory"]) {
 			this.inventoryKeybind = resp.keybinds["inventory"];
 		}
 	}
 }
 
-const instance = new QuestController();
+const instance = new SettingsController();
 
 export default instance;

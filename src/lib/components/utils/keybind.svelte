@@ -4,22 +4,23 @@
 	import { SvelteSet } from "svelte/reactivity";
 	import { browser } from "$app/environment";
 
-	let { keybind = $bindable() }: { keybind: string } = $props();
-	
-	let allKeybinds = $derived([
-		SettingsController.inventoryKeybind,
-		SettingsController.eventsKeybind,
-		SettingsController.navigationKeybind,
-		SettingsController.logsKeybind,
-		SettingsController.resourcesKeybind,
-		SettingsController.questsKeybind
-	]); // List of current keybinds
+	let {
+		keybind = $bindable(),
+		currentlyListening = $bindable(),
+		key
+	}: { keybind: string; currentlyListening: string | undefined; key: string } = $props();
+
 	let listening = $state(false);
 	let pressed = new SvelteSet<string>();
 	let finalizeTimer: number | null = $state(null);
 
 	const keypressAllowance = 200; //in ms
 	const blacklist = new Set(["Ctrl + H", "Ctrl + W", "Ctrl + R", "Alt + F4"]); // Browser reserved
+
+	function isKeyInUse(combo: string) {
+		console.log("busy keybinds: ", SettingsController.allKeybinds);
+		return SettingsController.allKeybinds.includes(combo);
+	}
 
 	function normalize(e: KeyboardEvent) {
 		if (e.key === " " || e.key === "Spacebar") return "Space";
@@ -32,6 +33,7 @@
 		if (!browser) return;
 		if (listening) return;
 		listening = true;
+		currentlyListening = key;
 		pressed.clear();
 		window.addEventListener("keydown", onKeydown);
 		window.addEventListener("keyup", onKeyup);
@@ -41,6 +43,7 @@
 		if (!browser) return;
 
 		listening = false;
+		currentlyListening = undefined;
 		pressed.clear();
 		if (finalizeTimer) {
 			clearTimeout(finalizeTimer);
@@ -99,7 +102,7 @@
 			return;
 		}
 
-		if (Object.values(allKeybinds).includes(combo)) {
+		if (isKeyInUse(combo)) {
 			console.error("This keybind is already in use.");
 			return;
 		}
@@ -109,6 +112,15 @@
 	}
 
 	onDestroy(stopListening);
+
+	$effect(() => {
+		// Makes sure only one keybind component is listening at a time, I'd prefer to avoid using $effect but 'it works' for now
+		if (currentlyListening !== undefined && currentlyListening !== key) {
+			if (listening) {
+				stopListening();
+			}
+		}
+	});
 </script>
 
 <button class="btn btn-primary keybind-btn" class:listening onclick={startListening}>
