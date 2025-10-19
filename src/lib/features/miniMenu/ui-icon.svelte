@@ -2,14 +2,16 @@
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
 	import type { Snippet } from "svelte";
+	import StaticOutlineImage from "$lib/utils/outline/staticOutline.svelte";
 
 	let {
 		iconPath,
 		alt,
 		onClickCallback,
 		disabled,
-		tooltipHtml
-	}: { iconPath: string; alt: string; onClickCallback: () => void; disabled: boolean; tooltipHtml: Snippet } = $props();
+		tooltipHtml,
+		currentlyActive
+	}: { iconPath: string; alt: string; onClickCallback: () => void; disabled: boolean; tooltipHtml: Snippet, currentlyActive: boolean } = $props();
 
 	function onClick() {
 		if(disabled) {
@@ -26,7 +28,12 @@
 			{#snippet tooltip()}
 				{@render tooltipHtml()}
 			{/snippet}
-			<img src={iconPath} {alt} class:disabled />
+			
+			{#if disabled}
+				<img src={iconPath} class="disabled" alt={alt} height={64} width={64}  />
+			{:else}
+				<StaticOutlineImage src={iconPath} alt={alt} height={64} width={64} outline={currentlyActive} color="red" />
+			{/if}
 		</Tooltip>
 	</ClickableElement>
 </div>

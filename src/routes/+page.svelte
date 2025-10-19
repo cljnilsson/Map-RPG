@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { resolve } from "$app/paths";
 	//import CharacterComponent from "$lib/components/character/Character.svelte";
 </script>
 
 <div class="container mt-3">
 	<h1>Welcome!</h1>
 	<p>More information about this project exists in the readme.md file in the base of the project folder.</p>
+
+	<h3>Early project notes</h3>
 	<p>In summery this is an attempt to merge two great interests of mine into a symbiotic game, namely Travian and DnD (Dungeons and Dragons).</p>
 	<p>It is noteworthy to say that I consider this game to be two two things that should be kept in mind.</p>
 	<ul>
@@ -15,7 +18,7 @@
 	<p>Your data / progress / save file will be easily available to the user so that it can be backed up by whatever means the user prefers.</p>
 
 	<h3>Game Info</h3>
-	A simple first-party wiki exists at <a href="/wiki">link</a> but for the most part the tutorial once implemented should tell you what you need to know.
+	A simple first-party wiki exists at <a href={resolve("/wiki")}>link</a> but for the most part the tutorial once implemented should tell you what you need to know.
 </div>
 
 <style>

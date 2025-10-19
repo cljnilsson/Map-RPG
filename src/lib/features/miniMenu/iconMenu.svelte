@@ -1,6 +1,6 @@
 <script lang="ts">
-	import DialogueController from "$lib/controller/dialogue.svelte";
 	import WindowController from "$lib/controller/window.svelte";
+	import DialogueController from "$lib/controller/dialogue.svelte";
 	import MapController from "$lib/controller/map.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
 	import Icon from "$lib/features/miniMenu/ui-icon.svelte";
@@ -14,15 +14,15 @@
 		win.visible = !win.visible;
 	}
 
-	const menuItems: { iconPath: string; name: WindowTypes; label: string; cityOnly: boolean }[] = [
-		{ iconPath: "/items/note1.png", name: "Quests", label: "Quests", cityOnly: false },
+	const menuItems: { iconPath: string; name: WindowTypes; label: string; cityOnly: boolean }[] = $derived([
+		{ iconPath: "/items/note1.png", name: "Quests", label: "Quests", cityOnly: false},
 		{ iconPath: "/items/bag3.png", name: "Inventory", label: "Inventory", cityOnly: false },
 		{ iconPath: "/items/default.png", name: "Logger", label: "Logs", cityOnly: false },
 		{ iconPath: "/items/map1.jpg", name: "Navigator", label: "Navigation", cityOnly: false },
 		{ iconPath: "/items/note4.png", name: "Events", label: "Events", cityOnly: true },
 		{ iconPath: "/items/helmet7.png", name: "UnitManagement", label: "Unit Management", cityOnly: true },
 		{ iconPath: "/items/gem2.jpg", name: "Resources", label: "City Resources", cityOnly: true }
-	];
+	]);
 
 	function minimizeToggle() {
 		expanded = !expanded;
@@ -37,11 +37,13 @@
 >
 	{#if expanded}
 		{#each menuItems as { iconPath, name, label, cityOnly } (name)}
+
 			<Icon
 				{iconPath}
 				alt=""
 				onClickCallback={() => toggleWindow(name)}
 				disabled={cityOnly ? !isCityMap(MapController.currentMapState.map) : false}
+				currentlyActive={WindowController.getByName(name).visible}
 			>
 				{#snippet tooltipHtml()}
 					<h5 class="mb-0">{label}</h5>

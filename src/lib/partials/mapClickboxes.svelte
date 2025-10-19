@@ -9,7 +9,7 @@
 	import { isCityMap } from "$lib/typeguards/map";
 	import { safeGetBuilding, getBuildingsByPlotType } from "$lib/data/buildings";
 	import { goto } from "$app/navigation";
-	import HoverOutlineImage from "$lib/utils/outline.svelte";
+	import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
 	import { resolve } from "$app/paths";
 
 	function toggleSelection(rect: MapWithClickBox) {

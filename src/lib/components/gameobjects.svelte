@@ -5,7 +5,7 @@
 	import WindowController from "$lib/controller/window.svelte";
 	import { isContainerGameObject, isLootableQuestGameObject, isQuestGameObject, isLootableGameObject } from "$lib/typeguards/gameObject";
 	import type { GameObject } from "$lib/types/gameObject";
-	import HoverOutlineImage from "$lib/utils/outline.svelte";
+	import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
 	import { PlayerController } from "$lib/controller/character.svelte";
 
@@ -57,7 +57,7 @@
 	}
 </script>
 
-{#each MapController.currentMapState.objects as object}
+{#each MapController.currentMapState.objects as object, index (index)}
 	<div
 		class="game-object"
 		style="left: {object.position.x * scaleX}px; top: {object.position.y * scaleY}px;"

@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import { scale, fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
-	import HoverOutline from "$lib/utils/outline.svelte";
+	import HoverOutline from "$lib/utils/outline/hoverOutline.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
 	import { getQuest } from "$lib/data/quests";
 	import type { Quest } from "$lib/types/quest";

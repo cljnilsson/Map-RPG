@@ -7,6 +7,7 @@
 	import type { Building } from "$lib/types/building";
 	import ResourceCost from "$lib/components/resourceCost.svelte";
 	import { goto } from "$app/navigation";
+	import { resolve } from "$app/paths";
 
 	const { data } = $props();
 	const buildings = getBuildingsByPlotType("default");
@@ -49,7 +50,7 @@
 </script>
 
 <div class="container mt-3 px-5">
-	<a href="/map">Back</a>
+	<a href={resolve("/map")}>Back</a>
 	{#if dev}
 		<p>{MapController.currentMapState.map.name} ({isCityMap(MapController.currentMapState.map)}) slot: {data.plot}</p>
 	{/if}

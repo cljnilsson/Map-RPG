@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import MapStore from "$lib/stores/map.svelte";
 	import type { NPC } from "$lib/types/npc";
-	import HoverOutlineImage from "$lib/utils/outline.svelte";
+	import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
 	import { isNPCQuestGiver, isNPCVendor } from "$lib/typeguards/npc";
 	import WindowController from "$lib/controller/window.svelte";
 	import VendorStore from "$lib/stores/vendor.svelte";
@@ -37,7 +37,7 @@
 	}
 </script>
 
-{#each MapStore.currentMapState.npcs as npc}
+{#each MapStore.currentMapState.npcs as npc, i (i)}
 	<div
 		class="npc"
 		style="left: {npc.position.x * scaleX}px; top: {npc.position.y * scaleY}px;"
