@@ -50,7 +50,7 @@ for (const [key, value] of Object.entries(unitRegistry)) {
 
 export type UnitId = keyof typeof unitRegistry;
 
-export function getUnit<T extends UnitId>(id: T) {
+export function getUnit<T extends UnitId>(id: T): BaseUnit {
 	return unitRegistry[id]();
 }
 
@@ -60,4 +60,14 @@ export function safeGetUnit(id: string): BaseUnit | undefined {
 		return unitRegistry[id as UnitId]();
 	}
 	return undefined;
+}
+
+export function getAllUnits(): BaseUnit[] {
+	const units: BaseUnit[] = [];
+
+	for (const unit of Object.values(unitRegistry)) {
+		units.push(unit());
+	}
+
+	return units;
 }

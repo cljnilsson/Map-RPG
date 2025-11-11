@@ -1,6 +1,6 @@
 import CityStore from "$lib/stores/city.svelte";
 import MapController from "$lib/controller/map.svelte";
-//import type {City} from "$lib/types/city";
+import type {Plot} from "$lib/types/city";
 import type {Unit} from "$lib/types/unit";
 import type {CityResource, Resource} from "$lib/types/resource";
 import { LogController } from "$lib/controller/logs.svelte";
@@ -57,6 +57,14 @@ export class CityController {
 
 	public static set storage(v: {key: string, amount: number}[]) {
 		CityStore.storage = v;
+	}
+
+	public static get plots(): Plot[] {
+		if(isCityMap(MapController.currentMapState.map)) {
+			return MapController.currentMapState.map.city.plots;
+		} else {
+			return [];
+		}
 	}
 
 	// ---------------

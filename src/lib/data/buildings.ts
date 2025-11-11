@@ -214,3 +214,13 @@ export function safeGetBuilding(id: string): Building | undefined {
 	}
 	return undefined;
 }
+
+export function getAllBuildings(): Building[] {
+	const buildings: Building[] = [];
+
+	for (const building of Object.values(buildingRegistry)) {
+		buildings.push(building());
+	}
+
+	return buildings;
+}

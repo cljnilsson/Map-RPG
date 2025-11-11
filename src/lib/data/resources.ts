@@ -41,3 +41,13 @@ export function safeGetResource(name: string): BaseResource | undefined {
 	}
 	return undefined;
 }
+
+export function getAllResources(): BaseResource[] {
+	const resources: BaseResource[] = [];
+
+	for (const resource of Object.values(resourceRegistry)) {
+		resources.push(resource());
+	}
+
+	return resources;
+}

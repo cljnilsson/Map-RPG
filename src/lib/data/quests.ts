@@ -74,6 +74,16 @@ for (const [key, value] of Object.entries(questRegistry)) {
 
 export type QuestId = keyof typeof questRegistry;
 
-export function getQuest<T extends QuestId>(id: T) {
+export function getQuest<T extends QuestId>(id: T) : Quest {
 	return questRegistry[id]();
+}
+
+export function getAllQuests(): Quest[] {
+	const quests: Quest[] = [];
+
+	for (const quest of Object.values(questRegistry)) {
+		quests.push(quest());
+	}
+
+	return quests;
 }

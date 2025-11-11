@@ -41,3 +41,13 @@ export function safeGetItem(id: string): Item | undefined {
 	}
 	return undefined;
 }
+
+export function getAllItems(): Item[] {
+	const items: Item[] = [];
+
+	for (const item of Object.values(itemRegistry)) {
+		items.push(item());
+	}
+
+	return items;
+}

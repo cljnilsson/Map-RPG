@@ -12,7 +12,7 @@
 	<p>It is noteworthy to say that I consider this game to be two two things that should be kept in mind.</p>
 	<ul>
 		<li>The game is exclusively Single Player, with maybe some mild co-op elements in the far future such as a shared marketplace.</li>
-		<li>I consider this game to be desktop first, meaning that while the game will rune fine on a mobile device the UI will not consider it to any worthwhile degree as I think displaying the amount of required information on such a small screen is not feasible without significantly holding back the potential of the desktop experience. In the far future I may consider something similar to Oldschool Runescape where their mobile client has made very significant changes that only apply on mobile.</li>
+		<li>I consider this game to be desktop first, meaning that while the game will run fine on a mobile device the UI will not consider it to any worthwhile degree as I think displaying the amount of required information on such a small screen is not feasible without significantly holding back the potential of the desktop experience. In the far future I may consider something similar to Oldschool Runescape where their mobile client has made very significant changes that only apply on mobile.</li>
 	</ul>
 	<p>It should also be said that while this game is built using standard web technologies, it is meant to be run offline / self hosted though this is very much WIP but it is being kept in mind for a final release.</p>
 	<p>Your data / progress / save file will be easily available to the user so that it can be backed up by whatever means the user prefers.</p>
