@@ -7,6 +7,7 @@ import BeastPen from "$lib/features/buildings/beast-pen/beast-pen.svelte";
 import Inn from "$lib/features/buildings/inn/inn.svelte";
 import Storage from "$lib/features/buildings/storage/storage.svelte";
 import Bank from "$lib/features/buildings/bank/bank.svelte";
+import Shipyard from "$lib/features/buildings/shipyard/shipyard.svelte";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -48,6 +49,22 @@ const buildingRegistry = {
 		timeInSeconds: 40,
 		plotType: "default",
 		componentOnClick: Inn
+	}),
+	"shipyard": (): Building => ({
+		id: "shipyard",
+		name: "Shipyard",
+		description: "The construction of ships allows for travel, trading and conquest alike.",
+		requirements: true,
+		artPath: "/buildings/shipyard.png",
+		cost: [
+			{...getResource("Gold"), amount: 100},
+			{...getResource("Wood"), amount: 250},
+			{...getResource("Stone"), amount: 30},
+			{...getResource("Iron"), amount: 120},
+		],
+		timeInSeconds: 40,
+		plotType: "default",
+		componentOnClick: Shipyard
 	}),
 	"shrine": (): Building => ({
 		id: "shrine",

@@ -9,7 +9,7 @@ type Building = {
 	artPath: string;
 	cost: Resource[];
 	timeInSeconds: number,
-	plotType: "default" | "sacred" | "pristine";
+	plotType: "default" | "sacred" | "pristine" | "damaged";
 	componentOnClick: Component<{level: number, building: Omit<Building, "componentOnClick">, cityName: string, cityDataId: number}> | undefined;
 };
 

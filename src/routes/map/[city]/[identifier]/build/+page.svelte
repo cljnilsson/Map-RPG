@@ -60,7 +60,7 @@
 			{#each buildings as buildingOption (buildingOption.name)}
 				<div class="row justify-content-center my-3">
 					<div class="col-xl-8 col-md-10 border-bottom">
-						<h4>{buildingOption.name}</h4>
+						<h4>{buildingOption.name} | <span class:text-danger={buildingOption.plotType === "damaged"} class:text-warning={buildingOption.plotType === "sacred"}>{buildingOption.plotType}</span></h4>
 					</div>
 				</div>
 				<div class="row justify-content-center">
