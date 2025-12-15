@@ -58,7 +58,7 @@ const buildingRegistry = {
 		artPath: "/buildings/shipyard.png",
 		cost: [
 			{...getResource("Gold"), amount: 100},
-			{...getResource("Wood"), amount: 250},
+			{...getResource("Wood"), amount: 200},
 			{...getResource("Stone"), amount: 30},
 			{...getResource("Iron"), amount: 120},
 		],
