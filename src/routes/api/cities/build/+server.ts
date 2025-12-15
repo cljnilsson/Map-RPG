@@ -47,7 +47,7 @@ async function getCityDataByNameAndCharacter(cityName: string, characterId: numb
 	return !!exists;
 }*/
 
-export function isUpdatePlotPayload(data: unknown): data is UpdatePlotPayload {
+function isUpdatePlotPayload(data: unknown): data is UpdatePlotPayload {
 	return v.safeParse(UpdatePlotPayloadSchema, data).success;
 }
 

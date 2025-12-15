@@ -20,21 +20,21 @@
 		<h4 class="my-2">Resources</h4>
 	{/snippet}
 	{#snippet body()}
-		{#each CityStore.resources as resource}
-		<div class="row align-items-center my-2">
-			<div class="col-auto">
-				<img src={resource.iconPath} alt={resource.name} style="max-width: 40px; max-height: 40px;">
+		{#each CityStore.resources as resource (resource.name)}
+			<div class="row align-items-center my-2">
+				<div class="col-auto">
+					<img src={resource.iconPath} alt={resource.name} style="max-width: 40px; max-height: 40px;">
+				</div>
+				<div class="col-3">
+					{resource.name}
+				</div>
+				<div class="col-4">
+					{resource.amount} / {resource.baseLimit}
+				</div>
+				<div class="col-2 text-end">
+					{resource.production}/m
+				</div>
 			</div>
-			<div class="col-3">
-				{resource.name}
-			</div>
-			<div class="col-4">
-				{resource.amount} / {resource.baseLimit}
-			</div>
-			<div class="col-2 text-end">
-				{resource.production}/m
-			</div>
-		</div>
 		{/each}
 	{/snippet}
 	{#snippet footer()}

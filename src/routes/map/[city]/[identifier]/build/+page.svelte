@@ -75,7 +75,7 @@
 					</div>
 				</div>
 				<div class="row justify-content-center">
-					<div class="col-6 text-end">
+					<div class="col-8 text-end">
 						<span class="px-3">0:30:14</span><button class="btn btn-primary" onclick={() => confirmBuilding(buildingOption)}>Build</button>
 					</div>
 				</div>

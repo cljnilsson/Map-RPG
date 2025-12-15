@@ -39,11 +39,12 @@ export const GET: RequestHandler = async ({ locals }) => {
 			name: unit.name,
 			iconPath: unit.iconPath
 		})),
-		resources: resources.map(({ resource, ...resourceRest }) => ({
+		resources: resources.map(({ resource, value, ...resourceRest }) => ({
 			...resourceRest,
 			name: resource.name,
 			iconPath: resource.iconPath,
-			baseLimit: resource.baseLimit
+			baseLimit: resource.baseLimit,
+			amount: value
 		}))
 	}));
 
