@@ -22,11 +22,11 @@
 
 		const success = CityController.pay([{ ...tradeFor, amount: offer }]);
 
-		/*if (success) {
+		if (success) {
 			CityController.give([{ ...tradeWant, amount: Math.floor(offer * (2 - rate)) }]);
 			offer = undefined;
 			LogController.newLog("You traded resources!");
-		}*/
+		}
 	}
 </script>
 
