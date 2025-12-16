@@ -104,6 +104,12 @@ export class CityController {
 		
 		return canAfford;
 	}
+
+	private static slimResources() {
+		return this.resources.map(r => {
+			return {resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount};
+		})
+	}
 	
 	public static pay(price: Resource[]): boolean {
 		console.log(1);
@@ -114,11 +120,7 @@ export class CityController {
 			
 			LogController.newLog("You used the city's coffers to pay."); // More detailed costs here later
 
-
-			// Make a helper function to slim down resources later
-			const slimmedResources = this.resources.map(r => {
-				return {resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount};
-			})
+			const slimmedResources = this.slimResources();
 
 			postResources(slimmedResources);
 
@@ -137,10 +139,7 @@ export class CityController {
 		
 		LogController.newLog("You gained new resources"); // More detailed resources here later
 
-		// Make a helper function to slim down resources later
-		const slimmedResources = this.resources.map(r => {
-			return {resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount};
-		})
+		const slimmedResources = this.slimResources();
 
 		postResources(slimmedResources);
 	}

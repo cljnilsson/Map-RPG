@@ -10,6 +10,7 @@
 	import { onMount } from "svelte";
 	import { getLoans, postLoan } from "$lib/api/loans.remote";
 	import { PlayerController } from "$lib/controller/character.svelte";
+	import { SvelteDate } from "svelte/reactivity";
 	import { getResource, safeGetResource } from "$lib/data/resources";
 	import MapController from "$lib/controller/map.svelte";
 
@@ -91,7 +92,7 @@
 				paid: v.paid,
 				interestRate: 0,
 				resource: tResource,
-				date: new Date(v.date)
+				date: new SvelteDate(v.date)
 			};
 		});
 	});
