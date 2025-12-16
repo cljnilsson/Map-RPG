@@ -106,6 +106,7 @@ export class CityController {
 	}
 	
 	public static pay(price: Resource[]): boolean {
+		console.log(1);
 		if(this.canAfford(price)) {
 			for(const resource of price) {
 				this.getResource(resource.name).amount -= resource.amount; // Might not update object properly
@@ -127,14 +128,21 @@ export class CityController {
 		return false;
 	}
 
+	// TODO, make sure it does not exceed city limit
 	public static give(price: Resource[]) {
 		for(const resource of price) {
 			this.getResource(resource.name).amount += resource.amount; // Might not update object properly
+
 		}
 		
 		LogController.newLog("You gained new resources"); // More detailed resources here later
 
-		// Automatically save new resources in db
+		// Make a helper function to slim down resources later
+		const slimmedResources = this.resources.map(r => {
+			return {resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount};
+		})
+
+		postResources(slimmedResources);
 	}
 
 	public static upgrade(price: Resource[], plot: number) {

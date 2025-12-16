@@ -87,6 +87,7 @@ const ResourceSchema = v.object({
 const ResourceArraySchema = v.array(ResourceSchema);
 
 type ResourceArrayData = v.InferOutput<typeof ResourceArraySchema>;
+type OneResourceData = v.InferOutput<typeof ResourceSchema>;
 
 async function post(body: ResourceArrayData) {
 	console.log(body);
@@ -117,5 +118,33 @@ async function post(body: ResourceArrayData) {
 	return { success: true };
 }
 
+// Untested
+async function postOne({cityDataId, resourceId, value}: OneResourceData) {
+	const failed: ResourceArrayData = [];
+	const user = getUser();
+
+	const cityData = await getCityDataById(cityDataId);
+	if(cityData) {
+		console.log(cityData.character.user?.id);
+		if(!cityData.character.user?.id || cityData.character.user.id !== user.id) {
+			failed.push({cityDataId, resourceId, value});
+			console.warn(`User ${user.id} tried to update cityData ${cityDataId} (${cityData.city.name}) they don't own.`);
+		}
+	}
+
+	const success = updateResource(cityDataId, resourceId, value);
+	if(!success) {
+		failed.push({cityDataId, resourceId, value});
+	}
+	
+
+	if(failed.length > 0) {
+		return { success: false, failed };
+	}
+	
+	return { success: true };
+}
+
 export const postResources = command(ResourceArraySchema, post);
+export const postOneResource = command(ResourceSchema, postOne);
 export const getResources = query(get);

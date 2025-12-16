@@ -109,7 +109,7 @@ export const cityData = sqliteTable("cityData", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	cityId: integer("city_id")
 		.notNull()
-		.references(() => characters.id),
+		.references(() => city.id),
 	characterId: integer("character_id")
 		.notNull()
 		.references(() => characters.id),
@@ -267,7 +267,10 @@ export const storageRelations = relations(storage, ({ one }) => ({
 
 export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),
-	user: one(user),
+	user: one(user, {
+		fields: [characters.userId],
+		references: [user.id],
+	}),
 	inventory: many(items),
 	windowPositions: many(windowPositions),
 	cities: many(cityData),
