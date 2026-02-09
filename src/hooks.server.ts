@@ -1,6 +1,9 @@
 import type { Handle } from "@sveltejs/kit";
 import * as auth from "$lib/server/auth.js";
 import { dev } from "$app/environment";
+import { dbCheckup } from "$lib/data/bootstrap"; // Runs health checkup for db
+
+dbCheckup();
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// Ignore Chrome devtools probe in dev
@@ -29,5 +32,3 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	return resolve(event);
 };
-
-
