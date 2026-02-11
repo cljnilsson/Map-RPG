@@ -65,7 +65,7 @@
 				>
 			</li>
 		</ul>
-		<div class="row my-5">
+		<div class="row py-5">
 			<div class="col-4">
 				{#each recipes as r, i (i)}
 					{#if r}
@@ -86,7 +86,12 @@
 					</h5>
 					<p>{inspectItem.description}</p>
 					{#each inspectItem.components as c}
-						{c.item}
+						{@const i = safeGetItem(c.item)}
+						{#if i}
+							{c.quantity}x {i.name}
+						{:else}
+							Invalid item id, report it!
+						{/if}
 					{/each}
 				{/if}
 			</div>
