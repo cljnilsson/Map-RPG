@@ -1,14 +1,14 @@
-import type { Building } from "$lib/types/building";
 import { getResource } from "$lib/data/resources";
-import BlackMarket from "$lib/features/buildings/black-market/black-market.svelte";
-import Market from "$lib/features/buildings/market/market.svelte";
 import AdventureGuild from "$lib/features/buildings/adventure-guild/adventure-guild.svelte";
-import BeastPen from "$lib/features/buildings/beast-pen/beast-pen.svelte";
-import Inn from "$lib/features/buildings/inn/inn.svelte";
-import Storage from "$lib/features/buildings/storage/storage.svelte";
 import Bank from "$lib/features/buildings/bank/bank.svelte";
+import BeastPen from "$lib/features/buildings/beast-pen/beast-pen.svelte";
+import BlackMarket from "$lib/features/buildings/black-market/black-market.svelte";
+import Inn from "$lib/features/buildings/inn/inn.svelte";
+import Market from "$lib/features/buildings/market/market.svelte";
 import Shipyard from "$lib/features/buildings/shipyard/shipyard.svelte";
+import Storage from "$lib/features/buildings/storage/storage.svelte";
 import Woodwork from "$lib/features/buildings/woodwork/woodwork.svelte";
+import type { Building } from "$lib/types/building";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({
@@ -209,9 +209,9 @@ const buildingRegistry = {
 		cost: [
 			{ ...getResource("Gold"), amount: 50 },
 			{ ...getResource("Wood"), amount: 30 },
-			{ ...getResource("Stone"), amount: 20 },
+			{ ...getResource("Stone"), amount: 0 },
 			{ ...getResource("Silk"), amount: 0 },
-			{ ...getResource("Wheat"), amount: 10 },
+			{ ...getResource("Wheat"), amount: 0 },
 			{ ...getResource("Iron"), amount: 10 }
 		],
 		timeInSeconds: 70,
@@ -241,7 +241,6 @@ const buildingRegistry = {
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety
 for (const [key, value] of Object.entries(buildingRegistry)) {
 	if (key === value().id) {
-		continue;
 	} else {
 		throw new Error(`Building ID mismatch: key "${key}" does not match building ID "${value().id}"`);
 	}

@@ -1,20 +1,27 @@
 <script lang="ts">
-	import { isCityMap } from "$lib/typeguards/map";
 	import { dev } from "$app/environment";
+	import { isCityMap } from "$lib/typeguards/map";
+
 	import type { Resource } from "$lib/types/resource";
 	import type { MapType } from "$lib/types/mapTypes";
 	import type { Plot } from "$lib/types/city";
+
 	import ResourceCost from "$lib/components/resourceCost.svelte";
-	import { safeGetBuilding } from "$lib/data/buildings";
 	import { CityController } from "$lib/controller/city.svelte.js";
+	import { safeGetBuilding } from "$lib/data/buildings";
+
 	import type { Building } from "$lib/types/building";
-	import { resolve } from "$app/paths";
+
 	import { onMount, tick } from "svelte";
-	import { maps } from "$lib/tempData";
+	import { resolve } from "$app/paths";
 	import MapController from "$lib/controller/map.svelte";
+	import { maps } from "$lib/tempData";
 	import { getRequest } from "$lib/utils/request";
+
 	import type { CityResource } from "$lib/types/resource";
+
 	import { getUnit, safeGetUnit } from "$lib/data/units";
+
 	import type { Unit } from "$lib/types/unit";
 
 	// Props
@@ -27,11 +34,10 @@
 	let buildingFull = $derived(getBuildingFromPlot(buildingPlot));
 	let { Component, strippedBuilding } = $derived(getComponentData(buildingFull));
 
-	let cityData:
-		{
-			id: number | undefined;
-			// Can add other of the props later if needed but for now I only need the ID but I am future proofing it a bit with the approach
-		} = $state({id: undefined});
+	let cityData: {
+		id: number | undefined;
+		// Can add other of the props later if needed but for now I only need the ID but I am future proofing it a bit with the approach
+	} = $state({ id: undefined });
 
 	// ---- Actions ----
 	function upgrade(price: Resource[]) {
@@ -124,7 +130,7 @@
 			console.log("Cities:", cities);
 			CityController.setMainCityFromCurrentOwned();
 			currentMap = MapController.cityMaps.filter((v) => v.map.name === data.city)[0].map;
-			cityData.id = cities.find(v => v.name === currentMap.name)?.id; 
+			cityData.id = cities.find((v) => v.name === currentMap.name)?.id;
 		} else {
 			console.error("Failed to fetch cities");
 		}

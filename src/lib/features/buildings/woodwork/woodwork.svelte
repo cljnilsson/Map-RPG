@@ -7,6 +7,7 @@
 	let taxIncome = $state(80);
 	let quality: "Bad" | "Good" | "Excelent" = $state("Good");
 	let resourceRequirement: "Low" | "Medium" | "High" = $state("Low");
+	let inside: boolean = $state(false);
 
 	$effect(() => {
 		if (level >= 1 && level < 5) {
@@ -23,6 +24,7 @@
 
 	function goInside() {
 		console.log("Going inside");
+		inside = true;
 	}
 </script>
 
