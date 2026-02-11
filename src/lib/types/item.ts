@@ -12,6 +12,14 @@ type RegularItem = BaseItem & {
 	type: "item";
 };
 
+type CraftItem = BaseItem & {
+	type: "craft";
+	components: {
+		item: string; // refers to itemId, ideally would want a direct item object reference but that would only work at runtime. Still, something to consider in the future.
+		quantity: number;
+	}[];
+};
+
 type VendorItem = BaseItem & {
 	type: "vendor";
 	price: {
@@ -28,11 +36,11 @@ type UsableItem = BaseItem & {
 	onUse: () => boolean;
 };
 
-type Item = RegularItem | VendorItem | UsableItem;
+type Item = RegularItem | VendorItem | UsableItem | CraftItem;
 
 type InventoryItem<T extends Item = Item> = {
 	item: T;
 	amount: number;
 };
 
-export type { Item, RegularItem, VendorItem, UsableItem, BaseItem, InventoryItem };
+export type { Item, RegularItem, VendorItem, UsableItem, BaseItem, InventoryItem, CraftItem };

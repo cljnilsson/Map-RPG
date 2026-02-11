@@ -1,6 +1,9 @@
 import healthPotion from "$lib/data/items/healthPotion";
 import resetPotion from "$lib/data/items/restorePotion";
 import oldBook from "$lib/data/items/oldBook";
+import axeHandle from "$lib/data/items/axeHandle";
+import axeHead from "$lib/data/items/axeHead";
+import ironBar from "$lib/data/items/ironBar";
 import tempItems from "$lib/data/items/testItems";
 import type { Item } from "$lib/types/item";
 
@@ -9,6 +12,11 @@ const itemRegistry = {
 	"health-potion": () => ({ ...healthPotion }),
 	"reset-potion": () => ({ ...resetPotion }),
 	"old-book": () => ({ ...oldBook }),
+
+	"axe-handle": () => ({ ...axeHandle }),
+	"axe-head": () => ({ ...axeHead }),
+	"iron-bar": () => ({ ...ironBar }),
+
 	"test-sword1": () => ({ ...tempItems[0] }),
 	"test-armor1": () => ({ ...tempItems[1] }),
 	"test-helm1": () => ({ ...tempItems[2] }),
