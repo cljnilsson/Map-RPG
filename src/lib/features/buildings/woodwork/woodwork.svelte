@@ -80,7 +80,7 @@
 			<div class="col-8 bg-dark text-light">
 				{#if inspectItem}
 					<h5>
-						<img src={inspectItem.iconPath} width={24} height={24} class="me-2" alt={inspectItem.description} /><span
+						<img src={inspectItem.iconPath} width={32} height={32} class="me-2" alt={inspectItem.description} /><span
 							>{inspectItem.name}</span
 						>
 					</h5>
