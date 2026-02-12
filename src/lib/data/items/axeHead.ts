@@ -13,7 +13,7 @@ const axeHead = {
     {
       item: "iron-bar",
       quantity: 2,
-      requiredQuality: false,
+      requiredQuality: "None",
     },
   ],
   resourceCosts: [],

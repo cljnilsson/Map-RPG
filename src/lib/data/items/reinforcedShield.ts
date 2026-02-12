@@ -10,8 +10,8 @@ const reinforcedShield = {
   description: "Stronger.",
   quality: "rare",
   components: [
-    { item: "woodenShield", quantity: 1, requiredQuality: false },
-    { item: "iron-bar", quantity: 2, requiredQuality: false },
+    { item: "woodenShield", quantity: 1, requiredQuality: "None" },
+    { item: "iron-bar", quantity: 2, requiredQuality: "None" },
   ],
   resourceCosts: [],
 } satisfies CraftItem;
