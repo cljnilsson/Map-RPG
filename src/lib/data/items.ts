@@ -2,6 +2,12 @@ import healthPotion from "$lib/data/items/healthPotion";
 import resetPotion from "$lib/data/items/restorePotion";
 import oldBook from "$lib/data/items/oldBook";
 import axeHandle from "$lib/data/items/axeHandle";
+import bow from "$lib/data/items/bow";
+import longbow from "$lib/data/items/longbow";
+import recurvebow from "$lib/data/items/recurveBow";
+import masterworkLongbow from "$lib/data/items/masterworkLongbow";
+import woodenShield from "$lib/data/items/woodenShield";
+import reinforcedShield from "$lib/data/items/reinforcedShield";
 import axeHead from "$lib/data/items/axeHead";
 import ironBar from "$lib/data/items/ironBar";
 import tempItems from "$lib/data/items/testItems";
@@ -15,6 +21,12 @@ const itemRegistry = {
 
 	"axe-handle": () => ({ ...axeHandle }),
 	"axe-head": () => ({ ...axeHead }),
+	bow: () => ({ ...bow }),
+	longbow: () => ({ ...longbow }),
+	recurvebow: () => ({ ...recurvebow }),
+	"masterwork-longbow": () => ({ ...masterworkLongbow }),
+	woodenShield: () => ({ ...woodenShield }),
+	reinforcedShield: () => ({ ...reinforcedShield }),
 	"iron-bar": () => ({ ...ironBar }),
 
 	"test-sword1": () => ({ ...tempItems[0] }),

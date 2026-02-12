@@ -51,8 +51,8 @@
 	}
 </script>
 
-<div class="row py-5">
-	<div class="col-4">
+<div class="row py-5 px-3">
+	<div class="col-4 border craftInfo recipeList">
 		{#each recipes as r, i (i)}
 			{#if r}
 				<div class="row">
@@ -67,14 +67,14 @@
 			{/if}
 		{/each}
 	</div>
-	<div class="col-8 bg-dark text-light">
+	<div class="col-8 border py-3 craftInfo">
 		{#if inspectItem}
 			<h5>
 				<img src={inspectItem.iconPath} width={32} height={32} class="me-2" alt={inspectItem.description} /><span
 					>{inspectItem.name}</span
 				>
 			</h5>
-			<p>{inspectItem.description}</p>
+			<p class="mb-0">{inspectItem.description}</p>
 			{#each inspectItem.components as c}
 				{@const i = safeGetItem(c.item)}
 				{#if i}
@@ -113,5 +113,16 @@
 			rgba(255, 120, 0, 0.35) 65%,
 			rgba(255, 140, 0, 0) 90%
 		);
+	}
+
+	.craftInfo {
+		color: #685247;
+		background-color: #e3c9b2;
+	}
+
+	.recipeList {
+		/* Should add scroll hopefully */
+		max-height: 15rem;
+		overflow-y: auto;
 	}
 </style>

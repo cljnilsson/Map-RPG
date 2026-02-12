@@ -11,7 +11,14 @@
 	let currentWorkers = $state(5); // hardcoded, change later
 	let taxIncome = $state(80);
 	let quality: Quality = $state("Good");
-	const recipes: Array<CraftItem | undefined> = [safeGetItem("axe-handle") as CraftItem, safeGetItem("axe-head") as CraftItem];
+	const recipes: Array<CraftItem | undefined> = [
+		safeGetItem("axe-handle") as CraftItem,
+		safeGetItem("bow") as CraftItem,
+		safeGetItem("longbow") as CraftItem,
+		safeGetItem("recurvebow") as CraftItem,
+		safeGetItem("masterwork-longbow") as CraftItem,
+		safeGetItem("woodenShield") as CraftItem
+	];
 	let inspectItem: CraftItem | undefined = $state(undefined);
 
 	onMount(() => {
@@ -40,7 +47,7 @@
 </script>
 
 <div class="row my-5">
-	<div class="col border mx-2">
+	<div class="col border mx-2 bg">
 		<ul class="my-2">
 			<li>Capacity: <span class="fw-bold">{capacity}</span></li>
 			<li>
@@ -60,3 +67,9 @@
 		<Crafting {level} {currentWorkers} {recipes} bind:inspectItem />
 	</div>
 </div>
+
+<style>
+	.bg {
+		background-color: rgba(10, 10, 10, 0.2);
+	}
+</style>

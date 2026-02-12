@@ -159,7 +159,8 @@
 				{#if dev}
 					<div class="row">
 						<div class="col-auto">
-							<small class="me-1">x: {Math.round(x)}</small><small class="mx-1">y: {Math.round(y)}</small> <small class="mx-1">h: {height} </small> <small class="mx-1">w: {width}</small>
+							<small class="me-1">x: {Math.round(x)}</small><small class="mx-1">y: {Math.round(y)}</small>
+							<small class="mx-1">h: {height} </small> <small class="mx-1">w: {width}</small>
 						</div>
 					</div>
 				{/if}
