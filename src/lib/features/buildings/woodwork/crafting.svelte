@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { CraftItem, Quality } from "$lib/types/item";
 	import { safeGetItem } from "$lib/data/items";
+	import { safeGetResource } from "$lib/data/resources";
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
 	let {
@@ -70,7 +71,7 @@
 	<div class="col-8 border py-3 craftInfo">
 		{#if inspectItem}
 			<h5>
-				<img src={inspectItem.iconPath} width={32} height={32} class="me-2" alt={inspectItem.description} /><span
+				<img src={inspectItem.iconPath} width={64} height={64} class="me-2" alt={inspectItem.description} /><span
 					>{inspectItem.name}</span
 				>
 			</h5>
@@ -81,6 +82,14 @@
 					{c.quantity}x {i.name}
 				{:else}
 					Invalid item id, report it!
+				{/if}
+			{/each}
+			{#each inspectItem.resourceCosts as c}
+				{@const r = safeGetResource(c.resource)}
+				{#if r}
+					<img src={r.iconPath} alt={r.name} width={48} height={48} />{c.amount}x {r.name}
+				{:else}
+					Invalid resource id, report it!
 				{/if}
 			{/each}
 		{/if}

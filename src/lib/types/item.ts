@@ -20,6 +20,10 @@ type CraftItem = BaseItem & {
 		quantity: number;
 		requiredQuality: Quality | false;
 	}[];
+	resourceCosts: {
+		resource: string;
+		amount: number;
+	}[];
 };
 
 type VendorItem = BaseItem & {
