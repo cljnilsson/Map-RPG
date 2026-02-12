@@ -20,6 +20,10 @@
 		if (invalid) {
 			console.error("Craft item list has at least one invalid id reference which is undefined.");
 		}
+
+		if (recipes.length > 0) {
+			inspectItem = recipes[0];
+		}
 	});
 
 	$effect(() => {

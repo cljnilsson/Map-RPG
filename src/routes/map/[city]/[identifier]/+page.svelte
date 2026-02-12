@@ -28,7 +28,7 @@
 	const { data } = $props();
 
 	// ---- High-level data ----
-	const plotIndex = Number(data.plot);
+	const plotIndex = $derived(Number(data.plot));
 	let currentMap = $state(MapController.currentMapState?.map);
 	let buildingPlot = $derived(getBuildingPlot(currentMap, plotIndex));
 	let buildingFull = $derived(getBuildingFromPlot(buildingPlot));

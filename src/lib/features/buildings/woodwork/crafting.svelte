@@ -56,9 +56,11 @@
 		{#each recipes as r, i (i)}
 			{#if r}
 				<div class="row">
-					<div class="col">
+					<div class="col recipe-entry" class:selected={r.id === inspectItem?.id}>
 						<ClickableElement onClickCallback={() => (inspectItem = r)}>
-							<img src={r.iconPath} width={16} height={16} class="me-1" alt={r.description} /><span>{r.name}</span>
+							<div>
+								<img src={r.iconPath} width={16} height={16} class="me-1" alt={r.description} /><span>{r.name}</span>
+							</div>
 						</ClickableElement>
 					</div>
 				</div>
@@ -87,3 +89,29 @@
 <div class="text-end py-2">
 	<button class="btn btn-primary" onclick={onCraftConfirm}>Craft</button>
 </div>
+
+<style>
+	.recipe-entry {
+		transition: all 0.15s ease-in-out;
+	}
+
+	.recipe-entry:hover {
+		background: linear-gradient(
+			to right,
+			rgba(255, 140, 0, 0) 0%,
+			rgba(30, 30, 30, 0.5) 15%,
+			rgba(30, 30, 30, 0.35) 65%,
+			rgba(255, 140, 0, 0) 90%
+		);
+	}
+
+	.selected {
+		background: linear-gradient(
+			to right,
+			rgba(255, 140, 0, 0) 0%,
+			rgba(255, 160, 0, 0.5) 15%,
+			rgba(255, 120, 0, 0.35) 65%,
+			rgba(255, 140, 0, 0) 90%
+		);
+	}
+</style>
