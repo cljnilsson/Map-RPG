@@ -52,8 +52,8 @@
 	}
 </script>
 
-<div class="row py-5 px-3">
-	<div class="col-4 border craftInfo recipeList">
+<div class="row my-5 mx-3 shadow">
+	<div class="col-4 py-2 border craftInfo recipeList">
 		{#each recipes as r, i (i)}
 			{#if r}
 				<div class="row">
@@ -68,30 +68,32 @@
 			{/if}
 		{/each}
 	</div>
-	<div class="col-8 border py-3 craftInfo">
+	<div class="col-8 border py-2 craftInfo">
 		{#if inspectItem}
-			<h5>
+			<h5 class="rounded shadow">
 				<img src={inspectItem.iconPath} width={64} height={64} class="me-2" alt={inspectItem.description} /><span
 					>{inspectItem.name}</span
 				>
 			</h5>
-			<p class="mb-0">{inspectItem.description}</p>
-			{#each inspectItem.components as c}
-				{@const i = safeGetItem(c.item)}
-				{#if i}
-					{c.quantity}x {i.name}
-				{:else}
-					Invalid item id, report it!
-				{/if}
-			{/each}
-			{#each inspectItem.resourceCosts as c}
-				{@const r = safeGetResource(c.resource)}
-				{#if r}
-					<img src={r.iconPath} alt={r.name} width={48} height={48} />{c.amount}x {r.name}
-				{:else}
-					Invalid resource id, report it!
-				{/if}
-			{/each}
+			<p class="mb-0 py-3">{inspectItem.description}</p>
+			<div class="components border px-3 py-3">
+    			{#each inspectItem.components as c}
+    				{@const i = safeGetItem(c.item)}
+    				{#if i}
+    					{c.quantity}x {i.name}
+    				{:else}
+    					Invalid item id, report it!
+    				{/if}
+    			{/each}
+    			{#each inspectItem.resourceCosts as c}
+    				{@const r = safeGetResource(c.resource)}
+    				{#if r}
+    					<img src={r.iconPath} alt={r.name} width={48} height={48} />{c.amount}x {r.name}
+    				{:else}
+    					Invalid resource id, report it!
+    				{/if}
+    			{/each}
+			</div>
 		{/if}
 	</div>
 </div>
@@ -127,6 +129,15 @@
 	.craftInfo {
 		color: #685247;
 		background-color: #e3c9b2;
+	}
+
+	.craftInfo h5 {
+	    margin-bottom: 0;
+        background-color: #dfb48e;
+	}
+
+	.components {
+	    border-color: #794f36 !important;
 	}
 
 	.recipeList {
