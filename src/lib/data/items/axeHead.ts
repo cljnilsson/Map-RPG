@@ -12,7 +12,8 @@ const axeHead = {
 	components: [
 		{
 			item: "iron-bar",
-			quantity: 2
+			quantity: 2,
+			requiredQuality: false
 		}
 	]
 } satisfies CraftItem;

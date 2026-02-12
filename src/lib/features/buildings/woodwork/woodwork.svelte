@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { Building } from "$lib/types/building";
-	import type { CraftItem } from "$lib/types/item";
+	import type { CraftItem, Quality } from "$lib/types/item";
 	import { safeGetItem } from "$lib/data/items";
 	import { onMount } from "svelte";
+	import Crafting from "$lib/features/buildings/woodwork/crafting.svelte";
 
 	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
 
 	let capacity = $derived(20 * level); // Derived instead of state makes sense for this temp implementation.
+	let currentWorkers = $state(5); // hardcoded, change later
 	let taxIncome = $state(80);
-	let quality: "Bad" | "Good" | "Excelent" = $state("Good");
-	let resourceRequirement: "Low" | "Medium" | "High" = $state("Low");
+	let quality: Quality = $state("Good");
 	const recipes: Array<CraftItem | undefined> = [safeGetItem("axe-handle") as CraftItem, safeGetItem("axe-head") as CraftItem];
 	let inspectItem: CraftItem | undefined = $state(undefined);
 
@@ -23,20 +24,15 @@
 
 	$effect(() => {
 		if (level >= 1 && level < 5) {
-			quality = "Bad";
-			resourceRequirement = "Low";
+			quality = "Poor";
 		} else if (level >= 5 && level < 10) {
 			quality = "Good";
-			resourceRequirement = "Medium";
 		} else if (level >= 10) {
-			quality = "Excelent";
-			resourceRequirement = "High";
+			quality = "Excellent";
+		} else if (level >= 20) {
+			quality = "Perfect";
 		}
 	});
-
-	function onCraftConfirm() {
-		// Todo
-	}
 </script>
 
 <div class="row my-5">
@@ -49,55 +45,14 @@
 				><span class="fw-bold">{taxIncome}/h</span>
 			</li>
 			<li>
-				Food & Drink quality: <span
+				Average outut quality: <span
 					class="badge"
-					class:text-bg-success={quality === "Excelent"}
+					class:text-bg-success={quality === "Excellent"}
 					class:text-bg-warning={quality === "Good"}
-					class:text-bg-danger={quality === "Bad"}>{quality}</span
-				>
-			</li>
-			<li>
-				Buying resources from market: <span
-					class="badge"
-					class:text-bg-success={resourceRequirement === "High"}
-					class:text-bg-warning={resourceRequirement === "Medium"}
-					class:text-bg-danger={resourceRequirement === "Low"}>{resourceRequirement}</span
+					class:text-bg-danger={quality === "Poor"}>{quality}</span
 				>
 			</li>
 		</ul>
-		<div class="row py-5">
-			<div class="col-4">
-				{#each recipes as r, i (i)}
-					{#if r}
-						<div class="row">
-							<div class="col" onclick={() => (inspectItem = r)}>
-								<img src={r.iconPath} width={16} height={16} class="me-1" alt={r.description} /><span>{r.name}</span>
-							</div>
-						</div>
-					{/if}
-				{/each}
-			</div>
-			<div class="col-8 bg-dark text-light">
-				{#if inspectItem}
-					<h5>
-						<img src={inspectItem.iconPath} width={32} height={32} class="me-2" alt={inspectItem.description} /><span
-							>{inspectItem.name}</span
-						>
-					</h5>
-					<p>{inspectItem.description}</p>
-					{#each inspectItem.components as c}
-						{@const i = safeGetItem(c.item)}
-						{#if i}
-							{c.quantity}x {i.name}
-						{:else}
-							Invalid item id, report it!
-						{/if}
-					{/each}
-				{/if}
-			</div>
-		</div>
-		<div class="text-end py-2">
-			<button class="btn btn-primary" onclick={onCraftConfirm}>Craft</button>
-		</div>
+		<Crafting {level} {currentWorkers} {recipes} bind:inspectItem />
 	</div>
 </div>

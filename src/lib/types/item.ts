@@ -12,11 +12,13 @@ type RegularItem = BaseItem & {
 	type: "item";
 };
 
+export type Quality = "Poor" | "Good" | "Excellent" | "Perfect";
 type CraftItem = BaseItem & {
 	type: "craft";
 	components: {
 		item: string; // refers to itemId, ideally would want a direct item object reference but that would only work at runtime. Still, something to consider in the future.
 		quantity: number;
+		requiredQuality: Quality | false;
 	}[];
 };
 
