@@ -26,3 +26,36 @@ let {
   		{/if}
    	{/each}
 </div>
+
+<style>
+    .recipeList {
+		/* Should add scroll hopefully */
+		max-height: 15rem;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+   	.recipe-entry {
+		transition: all 0.15s ease-in-out;
+	}
+
+	.recipe-entry:hover {
+		background: linear-gradient(
+			to right,
+			rgba(255, 140, 0, 0) 0%,
+			rgba(30, 30, 30, 0.5) 15%,
+			rgba(30, 30, 30, 0.35) 65%,
+			rgba(255, 140, 0, 0) 90%
+		);
+	}
+
+	.selected {
+		background: linear-gradient(
+			to right,
+			rgba(255, 140, 0, 0) 0%,
+			rgba(255, 160, 0, 0.5) 15%,
+			rgba(255, 120, 0, 0.35) 65%,
+			rgba(255, 140, 0, 0) 90%
+		);
+	}
+</style>

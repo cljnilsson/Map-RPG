@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Resource } from "$lib/types/resource";
-	import { CityController } from "$lib/controller/city.svelte";
-	import { costToNextLevel } from "$lib/utils/cost";
+import type { Resource } from "$lib/types/resource";
+import { CityController } from "$lib/controller/city.svelte";
+import { costToNextLevel } from "$lib/utils/cost";
 
-	let { costs, level = 1 }: { costs: Resource[]; level?: number } = $props();
+let { costs, level = 1 }: { costs: Resource[]; level?: number } = $props();
 </script>
 
 <div class="row justify-content-center align-items-center py-3">
@@ -27,6 +27,10 @@
 </div>
 
 <style>
+    .resources {
+        background-color: rgba(10, 10, 10, 0.2);
+    }
+
 	.resources .resource {
 		font-size: 24px;
 		gap: 0.25rem;
