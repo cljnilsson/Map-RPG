@@ -51,10 +51,10 @@ function onClickOutside() {
 $effect(() => {
 	if (!tooltipContainerEl || disable) return;
 
-	tooltipContainerEl.addEventListener("click", onClick);
+	tooltipContainerEl.addEventListener("mousedown", onClick);
 
 	return () => {
-		tooltipContainerEl?.removeEventListener("click", onClick);
+		tooltipContainerEl?.removeEventListener("mousedown", onClick);
 	};
 });
 </script>

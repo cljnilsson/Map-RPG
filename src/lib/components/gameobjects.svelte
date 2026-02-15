@@ -63,6 +63,18 @@ function clickedOnObject(o: GameObject) {
 	}
 	*/
 }
+
+function menuClickOption(option: string, cb: (() => undefined) | null) {
+	console.log("Clicked on menu item: ", option);
+}
+
+let tempHardcoded: { text: string; cb: (() => undefined) | null }[] = [
+	{ text: "Item 1", cb: null },
+	{ text: "Item 2", cb: null },
+	{ text: "Item 3", cb: null },
+	{ text: "Item 4", cb: null },
+	{ text: "Item 5", cb: null },
+];
 </script>
 
 {#each MapController.currentMapState.objects as object, index (index)}
@@ -76,15 +88,27 @@ function clickedOnObject(o: GameObject) {
 		aria-label={"Image of " + object.name}
 	>
     	<Tooltip>
-    		{#snippet onClickTooltip()}
-       			xoxoxo
-    		{/snippet}
+         {#snippet onClickTooltip()}
+           	<ul class="rs-menu list-group">
+          		{#each tempHardcoded as temp}
+         			<li class="list-group-item p-0">
+            				<button
+           					type="button"
+           					class="rs-menu-button"
+           					onclick={() => menuClickOption(temp.text, temp.cb)}
+            				>
+           					{temp.text}
+            				</button>
+         			</li>
+          		{/each}
+           	</ul>
+         {/snippet}
             <HoverOutlineImage src={object.img} alt={"Image of " + object.name} width={100} />
     	</Tooltip>
 	</div>
 {/each}
 
-<style>
+<style lang="scss">
 	.game-object {
 		position: absolute;
 		transform: translate(-50%, -100%);
@@ -92,4 +116,41 @@ function clickedOnObject(o: GameObject) {
 		height: 50px;
 		cursor: pointer;
 	}
+
+	ul {
+	    pointer-events: auto !important;
+	}
+
+	.rs-menu {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		background: #e3c9b2;
+	}
+
+    .rs-menu .list-group-item {
+    	background: transparent;
+    	border: none;
+    	padding: 0;
+    }
+
+    .rs-menu-button {
+    	width: 100%;
+    	border: none;
+    	background: transparent;
+    	padding: 4px 8px;
+    	font-size: 14px;
+    	text-align: left;
+    	cursor: pointer;
+    	color: rgb(119, 96, 84);
+    }
+
+    .rs-menu-button:hover {
+    	background: #d2b8a0;
+    }
+
+    .rs-menu-button:focus {
+    	outline: none;
+    	background: #d2b8a0;
+    }
 </style>
