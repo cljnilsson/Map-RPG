@@ -3,6 +3,7 @@ import SettingsController from "$lib/controller/settings.svelte";
 import KeyBinder from "$lib/components/utils/keybind.svelte";
 
 let currentlyListening: string | undefined = $state(undefined);
+let searchText: string = $state("");
 
 type ToggleKey =
 	| "keybindTooltips"
@@ -137,19 +138,9 @@ const keybindChunk: SettingChunk<KeybindSetting> = {
 	settings: allKeybindSettings,
 };
 
-const toggleSettings: SettingChunk<ToggleSetting>[] = [miscChunk, uiChunk];
+const allSettings: SettingChunk<ToggleSetting | KeybindSetting>[] = [miscChunk, uiChunk, keybindChunk];
 
-const keybindSettings: SettingChunk<KeybindSetting>[] = [keybindChunk];
-
-const allSettings: SettingChunk<ToggleSetting | KeybindSetting>[] = [
-	miscChunk,
-	uiChunk,
-	keybindChunk,
-];
-
-function isToggleSetting(
-	s: ToggleSetting | KeybindSetting,
-): s is ToggleSetting {
+function isToggleSetting(s: ToggleSetting | KeybindSetting): s is ToggleSetting {
 	return (
 		s.key === "keybindTooltips" ||
 		s.key === "offlineMode" ||
@@ -162,11 +153,21 @@ function isToggleSetting(
 		s.key === "showResources"
 	);
 }
+
+function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): Array<ToggleSetting | KeybindSetting> {
+	const query = searchText.toLowerCase();
+
+	return settings.filter((setting) => setting.name.toLowerCase().includes(query));
+}
 </script>
 
 <div class="map-wrapper mt-3 container">
 	<h4>Settings</h4>
-	<input type="text" max={20} class="form-control mb-2" placeholder="Search.." />
+	<div class="row">
+		<div class="col-xl-3 col-md-6 col-12 my-3">
+		    <input type="text" max={20} class="form-control mb-2" placeholder="Search.." bind:value={searchText} />
+		</div>
+	</div>
 
 	{#each allSettings as c (c.title)}
 		<div class="settings-chunk">
@@ -176,7 +177,7 @@ function isToggleSetting(
 				</div>
 			</div>
 
-			{#each c.settings as s (s.name)}
+			{#each doesNameMatchSearch(c.settings) as s (s.name)}
 				<div class="row">
 					<div class="col"><span>{s.name}</span></div>
 					<div class="col">
