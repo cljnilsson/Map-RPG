@@ -1,20 +1,22 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { NotificationController } from "$lib/controller/notification.svelte";
 import NotificationStore from "$lib/stores/notification.svelte";
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 
 // Mock the store and log controller
 vi.mock("$lib/stores/notification.svelte", () => ({
 	default: {
-		queue: []
-	}
+		queue: [],
+	},
 }));
 
-vi.mock("$lib/controller/logs.svelte", () => ({
-	LogController: {
-		newLog: vi.fn()
-	}
-}));
+vi.mock("$lib/controller/logs.svelte", () => {
+	return {
+		default: {
+			newLog: vi.fn(),
+		},
+	};
+});
 
 describe("NotificationController", () => {
 	beforeEach(() => {
@@ -28,7 +30,7 @@ describe("NotificationController", () => {
 		expect(NotificationStore.queue).toHaveLength(1);
 		expect(NotificationStore.queue[0]).toEqual({
 			message: "Test message",
-			type: "info"
+			type: "info",
 		});
 		expect(LogController.newLog).toHaveBeenCalledWith("[Notification]: Test message.", "info");
 	});
@@ -39,7 +41,7 @@ describe("NotificationController", () => {
 		expect(NotificationStore.queue).toHaveLength(1);
 		expect(NotificationStore.queue[0]).toEqual({
 			message: "Warning message",
-			type: "warning"
+			type: "warning",
 		});
 		expect(LogController.newLog).toHaveBeenCalledWith("[Notification]: Warning message.", "warning");
 	});

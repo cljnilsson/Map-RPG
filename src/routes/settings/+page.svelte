@@ -1,42 +1,10 @@
 <script lang="ts">
 import SettingsController from "$lib/controller/settings.svelte";
 import KeyBinder from "$lib/components/utils/keybind.svelte";
+import { type ToggleSetting, type SettingChunk, type KeybindSetting } from "$lib/types/settings";
 
 let currentlyListening: string | undefined = $state(undefined);
 let searchText: string = $state("");
-
-type ToggleKey =
-	| "keybindTooltips"
-	| "offlineMode"
-	| "darkMode"
-	| "showInventory"
-	| "showNavigation"
-	| "showQuests"
-	| "showEvents"
-	| "showLogs"
-	| "showResources";
-
-type KeybindKey =
-	| "inventoryKeybind"
-	| "navigationKeybind"
-	| "questsKeybind"
-	| "eventsKeybind"
-	| "logsKeybind"
-	| "resourcesKeybind"
-	| "backKeybind";
-
-type ToggleSetting = { name: string; key: ToggleKey; description: string };
-
-type KeybindSetting = {
-	name: string;
-	key: KeybindKey;
-	description: string;
-};
-
-type SettingChunk<T extends ToggleSetting | KeybindSetting> = {
-	title: string;
-	settings: T[];
-};
 
 const uiToggles: ToggleSetting[] = [
 	{

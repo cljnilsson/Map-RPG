@@ -1,4 +1,4 @@
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 import { getSettingForUser } from "$lib/api/settings.remote";
 
 class SettingsController {
@@ -180,10 +180,7 @@ class SettingsController {
 		const resp = await getSettingForUser({ userId });
 
 		if (!resp) {
-			LogController.newLog(
-				`Failed to load settings for user ${userId}`,
-				"error",
-			);
+			LogController.newLog(`Failed to load settings for user ${userId}`, "error");
 			return;
 		}
 

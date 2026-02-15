@@ -1,6 +1,6 @@
 import type { RegularItem, UsableItem } from "$lib/types/item";
 import BookStore from "$lib/stores/book.svelte";
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 
 export function createBookItem(item: RegularItem, pages: string[]): UsableItem {
 	if (pages.length === 0) {
@@ -30,6 +30,6 @@ export function createBookItem(item: RegularItem, pages: string[]): UsableItem {
 			console.warn("You cannot use this item right now.");
 			LogController.newLog("You cannot use this item right now.", "warning");
 			return false;
-		}
+		},
 	};
 }

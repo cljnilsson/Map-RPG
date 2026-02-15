@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { CityController } from "$lib/controller/city.svelte";
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { Resource } from "$lib/types/resource";
-	import { LogController } from "$lib/controller/logs.svelte";
-	import type { Building } from "$lib/types/building";
+import { CityController } from "$lib/controller/city.svelte";
+import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+import type { Resource } from "$lib/types/resource";
+import LogController from "$lib/controller/logs.svelte";
+import type { Building } from "$lib/types/building";
 
-	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
-	let max = $state(5);
-	let combat = $state(1);
-	let merchant = $state(2);
-	let travel = $state(1);
-	let current = $derived(combat + merchant + travel);
-	let available = $derived(max - current);
+const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
+let max = $state(5);
+let combat = $state(1);
+let merchant = $state(2);
+let travel = $state(1);
+let current = $derived(combat + merchant + travel);
+let available = $derived(max - current);
 </script>
 
 <div class="row justify-content-center align-items-center my-5">

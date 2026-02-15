@@ -1,9 +1,9 @@
 import LogStore from "$lib/stores/logs.svelte";
 import { SvelteDate } from "svelte/reactivity";
 
-export class LogController {
-	public static newLog(msg: string, type: "warning" | "error" | "info" = "info") {
-		if (msg.length > 0 || msg.length > 300) {
+class LogController {
+	public newLog(msg: string, type: "warning" | "error" | "info" = "info") {
+		if (msg.length <= 0 || msg.length > 300) {
 			console.warn("Log message is empty or very long. " + msg.length);
 			return;
 		}
@@ -13,10 +13,14 @@ export class LogController {
 			{
 				timestamp: new SvelteDate(),
 				message: msg,
-				type: type
-			}
+				type: type,
+			},
 		];
 
 		console.log(`Frontned log [${type}]: `, msg);
 	}
 }
+
+const instance = new LogController();
+
+export default instance;

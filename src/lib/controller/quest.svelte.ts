@@ -1,6 +1,6 @@
 import type { Quest } from "$lib/types/quest";
 import QuestStore from "$lib/stores/quest.svelte";
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 import { SaveController } from "$lib/controller/save.svelte";
 
 export default class QuestController {

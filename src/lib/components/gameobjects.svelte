@@ -1,60 +1,67 @@
 <script lang="ts">
-	import ContainerStore from "$lib/stores/container.svelte";
-	import { onMount } from "svelte";
-	import MapController from "$lib/controller/map.svelte";
-	import WindowController from "$lib/controller/window.svelte";
-	import { isContainerGameObject, isLootableQuestGameObject, isQuestGameObject, isLootableGameObject } from "$lib/typeguards/gameObject";
-	import type { GameObject } from "$lib/types/gameObject";
-	import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
-	import QuestController from "$lib/controller/quest.svelte";
-	import { PlayerController } from "$lib/controller/character.svelte";
+import ContainerStore from "$lib/stores/container.svelte";
+import { onMount } from "svelte";
+import MapController from "$lib/controller/map.svelte";
+import WindowController from "$lib/controller/window.svelte";
+import {
+	isContainerGameObject,
+	isLootableQuestGameObject,
+	isQuestGameObject,
+	isLootableGameObject,
+} from "$lib/typeguards/gameObject";
+import type { GameObject } from "$lib/types/gameObject";
+import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
+import QuestController from "$lib/controller/quest.svelte";
+import { PlayerController } from "$lib/controller/character.svelte";
+import LogController from "$lib/controller/logs.svelte";
 
-	const MAP_WIDTH = 2560;
-	const MAP_HEIGHT = 1440;
+const MAP_WIDTH = 2560;
+const MAP_HEIGHT = 1440;
 
-	let scaleX = $state(1);
-	let scaleY = $state(1);
+let scaleX = $state(1);
+let scaleY = $state(1);
 
-	function updateScale() {
-		scaleX = window.innerWidth / MAP_WIDTH;
-		scaleY = window.innerHeight / MAP_HEIGHT;
-	}
+function updateScale() {
+	scaleX = window.innerWidth / MAP_WIDTH;
+	scaleY = window.innerHeight / MAP_HEIGHT;
+}
 
-	onMount(() => {
-		updateScale();
-		window.addEventListener("resize", updateScale);
-		return () => window.removeEventListener("resize", updateScale);
-	});
+onMount(() => {
+	updateScale();
+	window.addEventListener("resize", updateScale);
+	return () => window.removeEventListener("resize", updateScale);
+});
 
-	function clickedOnObject(o: GameObject) {
-		console.log("Object clicked", o);
+function clickedOnObject(o: GameObject) {
+	console.log("Object clicked", o);
 
-		if (isLootableQuestGameObject(o)) {
-			if (o.quests.length > 0) {
-				console.log("adding quest");
-				QuestController.addQuest(o.quests[0]);
-				console.log("Adding item");
-				PlayerController.giveItem(o.pickedUpItem.item);
-			}
-		} else if (isQuestGameObject(o) && o.quests.length > 0) {
+	if (isLootableQuestGameObject(o)) {
+		if (o.quests.length > 0) {
 			console.log("adding quest");
 			QuestController.addQuest(o.quests[0]);
-		} else if (isContainerGameObject(o)) {
-			if (o.requiredItems.length > 0 && !PlayerController.hasItems(o.requiredItems)) {
-				console.log("You do not have the required items to open this container.");
-				return;
-			}
-
-			console.log("Opening container", o);
-			if (o.contains.length > 0) {
-				WindowController.getByName("Container").visible = true;
-				ContainerStore.object = o;
-			}
-		} else if (isLootableGameObject(o)) {
 			console.log("Adding item");
 			PlayerController.giveItem(o.pickedUpItem.item);
 		}
+	} else if (isQuestGameObject(o) && o.quests.length > 0) {
+		console.log("adding quest");
+		QuestController.addQuest(o.quests[0]);
+	} else if (isContainerGameObject(o)) {
+		if (o.requiredItems.length > 0 && !PlayerController.hasItems(o.requiredItems)) {
+			console.log("You do not have the required items to open this container.");
+			LogController.newLog("You do not have the required items to open this container.");
+			return;
+		}
+
+		console.log("Opening container", o);
+		if (o.contains.length > 0) {
+			WindowController.getByName("Container").visible = true;
+			ContainerStore.object = o;
+		}
+	} else if (isLootableGameObject(o)) {
+		console.log("Adding item");
+		PlayerController.giveItem(o.pickedUpItem.item);
 	}
+}
 </script>
 
 {#each MapController.currentMapState.objects as object, index (index)}

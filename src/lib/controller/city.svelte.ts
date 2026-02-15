@@ -1,9 +1,9 @@
 import CityStore from "$lib/stores/city.svelte";
 import MapController from "$lib/controller/map.svelte";
-import type {Plot} from "$lib/types/city";
-import type {Unit} from "$lib/types/unit";
-import type {CityResource, Resource} from "$lib/types/resource";
-import { LogController } from "$lib/controller/logs.svelte";
+import type { Plot } from "$lib/types/city";
+import type { Unit } from "$lib/types/unit";
+import type { CityResource, Resource } from "$lib/types/resource";
+import LogController from "$lib/controller/logs.svelte";
 import { isCityMap } from "$lib/typeguards/map";
 import { costToNextLevel } from "$lib/utils/cost";
 import { postResources } from "$lib/api/resources.remote";
@@ -12,7 +12,7 @@ export class CityController {
 	// ---------------
 	// Variables
 	// ---------------
-	
+
 	// TODO
 
 	// ---------------
@@ -55,12 +55,12 @@ export class CityController {
 		CityStore.resources = v;
 	}
 
-	public static set storage(v: {key: string, amount: number}[]) {
+	public static set storage(v: { key: string; amount: number }[]) {
 		CityStore.storage = v;
 	}
 
 	public static get plots(): Plot[] {
-		if(isCityMap(MapController.currentMapState.map)) {
+		if (isCityMap(MapController.currentMapState.map)) {
 			return MapController.currentMapState.map.city.plots;
 		} else {
 			return [];
@@ -84,7 +84,7 @@ export class CityController {
 	public static updateResourceAmount(resource: string, newAmount: number) {
 		const toUpdate = this.getResource(resource);
 
-		if(!toUpdate) {
+		if (!toUpdate) {
 			console.warn("Trying to update resource that does not exist " + resource);
 			return;
 		}
@@ -95,29 +95,29 @@ export class CityController {
 	public static canAfford(price: Resource[]): boolean {
 		let canAfford = true;
 
-		for(const resource of price) {
-			if(resource.amount > this.getResource(resource.name).amount) {
+		for (const resource of price) {
+			if (resource.amount > this.getResource(resource.name).amount) {
 				canAfford = false;
 				break;
 			}
 		}
-		
+
 		return canAfford;
 	}
 
 	private static slimResources() {
-		return this.resources.map(r => {
-			return {resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount};
-		})
+		return this.resources.map((r) => {
+			return { resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount };
+		});
 	}
-	
+
 	public static pay(price: Resource[]): boolean {
 		console.log(1);
-		if(this.canAfford(price)) {
-			for(const resource of price) {
+		if (this.canAfford(price)) {
+			for (const resource of price) {
 				this.getResource(resource.name).amount -= resource.amount; // Might not update object properly
 			}
-			
+
 			LogController.newLog("You used the city's coffers to pay."); // More detailed costs here later
 
 			const slimmedResources = this.slimResources();
@@ -132,11 +132,10 @@ export class CityController {
 
 	// TODO, make sure it does not exceed city limit
 	public static give(price: Resource[]) {
-		for(const resource of price) {
+		for (const resource of price) {
 			this.getResource(resource.name).amount += resource.amount; // Might not update object properly
-
 		}
-		
+
 		LogController.newLog("You gained new resources"); // More detailed resources here later
 
 		const slimmedResources = this.slimResources();
@@ -145,13 +144,17 @@ export class CityController {
 	}
 
 	public static upgrade(price: Resource[], plot: number) {
-		if(isCityMap(MapController.currentMapState.map)) {
+		if (isCityMap(MapController.currentMapState.map)) {
 			const level = MapController.currentMapState.map.city.plots[plot].level;
-			const upgraded = this.pay(level === 1 ? price : price.map(v => {
-				return {...v, amount: costToNextLevel(v.amount, level)};
-			}));
+			const upgraded = this.pay(
+				level === 1
+					? price
+					: price.map((v) => {
+							return { ...v, amount: costToNextLevel(v.amount, level) };
+						}),
+			);
 
-			if(upgraded) {
+			if (upgraded) {
 				MapController.currentMapState.map.city.plots[plot].level += 1;
 			}
 		}
@@ -159,7 +162,7 @@ export class CityController {
 
 	public static setMainCityFromCurrentOwned() {
 		const owned = MapController.ownedCities;
-		if(owned.length === 0) {
+		if (owned.length === 0) {
 			return null;
 		}
 

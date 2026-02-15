@@ -1,33 +1,33 @@
 <script lang="ts">
-	import { CityController } from "$lib/controller/city.svelte";
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { Resource } from "$lib/types/resource";
-	import { LogController } from "$lib/controller/logs.svelte";
-	import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
-	import type { Building } from "$lib/types/building";
+import { CityController } from "$lib/controller/city.svelte";
+import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+import type { Resource } from "$lib/types/resource";
+import LogController from "$lib/controller/logs.svelte";
+import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
+import type { Building } from "$lib/types/building";
 
-	const { level, building }: {level: number, building: Omit<Building, "componentOnClick">} = $props();
+const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
 
-	let offer = $state<number | undefined>(undefined);
-	let tradeFor = $state<Resource | undefined>(undefined);
-	let tradeWant = $state<Resource | undefined>(undefined);
+let offer = $state<number | undefined>(undefined);
+let tradeFor = $state<Resource | undefined>(undefined);
+let tradeWant = $state<Resource | undefined>(undefined);
 
-	// Can afford if both values are set and offer is <= resource amount
-	let canAfford = $derived(tradeFor !== undefined && offer !== undefined && (tradeFor.amount ?? 0) >= offer);
+// Can afford if both values are set and offer is <= resource amount
+let canAfford = $derived(tradeFor !== undefined && offer !== undefined && (tradeFor.amount ?? 0) >= offer);
 
-	let rate = $state(1.2);
+let rate = $state(1.2);
 
-	function trade() {
-		if (!canAfford || !tradeFor || !tradeWant || offer === undefined) return;
+function trade() {
+	if (!canAfford || !tradeFor || !tradeWant || offer === undefined) return;
 
-		const success = CityController.pay([{ ...tradeFor, amount: offer }]);
+	const success = CityController.pay([{ ...tradeFor, amount: offer }]);
 
-		if (success) {
-			CityController.give([{ ...tradeWant, amount: Math.floor(offer * (2 - rate)) }]);
-			offer = undefined;
-			LogController.newLog("You traded resources!");
-		}
+	if (success) {
+		CityController.give([{ ...tradeWant, amount: Math.floor(offer * (2 - rate)) }]);
+		offer = undefined;
+		LogController.newLog("You traded resources!");
 	}
+}
 </script>
 
 <div class="row justify-content-center align-items-center my-5">

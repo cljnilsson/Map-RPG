@@ -51,7 +51,7 @@ const mockedCostToNextLevel = costToNextLevel as unknown as Mock<typeof costToNe
 const mockedNewLog = LogController.newLog as unknown as Mock<typeof LogController.newLog>;
 
 import MapStore from "$lib/stores/map.svelte";
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 import { isCityMap } from "$lib/typeguards/map";
 import { costToNextLevel } from "$lib/utils/cost";
 import { CityController } from "$lib/controller/city.svelte";
@@ -133,7 +133,7 @@ describe("CityController", () => {
 		expect(CityController.canAfford([{ name: "gold", iconPath: "", amount: 150 }])).toBe(false);
 	});
 
-	
+
 	// --- pay ---
 	it("should deduct resources and log when payment is successful", async () => {
 		const result = await CityController.pay([{ name: "gold", iconPath: "", amount: 30 }]);

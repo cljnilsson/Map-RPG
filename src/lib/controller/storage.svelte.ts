@@ -1,6 +1,6 @@
 //import type { Character } from "$lib/types/character";
 import type { Item, VendorItem, InventoryItem } from "$lib/types/item";
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 import { addItem, removeItem } from "$lib/api/storage.remote";
 
 const storageState: { storage: InventoryItem[] } = $state({ storage: [] });
@@ -9,7 +9,7 @@ export default class StorageController {
 	// ---------------
 	// Variables
 	// ---------------
-	public static  readonly inventorySize = 6 * 8; // 8 rows 6 columns
+	public static readonly inventorySize = 6 * 8; // 8 rows 6 columns
 
 	// ---------------
 	// GETTERS / SETTERS
@@ -34,10 +34,10 @@ export default class StorageController {
 			const getMyStorage = await addItem({
 				cityId: cityId,
 				key: item.id,
-				amount
+				amount,
 			});
 
-			if(getMyStorage) {
+			if (getMyStorage) {
 				StorageController.inventory = [...StorageController.inventory, { item, amount }];
 				const itemLabel = amount > 1 ? `${amount}x ${item.name}` : `a ${item.name}`;
 				LogController.newLog(`You received ${itemLabel}.`, "info");
@@ -53,7 +53,7 @@ export default class StorageController {
 
 	public static hasItems(items: InventoryItem[]): boolean {
 		return items.every(({ item, amount }) =>
-			StorageController.inventory.some((slot) => slot.item.name === item.name && slot.amount >= amount)
+			StorageController.inventory.some((slot) => slot.item.name === item.name && slot.amount >= amount),
 		);
 	}
 
@@ -76,12 +76,12 @@ export default class StorageController {
 			const success = await removeItem({
 				cityId: cityId,
 				key: removedItem.item.id,
-				amount: removedItem.amount
+				amount: removedItem.amount,
 			});
 
-			if(success) {
+			if (success) {
 				StorageController.inventory = StorageController.inventory.filter((_, index) => index !== itemIndex);
-	
+
 				LogController.newLog(`You lost ${removedItem.item.name}.`, "info");
 				return true;
 			}
@@ -89,7 +89,6 @@ export default class StorageController {
 			console.error("Could not remove the item from storage");
 
 			return false;
-
 		} else {
 			console.error("Trying to remove item that does not exist");
 			return false;

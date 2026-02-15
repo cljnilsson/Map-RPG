@@ -118,17 +118,17 @@ export default class WindowController extends ClassInstanceList {
 			"Vendor",
 			"Roll",
 			"Container",
-			"InventorySplitter"
+			"InventorySplitter",
 		].includes(key); // reuse windowtypes here
 	}
 }
 
 new WindowController(false, 50, 900, "Logger");
-new WindowController(true, 1000, 1250, "Navigator");
+new WindowController(false, 1000, 1250, "Navigator");
 new WindowController(true, 1300, 1250, "Resources");
 new WindowController(true, 600, 950, "UnitManagement");
 new WindowController(true, 1600, 1250, "Events");
-new WindowController(true, 1300, 450, "Quests");
+new WindowController(false, 1300, 450, "Quests");
 new WindowController(false, 300, 450, "Inventory");
 new WindowController(false, 300, 450, "Vendor");
 new WindowController(false, 800, 450, "Roll");

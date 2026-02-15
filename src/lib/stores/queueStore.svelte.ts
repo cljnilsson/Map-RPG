@@ -1,9 +1,9 @@
 import type { QueueItem } from "$lib/types/queueItem";
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 import dayjs from "dayjs";
 
 const store = $state({
-	queue: [] as QueueItem[]
+	queue: [] as QueueItem[],
 });
 
 if (typeof window !== "undefined") {

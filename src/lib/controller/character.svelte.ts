@@ -2,7 +2,7 @@
 import type { Item, VendorItem, InventoryItem } from "$lib/types/item";
 import PlayerStore from "$lib/stores/character.svelte";
 import type { NPC } from "$lib/types/npc";
-import { LogController } from "$lib/controller/logs.svelte";
+import LogController from "$lib/controller/logs.svelte";
 
 export class CharacterController {}
 
@@ -47,8 +47,8 @@ export class PlayerController extends CharacterController {
 				maxHealth: maxHealth,
 				exp: xp,
 				level: level,
-				stats: stats
-			})
+				stats: stats,
+			}),
 		});
 	}
 
@@ -103,7 +103,7 @@ export class PlayerController extends CharacterController {
 	}
 
 	public static set inventory(v: InventoryItem[]) {
-		 PlayerStore.inventory = v;
+		PlayerStore.inventory = v;
 	}
 
 	// ---------------
@@ -138,7 +138,7 @@ export class PlayerController extends CharacterController {
 		const playerCopper = PlayerController.moneyToCopper(
 			PlayerStore.character.money.copper,
 			PlayerStore.character.money.silver,
-			PlayerStore.character.money.gold
+			PlayerStore.character.money.gold,
 		);
 
 		const priceCopper = PlayerController.moneyToCopper(c, s, g);
@@ -179,7 +179,7 @@ export class PlayerController extends CharacterController {
 		const playerCopper = PlayerController.moneyToCopper(
 			PlayerStore.character.money.copper,
 			PlayerStore.character.money.silver,
-			PlayerStore.character.money.gold
+			PlayerStore.character.money.gold,
 		);
 
 		const priceCopper = PlayerController.moneyToCopper(item.price.copper, item.price.silver, item.price.gold);
@@ -198,9 +198,7 @@ export class PlayerController extends CharacterController {
 
 	public static hasItems(items: InventoryItem[]): boolean {
 		return items.every(({ item, amount }) =>
-			PlayerStore.inventory.some(
-				(slot) => slot.item.name === item.name && slot.amount >= amount
-			)
+			PlayerStore.inventory.some((slot) => slot.item.name === item.name && slot.amount >= amount),
 		);
 	}
 
