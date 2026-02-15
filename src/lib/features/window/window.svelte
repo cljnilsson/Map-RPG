@@ -1,118 +1,122 @@
 <script lang="ts">
-	import { Tween } from "svelte/motion";
-	import { cubicOut } from "svelte/easing";
-	import type { Snippet } from "svelte";
-	import { onMount, onDestroy } from "svelte";
-	import Title from "$lib/features/window/windowTitle.svelte";
-	import Body from "$lib/features/window/windowBody.svelte";
-	import Footer from "$lib/features/window/windowFooter.svelte";
-	import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
-	import DialogueController from "$lib/controller/dialogue.svelte";
-	import { browser } from "$app/environment";
-	import { SaveController } from "$lib/controller/save.svelte";
-	import { fade } from "svelte/transition";
-	import { dev } from "$app/environment";
-	import WindowController from "$lib/controller/window.svelte";
+import { Tween } from "svelte/motion";
+import { cubicOut } from "svelte/easing";
+import type { Snippet } from "svelte";
+import { onMount, onDestroy } from "svelte";
+import Title from "$lib/features/window/windowTitle.svelte";
+import Body from "$lib/features/window/windowBody.svelte";
+import Footer from "$lib/features/window/windowFooter.svelte";
+import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
+import DialogueController from "$lib/controller/dialogue.svelte";
+import { browser } from "$app/environment";
+import { SaveController } from "$lib/controller/save.svelte";
+import { fade } from "svelte/transition";
+import { dev } from "$app/environment";
+import WindowController from "$lib/controller/window.svelte";
 
-	let {
-		title,
-		body,
-		footer,
-		uniqueKey,
-		width,
-		height,
-		x,
-		y,
-		toggleKey,
-		visibility = $bindable(true),
-		canMinimize = true,
-		canClose = true,
-		canLock = true,
-		initiallyLocked
-	}: {
-		title?: Snippet;
-		body?: Snippet;
-		footer?: Snippet;
-		uniqueKey: string;
-		width: number;
-		height: number;
-		x: number;
-		y: number;
-		toggleKey?: string;
-		visibility?: boolean;
-		canMinimize?: boolean;
-		canClose?: boolean;
-		canLock?: boolean;
-		initiallyLocked?: boolean;
-	} = $props();
+let {
+	title,
+	body,
+	footer,
+	uniqueKey,
+	width,
+	height,
+	x,
+	y,
+	toggleKey,
+	visibility = $bindable(true),
+	canMinimize = true,
+	canClose = true,
+	canLock = true,
+	initiallyLocked,
+}: {
+	title?: Snippet;
+	body?: Snippet;
+	footer?: Snippet;
+	uniqueKey: string;
+	width: number;
+	height: number;
+	x: number;
+	y: number;
+	toggleKey?: string;
+	visibility?: boolean;
+	canMinimize?: boolean;
+	canClose?: boolean;
+	canLock?: boolean;
+	initiallyLocked?: boolean;
+} = $props();
 
-	let expanded = $state(true);
-	let locked = $state(false);
-	let dragging = $state(false);
+let expanded = $state(true);
+let locked = $state(false);
+let dragging = $state(false);
 
-	let visibilityPriority = $derived(
-		WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(WindowController.getByName(uniqueKey)) : -1
-	);
+let visibilityPriority = $derived(
+	WindowController.isWindowType(uniqueKey)
+		? WindowController.isOpenAt(WindowController.getByName(uniqueKey))
+		: -1,
+);
 
-	let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
-	let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
+let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
+let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
 
-	let containerElement: HTMLElement | null = $state(null);
-	const isTest = import.meta.env.MODE === "test";
+let containerElement: HTMLElement | null = $state(null);
+const isTest = import.meta.env.MODE === "test";
 
-	const tweenHeight = new Tween(height, { duration: 100, easing: cubicOut });
+const tweenHeight = $derived(
+	new Tween(height, { duration: 100, easing: cubicOut }),
+);
 
-	function toggle() {
-		expanded = !expanded;
-		tweenHeight.set(expanded ? height : 0);
+function toggle() {
+	expanded = !expanded;
+	tweenHeight.set(expanded ? height : 0);
+}
+
+function handleKeydown(event: KeyboardEvent) {
+	if (event.key === toggleKey) {
+		visibility = !visibility;
+	}
+}
+
+function scaleToViewport(px: number, axis: "x" | "y") {
+	const viewportSize = axis === "x" ? window.innerWidth : window.innerHeight;
+	// Adjust the base resolution to match your dev screen — for example, 2560×1440
+	const base = axis === "x" ? 2560 : 1440;
+	return (px / base) * viewportSize;
+}
+
+function close() {
+	visibility = false;
+}
+
+async function saveNewPosition(newX: number, newY: number) {
+	SaveController.saveWindows(newX, newY, uniqueKey);
+}
+
+onMount(() => {
+	if (browser) {
+		x = scaleToViewport(x, "x");
+		y = scaleToViewport(y, "y");
+		//width = scaleToViewport(width, "x");
+		//height = scaleToViewport(height, "y");
+		//tweenHeight.set(height); // if window starts expanded
 	}
 
-	function handleKeydown(event: KeyboardEvent) {
-		if (event.key === toggleKey) {
-			visibility = !visibility;
-		}
+	if (toggleKey && window) {
+		window.addEventListener("keydown", handleKeydown);
 	}
 
-	function scaleToViewport(px: number, axis: "x" | "y") {
-		const viewportSize = axis === "x" ? window.innerWidth : window.innerHeight;
-		// Adjust the base resolution to match your dev screen — for example, 2560×1440
-		const base = axis === "x" ? 2560 : 1440;
-		return (px / base) * viewportSize;
+	if (initiallyLocked) {
+		locked = true;
 	}
+});
 
-	function close() {
-		visibility = false;
+onDestroy(() => {
+	if (browser) {
+		if (toggleKey) {
+			window.removeEventListener("keydown", handleKeydown);
+		}
 	}
-
-	async function saveNewPosition(newX: number, newY: number) {
-		SaveController.saveWindows(newX, newY, uniqueKey);
-	}
-
-	onMount(() => {
-		if (browser) {
-			x = scaleToViewport(x, "x");
-			y = scaleToViewport(y, "y");
-			//width = scaleToViewport(width, "x");
-			//height = scaleToViewport(height, "y");
-			//tweenHeight.set(height); // if window starts expanded
-		}
-
-		if (toggleKey && window) {
-			window.addEventListener("keydown", handleKeydown);
-		}
-
-		if (initiallyLocked) {
-			locked = true;
-		}
-	});
-
-	onDestroy(() => {
-		if (browser) {
-			if (toggleKey) {
-				window.removeEventListener("keydown", handleKeydown);
-			}
-		}
-	});
+});
 </script>
 
 {#if visibility}
