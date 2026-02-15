@@ -1,29 +1,35 @@
 <script lang="ts">
-	import CharacterStore from "$lib/stores/character.svelte";
-	import InventoryItemComponent from "$lib/features/inventory/inventoryItem.svelte";
-	import type { InventoryItem } from "$lib/types/item";
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import { q2c } from "$lib/utils/itemQuality";
-	import ItemGrid from "$lib/components/itemGrid.svelte";
+import CharacterStore from "$lib/stores/character.svelte";
+import InventoryItemComponent from "$lib/features/inventory/inventoryItem.svelte";
+import type { InventoryItem } from "$lib/types/item";
+import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
+import { q2c } from "$lib/utils/itemQuality";
+import ItemGrid from "$lib/components/itemGrid.svelte";
 
-	let {
-		title = "",
-		showEmptySlots = true,
-		showMoney = true,
-		mode = "Normal",
-		cityDataId = -1,
-	}: { title?: string; showEmptySlots?: boolean; showMoney?: boolean, mode?: "Normal" | "Bank", cityDataId?: number } = $props();
+let {
+	title = "",
+	showEmptySlots = true,
+	showMoney = true,
+	mode = "Normal",
+	cityDataId = -1,
+}: {
+	title?: string;
+	showEmptySlots?: boolean;
+	showMoney?: boolean;
+	mode?: "Normal" | "Bank";
+	cityDataId?: number;
+} = $props();
 
-	const rows = 8;
-	const slots = 6 * rows;
+const rows = 8;
+const slots = 6 * rows;
 
-	let selectedItem: InventoryItem | null = $state(null);
-	let searchString: string = $state("");
-	let size: number = $derived(showEmptySlots ? slots : CharacterStore.inventory.length);
+let selectedItem: InventoryItem | null = $state(null);
+let searchString: string = $state("");
+let size: number = $derived(showEmptySlots ? slots : CharacterStore.inventory.length);
 
-	$effect(() => {
-		$inspect(selectedItem);
-	});
+$effect(() => {
+	$inspect(selectedItem);
+});
 </script>
 
 <div class="row align-items-center pb-3">
@@ -39,7 +45,7 @@
 <ItemGrid items={CharacterStore.inventory} {size}>
 	{#snippet item(gridItem)}
 		<Tooltip>
-			{#snippet tooltip()}
+			{#snippet onHoverTooltip()}
 				<h5 style={"color: " + q2c(gridItem.item) + ";"}>{gridItem.item.name}</h5>
 				<p>{gridItem.item.description}</p>
 			{/snippet}

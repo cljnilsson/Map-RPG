@@ -1,6 +1,6 @@
 <script lang="ts">
 import { CityController } from "$lib/controller/city.svelte";
-import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
 import type { Resource } from "$lib/types/resource";
 import LogController from "$lib/controller/logs.svelte";
 import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
@@ -34,7 +34,7 @@ function trade() {
 	{#each CityController.resources as resource (resource.name)}
 		<div class="col-auto">
 			<Tooltip>
-				{#snippet tooltip()}
+				{#snippet onHoverTooltip()}
 					<h5 class="my-1">{resource.name}</h5>
 				{/snippet}
 				<img src={resource.iconPath} alt={resource.name} style="max-width: 30px; max-height: 30px;" />

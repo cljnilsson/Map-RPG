@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { Quest } from "$lib/types/quest";
+import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
+import type { Quest } from "$lib/types/quest";
 
-	let { active }: { active: Quest } = $props();
+let { active }: { active: Quest } = $props();
 </script>
 
 <div class="rewards">
@@ -18,7 +18,7 @@
 		<div class="row my-3">
 			<div class="col-auto position-relative d-inline-block">
 				<Tooltip>
-					{#snippet tooltip()}
+					{#snippet onHoverTooltip()}
 						<h5>{item.name}</h5>
 						<p>{item.description}</p>
 						<p>Sells for: 5p</p>

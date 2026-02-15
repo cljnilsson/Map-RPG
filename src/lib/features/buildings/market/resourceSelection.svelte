@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { CityController } from "$lib/controller/city.svelte";
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { Resource, BaseResource } from "$lib/types/resource";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+import { CityController } from "$lib/controller/city.svelte";
+import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
+import type { Resource, BaseResource } from "$lib/types/resource";
+import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
-	let { selectedResource = $bindable() }: { selectedResource: Resource | BaseResource | undefined } = $props();
+let { selectedResource = $bindable() }: { selectedResource: Resource | BaseResource | undefined } = $props();
 </script>
 
 <div class="row align-items-center my-2">
@@ -16,7 +16,7 @@
 		>
 			<ClickableElement onClickCallback={() => (selectedResource = resource)}>
 				<Tooltip>
-					{#snippet tooltip()}
+					{#snippet onHoverTooltip()}
 						<h5 class="my-1">{resource.name}</h5>
 					{/snippet}
 					<img

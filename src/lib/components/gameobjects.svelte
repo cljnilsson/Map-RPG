@@ -14,6 +14,7 @@ import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
 import QuestController from "$lib/controller/quest.svelte";
 import { PlayerController } from "$lib/controller/character.svelte";
 import LogController from "$lib/controller/logs.svelte";
+import Tooltip from "$lib/features/tooltip/tooltipOnClick.svelte";
 
 const MAP_WIDTH = 2560;
 const MAP_HEIGHT = 1440;
@@ -35,6 +36,7 @@ onMount(() => {
 function clickedOnObject(o: GameObject) {
 	console.log("Object clicked", o);
 
+	/*
 	if (isLootableQuestGameObject(o)) {
 		if (o.quests.length > 0) {
 			console.log("adding quest");
@@ -43,11 +45,9 @@ function clickedOnObject(o: GameObject) {
 			PlayerController.giveItem(o.pickedUpItem.item);
 		}
 	} else if (isQuestGameObject(o) && o.quests.length > 0) {
-		console.log("adding quest");
 		QuestController.addQuest(o.quests[0]);
 	} else if (isContainerGameObject(o)) {
 		if (o.requiredItems.length > 0 && !PlayerController.hasItems(o.requiredItems)) {
-			console.log("You do not have the required items to open this container.");
 			LogController.newLog("You do not have the required items to open this container.");
 			return;
 		}
@@ -61,6 +61,7 @@ function clickedOnObject(o: GameObject) {
 		console.log("Adding item");
 		PlayerController.giveItem(o.pickedUpItem.item);
 	}
+	*/
 }
 </script>
 
@@ -74,7 +75,12 @@ function clickedOnObject(o: GameObject) {
 		onkeydown={(e) => e.key === "Enter" && clickedOnObject(object)}
 		aria-label={"Image of " + object.name}
 	>
-		<HoverOutlineImage src={object.img} alt={"Image of " + object.name} width={100} />
+    	<Tooltip>
+    		{#snippet onClickTooltip()}
+       			xoxoxo
+    		{/snippet}
+            <HoverOutlineImage src={object.img} alt={"Image of " + object.name} width={100} />
+    	</Tooltip>
 	</div>
 {/each}
 

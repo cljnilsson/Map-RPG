@@ -3,16 +3,16 @@ import QuestStore from "$lib/stores/quest.svelte";
 import LogController from "$lib/controller/logs.svelte";
 import { SaveController } from "$lib/controller/save.svelte";
 
-export default class QuestController {
-	public static get quests() {
+class QuestController {
+	public get quests() {
 		return QuestStore.quests;
 	}
 
-	private static set quests(v: Quest[]) {
+	private set quests(v: Quest[]) {
 		QuestStore.quests = v;
 	}
 
-	public static addQuest(quest: Quest) {
+	public addQuest(quest: Quest) {
 		if (!this.hasQuest(quest)) {
 			this.quests = [...this.quests, quest];
 			LogController.newLog(`You have accepted the quest: ${quest.title}.`);
@@ -22,7 +22,7 @@ export default class QuestController {
 		return false;
 	}
 
-	public static removeQuest(quest: Quest) {
+	public removeQuest(quest: Quest) {
 		if (this.hasQuest(quest)) {
 			this.quests = this.quests.filter((q) => q.id !== quest.id);
 			LogController.newLog(`You have forfeit the quest: ${quest.title}.`);
@@ -32,7 +32,11 @@ export default class QuestController {
 		return false;
 	}
 
-	public static hasQuest(quest: Quest): boolean {
+	public hasQuest(quest: Quest): boolean {
 		return this.quests.some((q) => q.id === quest.id);
 	}
 }
+
+const instance = new QuestController();
+
+export default instance;

@@ -1,27 +1,27 @@
 <script lang="ts">
-	import Window from "$lib/features/window/window.svelte";
-	import WindowController from "$lib/controller/window.svelte";
-	import { NotificationController } from "$lib/controller/notification.svelte";
-	import type { VendorNPC } from "$lib/types/npc";
-	import { q2c } from "$lib/utils/itemQuality";
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { VendorItem } from "$lib/types/item";
-	import { PlayerController } from "$lib/controller/character.svelte";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+import Window from "$lib/features/window/window.svelte";
+import WindowController from "$lib/controller/window.svelte";
+import { NotificationController } from "$lib/controller/notification.svelte";
+import type { VendorNPC } from "$lib/types/npc";
+import { q2c } from "$lib/utils/itemQuality";
+import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
+import type { VendorItem } from "$lib/types/item";
+import { PlayerController } from "$lib/controller/character.svelte";
+import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
-	let { vendor }: { vendor: VendorNPC | undefined } = $props();
+let { vendor }: { vendor: VendorNPC | undefined } = $props();
 
-	function buyItem(item: VendorItem) {
-		console.log("Trying to buy :(");
+function buyItem(item: VendorItem) {
+	console.log("Trying to buy :(");
 
-		if (PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
-			PlayerController.buyItem(item);
-		} else {
-			NotificationController.newNotification("You cannot afford " + item.name, "error");
-		}
+	if (PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
+		PlayerController.buyItem(item);
+	} else {
+		NotificationController.newNotification("You cannot afford " + item.name, "error");
 	}
+}
 
-	let vendorWindow = WindowController.getByName("Vendor");
+let vendorWindow = WindowController.getByName("Vendor");
 </script>
 
 {#if vendor}
@@ -45,7 +45,7 @@
 								<div class="col-auto pe-1">
 									<ClickableElement onClickCallback={() => buyItem(item)}>
 										<Tooltip>
-											{#snippet tooltip()}
+											{#snippet onHoverTooltip()}
 												<h5 style={"color: " + q2c(item) + ";"}>{item.name}</h5>
 												<p>{item.description}</p>
 											{/snippet}
