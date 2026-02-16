@@ -51,9 +51,7 @@ let locked = $state(false);
 let dragging = $state(false);
 
 let visibilityPriority = $derived(
-	WindowController.isWindowType(uniqueKey)
-		? WindowController.isOpenAt(WindowController.getByName(uniqueKey))
-		: -1,
+	WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(WindowController.getByName(uniqueKey)) : -1,
 );
 
 let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
@@ -62,9 +60,7 @@ let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
 let containerElement: HTMLElement | null = $state(null);
 const isTest = import.meta.env.MODE === "test";
 
-const tweenHeight = $derived(
-	new Tween(height, { duration: 100, easing: cubicOut }),
-);
+const tweenHeight = $derived(new Tween(height, { duration: 100, easing: cubicOut }));
 
 function toggle() {
 	expanded = !expanded;

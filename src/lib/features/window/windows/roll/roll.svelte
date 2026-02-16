@@ -1,18 +1,34 @@
 <script lang="ts">
-	import Window from "$lib/features/window/window.svelte";
-	import WindowController from "$lib/controller/window.svelte";
-	import DieCollection from "$lib/features/die/dieCollection.svelte";
+import Window from "$lib/features/window/window.svelte";
+import WindowController from "$lib/controller/window.svelte";
+import DieCollection from "$lib/features/die/dieCollection.svelte";
+import { PlayerController } from "$lib/controller/character.svelte";
 
-	let diceRef: DieCollection;
+let {
+	header,
+	diceCount = 1,
+	toBeat,
+	mod = 0,
+	onRollResult,
+}: {
+	header: string;
+	diceCount?: number;
+	toBeat: number;
+	mod?: number;
+	onRollResult: (result: number, success: boolean) => void;
+} = $props();
+let diceRef: DieCollection;
 
-	async function roll() {
-		const result = await diceRef?.roll();
-		const total = result.reduce((newValue, currentValues) => currentValues + newValue);
+async function roll() {
+	const result = await diceRef?.roll();
+	const total = result.reduce((newValue, currentValues) => currentValues + newValue);
+	const success = total + mod >= toBeat;
+	console.log(total, total + mod, success);
 
-		console.log(total);
-	}
+	onRollResult(total + mod, success);
+}
 
-	let rollWindow = WindowController.getByName("Roll");
+let rollWindow = WindowController.getByName("Roll");
 </script>
 
 <Window
@@ -30,7 +46,8 @@
 		<h2 class="text-center">Roll!</h2>
 	{/snippet}
 	{#snippet body()}
-		<DieCollection num={2} sides={20} modifier={3} bind:this={diceRef} clickable={false} />
+	    <p class="text-center">{header}</p>
+		<DieCollection num={diceCount} sides={20} modifier={mod} bind:this={diceRef} clickable={false} />
 	{/snippet}
 	{#snippet footer()}
 		<div class="text-center mt-5">
