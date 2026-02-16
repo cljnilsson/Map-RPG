@@ -16,6 +16,8 @@ import { PlayerController } from "$lib/controller/character.svelte";
 import LogController from "$lib/controller/logs.svelte";
 import Tooltip from "$lib/features/tooltip/tooltipOnClick.svelte";
 
+let show = $state(false);
+
 const MAP_WIDTH = 2560;
 const MAP_HEIGHT = 1440;
 
@@ -66,15 +68,17 @@ function clickedOnObject(o: GameObject) {
 
 function menuClickOption(option: string, cb: (() => undefined) | null) {
 	console.log("Clicked on menu item: ", option);
+	// Open the roll window
+	show = false;
 }
 
-let tempHardcoded: { text: string; cb: (() => undefined) | null }[] = [
+/*let tempHardcoded: { text: string; cb: (() => undefined) | null }[] = [
 	{ text: "Item 1", cb: null },
 	{ text: "Item 2", cb: null },
 	{ text: "Item 3", cb: null },
 	{ text: "Item 4", cb: null },
 	{ text: "Item 5", cb: null },
-];
+	];*/
 </script>
 
 {#each MapController.currentMapState.objects as object, index (index)}
@@ -87,24 +91,42 @@ let tempHardcoded: { text: string; cb: (() => undefined) | null }[] = [
 		onkeydown={(e) => e.key === "Enter" && clickedOnObject(object)}
 		aria-label={"Image of " + object.name}
 	>
-    	<Tooltip>
-         {#snippet onClickTooltip()}
-           	<ul class="rs-menu list-group">
-          		{#each tempHardcoded as temp}
+	{#if isContainerGameObject(object)}
+    	<Tooltip bind:open={show}>
+            {#snippet onClickTooltip()}
+               	<ul class="rs-menu list-group">
          			<li class="list-group-item p-0">
             				<button
+               					type="button"
+               					class="rs-menu-button border-bottom title"
+               					disabled={true}
+            				>
+               					<h5 class="mb-1">{object.name}</h5>
+            				</button>
+        				<button
            					type="button"
            					class="rs-menu-button"
-           					onclick={() => menuClickOption(temp.text, temp.cb)}
-            				>
-           					{temp.text}
-            				</button>
+           					onclick={() => menuClickOption("Open", null)}
+        				>
+           					Open
+        				</button>
          			</li>
-          		{/each}
-           	</ul>
-         {/snippet}
+              		{#each object.requiredStat as statCheck}
+             			<li class="list-group-item p-0">
+            				<button
+               					type="button"
+               					class="rs-menu-button"
+               					onclick={() => menuClickOption(statCheck.menuText, null)}
+            				>
+           					{statCheck.menuText} (<span class:text-success={PlayerController.stats[statCheck.stat] >= statCheck.amount}><b>{statCheck.amount}</b></span> {statCheck.stat})
+            				</button>
+             			</li>
+              		{/each}
+               	</ul>
+            {/snippet}
             <HoverOutlineImage src={object.img} alt={"Image of " + object.name} width={100} />
     	</Tooltip>
+     {/if}
 	</div>
 {/each}
 
@@ -143,6 +165,9 @@ let tempHardcoded: { text: string; cb: (() => undefined) | null }[] = [
     	text-align: left;
     	cursor: pointer;
     	color: rgb(119, 96, 84);
+        &.title {
+            border-color: rgb(119, 96, 84) !important;
+        }
     }
 
     .rs-menu-button:hover {

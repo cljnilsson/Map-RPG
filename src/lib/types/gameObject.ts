@@ -25,7 +25,11 @@ type ContainerGameObject = GameObject & {
 	contains: InventoryItem[];
 	itemsTaken: InventoryItem[];
 	requiredItems: InventoryItem[];
-	onOpenLogMessage?: string;
-}
+	requiredStat: { amount: number; stat: "str" | "int" | "vit" | "char" | "dex"; menuText: string }[]; // stat to be beat, it's an OR not AND
+	failedRollAlready: boolean; // if required stat open has already been attempted
+	onOpenAttemptLogMessage?: string;
+	onOpenSuccessLogMessage?: string;
+	onOpenFailMessage?: string;
+};
 
 export type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject, ContainerGameObject };

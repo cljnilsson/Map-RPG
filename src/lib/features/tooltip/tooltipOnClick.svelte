@@ -5,9 +5,9 @@ let {
 	children,
 	onClickTooltip,
 	disable = false,
-}: { children: Snippet; onClickTooltip: Snippet; disable?: boolean } = $props();
+	open = $bindable(false),
+}: { children: Snippet; onClickTooltip: Snippet; disable?: boolean; open?: boolean } = $props();
 
-let open: boolean = $state(false);
 let x = $state(0);
 let y = $state(0);
 const tooltipPadding = 10; // distance from cursor

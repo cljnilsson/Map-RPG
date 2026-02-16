@@ -18,6 +18,10 @@ export class PlayerController extends CharacterController {
 	// GETTERS / SETTERS
 	// ---------------
 
+	public static get stats() {
+		return PlayerStore.character.stats;
+	}
+
 	public static get id() {
 		return PlayerStore.character.id;
 	}

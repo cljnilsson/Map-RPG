@@ -1,4 +1,9 @@
-import type { GameObject, LootableGameObject, LootableQuestGameObject, ContainerGameObject } from "$lib/types/gameObject";
+import type {
+	GameObject,
+	LootableGameObject,
+	LootableQuestGameObject,
+	ContainerGameObject,
+} from "$lib/types/gameObject";
 import { getQuest } from "$lib/data/quests";
 import { getItem } from "$lib/data/items";
 
@@ -11,7 +16,7 @@ const gameobjectRegistry = {
 			position: { x: 530, y: 280 },
 			conditions: [],
 			pickedUpItem: { item: getItem("test-quest-item1"), amount: 1 },
-			quests: [getQuest("test-quest-2")]
+			quests: [getQuest("test-quest-2")],
 		}) as LootableQuestGameObject,
 	"test-key-1": () =>
 		({
@@ -20,7 +25,7 @@ const gameobjectRegistry = {
 			img: "/key.png",
 			position: { x: 1290, y: 825 },
 			conditions: [],
-			pickedUpItem: { item: getItem("test-chest-key1"), amount: 1 }
+			pickedUpItem: { item: getItem("test-chest-key1"), amount: 1 },
 		}) as LootableGameObject,
 	"test-chest-1": () =>
 		({
@@ -32,7 +37,12 @@ const gameobjectRegistry = {
 			itemsTaken: [],
 			contains: [{ item: getItem("reset-potion"), amount: 1 }],
 			requiredItems: [{ item: getItem("test-chest-key1"), amount: 1 }],
-		}) as ContainerGameObject
+			requiredStat: [
+				{ amount: 7, stat: "dex", menuText: "Pick the lock open" },
+				{ amount: 15, stat: "str", menuText: "Pry it open" },
+			],
+			failedRollAlready: false,
+		}) as ContainerGameObject,
 } as const;
 
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety
