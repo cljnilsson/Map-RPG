@@ -43,7 +43,13 @@ async function seed() {
 	} else {
 		await db
 			.insert(stat)
-			.values([{ name: "Strength" }, { name: "Dexterity" }, { name: "Vitality" }, { name: "Intelligence" }, { name: "Charisma" }]);
+			.values([
+				{ name: "Strength" },
+				{ name: "Dexterity" },
+				{ name: "Vitality" },
+				{ name: "Intelligence" },
+				{ name: "Charisma" },
+			]);
 
 		console.log("✅ Seeded stat table");
 	}
@@ -62,8 +68,8 @@ async function seed() {
 				health: 10,
 				maxHealth: 100,
 				xp: 5,
-				userId: 1
-			} // Hardcoded userId for now
+				userId: 1,
+			}, // Hardcoded userId for now
 		]);
 
 		console.log("✅ Seeded character table");
@@ -73,7 +79,7 @@ async function seed() {
 			{ value: 5, statId: 2, characterId: 1 }, // Hardcoded characterId for now
 			{ value: 5, statId: 3, characterId: 1 }, // Hardcoded characterId for now
 			{ value: 5, statId: 4, characterId: 1 }, // Hardcoded characterId for now
-			{ value: 5, statId: 5, characterId: 1 } // Hardcoded characterId for now
+			{ value: 5, statId: 5, characterId: 1 }, // Hardcoded characterId for now
 		]);
 
 		console.log("✅ Seeded stats table");
@@ -88,7 +94,7 @@ async function seed() {
 			{ name: "Iron", iconPath: "/items/ore1.png" },
 			{ name: "Stone", iconPath: "/items/stone0.jpg" },
 			{ name: "Silk", iconPath: "/items/silk.png" },
-			{ name: "Wheat", iconPath: "/items/wheat.jpg" }
+			{ name: "Wheat", iconPath: "/items/wheat.jpg" },
 		]);
 
 		console.log("✅ Seeded resource table");
@@ -102,7 +108,7 @@ async function seed() {
 		console.log("✅ Seeded city table");
 
 		await db.insert(cityData).values([
-			{ workers: 5, population: 300, cityId: 1, characterId: 1 } // Hardcoded cityId and Character for now
+			{ workers: 5, population: 300, cityId: 1, characterId: 1 }, // Hardcoded cityId and Character for now
 		]);
 
 		console.log("✅ Seeded city data table");
@@ -115,7 +121,7 @@ async function seed() {
 			{ name: "Merchant", iconPath: "/units/merchant.jpg" },
 			{ name: "Soldier", iconPath: "/units/soldier.jpg" },
 			{ name: "Smith", iconPath: "/units/smith.jpg" },
-			{ name: "Priest", iconPath: "/units/priest.jpg" }
+			{ name: "Priest", iconPath: "/units/priest.jpg" },
 		]);
 
 		console.log("✅ Seeded unit table");
@@ -124,18 +130,18 @@ async function seed() {
 			{ cityId: 1, unitId: 1, value: 1 },
 			{ cityId: 1, unitId: 2, value: 2 },
 			{ cityId: 1, unitId: 3, value: 3 },
-			{ cityId: 1, unitId: 4, value: 4 }
+			{ cityId: 1, unitId: 4, value: 4 },
 		]);
 
 		console.log("✅ Seeded unit data table");
 
 		await db.insert(resources).values([
-			{ cityId: 1, resourceId: 1, value: 1 },
-			{ cityId: 1, resourceId: 2, value: 1 },
-			{ cityId: 1, resourceId: 3, value: 1 },
-			{ cityId: 1, resourceId: 4, value: 1 },
-			{ cityId: 1, resourceId: 5, value: 1 },
-			{ cityId: 1, resourceId: 6, value: 1 },
+			{ cityId: 1, resourceId: 1, value: 1, production: 1 },
+			{ cityId: 1, resourceId: 2, value: 1, production: 1 },
+			{ cityId: 1, resourceId: 3, value: 1, production: 1 },
+			{ cityId: 1, resourceId: 4, value: 1, production: 1 },
+			{ cityId: 1, resourceId: 5, value: 1, production: 1 },
+			{ cityId: 1, resourceId: 6, value: 1, production: 1 },
 		]);
 
 		console.log("✅ Seeded resource data table");

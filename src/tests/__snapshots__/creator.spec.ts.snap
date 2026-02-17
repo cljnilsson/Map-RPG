@@ -1,0 +1,349 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Creator renders with correct elements 1`] = `
+<div>
+  <div
+    class="row justify-content-center px-3 mt-5 position-relative"
+  >
+    <div
+      class="col-xl-10 col-md-12 wrapper svelte-1vun6ic"
+    >
+      <div
+        class="c-header"
+      >
+        <h3
+          class="text-center"
+        >
+          Create your character!
+        </h3>
+        <!---->
+      </div>
+       
+      <div
+        class="c-body"
+      >
+        <div
+          class="row justify-content-center my-5"
+        >
+          <div
+            class="col-12 position-relative"
+          >
+            <div
+              class="char-menu svelte-1vun6ic"
+            >
+              <div>
+                <button
+                  class="btn svelte-1vun6ic activeSelection"
+                >
+                  <h5>
+                    Character
+                  </h5>
+                </button>
+              </div>
+               
+              <div>
+                <button
+                  class="btn svelte-1vun6ic"
+                >
+                  <h5>
+                    Class
+                  </h5>
+                </button>
+              </div>
+               
+              <div>
+                <button
+                  class="btn svelte-1vun6ic"
+                >
+                  <h5>
+                    Faith
+                  </h5>
+                </button>
+              </div>
+               
+              <div>
+                <button
+                  class="btn svelte-1vun6ic"
+                >
+                  <h5>
+                    Image
+                  </h5>
+                </button>
+              </div>
+            </div>
+             
+            <div
+              class="main-content offset"
+            >
+              <div
+                class="row justify-content-center"
+              >
+                <div
+                  class="col-auto"
+                >
+                  <div
+                    class="c-avatar text-center"
+                  >
+                    <img
+                      alt="avatar"
+                      height="200px"
+                      loading="lazy"
+                      src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
+                      width="200px"
+                    />
+                  </div>
+                </div>
+              </div>
+               
+              <div
+                class="row mt-5"
+              >
+                <div
+                  class="col text-center"
+                >
+                  Suggested stats: 
+                  <strong>
+                    Strength
+                  </strong>
+                  , 
+                  <strong>
+                    Vitality
+                  </strong>
+                  
+                  <!---->
+                </div>
+              </div>
+               
+              <div
+                class="row mb-5"
+              >
+                <div
+                  class="col text-center"
+                >
+                  Points left: 0
+                </div>
+              </div>
+               
+              <div
+                class="c-stats"
+              >
+                <div
+                  class="row justify-content-center align-items-center my-2 stat-Str"
+                >
+                  <div
+                    class="col-xl-2 col-md-4"
+                  >
+                    Str
+                  </div>
+                   
+                  <div
+                    class="col-auto"
+                  >
+                    6
+                  </div>
+                   
+                  <div
+                    class="col-xl-2 col-md-6 text-center"
+                  >
+                    <button
+                      class="btn btn-outline-dark"
+                      disabled=""
+                    >
+                      +
+                    </button>
+                     
+                    <button
+                      class="btn btn-outline-dark"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+                <!---->
+                 
+                <div
+                  class="row justify-content-center align-items-center my-2 stat-Dex"
+                >
+                  <div
+                    class="col-xl-2 col-md-4"
+                  >
+                    Dex
+                  </div>
+                   
+                  <div
+                    class="col-auto"
+                  >
+                    6
+                  </div>
+                   
+                  <div
+                    class="col-xl-2 col-md-6 text-center"
+                  >
+                    <button
+                      class="btn btn-outline-dark"
+                      disabled=""
+                    >
+                      +
+                    </button>
+                     
+                    <button
+                      class="btn btn-outline-dark"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+                <!---->
+                 
+                <div
+                  class="row justify-content-center align-items-center my-2 stat-Int"
+                >
+                  <div
+                    class="col-xl-2 col-md-4"
+                  >
+                    Int
+                  </div>
+                   
+                  <div
+                    class="col-auto"
+                  >
+                    6
+                  </div>
+                   
+                  <div
+                    class="col-xl-2 col-md-6 text-center"
+                  >
+                    <button
+                      class="btn btn-outline-dark"
+                      disabled=""
+                    >
+                      +
+                    </button>
+                     
+                    <button
+                      class="btn btn-outline-dark"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+                <!---->
+                 
+                <div
+                  class="row justify-content-center align-items-center my-2 stat-Vit"
+                >
+                  <div
+                    class="col-xl-2 col-md-4"
+                  >
+                    Vit
+                  </div>
+                   
+                  <div
+                    class="col-auto"
+                  >
+                    6
+                  </div>
+                   
+                  <div
+                    class="col-xl-2 col-md-6 text-center"
+                  >
+                    <button
+                      class="btn btn-outline-dark"
+                      disabled=""
+                    >
+                      +
+                    </button>
+                     
+                    <button
+                      class="btn btn-outline-dark"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+                <!---->
+                 
+                <div
+                  class="row justify-content-center align-items-center my-2 stat-Charisma"
+                >
+                  <div
+                    class="col-xl-2 col-md-4"
+                  >
+                    Charisma
+                  </div>
+                   
+                  <div
+                    class="col-auto"
+                  >
+                    6
+                  </div>
+                   
+                  <div
+                    class="col-xl-2 col-md-6 text-center"
+                  >
+                    <button
+                      class="btn btn-outline-dark"
+                      disabled=""
+                    >
+                      +
+                    </button>
+                     
+                    <button
+                      class="btn btn-outline-dark"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+                <!---->
+              </div>
+              <!---->
+            </div>
+          </div>
+        </div>
+         
+        <div
+          class="c-footer"
+        >
+          <div
+            class="row justify-content-center my-5"
+          >
+            <div
+              class="col-xl-4 col-md-10"
+            >
+              <input
+                class="form-control"
+                placeholder="Name"
+                type="text"
+              />
+            </div>
+             
+            <div
+              class="col-xl-2 col-md-10"
+            >
+              <input
+                class="form-control"
+                placeholder="Age"
+                type="number"
+              />
+            </div>
+          </div>
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="text-center"
+      >
+        <button
+          class="btn btn-lg btn-primary"
+          disabled=""
+        >
+          Create!
+        </button>
+      </div>
+    </div>
+  </div>
+  
+</div>
+`;

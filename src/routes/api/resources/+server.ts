@@ -11,10 +11,10 @@ async function runTask() {
 	console.log("Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"));
 
 	const limit = 200;
-	const production = 1;
+	//const production = 1; old harcoded remove once reading from db is proven stable.
 
 	const cities = await db.query.cityData.findMany({
-		with: { resources: { with: { resource: true } }, city: true }
+		with: { resources: { with: { resource: true } }, city: true },
 	});
 
 	for (const city of cities) {
@@ -22,7 +22,7 @@ async function runTask() {
 			if (res.value < limit) {
 				await db
 					.update(resources)
-					.set({ value: res.value + production })
+					.set({ value: res.value + res.production })
 					.where(and(eq(resources.cityId, city.city.id), eq(resources.resourceId, res.resource.id)));
 			}
 		}
@@ -35,16 +35,16 @@ async function getResources() {
 			resource: true,
 			city: {
 				with: {
-					city: true
-				}
-			}
-		}
+					city: true,
+				},
+			},
+		},
 	});
 
 	return existing.map(({ city, resource, resourceId, id, ...rest }) => ({
 		...rest,
 		name: city.city.name,
-		resource: resource.name
+		resource: resource.name,
 	}));
 }
 
@@ -61,7 +61,6 @@ const connections: Set<Client> = new Set();
 let loopRunning = false;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 
 async function resourceLoop() {
 	if (loopRunning) return;
@@ -98,7 +97,7 @@ export const POST: RequestHandler = async () => {
 				console.log("Client disconnected, total:", connections.size);
 			};
 		},
-		{ ping: 10 }
+		{ ping: 10 },
 	);
 };
 

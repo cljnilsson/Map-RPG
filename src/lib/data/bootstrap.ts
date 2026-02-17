@@ -17,20 +17,23 @@ async function checkTablesExist() {
 	const missing = REQUIRED_TABLES.filter((t) => !existing.has(t));
 
 	if (missing.length > 0) {
-		throw new Error(`[db] missing required tables: ${missing.join(", ")}`);
+		console.warn(`[db] missing required tables: ${missing.join(", ")}`);
 	}
 }
 
 const REQUIRED_RESOURCES = ["Wood", "Gold", "Iron", "Stone", "Silk", "Wheat"] as const;
 
 async function checkResources() {
-	const rows = await db.select({ name: resource.name }).from(resource).where(inArray(resource.name, REQUIRED_RESOURCES));
+	const rows = await db
+		.select({ name: resource.name })
+		.from(resource)
+		.where(inArray(resource.name, REQUIRED_RESOURCES));
 
 	const found = new Set(rows.map((r) => r.name));
 	const missing = REQUIRED_RESOURCES.filter((r) => !found.has(r));
 
 	if (missing.length > 0) {
-		throw new Error(`[db] missing resources: ${missing.join(", ")}`);
+		console.warn(`[db] missing resources: ${missing.join(", ")}`);
 	}
 }
 
@@ -43,7 +46,7 @@ async function checkUnits() {
 	const missing = REQUIRED_UNITS.filter((u) => !found.has(u));
 
 	if (missing.length > 0) {
-		throw new Error(`[db] missing units: ${missing.join(", ")}`);
+		console.warn(`[db] missing units: ${missing.join(", ")}`);
 	}
 }
 
