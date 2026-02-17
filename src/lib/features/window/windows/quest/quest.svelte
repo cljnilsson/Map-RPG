@@ -20,13 +20,13 @@
 		<h4 class="my-2">Quests</h4>
 	{/snippet}
 	{#snippet body()}
-		<div class="row">
+		<div class="row flex-grow-1 h-100">
 			<div class="col-4 border-end">
 				<QuestSection quests={mainQuests} bind:active title="Main" />
 				<QuestSection quests={sideQuests} bind:active title="Side" />
 				<QuestSection quests={completedQuests} bind:active title="Completed" />
 			</div>
-			<div class="col">
+			<div class="col h-100">
 				{#if active}
 					<QuestDetails {active} />
 				{/if}

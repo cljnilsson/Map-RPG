@@ -13,21 +13,48 @@
 	}
 </script>
 
-<h5>{active.title}</h5>
-{#if !showDialogue}
-	<div class="questBody">
-		<p>{active.description}</p>
-		<QuestProgress {active} />
-	</div>
-	<QuestRewards {active} />
-{:else}
-	<QuestDialogue {active} />
-{/if}
-<div class="text-center pt-3">
-	{#if active.dialogue}
-		<button class="btn btn-primary" onclick={toggleDialogue}>{showDialogue ? "View Quest" : "View Dialogue"}</button>
-	{/if}
-	<button class="btn btn-primary">Forfeit</button>
+<div class="quest-panel d-flex flex-column h-100">
+
+  <!-- GROWING CONTENT -->
+  <div class="flex-grow-1 overflow-auto">
+
+    <h5>{active.title}</h5>
+
+    {#if !showDialogue}
+      <div class="questBody">
+        <p>{active.description}</p>
+        <QuestProgress {active} />
+      </div>
+    {:else}
+      <QuestDialogue {active} />
+    {/if}
+
+  </div>
+
+  <!-- CLAMPED BOTTOM -->
+  <div>
+
+    {#if !showDialogue}
+      <QuestRewards {active} />
+    {/if}
+
+    <div class="text-center pt-3">
+      {#if active.dialogue}
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick={toggleDialogue}>
+          {showDialogue ? "View Quest" : "View Dialogue"}
+        </button>
+      {/if}
+
+      <button type="button" class="btn btn-primary">
+        Forfeit
+      </button>
+    </div>
+
+  </div>
+
 </div>
 
 <style>

@@ -136,6 +136,7 @@ onDestroy(() => {
 						<div class="col-auto text-end">
 							{#if canLock}
 								<button
+								    type="button"
 									class="btn btn-sm btn-outline-secondary"
 									aria-label="Lock/Unlock"
 									onclick={() => (locked = !locked)}
@@ -144,12 +145,12 @@ onDestroy(() => {
 								</button>
 							{/if}
 							{#if canMinimize}
-								<button class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
+								<button type="button" class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
 									<i class="bi {minimizeIcon}"></i>
 								</button>
 							{/if}
 							{#if canClose}
-								<button class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
+								<button type="button" class="btn btn-sm btn-outline-secondary" aria-label="Close" onclick={close}>
 									<i class="bi bi-x"></i>
 								</button>
 							{/if}
@@ -169,7 +170,7 @@ onDestroy(() => {
 
 		<!-- Manually animated height using tween -->
 		<div class="content-wrapper" style="height: {tweenHeight.current}px;">
-			<div class="inner d-flex flex-column">
+			<div class="inner d-flex flex-column h-100">
 				{#if body}
 					<Body>{@render body()}</Body>
 				{/if}
