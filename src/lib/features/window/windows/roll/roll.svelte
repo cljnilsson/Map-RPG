@@ -10,11 +10,15 @@ let {
 	toBeat,
 	mod = 0,
 	onRollResult,
+	disable = false,
+	canClose = false,
 }: {
 	header: string;
 	diceCount?: number;
 	toBeat: number;
 	mod?: number;
+	disable?: boolean;
+	canClose?: boolean;
 	onRollResult: (result: number, success: boolean) => void;
 } = $props();
 let diceRef: DieCollection;
@@ -37,7 +41,7 @@ let rollWindow = WindowController.getByName("Roll");
 	width={600}
 	x={rollWindow.x}
 	y={rollWindow.y}
-	canClose={false}
+	canClose={canClose}
 	canLock={false}
 	canMinimize={false}
 	bind:visibility={rollWindow.visible}
@@ -50,8 +54,8 @@ let rollWindow = WindowController.getByName("Roll");
 		<DieCollection num={diceCount} sides={20} modifier={mod} bind:this={diceRef} clickable={false} />
 	{/snippet}
 	{#snippet footer()}
-		<div class="text-center mt-5">
-			<button class="btn btn-outline-dark" onclick={roll}>Roll</button>
+		<div class="text-center mt-3">
+			<button class="btn btn-lg btn-outline-light" onclick={roll} disabled={disable}>Roll</button>
 		</div>
 	{/snippet}
 </Window>

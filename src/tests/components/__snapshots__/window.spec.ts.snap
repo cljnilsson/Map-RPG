@@ -106,7 +106,7 @@ exports[`Window renders 1`] = `
       style="height: 600px;"
     >
       <div
-        class="inner d-flex flex-column h-100 svelte-110qxpm"
+        class="inner d-flex flex-column svelte-110qxpm"
       >
         <!---->
          
@@ -114,7 +114,6 @@ exports[`Window renders 1`] = `
       </div>
     </div>
   </div>
-  
   
   
 </div>

@@ -1,8 +1,8 @@
 <script lang="ts">
-    let {children} = $props();
+let { children } = $props();
 </script>
 
-<div class="row h-100">
+<div class="row flex-grow-1">
     <div class="col">
         {@render children()}
     </div>

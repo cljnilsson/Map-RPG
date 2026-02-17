@@ -169,7 +169,7 @@ onDestroy(() => {
 
 		<!-- Manually animated height using tween -->
 		<div class="content-wrapper" style="height: {tweenHeight.current}px;">
-			<div class="inner d-flex flex-column h-100">
+			<div class="inner d-flex flex-column">
 				{#if body}
 					<Body>{@render body()}</Body>
 				{/if}
