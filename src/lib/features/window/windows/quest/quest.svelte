@@ -5,6 +5,7 @@
 	import WindowController from "$lib/controller/window.svelte";
 	import QuestController from "$lib/controller/quest.svelte";
 	import type { Quest } from "$lib/types/quest";
+    import { onMount } from "svelte";
 
 	let mainQuests: Quest[] = $derived(QuestController.quests.filter((q) => q.mainQuest && q.status === "active"));
 	let sideQuests: Quest[] = $derived(QuestController.quests.filter((q) => !q.mainQuest && q.status === "active"));
@@ -13,6 +14,12 @@
 	let active: Quest | undefined = $state(undefined);
 
 	let questWindow = WindowController.getByName("Quests");
+
+	onMount(() => {
+     	if([...mainQuests, ...sideQuests].length > 0) {
+     	  active = [...mainQuests, ...sideQuests][0];
+     	}
+	});
 </script>
 
 <Window uniqueKey="Quests" height={700} width={600} x={questWindow.x} y={questWindow.y} toggleKey="q" bind:visibility={questWindow.visible}>

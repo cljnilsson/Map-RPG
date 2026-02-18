@@ -1,0 +1,123 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Window renders 1`] = `
+<div>
+  <!---->
+  <div
+    class="overlay-rect svelte-110qxpm"
+    style="left: 4px; top: 5.333333333333333px; width: 400px; z-index: 499;"
+  >
+    <div
+      role="button"
+      style="cursor: grab;"
+      tabindex="0"
+    >
+      <div
+        class="row wrapper svelte-yibhvk"
+      >
+        <div
+          class="col"
+        >
+          <div
+            class="row align-items-center"
+          >
+            <div
+              class="col"
+            >
+              <!---->
+            </div>
+             
+            <div
+              class="col-auto text-end"
+            >
+              <button
+                aria-label="Lock/Unlock"
+                class="btn btn-sm btn-outline-secondary"
+                type="button"
+              >
+                <i
+                  class="bi bi-lock-fill svelte-110qxpm"
+                />
+              </button>
+              <!---->
+               
+              <button
+                aria-label="Minimize"
+                class="btn btn-sm btn-outline-secondary"
+                type="button"
+              >
+                <i
+                  class="bi bi-dash svelte-110qxpm"
+                />
+              </button>
+              <!---->
+               
+              <button
+                aria-label="Close"
+                class="btn btn-sm btn-outline-secondary"
+                type="button"
+              >
+                <i
+                  class="bi bi-x"
+                />
+              </button>
+              <!---->
+            </div>
+            <!---->
+          </div>
+           
+          <div
+            class="row"
+          >
+            <div
+              class="col-auto"
+            >
+              <small
+                class="me-1"
+              >
+                x: 4
+              </small>
+              <small
+                class="mx-1"
+              >
+                y: 5
+              </small>
+               
+              <small
+                class="mx-1"
+              >
+                h: 600
+              </small>
+               
+              <small
+                class="mx-1"
+              >
+                w: 400
+              </small>
+            </div>
+          </div>
+          <!---->
+          <!---->
+        </div>
+      </div>
+      <!---->
+    </div>
+    <!---->
+     
+    <div
+      class="content-wrapper svelte-110qxpm"
+      style="height: 600px;"
+    >
+      <div
+        class="inner d-flex flex-column h-100 svelte-110qxpm"
+      >
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+`;

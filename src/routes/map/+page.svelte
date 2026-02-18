@@ -117,7 +117,7 @@
 							toAdd.push({...temp, amount: u.value, unlocked: true}); // hardcoded to true, unlocked will be deprecated most likely
 						}
 					}
-					
+
 					found.map.city.units = toAdd;
 
 					for (const plot of city.plots) {
@@ -165,6 +165,7 @@
 		<p>No map chosen</p>
 		{#each [world, winterfell, kingsLanding] as map (map.map.name)}
 			<button
+			    type="button"
 				onclick={() => {
 					MapStore.currentMapState = map;
 				}}>{map.map?.name}</button

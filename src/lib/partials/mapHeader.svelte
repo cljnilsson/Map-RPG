@@ -47,13 +47,14 @@
 {#if MapController.currentMapState}
 	<h3>{MapController.currentMapState.map?.name}</h3>
 	{#if MapController.currentMapState.previous}
-		<button onclick={onBack}>Back</button>
+		<button type="button" onclick={onBack}>Back</button>
 	{/if}
 	{#if dev}
-		<button onclick={newZone}>New</button>
-		<button onclick={toggleEditMode}>Edit Mode</button>
+		<button type="button" onclick={newZone}>New</button>
+		<button type="button" onclick={toggleEditMode}>Edit Mode</button>
 		{#if MapController.editMode && MapController.selectedBox && MapController.isSelectedBoxInCurrentMap()}
 			<button
+			    type="button"
 				onclick={() => {
 					if (MapController.selectedBox) {
 						MapController.removeSubmapByName(MapController.selectedBox.map.name);

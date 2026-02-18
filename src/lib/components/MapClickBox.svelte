@@ -44,6 +44,7 @@
 	bind:this={buttonEl}
 	class="overlay-rect"
 	class:overlay-rect-editing={selectedBox?.map.name === rect.map.name}
+	class:overlay-rect-edit-passive={MapController.editMode && selectedBox?.map.name !== rect.map.name}
 	class:overlay-rect-navigation={MapController.currentNavigationHover?.map.name === rect.map.name}
 	type="button"
 	onclick={() => onClick(rect)}
@@ -63,6 +64,11 @@
 		border: 2px solid red;
 		background-color: rgba(255, 0, 0, 0.2);
 		cursor: pointer;
+	}
+
+	.overlay-rect-edit-passive {
+		border-color: orange !important;
+		background-color: rgba(250, 70, 0, 0.2) !important;
 	}
 
 	.overlay-rect-editing {
