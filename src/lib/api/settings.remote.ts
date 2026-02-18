@@ -6,13 +6,13 @@ import * as v from "valibot";
 import { matchingUserId, getUser } from "$lib/utils/remoteAuthHelper";
 
 async function getAllSettings() {
-	return await db.query.settings.findMany();
+  return await db.query.settings.findMany();
 }
 
-async function getSetting(userId: number) {
-	return await db.query.settings.findFirst({
-		where: (setting, { eq }) => eq(setting.userId, userId)
-	});
+async function getSetting(userId: string) {
+  return await db.query.settings.findFirst({
+    where: (setting, { eq }) => eq(setting.userId, userId),
+  });
 }
 
 /*async function getResourceByName(name: string) {
@@ -20,126 +20,139 @@ async function getSetting(userId: number) {
 }*/
 
 async function updateSettingsForUser(
-	userId: number,
-	darkMode: boolean,
-	offlineMode: boolean,
-	keybindTooltips: boolean,
-	keybinds: Record<string, string>
+  userId: string,
+  darkMode: boolean,
+  offlineMode: boolean,
+  keybindTooltips: boolean,
+  keybinds: Record<string, string>,
 ): Promise<boolean> {
-	if (!matchingUserId(userId, "updateSettingsForUser")) {
-		return false;
-	}
+  if (!matchingUserId(userId, "updateSettingsForUser")) {
+    return false;
+  }
 
-	const rows = await db.update(settings).set({ darkMode, offlineMode, keybindTooltips, keybinds }).where(eq(settings.userId, userId));
+  const rows = await db
+    .update(settings)
+    .set({ darkMode, offlineMode, keybindTooltips, keybinds })
+    .where(eq(settings.userId, userId));
 
-	return rows.changes > 0;
+  return rows.changes > 0;
 }
 
-async function createSettings(userId: number) {
-	const rows = await db.insert(settings).values([
-		{
-			userId,
-			darkMode: false,
-			offlineMode: false,
-			keybindTooltips: false,
-			keybinds: {}
-		}
-	]);
+async function createSettings(userId: string) {
+  const rows = await db.insert(settings).values([
+    {
+      userId,
+      darkMode: false,
+      offlineMode: false,
+      keybindTooltips: false,
+      keybinds: {},
+    },
+  ]);
 
-	return rows.changes > 0;
+  return rows.changes > 0;
 }
 
 async function get(): Promise<Settings[]> {
-	getUser();
-	const existing = await getAllSettings();
+  getUser();
+  const existing = await getAllSettings();
 
-	return existing;
+  return existing;
 }
 
 // Could use omit on the other but don't want the dependency
 const UserIdSchema = v.object({
-	userId: v.pipe(v.number(), v.integer(), v.toMinValue(0))
+  userId: v.pipe(v.string()),
 });
 
 type UserIdData = v.InferOutput<typeof UserIdSchema>;
 
-async function getOneSetting({ userId }: UserIdData): Promise<Settings | undefined> {
-	if (!matchingUserId(userId, "getOneSetting")) {
-		return undefined;
-	}
+async function getOneSetting({
+  userId,
+}: UserIdData): Promise<Settings | undefined> {
+  if (!matchingUserId(userId, "getOneSetting")) {
+    return undefined;
+  }
 
-	let existing = await getSetting(userId);
+  let existing = await getSetting(userId);
 
-	if (!existing) {
-		await createSettings(userId);
-		existing = await getSetting(userId);
-	}
+  if (!existing) {
+    await createSettings(userId);
+    existing = await getSetting(userId);
+  }
 
-	return existing;
+  return existing;
 }
 
 const SettingsSchema = v.object({
-	userId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
-	darkMode: v.boolean(),
-	offlineMode: v.boolean(),
-	keybindTooltips: v.boolean(),
-	keybinds: v.record(v.string(), v.string())
+  userId: v.pipe(v.string()),
+  darkMode: v.boolean(),
+  offlineMode: v.boolean(),
+  keybindTooltips: v.boolean(),
+  keybinds: v.record(v.string(), v.string()),
 });
 
 type SettingData = v.InferOutput<typeof SettingsSchema>;
 
 async function createPost(body: SettingData) {
-	if (!matchingUserId(body.userId, "createPost")) {
-		return { success: false };
-	}
+  if (!matchingUserId(body.userId, "createPost")) {
+    return { success: false };
+  }
 
-	console.log(body);
-	let failed: SettingData | false = false;
+  console.log(body);
+  let failed: SettingData | false = false;
 
-	/*const resource = await getResourceByName(body.resourceName);
+  /*const resource = await getResourceByName(body.resourceName);
 	console.log(resource);
 	if (!resource) {
 		return { success: false, failed };
 	}*/
 
-	const success = await createSettings(body.userId);
-	console.log(success);
-	if (!success) {
-		failed = body;
-	}
+  const success = await createSettings(body.userId);
+  console.log(success);
+  if (!success) {
+    failed = body;
+  }
 
-	if (failed) {
-		return { success: false, failed };
-	}
+  if (failed) {
+    return { success: false, failed };
+  }
 
-	return { success: true };
+  return { success: true };
 }
 
-async function updatePost(body: SettingData): Promise<{ success: boolean; failed?: SettingData | false }> {
-	console.log(body);
+async function updatePost(
+  body: SettingData,
+): Promise<{ success: boolean; failed?: SettingData | false }> {
+  console.log(body);
 
-	if (!matchingUserId(body.userId, "updatePost")) {
-		return { success: false };
-	}
+  if (!matchingUserId(body.userId, "updatePost")) {
+    return { success: false };
+  }
 
-	let failed: SettingData | false = false;
+  let failed: SettingData | false = false;
 
-	// Clean up returns later
-	const resource = await getSetting(body.userId);
-	if (!resource) {
-		return { success: false, failed };
-	}
+  // Clean up returns later
+  const resource = await getSetting(body.userId);
+  if (!resource) {
+    return { success: false, failed };
+  }
 
-	const success = updateSettingsForUser(body.userId, body.darkMode, body.offlineMode, body.keybindTooltips, body.keybinds);
-	if (!success) {
-		failed = body;
-	}
+  const success = updateSettingsForUser(
+    body.userId,
+    body.darkMode,
+    body.offlineMode,
+    body.keybindTooltips,
+    body.keybinds,
+  );
+  if (!success) {
+    failed = body;
+  }
 
-	if (failed) {
-		return { success: false, failed };
-	}
+  if (failed) {
+    return { success: false, failed };
+  }
 
-	return { success: true };
+  return { success: true };
 }
 
 export const createSetting = command(SettingsSchema, createPost);

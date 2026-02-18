@@ -1,4 +1,4 @@
-import { hash, verify } from "@node-rs/argon2";
+/*import { hash, verify } from "@node-rs/argon2";
 import { fail, redirect } from "@sveltejs/kit";
 import { eq } from "drizzle-orm";
 import * as auth from "$lib/server/auth";
@@ -97,3 +97,4 @@ function validateUsername(username: unknown): username is string {
 function validatePassword(password: unknown): password is string {
 	return typeof password === "string" && password.length >= 5 && password.length <= 255;
 }
+*/

@@ -1,11 +1,11 @@
-import type { Handle } from "@sveltejs/kit";
-import * as auth from "$lib/server/auth.js";
-import { dev } from "$app/environment";
+//import type { Handle } from "@sveltejs/kit";
+//import * as auth from "$lib/server/auth";
+//import { dev } from "$app/environment";
 import { dbCheckup } from "$lib/data/bootstrap"; // Runs health checkup for db
 
 dbCheckup();
 
-export const handle: Handle = async ({ event, resolve }) => {
+/*export const handle: Handle = async ({ event, resolve }) => {
 	// Ignore Chrome devtools probe in dev
 	if (dev && event.url.pathname === "/.well-known/appspecific/com.chrome.devtools.json") {
 		return new Response(undefined, { status: 404 });
@@ -31,4 +31,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.session = session;
 
 	return resolve(event);
-};
+};*/

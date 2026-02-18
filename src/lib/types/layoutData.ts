@@ -1,10 +1,9 @@
-// Simplified data without ids
 type LayoutData = {
-	user: {
-		id: number;
-		username: string;
-	} | null;
-	userFlags: {name: string, value: number}[];
+  user: {
+    id: string;
+    username: string;
+  } | null;
+  userFlags: { name: string; value: number }[];
 };
 
-export type {LayoutData};
+export type { LayoutData };
