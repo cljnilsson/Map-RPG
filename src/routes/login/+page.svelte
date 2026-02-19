@@ -59,36 +59,9 @@
 
   async function attemptLogout() {
     await authClient.signOut();
+    // = null;
   }
-
-  let loginSession: {
-    user: {
-      id: string;
-      createdAt: Date;
-      updatedAt: Date;
-      email: string;
-      emailVerified: boolean;
-      name: string;
-      image?: string | null | undefined;
-    };
-    session: {
-      id: string;
-      createdAt: Date;
-      updatedAt: Date;
-      userId: string;
-      expiresAt: Date;
-      token: string;
-      ipAddress?: string | null | undefined;
-      userAgent?: string | null | undefined;
-    };
-  } | null = $state(null);
-  onMount(async () => {
-    const { data: session, error } = await authClient.getSession();
-    if (!error) {
-      loginSession = session;
-      console.log(session);
-    }
-  });
+  const session = authClient.useSession();
 </script>
 
 <div class="container mt-3">
@@ -97,8 +70,8 @@
       <h1>Login/Register</h1>
       {#if loading}
         <Loading />
-      {:else if loginSession?.user}
-        <p>You're already logged in! {loginSession.user.email}</p>
+      {:else if $session.data?.user}
+        <p>You're already logged in! {$session.data.user.email}</p>
         <button
           type="button"
           class="btn btn-lg btn-dark"

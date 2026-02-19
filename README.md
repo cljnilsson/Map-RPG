@@ -12,8 +12,8 @@ A childhood browser game that I always enjoyed was Travian but due to its multip
 * bunjs runtime (only soft required, I think)
 * Drizzle
   * Even though it's singleplayer, some persistent storage makes sense. I might convince myself to do it in json for the sake of a lighter tech stack but this is the goal for now.
-* Lucia
-  * Easily confused with an open standard of best practices, the current login implementation is safe if a bit verbose and should probably be switched out at some point - likely with lucia-auth.
+* better-auth
+  * A bit overkill if we're being honest but it's good to be flexible.
 
 ## Developing
 Install dependencies with `bun install`, start a development server:
@@ -33,6 +33,7 @@ bun run build
 ```
 
 You also need to run the seed.ts file to populate certain DB fields.
+You need to have an account made for the seeding to work because it gives a bunch of test data to the first account made
 ```bash
 
 ```npx tsx ./seed.ts```
