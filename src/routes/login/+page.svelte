@@ -1,7 +1,6 @@
 <script lang="ts">
   import { authClient } from "$lib/auth-client";
   import Loading from "$lib/utils/loading.svelte";
-  import { onMount } from "svelte";
 
   let email = $state("");
   let password = $state("");
