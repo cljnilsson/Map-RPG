@@ -1,33 +1,39 @@
-html, body {
-    height: 100%;
-    margin: 0;
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 
 .btn-primary {
-    background-color: #e3c9b2;
+  background-color: #e3c9b2;
+  border-color: #794f36;
+  color: #685247;
+  &:hover {
+    background-color: #dfb48e;
     border-color: #794f36;
+    color: #64483a;
+  }
+  &:disabled {
+    background-color: #e3c9b2;
+    border: none;
     color: #685247;
-    &:hover {
-        background-color: #dfb48e;
-        border-color: #794f36;
-        color: #64483a;
-    }
+  }
 }
 
 .highlight-pulse {
-    border-radius: 8px;
-    animation: h-pulse 2s infinite;
-    box-shadow: 0 0 0 rgba(0, 123, 255, 0.7);
+  border-radius: 8px;
+  animation: h-pulse 2s infinite;
+  box-shadow: 0 0 0 rgba(0, 123, 255, 0.7);
 }
 
 @keyframes h-pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
-    }
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
 }

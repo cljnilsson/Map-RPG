@@ -4,11 +4,41 @@
 
   let email = $state("");
   let password = $state("");
+  let passwordConfirm = $state("");
   let name = $state("");
   let errorMsg = $state("");
   let loading = $state(false);
 
+  // Not a full and proper validation, better-auth handles that but it's good to change some of the super obvious cases.
+  function validate(): boolean {
+    if (password.length === 0) {
+      errorMsg = "Password is too short";
+      return false;
+    }
+
+    if (password.length < 5) {
+      errorMsg = "Email is too short";
+      return false;
+    }
+
+    if (password === passwordConfirm) {
+      errorMsg = "Passwords don't match";
+      return false;
+    }
+
+    if (name.length >= 2) {
+      errorMsg = "Username is too short";
+      return false;
+    }
+
+    return true;
+  }
+
   async function attemptRegister() {
+    if (!validate) {
+      return;
+    }
+
     const { data, error } = await authClient.signUp.email(
       {
         email, // user email address
@@ -83,13 +113,17 @@
             class="form-control"
             type="password"
             placeholder="Confirm password"
-            bind:value={password}
+            bind:value={passwordConfirm}
           />
         </div>
         <div class="mt-3 text-center">
           <button
             type="button"
             class="btn btn-primary"
+            disabled={email.length === 0 ||
+              name.length === 0 ||
+              password.length === 0 ||
+              passwordConfirm.length === 0}
             onclick={attemptRegister}>Register</button
           >
         </div>
