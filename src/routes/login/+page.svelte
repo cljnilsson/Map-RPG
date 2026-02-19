@@ -41,7 +41,7 @@
 <div class="container mt-3">
   <div class="row justify-content-center">
     <div class="col-auto">
-      <h1>Login/Register</h1>
+      <h1 class="text-center">Login</h1>
       {#if loading}
         <Loading />
       {:else if $session.data?.user}
@@ -53,21 +53,23 @@
         >
       {:else}
         <div class="mb-3">
-          <label class="form-label" for="username"> Username </label>
+          <label class="form-label" for="email"> Email </label>
           <input
-            class="form-control text-center"
-            id="username"
-            name="username"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Email"
             bind:value={email}
           />
         </div>
         <div class="mb-3">
           <label class="form-label" for="password"> Password </label>
           <input
-            class="form-control text-center"
+            class="form-control"
             id="password"
             type="password"
             name="password"
+            placeholder="Password"
             bind:value={password}
           />
         </div>
