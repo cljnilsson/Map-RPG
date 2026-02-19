@@ -4,16 +4,17 @@
 
   let email = $state("");
   let password = $state("");
-  let name = $state(""); // TODO
+  let name = $state("");
   let errorMsg = $state("");
   let loading = $state(false);
 
-  async function attemptLogin() {
-    const { data, error } = await authClient.signIn.email(
+  async function attemptRegister() {
+    const { data, error } = await authClient.signUp.email(
       {
-        email: email, // required
-        password: password, // required
-        rememberMe: true,
+        email, // user email address
+        password, // user password -> min 8 characters by default
+        name, // user display name
+        //callbackURL: "/", // A URL to redirect to after the user verifies their email (optional)
       },
       {
         onRequest: (ctx) => {
@@ -29,55 +30,68 @@
         },
       },
     );
+    console.log(data);
   }
 
-  async function attemptLogout() {
-    await authClient.signOut();
-    // = null;
-  }
   const session = authClient.useSession();
 </script>
 
 <div class="container mt-3">
   <div class="row justify-content-center">
     <div class="col-auto">
-      <h1>Login/Register</h1>
+      <h1 class="text-center">Register Account</h1>
       {#if loading}
         <Loading />
       {:else if $session.data?.user}
         <p>You're already logged in! {$session.data.user.email}</p>
-        <button
-          type="button"
-          class="btn btn-lg btn-dark"
-          onclick={attemptLogout}>Logout</button
-        >
       {:else}
+        <div class="mb-3">
+          <label class="form-label" for="email"> Email </label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Email"
+            bind:value={email}
+          />
+        </div>
         <div class="mb-3">
           <label class="form-label" for="username"> Username </label>
           <input
-            class="form-control text-center"
+            type="text"
+            class="form-control"
             id="username"
             name="username"
-            bind:value={email}
+            placeholder="Username"
+            bind:value={name}
           />
         </div>
         <div class="mb-3">
           <label class="form-label" for="password"> Password </label>
           <input
-            class="form-control text-center"
+            class="form-control"
             id="password"
             type="password"
             name="password"
+            placeholder="Password"
+            bind:value={password}
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            class="form-control"
+            type="password"
+            placeholder="Confirm password"
             bind:value={password}
           />
         </div>
         <div class="mt-3 text-center">
-          <button type="button" class="btn btn-primary" onclick={attemptLogin}
-            >Login</button
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick={attemptRegister}>Register</button
           >
-          <a href="/register">
-            <button type="button" class="btn btn-primary">Register</button>
-          </a>
         </div>
         <p style="color: red">{errorMsg ?? ""}</p>
       {/if}
