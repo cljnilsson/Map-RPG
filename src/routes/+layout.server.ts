@@ -45,7 +45,7 @@ export const load: LayoutServerLoad = async ({
     headers: request.headers,
   });
 
-  if (!session || session?.user) {
+  if (!session || !session?.user) {
     return { userFlags: [] };
   }
 

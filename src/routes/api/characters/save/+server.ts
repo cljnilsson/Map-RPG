@@ -4,6 +4,7 @@ import { db } from "$lib/server/db";
 import { characters, stats, stat, items } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
+import { auth } from "$lib/auth";
 
 const CharacterStatsSchema = v.object({
   str: v.number(),
@@ -121,8 +122,12 @@ function isUpdateCharacterPayload(
   return v.safeParse(UpdateCharacterPayloadSchema, data).success;
 }
 
-export const POST: RequestHandler = async ({ request, locals }) => {
-  if (!locals.user) {
+export const POST: RequestHandler = async ({ request }) => {
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+
+  if (!session || !session?.user) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -134,7 +139,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   const { oldName, name, stats, xp, health, maxHealth, level, inventory } =
     body;
-  const userId = locals.user.id;
+  const userId = session.user.id;
 
   const success = await updateCharacter(
     userId,

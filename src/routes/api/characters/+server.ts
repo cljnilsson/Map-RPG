@@ -3,6 +3,7 @@ import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
 import { characters, stats, stat } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
+import { auth } from "$lib/auth";
 
 async function getCharacters(userId: string) {
   return await db.query.characters.findMany({
@@ -18,12 +19,16 @@ async function getCharacters(userId: string) {
   });
 }
 
-export const GET: RequestHandler = async ({ locals }) => {
-  if (!locals.user) {
+export const GET: RequestHandler = async ({ request }) => {
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+
+  if (!session || !session?.user) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const userId = locals.user.id;
+  const userId = session.user.id;
   const existing = await getCharacters(userId);
 
   const adjusted = existing.map((char) => ({
@@ -104,8 +109,12 @@ async function insertCharacter(
   ]);
 }
 
-export const POST: RequestHandler = async ({ request, locals }) => {
-  if (!locals.user) {
+export const POST: RequestHandler = async ({ request }) => {
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+
+  if (!session || !session?.user) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -126,7 +135,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return new Response("Invalid input", { status: 400 });
   }
 
-  const userId = locals.user.id;
+  const userId = session.user.id;
 
   await insertCharacter(
     userId,
