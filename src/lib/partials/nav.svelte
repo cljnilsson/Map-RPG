@@ -22,6 +22,10 @@
       console.log("Is not logged in");
     }
   });
+
+  async function attemptLogout() {
+    await authClient.signOut();
+  }
 </script>
 
 <nav class="text-center">
@@ -31,16 +35,13 @@
   <a href={resolve("/talkingtest")}>Dialogue demo</a>
   <a href={resolve("/creator")}>Creator demo</a>
   {#if isLoggedIn}
-    <form
-      method="POST"
-      action="/api/logout"
-      style="display: inline;"
-      use:enhance
+    <button
+      type="button"
+      class="btn btn-link p-0 m-0 align-baseline"
+      onclick={attemptLogout}
     >
-      <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
-        Logout
-      </button>
-    </form>
+      Logout
+    </button>
   {:else}
     <a href={resolve("/login")}>Login</a>
   {/if}

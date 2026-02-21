@@ -8,6 +8,12 @@
   let errorMsg = $state("");
   let loading = $state(false);
 
+  function onEnter(event: KeyboardEvent) {
+    if (event.key === "Enter" || event.key === " ") {
+      attemptLogin();
+    }
+  }
+
   async function attemptLogin() {
     const { data, error } = await authClient.signIn.email(
       {
@@ -60,6 +66,7 @@
             name="email"
             placeholder="Email"
             bind:value={email}
+            onkeydown={onEnter}
           />
         </div>
         <div class="mb-3">
@@ -71,6 +78,7 @@
             name="password"
             placeholder="Password"
             bind:value={password}
+            onkeydown={onEnter}
           />
         </div>
         <div class="mt-3 text-center">
