@@ -34,6 +34,7 @@ exports[`Creator renders with correct elements 1`] = `
               <div>
                 <button
                   class="btn svelte-1vun6ic activeSelection"
+                  type="button"
                 >
                   <h5>
                     Character
@@ -44,6 +45,7 @@ exports[`Creator renders with correct elements 1`] = `
               <div>
                 <button
                   class="btn svelte-1vun6ic"
+                  type="button"
                 >
                   <h5>
                     Class
@@ -54,6 +56,7 @@ exports[`Creator renders with correct elements 1`] = `
               <div>
                 <button
                   class="btn svelte-1vun6ic"
+                  type="button"
                 >
                   <h5>
                     Faith
@@ -64,6 +67,7 @@ exports[`Creator renders with correct elements 1`] = `
               <div>
                 <button
                   class="btn svelte-1vun6ic"
+                  type="button"
                 >
                   <h5>
                     Image
@@ -148,12 +152,14 @@ exports[`Creator renders with correct elements 1`] = `
                     <button
                       class="btn btn-outline-dark"
                       disabled=""
+                      type="button"
                     >
                       +
                     </button>
                      
                     <button
                       class="btn btn-outline-dark"
+                      type="button"
                     >
                       -
                     </button>
@@ -182,12 +188,14 @@ exports[`Creator renders with correct elements 1`] = `
                     <button
                       class="btn btn-outline-dark"
                       disabled=""
+                      type="button"
                     >
                       +
                     </button>
                      
                     <button
                       class="btn btn-outline-dark"
+                      type="button"
                     >
                       -
                     </button>
@@ -216,12 +224,14 @@ exports[`Creator renders with correct elements 1`] = `
                     <button
                       class="btn btn-outline-dark"
                       disabled=""
+                      type="button"
                     >
                       +
                     </button>
                      
                     <button
                       class="btn btn-outline-dark"
+                      type="button"
                     >
                       -
                     </button>
@@ -250,12 +260,14 @@ exports[`Creator renders with correct elements 1`] = `
                     <button
                       class="btn btn-outline-dark"
                       disabled=""
+                      type="button"
                     >
                       +
                     </button>
                      
                     <button
                       class="btn btn-outline-dark"
+                      type="button"
                     >
                       -
                     </button>
@@ -284,12 +296,14 @@ exports[`Creator renders with correct elements 1`] = `
                     <button
                       class="btn btn-outline-dark"
                       disabled=""
+                      type="button"
                     >
                       +
                     </button>
                      
                     <button
                       class="btn btn-outline-dark"
+                      type="button"
                     >
                       -
                     </button>
@@ -338,6 +352,7 @@ exports[`Creator renders with correct elements 1`] = `
         <button
           class="btn btn-lg btn-primary"
           disabled=""
+          type="button"
         >
           Create!
         </button>

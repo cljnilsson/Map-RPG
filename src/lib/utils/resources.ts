@@ -18,11 +18,11 @@ function getOwnedCity(): CityMap | null {
 }
 
 type NewResource = {
-    cityId: number,
-	name: string,
-	resource: string,
-    value: number,
-}
+	cityId: number;
+	name: string;
+	resource: string;
+	value: number;
+};
 
 /** Updates resources if enough time has passed since last run */
 export async function getCityResources(latestResources: NewResource[]) {
@@ -38,12 +38,12 @@ export async function getCityResources(latestResources: NewResource[]) {
 		return;
 	}
 
-	if(CityController.resources.length === 0) {
+	if (CityController.resources.length === 0) {
 		console.warn("CityController has no resources, this is probably because you're not in the map view");
 		return;
 	}
 
-	for (const resource of latestResources.filter(v => v.name === ownedCity.name)) {
+	for (const resource of latestResources.filter((v) => v.name === ownedCity.name)) {
 		const existing = CityController.getResource(resource.resource);
 		if (existing.amount !== resource.value) {
 			CityController.updateResourceAmount(resource.resource, resource.value);

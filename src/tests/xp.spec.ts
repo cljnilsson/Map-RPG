@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {getXPForLevel, xpToNextLevel} from "$lib/utils/xp";
+import { getXPForLevel, xpToNextLevel } from "$lib/utils/xp";
 
 describe("XP requirements", () => {
 	it("gets the XP to specific levels", () => {

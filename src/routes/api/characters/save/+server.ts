@@ -7,155 +7,150 @@ import * as v from "valibot";
 import { auth } from "$lib/auth";
 
 const CharacterStatsSchema = v.object({
-  str: v.number(),
-  dex: v.number(),
-  int: v.number(),
-  vit: v.number(),
-  char: v.number(),
+	str: v.number(),
+	dex: v.number(),
+	int: v.number(),
+	vit: v.number(),
+	char: v.number(),
 });
 
 const InventoryItemSchema = v.object({
-  // use a pipeline: first ensure it's a string, then require min length 1
-  name: v.pipe(v.string(), v.minLength(1)),
-  amount: v.number(),
+	// use a pipeline: first ensure it's a string, then require min length 1
+	name: v.pipe(v.string(), v.minLength(1)),
+	amount: v.number(),
 });
 
 const UpdateCharacterPayloadSchema = v.object({
-  oldName: v.pipe(v.string(), v.minLength(1)),
-  name: v.pipe(v.string(), v.minLength(1)),
-  stats: CharacterStatsSchema,
-  xp: v.number(),
-  health: v.number(),
-  maxHealth: v.number(),
-  level: v.number(),
-  inventory: v.array(InventoryItemSchema),
+	oldName: v.pipe(v.string(), v.minLength(1)),
+	name: v.pipe(v.string(), v.minLength(1)),
+	stats: CharacterStatsSchema,
+	xp: v.number(),
+	health: v.number(),
+	maxHealth: v.number(),
+	level: v.number(),
+	inventory: v.array(InventoryItemSchema),
 });
 
-type UpdateCharacterPayload = v.InferOutput<
-  typeof UpdateCharacterPayloadSchema
->;
+type UpdateCharacterPayload = v.InferOutput<typeof UpdateCharacterPayloadSchema>;
 
 async function updateCharacter(
-  userId: string,
-  oldName: string,
-  name: string,
-  str: number,
-  dex: number,
-  int: number,
-  vit: number,
-  charisma: number,
-  xp: number,
-  health: number,
-  maxHealth: number,
-  level: number,
-  inventory: { name: string; amount: number }[],
+	userId: string,
+	oldName: string,
+	name: string,
+	str: number,
+	dex: number,
+	int: number,
+	vit: number,
+	charisma: number,
+	xp: number,
+	health: number,
+	maxHealth: number,
+	level: number,
+	inventory: { name: string; amount: number }[],
 ): Promise<boolean> {
-  await db
-    .update(characters)
-    .set({ name, xp, health, maxHealth, level })
-    .where(and(eq(characters.userId, userId), eq(characters.name, oldName)));
+	await db
+		.update(characters)
+		.set({ name, xp, health, maxHealth, level })
+		.where(and(eq(characters.userId, userId), eq(characters.name, oldName)));
 
-  const character = await db.query.characters.findFirst({
-    where: and(eq(characters.userId, userId), eq(characters.name, name)),
-    columns: { id: true },
-  });
+	const character = await db.query.characters.findFirst({
+		where: and(eq(characters.userId, userId), eq(characters.name, name)),
+		columns: { id: true },
+	});
 
-  if (!character) {
-    throw new Error("Character not found after update");
-  }
+	if (!character) {
+		throw new Error("Character not found after update");
+	}
 
-  async function getStatId(name: string) {
-    const statEntry = await db.query.stat.findFirst({
-      where: eq(stat.name, name),
-      columns: { id: true },
-    });
-    if (!statEntry) throw new Error(`Stat ${name} does not exist in database`);
-    return statEntry.id;
-  }
+	async function getStatId(name: string) {
+		const statEntry = await db.query.stat.findFirst({
+			where: eq(stat.name, name),
+			columns: { id: true },
+		});
+		if (!statEntry) throw new Error(`Stat ${name} does not exist in database`);
+		return statEntry.id;
+	}
 
-  const [strId, dexId, intId, vitId, chaId] = await Promise.all([
-    getStatId("Strength"),
-    getStatId("Dexterity"),
-    getStatId("Intelligence"),
-    getStatId("Vitality"),
-    getStatId("Charisma"),
-  ]);
+	const [strId, dexId, intId, vitId, chaId] = await Promise.all([
+		getStatId("Strength"),
+		getStatId("Dexterity"),
+		getStatId("Intelligence"),
+		getStatId("Vitality"),
+		getStatId("Charisma"),
+	]);
 
-  await Promise.all([
-    db
-      .update(stats)
-      .set({ value: str })
-      .where(and(eq(stats.characterId, character.id), eq(stats.statId, strId))),
-    db
-      .update(stats)
-      .set({ value: dex })
-      .where(and(eq(stats.characterId, character.id), eq(stats.statId, dexId))),
-    db
-      .update(stats)
-      .set({ value: int })
-      .where(and(eq(stats.characterId, character.id), eq(stats.statId, intId))),
-    db
-      .update(stats)
-      .set({ value: vit })
-      .where(and(eq(stats.characterId, character.id), eq(stats.statId, vitId))),
-    db
-      .update(stats)
-      .set({ value: charisma })
-      .where(and(eq(stats.characterId, character.id), eq(stats.statId, chaId))),
-  ]);
+	await Promise.all([
+		db
+			.update(stats)
+			.set({ value: str })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, strId))),
+		db
+			.update(stats)
+			.set({ value: dex })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, dexId))),
+		db
+			.update(stats)
+			.set({ value: int })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, intId))),
+		db
+			.update(stats)
+			.set({ value: vit })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, vitId))),
+		db
+			.update(stats)
+			.set({ value: charisma })
+			.where(and(eq(stats.characterId, character.id), eq(stats.statId, chaId))),
+	]);
 
-  await db.delete(items).where(eq(items.characterId, character.id));
-  await db.insert(items).values([
-    ...inventory.map((item) => ({
-      characterId: character.id,
-      itemKey: item.name,
-      amount: item.amount || 1,
-    })),
-  ]);
+	await db.delete(items).where(eq(items.characterId, character.id));
+	await db.insert(items).values([
+		...inventory.map((item) => ({
+			characterId: character.id,
+			itemKey: item.name,
+			amount: item.amount || 1,
+		})),
+	]);
 
-  return true;
+	return true;
 }
 
-function isUpdateCharacterPayload(
-  data: unknown,
-): data is UpdateCharacterPayload {
-  return v.safeParse(UpdateCharacterPayloadSchema, data).success;
+function isUpdateCharacterPayload(data: unknown): data is UpdateCharacterPayload {
+	return v.safeParse(UpdateCharacterPayloadSchema, data).success;
 }
 
 export const POST: RequestHandler = async ({ request }) => {
-  const session = await auth.api.getSession({
-    headers: request.headers,
-  });
+	const session = await auth.api.getSession({
+		headers: request.headers,
+	});
 
-  if (!session || !session?.user) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+	if (!session || !session?.user) {
+		return new Response("Unauthorized", { status: 401 });
+	}
 
-  const body = await request.json();
+	const body = await request.json();
 
-  if (!isUpdateCharacterPayload(body)) {
-    return new Response("Invalid input", { status: 400 });
-  }
+	if (!isUpdateCharacterPayload(body)) {
+		return new Response("Invalid input", { status: 400 });
+	}
 
-  const { oldName, name, stats, xp, health, maxHealth, level, inventory } =
-    body;
-  const userId = session.user.id;
+	const { oldName, name, stats, xp, health, maxHealth, level, inventory } = body;
+	const userId = session.user.id;
 
-  const success = await updateCharacter(
-    userId,
-    oldName,
-    name,
-    stats.str,
-    stats.dex,
-    stats.int,
-    stats.vit,
-    stats.char,
-    xp,
-    health,
-    maxHealth,
-    level,
-    inventory,
-  );
+	const success = await updateCharacter(
+		userId,
+		oldName,
+		name,
+		stats.str,
+		stats.dex,
+		stats.int,
+		stats.vit,
+		stats.char,
+		xp,
+		health,
+		maxHealth,
+		level,
+		inventory,
+	);
 
-  return json({ success: success });
+	return json({ success: success });
 };

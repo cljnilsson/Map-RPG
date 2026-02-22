@@ -15,7 +15,7 @@ const restorePotion = {
 	onUse: () => {
 		PlayerController.conditions = [];
 		return true;
-	}
+	},
 } satisfies UsableItem;
 
 export default restorePotion;

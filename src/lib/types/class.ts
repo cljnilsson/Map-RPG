@@ -1,8 +1,8 @@
 type Class = {
 	abilities: string[];
-    suggestedStats: string[];
+	suggestedStats: string[];
 	name: string;
-    description: string;
+	description: string;
 	icon: string;
 };
 

@@ -13,8 +13,8 @@ const items = [
 		price: {
 			gold: 0,
 			silver: 5,
-			copper: 0
-		}
+			copper: 0,
+		},
 	} satisfies VendorItem,
 	{
 		type: "vendor",
@@ -28,8 +28,8 @@ const items = [
 		price: {
 			gold: 1,
 			silver: 0,
-			copper: 0
-		}
+			copper: 0,
+		},
 	} satisfies VendorItem,
 	{
 		type: "vendor",
@@ -43,8 +43,8 @@ const items = [
 		price: {
 			gold: 0,
 			silver: 4,
-			copper: 0
-		}
+			copper: 0,
+		},
 	} satisfies VendorItem,
 	{
 		type: "item",
@@ -54,7 +54,7 @@ const items = [
 		iconPath: "/items/scroll.jpg",
 		quality: "common",
 		description: "A scroll with mysterious symbols.",
-		unique: true
+		unique: true,
 	} satisfies Item,
 	{
 		type: "item",
@@ -64,7 +64,7 @@ const items = [
 		iconClass: "bi bi-box",
 		unique: false,
 		description: "A box containing fresh eggs.",
-		quality: "rare"
+		quality: "rare",
 	} satisfies Item,
 	{
 		type: "item",
@@ -74,7 +74,7 @@ const items = [
 		iconClass: "bi bi-hammer",
 		unique: true,
 		description: "A box containing fresh eggs.",
-		quality: "common"
+		quality: "common",
 	} satisfies Item,
 	{
 		type: "item",
@@ -84,7 +84,7 @@ const items = [
 		iconClass: "",
 		unique: false,
 		description: "An unknown black stone with a strange glow.",
-		quality: "epic"
+		quality: "epic",
 	} satisfies Item,
 	{
 		type: "item",
@@ -94,8 +94,8 @@ const items = [
 		iconClass: "",
 		unique: true,
 		description: "A rusty key that looks like it might open something.",
-		quality: "common"
-	} satisfies Item
+		quality: "common",
+	} satisfies Item,
 ] as const;
 
 export default items;

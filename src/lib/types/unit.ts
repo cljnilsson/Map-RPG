@@ -6,12 +6,14 @@ type BaseUnit = {
 	description: string;
 	icon: string;
 	cost: Resource[];
-	timeInSeconds: number,
-	unlockedBy: {
-		buildingName: string;
-		level: number;
-	} | true;
-}
+	timeInSeconds: number;
+	unlockedBy:
+		| {
+				buildingName: string;
+				level: number;
+		  }
+		| true;
+};
 
 type Unit = BaseUnit & {
 	amount: number;

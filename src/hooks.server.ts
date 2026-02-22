@@ -8,19 +8,16 @@ import type { RequestEvent } from "@sveltejs/kit";
 dbCheckup();
 
 export async function handle({
-  event,
-  resolve,
+	event,
+	resolve,
 }: {
-  event: RequestEvent;
-  resolve: (event: RequestEvent) => Response | Promise<Response>;
+	event: RequestEvent;
+	resolve: (event: RequestEvent) => Response | Promise<Response>;
 }): Promise<Response> {
-  if (
-    dev &&
-    event.url.pathname === "/.well-known/appspecific/com.chrome.devtools.json"
-  ) {
-    return new Response(undefined, { status: 404 });
-  }
-  return svelteKitHandler({ event, resolve, auth, building });
+	if (dev && event.url.pathname === "/.well-known/appspecific/com.chrome.devtools.json") {
+		return new Response(undefined, { status: 404 });
+	}
+	return svelteKitHandler({ event, resolve, auth, building });
 }
 
 /*export const handle: Handle = async ({ event, resolve }) => {

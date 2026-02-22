@@ -123,7 +123,7 @@
 	});
 </script>
 
-<button class="btn btn-primary keybind-btn" class:listening onclick={startListening}>
+<button type="button" class="btn btn-primary keybind-btn" class:listening onclick={startListening}>
 	{listening ? "Press keys…" : keybind}
 </button>
 

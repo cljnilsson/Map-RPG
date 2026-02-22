@@ -9,25 +9,25 @@ type MapType = {
 
 type WorldMap = MapType & {
 	type: "world";
-}
+};
 
 type BuildingMap = MapType & {
 	type: "building";
 	unlocked: boolean;
 	upgrades: string[];
 	npcs: string[];
-}
+};
 
 type CityMap = MapType & {
 	type: "city";
 	city: City;
-}
+};
 
 type ClickBox = {
 	x: number;
 	y: number;
-    originalX: number; // To handle window scaling we need the original position
-    originalY: number;
+	originalX: number; // To handle window scaling we need the original position
+	originalY: number;
 	width: number;
 	height: number;
 	rotation: number;

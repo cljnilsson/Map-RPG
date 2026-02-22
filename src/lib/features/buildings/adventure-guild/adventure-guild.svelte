@@ -99,8 +99,8 @@
 						<p>{selectedMission.description}</p>
 					</div>
 					<div class="text-end">
-						<button class="btn btn-primary decline me-2" onclick={closeMission}>Decline</button>
-						<button class="btn btn-primary accept me-5" onclick={accept}>Accept</button>
+						<button type="button" class="btn btn-primary decline me-2" onclick={closeMission}>Decline</button>
+						<button type="button" class="btn btn-primary accept me-5" onclick={accept}>Accept</button>
 					</div>
 				</div>
 			</div>

@@ -8,7 +8,7 @@
 	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
 	import { isCityMap } from "$lib/typeguards/map";
 	import { resolve } from "$app/paths";
-	
+
 	const h = 140;
 	const w = 120;
 
@@ -46,8 +46,8 @@
 	</div>
 	{#if isMenuExpanded}
 		<div class="px-2 py-3 border-top">
-			<a href={resolve("/settings")}><button class="btn btn-primary my-1">Settings</button></a>
-			<a href={resolve("/wiki")}><button class="btn btn-primary my-1">Wiki</button></a>
+			<a href={resolve("/settings")}><button type="button" class="btn btn-primary my-1">Settings</button></a>
+			<a href={resolve("/wiki")}><button type="button" class="btn btn-primary my-1">Wiki</button></a>
 		</div>
 	{/if}
 </div>

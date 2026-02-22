@@ -1,7 +1,7 @@
 type Faith = {
 	//abilities: string[];
 	name: string;
-    description: string;
+	description: string;
 	icon: string;
 };
 

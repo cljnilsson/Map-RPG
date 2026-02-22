@@ -9,6 +9,7 @@
 </script>
 
 <button
+    type="button"
 	class="ms-3 text-button"
 	class:selected={active?.id === q.id}
 	aria-pressed={active?.id === q.id}

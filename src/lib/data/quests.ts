@@ -7,7 +7,9 @@ const questRegistry = {
 			title: "Test Quest",
 			description: "This is a test quest to demonstrate the quest window.",
 			rewardResources: [{ name: "Copper", amount: 100, icon: "/items/coin1.jpg" }],
-			rewardItems: [{ name: "Potion", amount: 1, icon: "/items/potion2.jpg", description: "A potion that restores 10 vitality." }],
+			rewardItems: [
+				{ name: "Potion", amount: 1, icon: "/items/potion2.jpg", description: "A potion that restores 10 vitality." },
+			],
 			rewardMisc: "Access to the rest of the game!",
 			progress: 1,
 			progressGoals: ["Start the quest", "Complete the quest"],
@@ -15,30 +17,30 @@ const questRegistry = {
 				{
 					from: {
 						name: "NPC",
-						image: ""
+						image: "",
 					},
 					type: "text",
-					text: "Welcome to the test quest!"
+					text: "Welcome to the test quest!",
 				},
 				{
 					from: {
 						name: "NPC",
-						image: ""
+						image: "",
 					},
 					type: "text",
-					text: "What do I need to do?"
+					text: "What do I need to do?",
 				},
 				{
 					from: {
 						name: "NPC",
-						image: ""
+						image: "",
 					},
 					type: "text",
-					text: "Just complete the quest and you'll be rewarded!"
-				}
+					text: "Just complete the quest and you'll be rewarded!",
+				},
 			],
 			mainQuest: true,
-			status: "active"
+			status: "active",
 		}) as Quest,
 	"lost-ones": () =>
 		({
@@ -55,18 +57,17 @@ const questRegistry = {
 				"Talk to Captain Brenoff",
 				"Talk to Talk with Julia's parents",
 				"Talk to Talk with Oliver's parents",
-				"Talk to Talk with Robert's parents"
+				"Talk to Talk with Robert's parents",
 			],
 			dialogue: [],
 			mainQuest: false,
-			status: "active"
-		}) as Quest
+			status: "active",
+		}) as Quest,
 } as const;
 
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety
 for (const [key, value] of Object.entries(questRegistry)) {
 	if (key === value().id) {
-		continue;
 	} else {
 		throw new Error(`Quest ID mismatch: key "${key}" does not match item ID "${value().id}"`);
 	}
@@ -74,7 +75,7 @@ for (const [key, value] of Object.entries(questRegistry)) {
 
 export type QuestId = keyof typeof questRegistry;
 
-export function getQuest<T extends QuestId>(id: T) : Quest {
+export function getQuest<T extends QuestId>(id: T): Quest {
 	return questRegistry[id]();
 }
 

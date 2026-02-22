@@ -6,147 +6,128 @@ import { eq } from "drizzle-orm";
 import { auth } from "$lib/auth";
 
 async function getCharacters(userId: string) {
-  return await db.query.characters.findMany({
-    where: eq(characters.userId, userId),
-    with: {
-      stats: {
-        with: {
-          stat: true,
-        },
-      },
-      inventory: true,
-    },
-  });
+	return await db.query.characters.findMany({
+		where: eq(characters.userId, userId),
+		with: {
+			stats: {
+				with: {
+					stat: true,
+				},
+			},
+			inventory: true,
+		},
+	});
 }
 
 export const GET: RequestHandler = async ({ request }) => {
-  const session = await auth.api.getSession({
-    headers: request.headers,
-  });
+	const session = await auth.api.getSession({
+		headers: request.headers,
+	});
 
-  if (!session || !session?.user) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+	if (!session || !session?.user) {
+		return new Response("Unauthorized", { status: 401 });
+	}
 
-  const userId = session.user.id;
-  const existing = await getCharacters(userId);
+	const userId = session.user.id;
+	const existing = await getCharacters(userId);
 
-  const adjusted = existing.map((char) => ({
-    ...char,
-    stats: char.stats.map((s) => ({
-      name: s.stat.name,
-      value: s.value,
-    })),
-  }));
+	const adjusted = existing.map((char) => ({
+		...char,
+		stats: char.stats.map((s) => ({
+			name: s.stat.name,
+			value: s.value,
+		})),
+	}));
 
-  return json({ success: true, characters: adjusted });
+	return json({ success: true, characters: adjusted });
 };
 
 function isValidInput(
-  name: unknown,
-  age: unknown,
-  str: unknown,
-  dex: unknown,
-  int: unknown,
-  vit: unknown,
-  charisma: unknown,
+	name: unknown,
+	age: unknown,
+	str: unknown,
+	dex: unknown,
+	int: unknown,
+	vit: unknown,
+	charisma: unknown,
 ): boolean {
-  return (
-    typeof name === "string" &&
-    typeof age === "number" &&
-    typeof str === "number" &&
-    typeof dex === "number" &&
-    typeof int === "number" &&
-    typeof vit === "number" &&
-    typeof charisma === "number"
-  );
+	return (
+		typeof name === "string" &&
+		typeof age === "number" &&
+		typeof str === "number" &&
+		typeof dex === "number" &&
+		typeof int === "number" &&
+		typeof vit === "number" &&
+		typeof charisma === "number"
+	);
 }
 
 async function insertCharacter(
-  userId: string,
-  name: string,
-  age: number,
-  str: number,
-  dex: number,
-  int: number,
-  vit: number,
-  charisma: number,
+	userId: string,
+	name: string,
+	age: number,
+	str: number,
+	dex: number,
+	int: number,
+	vit: number,
+	charisma: number,
 ) {
-  const [character] = await db
-    .insert(characters)
-    .values({
-      userId,
-      name,
-      age,
-      race: "Unknown",
-      gender: "Unknown",
-    })
-    .returning({ id: characters.id });
+	const [character] = await db
+		.insert(characters)
+		.values({
+			userId,
+			name,
+			age,
+			race: "Unknown",
+			gender: "Unknown",
+		})
+		.returning({ id: characters.id });
 
-  async function getStat(name: string) {
-    return await db.query.stat.findFirst({
-      where: eq(stat.name, name),
-      columns: { id: true },
-    });
-  }
+	async function getStat(name: string) {
+		return await db.query.stat.findFirst({
+			where: eq(stat.name, name),
+			columns: { id: true },
+		});
+	}
 
-  const strStat = await getStat("Strength");
-  const dexStat = await getStat("Dexterity");
-  const intStat = await getStat("Intelligence");
-  const vitStat = await getStat("Vitality");
-  const chaStat = await getStat("Charisma");
+	const strStat = await getStat("Strength");
+	const dexStat = await getStat("Dexterity");
+	const intStat = await getStat("Intelligence");
+	const vitStat = await getStat("Vitality");
+	const chaStat = await getStat("Charisma");
 
-  if (!strStat || !dexStat || !intStat || !vitStat || !chaStat) {
-    throw new Error("Mandatory stat does not exist in database");
-  }
+	if (!strStat || !dexStat || !intStat || !vitStat || !chaStat) {
+		throw new Error("Mandatory stat does not exist in database");
+	}
 
-  await db.insert(stats).values([
-    { characterId: character.id, statId: strStat.id, value: str },
-    { characterId: character.id, statId: dexStat.id, value: dex },
-    { characterId: character.id, statId: intStat.id, value: int },
-    { characterId: character.id, statId: vitStat.id, value: vit },
-    { characterId: character.id, statId: chaStat.id, value: charisma },
-  ]);
+	await db.insert(stats).values([
+		{ characterId: character.id, statId: strStat.id, value: str },
+		{ characterId: character.id, statId: dexStat.id, value: dex },
+		{ characterId: character.id, statId: intStat.id, value: int },
+		{ characterId: character.id, statId: vitStat.id, value: vit },
+		{ characterId: character.id, statId: chaStat.id, value: charisma },
+	]);
 }
 
 export const POST: RequestHandler = async ({ request }) => {
-  const session = await auth.api.getSession({
-    headers: request.headers,
-  });
+	const session = await auth.api.getSession({
+		headers: request.headers,
+	});
 
-  if (!session || !session?.user) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+	if (!session || !session?.user) {
+		return new Response("Unauthorized", { status: 401 });
+	}
 
-  const { name, age, stats } = await request.json();
-  console.log(name, age, stats);
+	const { name, age, stats } = await request.json();
+	console.log(name, age, stats);
 
-  if (
-    !isValidInput(
-      name,
-      age,
-      stats.str,
-      stats.dex,
-      stats.int,
-      stats.vit,
-      stats.charisma,
-    )
-  ) {
-    return new Response("Invalid input", { status: 400 });
-  }
+	if (!isValidInput(name, age, stats.str, stats.dex, stats.int, stats.vit, stats.charisma)) {
+		return new Response("Invalid input", { status: 400 });
+	}
 
-  const userId = session.user.id;
+	const userId = session.user.id;
 
-  await insertCharacter(
-    userId,
-    name,
-    age,
-    stats.str,
-    stats.dex,
-    stats.int,
-    stats.vit,
-    stats.charisma,
-  );
+	await insertCharacter(userId, name, age, stats.str, stats.dex, stats.int, stats.vit, stats.charisma);
 
-  return json({ success: true });
+	return json({ success: true });
 };

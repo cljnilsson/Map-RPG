@@ -10,7 +10,7 @@
         {stat}
     </div>
     <div class="col-xl-2 col-md-6 text-center">
-        <button class="btn btn-outline-dark" onclick={() => stat += 1} disabled={total >= totalMax || stat >= max || totalLeft === 0}>+</button>
-        <button class="btn btn-outline-dark" onclick={() => stat -= 1} disabled={stat <= min}>-</button>
+        <button type="button" class="btn btn-outline-dark" onclick={() => stat += 1} disabled={total >= totalMax || stat >= max || totalLeft === 0}>+</button>
+        <button type="button" class="btn btn-outline-dark" onclick={() => stat -= 1} disabled={stat <= min}>-</button>
     </div>
 </div>

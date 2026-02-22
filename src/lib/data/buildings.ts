@@ -21,7 +21,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: BlackMarket
+		componentOnClick: BlackMarket,
 	}),
 	library: (): Building => ({
 		id: "library",
@@ -33,12 +33,13 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: undefined,
 	}),
 	inn: (): Building => ({
 		id: "inn",
 		name: "Inn",
-		description: "Not only good for morale, but also makes it easy to find people as the community gathers in the evening.",
+		description:
+			"Not only good for morale, but also makes it easy to find people as the community gathers in the evening.",
 		requirements: true,
 		artPath: "/buildings/inn.png",
 		cost: [
@@ -47,11 +48,11 @@ const buildingRegistry = {
 			{ ...getResource("Stone"), amount: 30 },
 			{ ...getResource("Silk"), amount: 30 },
 			{ ...getResource("Wheat"), amount: 30 },
-			{ ...getResource("Iron"), amount: 30 }
+			{ ...getResource("Iron"), amount: 30 },
 		],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: Inn
+		componentOnClick: Inn,
 	}),
 	shipyard: (): Building => ({
 		id: "shipyard",
@@ -63,11 +64,11 @@ const buildingRegistry = {
 			{ ...getResource("Gold"), amount: 100 },
 			{ ...getResource("Wood"), amount: 200 },
 			{ ...getResource("Stone"), amount: 30 },
-			{ ...getResource("Iron"), amount: 120 }
+			{ ...getResource("Iron"), amount: 120 },
 		],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: Shipyard
+		componentOnClick: Shipyard,
 	}),
 	shrine: (): Building => ({
 		id: "shrine",
@@ -78,7 +79,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "sacred",
-		componentOnClick: undefined
+		componentOnClick: undefined,
 	}),
 	"watch-tower": (): Building => ({
 		id: "watch-tower",
@@ -89,7 +90,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: undefined,
 	}),
 	barracks: (): Building => ({
 		id: "barracks",
@@ -100,7 +101,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: undefined,
 	}),
 	"adventurer's-guild": (): Building => ({
 		id: "adventurer's-guild",
@@ -111,7 +112,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: AdventureGuild
+		componentOnClick: AdventureGuild,
 	}),
 	"hunter-lodge": (): Building => ({
 		id: "hunter-lodge",
@@ -122,7 +123,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: undefined,
 	}),
 	market: (): Building => ({
 		id: "market",
@@ -133,7 +134,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 40,
 		plotType: "default",
-		componentOnClick: Market
+		componentOnClick: Market,
 	}),
 	"tourney-grounds": (): Building => ({
 		id: "tourney-grounds",
@@ -145,7 +146,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 180,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: undefined,
 	}),
 	"beast-pen": (): Building => ({
 		id: "beast-pen",
@@ -156,7 +157,7 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 150,
 		plotType: "default",
-		componentOnClick: BeastPen
+		componentOnClick: BeastPen,
 	}),
 	bank: (): Building => ({
 		id: "bank",
@@ -168,18 +169,19 @@ const buildingRegistry = {
 		cost: [],
 		timeInSeconds: 150,
 		plotType: "default",
-		componentOnClick: Bank
+		componentOnClick: Bank,
 	}),
 	"slave-market": (): Building => ({
 		id: "slave-market",
 		name: "Slave Market",
-		description: "Allows the 'recruitment' of slaves, cheaper than workers but with a higher fatality rate and a moral price",
+		description:
+			"Allows the 'recruitment' of slaves, cheaper than workers but with a higher fatality rate and a moral price",
 		requirements: true,
 		artPath: "/buildings/black-market.png",
 		cost: [],
 		timeInSeconds: 150,
 		plotType: "default",
-		componentOnClick: undefined
+		componentOnClick: undefined,
 	}),
 	storage: (): Building => ({
 		id: "storage",
@@ -194,11 +196,11 @@ const buildingRegistry = {
 			{ ...getResource("Stone"), amount: 20 },
 			{ ...getResource("Silk"), amount: 0 },
 			{ ...getResource("Wheat"), amount: 10 },
-			{ ...getResource("Iron"), amount: 10 }
+			{ ...getResource("Iron"), amount: 10 },
 		],
 		timeInSeconds: 70,
 		plotType: "default",
-		componentOnClick: Storage
+		componentOnClick: Storage,
 	}),
 	woodwork: (): Building => ({
 		id: "woodwork",
@@ -212,11 +214,11 @@ const buildingRegistry = {
 			{ ...getResource("Stone"), amount: 0 },
 			{ ...getResource("Silk"), amount: 0 },
 			{ ...getResource("Wheat"), amount: 0 },
-			{ ...getResource("Iron"), amount: 10 }
+			{ ...getResource("Iron"), amount: 10 },
 		],
 		timeInSeconds: 70,
 		plotType: "default",
-		componentOnClick: Woodwork
+		componentOnClick: Woodwork,
 	}),
 	blacksmith: (): Building => ({
 		id: "blacksmith",
@@ -230,12 +232,12 @@ const buildingRegistry = {
 			{ ...getResource("Stone"), amount: 20 },
 			{ ...getResource("Silk"), amount: 0 },
 			{ ...getResource("Wheat"), amount: 10 },
-			{ ...getResource("Iron"), amount: 10 }
+			{ ...getResource("Iron"), amount: 10 },
 		],
 		timeInSeconds: 70,
 		plotType: "default",
-		componentOnClick: Woodwork
-	})
+		componentOnClick: Woodwork,
+	}),
 } as const;
 
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety

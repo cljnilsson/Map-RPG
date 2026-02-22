@@ -24,18 +24,22 @@ describe("Inventory", () => {
 			price: {
 				gold: 0,
 				silver: 5,
-				copper: 0
-			}
+				copper: 0,
+			},
 		};
 		const startingMoney = PlayerController.money; // 3c 2s 1g at the time of writing
-		const startingMoneyInCopper = PlayerController.moneyToCopper(startingMoney.copper, startingMoney.silver, startingMoney.gold);
+		const startingMoneyInCopper = PlayerController.moneyToCopper(
+			startingMoney.copper,
+			startingMoney.silver,
+			startingMoney.gold,
+		);
 
 		PlayerController.buyItem(item);
 
 		const remainingMoneyInCopper = PlayerController.moneyToCopper(
 			PlayerController.money.copper,
 			PlayerController.money.silver,
-			PlayerController.money.gold
+			PlayerController.money.gold,
 		);
 
 		expect(PlayerController.money.copper).toEqual(3);
@@ -43,6 +47,6 @@ describe("Inventory", () => {
 		expect(PlayerController.money.gold).toEqual(0);
 		expect(remainingMoneyInCopper).toEqual(startingMoneyInCopper - 50); // 5 silver = 50 copper
 		expect(PlayerController.inventory.length).toBeGreaterThan(0);
-		expect(PlayerController.inventory.some(i => i.item.name === item.name && i.amount === 1)).toBe(true);
+		expect(PlayerController.inventory.some((i) => i.item.name === item.name && i.amount === 1)).toBe(true);
 	});
 });

@@ -43,7 +43,7 @@
 				</div>
 				<div class="row">
 					<div class="col text-end">
-						<button class="btn btn-light" onclick={end}>test</button>
+						<button type="button" class="btn btn-light" onclick={end}>test</button>
 					</div>
 				</div>
 			</div>

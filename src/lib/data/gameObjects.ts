@@ -48,7 +48,6 @@ const gameobjectRegistry = {
 // Somewhat ugly solution to ensure match but it'll do for now, ideally I want this to be done automatically without losing key safety
 for (const [key, value] of Object.entries(gameobjectRegistry)) {
 	if (key === value()?.id) {
-		continue;
 	} else {
 		throw new Error(`Quest ID mismatch: key "${key}" does not match item ID "${value().id}"`);
 	}

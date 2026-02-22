@@ -8,7 +8,7 @@ describe("Inventory", () => {
 		PlayerController.inventory = [
 			{ item: getItem("test-item-1"), amount: 1 },
 			{ item: getItem("test-item-2"), amount: 1 },
-			{ item: getItem("test-item-3"), amount: 3 }
+			{ item: getItem("test-item-3"), amount: 3 },
 			// Add other items if needed
 		];
 	});
@@ -20,12 +20,13 @@ describe("Inventory", () => {
 		expect(PlayerController.hasItem("Magical Rock")).toBe(false);
 	});
 
-	it("Has items", () => { // In future add a check for non stackable items
+	it("Has items", () => {
+		// In future add a check for non stackable items
 		const testItems = [
 			{ item: getItem("test-item-1"), amount: 1 },
 			{ item: getItem("test-item-2"), amount: 1 },
 			{ item: getItem("test-item-3"), amount: 4 },
-			{ item: getItem("test-chest-key1"), amount: 1 }
+			{ item: getItem("test-chest-key1"), amount: 1 },
 		];
 
 		expect(PlayerController.hasItems([testItems[0], testItems[1]])).toBe(true);

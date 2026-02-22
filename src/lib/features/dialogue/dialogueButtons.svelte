@@ -36,10 +36,10 @@
 
 <div class="button-container">
 	{#if canClose}
-		<button class="btn btn-dark" onclick={close}>Leave</button>
+		<button type="button" class="btn btn-dark" onclick={close}>Leave</button>
 	{/if}
-	<button class="btn btn-dark" onclick={prev} disabled={current === 0}>Previous</button>
-	<button class="btn btn-dark" onclick={next} disabled={msgs[current].type === "choice"}>Next</button>
+	<button type="button" class="btn btn-dark" onclick={prev} disabled={current === 0}>Previous</button>
+	<button type="button" class="btn btn-dark" onclick={next} disabled={msgs[current].type === "choice"}>Next</button>
 </div>
 
 <style>

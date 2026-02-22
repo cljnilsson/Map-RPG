@@ -7,6 +7,6 @@ import { eq, and } from "drizzle-orm";
 export function load({ params }) {
 	return {
 		city: params.city,
-		plot: params.identifier
+		plot: params.identifier,
 	};
 }

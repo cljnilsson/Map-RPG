@@ -1,5 +1,5 @@
 import type { VendorItem } from "$lib/types/item";
-import type {Quest} from "$lib/types/quest";
+import type { Quest } from "$lib/types/quest";
 
 type NPC = {
 	health: number;

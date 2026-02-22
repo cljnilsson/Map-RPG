@@ -7,7 +7,7 @@ import { produce } from "sveltekit-sse";
 
 // Mock SSE produce
 vi.mock("sveltekit-sse", () => ({
-	produce: vi.fn((fn) => fn({ emit: vi.fn() }))
+	produce: vi.fn((fn) => fn({ emit: vi.fn() })),
 }));
 
 // --- Helpers ---
@@ -22,7 +22,7 @@ function createMockEvent(): RequestEvent<object, "/api/resources"> {
 		cookies: { get: () => undefined, set: () => {}, delete: () => {} },
 		isDataRequest: false,
 		getClientAddress: () => "127.0.0.1",
-		setHeaders: () => {}
+		setHeaders: () => {},
 	} as unknown as RequestEvent<object, "/api/resources">;
 }
 
@@ -40,7 +40,6 @@ describe("+server POST SSE", () => {
 		expect(produce).toHaveBeenCalled();
 		expect(serverModule._getConnections().size).toBe(1);
 	});*/
-
 	/*it("runs the resource loop and emits messages", async () => {
 		let connection;
 		(produce as Mock).mockImplementationOnce(async (fn) => {
@@ -54,7 +53,6 @@ describe("+server POST SSE", () => {
 		// Just check that emit was called — we don’t care about DB values
 		expect(connection?.emit).toHaveBeenCalled();
 	});*/
-
 	/*
 	it("cleans up on disconnect", async () => {
 		let connection;

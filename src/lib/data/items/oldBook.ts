@@ -10,9 +10,9 @@ const oldBook = createBookItem(
 		iconClass: "",
 		unique: true,
 		description: "Old but intact.",
-		quality: "rare"
+		quality: "rare",
 	},
-	["<p>Test</p>", "<p>Test2</p>"]
+	["<p>Test</p>", "<p>Test2</p>"],
 ) satisfies UsableItem;
 
 export default oldBook;

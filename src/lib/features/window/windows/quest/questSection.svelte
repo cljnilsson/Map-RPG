@@ -13,7 +13,7 @@
 
 <div class="row">
 	<div class="col">
-		<button onclick={toggleSection} class:muted={quests.length === 0}>{title} {#if quests.length > 0}<i class="bi {!hideSection ? "bi-dash" : "bi-plus"}"></i>{/if}</button>
+		<button type="button" onclick={toggleSection} class:muted={quests.length === 0}>{title} {#if quests.length > 0}<i class="bi {!hideSection ? "bi-dash" : "bi-plus"}"></i>{/if}</button>
 		{#if !hideSection}
 			{#each quests as q}
 				<QuestItem {q} bind:active />
@@ -26,7 +26,7 @@
 	i {
 		color: rgb(255, 167, 43);
 	}
-	
+
 	button {
 		background: none;
 		border: none;
@@ -41,7 +41,7 @@
 			font-weight: bold;
 		}
 	}
-	
+
 	.muted {
 		color: rgba(150, 150, 150) !important;
 	}

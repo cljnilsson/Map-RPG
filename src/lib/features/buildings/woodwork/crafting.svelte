@@ -80,7 +80,7 @@ function onCraftConfirm() {
 	</div>
 </div>
 <div class="text-end py-2">
-	<button class="btn btn-primary" onclick={onCraftConfirm}>Craft</button>
+	<button type="button" class="btn btn-primary" onclick={onCraftConfirm}>Craft</button>
 </div>
 
 <style>

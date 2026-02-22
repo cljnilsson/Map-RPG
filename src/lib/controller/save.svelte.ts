@@ -28,8 +28,8 @@ type QuestInput = {
 		key: string;
 		progress: number;
 		status: "active" | "completed" | "failed";
-	}[]
-}
+	}[];
+};
 
 export class SaveController {
 	// might rework it in the future so oldname and name are not needed but for now it is needed to have the name currently used in the database
@@ -46,12 +46,12 @@ export class SaveController {
 				dex: CharacterStore.character.stats.dex,
 				int: CharacterStore.character.stats.int,
 				vit: CharacterStore.character.stats.vit,
-				char: CharacterStore.character.stats.char
+				char: CharacterStore.character.stats.char,
 			},
 			inventory: CharacterStore.inventory.map((slot) => ({
 				name: slot.item.id,
-				amount: slot.amount
-			}))
+				amount: slot.amount,
+			})),
 		});
 	}
 
@@ -62,8 +62,8 @@ export class SaveController {
 				key: uniqueKey,
 				x: newX,
 				y: newY,
-				characterId: CharacterStore.character.id
-			}
+				characterId: CharacterStore.character.id,
+			},
 		);
 
 		const { success } = resp;
@@ -78,13 +78,13 @@ export class SaveController {
 	public static async saveQuests() {
 		await postRequest<unknown, QuestInput>("/api/characters/save/quests", {
 			characterId: 4,
-			quests: QuestController.quests.map(q => {
+			quests: QuestController.quests.map((q) => {
 				return {
 					key: q.id,
 					progress: q.progress,
-					status: q.status
+					status: q.status,
 				};
-			})
+			}),
 		});
 	}
 

@@ -36,6 +36,6 @@ async function fetchUserFlags(userId: number): Promise<{ name: string; value: nu
 export function load({ params }) {
 	return {
 		city: params.city,
-		plot: params.identifier
+		plot: params.identifier,
 	};
 }

@@ -1,7 +1,7 @@
-const Store = $state<{ currentBook: string[] | undefined, currentPage: number, visible: boolean }>({
+const Store = $state<{ currentBook: string[] | undefined; currentPage: number; visible: boolean }>({
 	currentBook: undefined,
 	currentPage: 1,
-	visible: false
+	visible: false,
 });
 
 export default Store;

@@ -4,7 +4,7 @@ import Creator from "$lib/features/creator/creator.svelte";
 import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 
 test("Creator renders with correct elements", () => {
-	const {container} = render(Creator);
+	const { container } = render(Creator);
 	expect(container).toMatchSnapshot();
 });
 
@@ -13,9 +13,17 @@ test("Stat '+' buttons are disabled when no points are left", () => {
 	const max: number = 20;
 	const totalMax: number = 30;
 
-	render(CreatorStat, {props: {
-		min , max, total: 15, totalMax, stat: 7, name: "Vit", totalLeft: 0
-	}});
+	render(CreatorStat, {
+		props: {
+			min,
+			max,
+			total: 15,
+			totalMax,
+			stat: 7,
+			name: "Vit",
+			totalLeft: 0,
+		},
+	});
 
 	const plusButtons = screen.getAllByRole("button", { name: "+" });
 	expect(plusButtons.length).toBe(1); // One for each stat
@@ -27,9 +35,17 @@ test("Stat '-' buttons are enabled and work", async () => {
 	const max: number = 20;
 	const totalMax: number = 30;
 
-	render(CreatorStat, {props: {
-		min , max, total: 15, totalMax, stat: 7, name: "Vit", totalLeft: 0
-	}});
+	render(CreatorStat, {
+		props: {
+			min,
+			max,
+			total: 15,
+			totalMax,
+			stat: 7,
+			name: "Vit",
+			totalLeft: 0,
+		},
+	});
 
 	const minusButtons = screen.getAllByRole("button", { name: "-" });
 	expect(minusButtons.length).toBe(1);

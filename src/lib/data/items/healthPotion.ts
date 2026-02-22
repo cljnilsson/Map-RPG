@@ -16,7 +16,7 @@ const lesserHealthPotion = {
 		if (PlayerController.health >= PlayerController.maxHealth) return false; // Move this into conditions
 		PlayerController.health += 10;
 		return true;
-	}
+	},
 } satisfies UsableItem;
 
 export default lesserHealthPotion;

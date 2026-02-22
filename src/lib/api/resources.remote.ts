@@ -12,11 +12,11 @@ async function getCities() {
 		with: {
 			resources: {
 				with: {
-					resource: true
-				}
+					resource: true,
+				},
 			},
-			city: true
-		}
+			city: true,
+		},
 	});
 }
 
@@ -27,10 +27,10 @@ async function getCityDataById(id: number) {
 			city: true,
 			character: {
 				with: {
-					user: true
-				}
-			}
-		}
+					user: true,
+				},
+			},
+		},
 	});
 }
 
@@ -69,8 +69,8 @@ async function get(): Promise<GetReturnType[]> {
 		resources: resources.map(({ resource, ...resourceRest }) => ({
 			...resourceRest,
 			name: resource.name,
-			icon: resource.iconPath
-		}))
+			icon: resource.iconPath,
+		})),
 	}));
 
 	return cities;
@@ -79,7 +79,7 @@ async function get(): Promise<GetReturnType[]> {
 const ResourceSchema = v.object({
 	cityDataId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 	resourceId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
-	value: v.pipe(v.number(), v.integer(), v.toMinValue(0))
+	value: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 });
 
 //type ResourceData = v.InferOutput<typeof ResourceSchema>;
@@ -96,52 +96,53 @@ async function post(body: ResourceArrayData) {
 
 	for (const resource of body) {
 		const cityData = await getCityDataById(resource.cityDataId);
-		if(cityData) {
+		if (cityData) {
 			console.log(cityData.character.user?.id);
-			if(!cityData.character.user?.id || cityData.character.user.id !== user.id) {
+			if (!cityData.character.user?.id || cityData.character.user.id !== user.id) {
 				failed.push(resource);
-				console.log(`User ${user.id} tried to update cityData ${resource.cityDataId} (${cityData.city.name}) they don't own.`);
+				console.log(
+					`User ${user.id} tried to update cityData ${resource.cityDataId} (${cityData.city.name}) they don't own.`,
+				);
 				continue;
 			}
 		}
 
 		const success = updateResource(resource.cityDataId, resource.resourceId, resource.value);
-		if(!success) {
+		if (!success) {
 			failed.push(resource);
 		}
 	}
 
-	if(failed.length > 0) {
+	if (failed.length > 0) {
 		return { success: false, failed };
 	}
-	
+
 	return { success: true };
 }
 
 // Untested
-async function postOne({cityDataId, resourceId, value}: OneResourceData) {
+async function postOne({ cityDataId, resourceId, value }: OneResourceData) {
 	const failed: ResourceArrayData = [];
 	const user = getUser();
 
 	const cityData = await getCityDataById(cityDataId);
-	if(cityData) {
+	if (cityData) {
 		console.log(cityData.character.user?.id);
-		if(!cityData.character.user?.id || cityData.character.user.id !== user.id) {
-			failed.push({cityDataId, resourceId, value});
+		if (!cityData.character.user?.id || cityData.character.user.id !== user.id) {
+			failed.push({ cityDataId, resourceId, value });
 			console.warn(`User ${user.id} tried to update cityData ${cityDataId} (${cityData.city.name}) they don't own.`);
 		}
 	}
 
 	const success = updateResource(cityDataId, resourceId, value);
-	if(!success) {
-		failed.push({cityDataId, resourceId, value});
+	if (!success) {
+		failed.push({ cityDataId, resourceId, value });
 	}
-	
 
-	if(failed.length > 0) {
+	if (failed.length > 0) {
 		return { success: false, failed };
 	}
-	
+
 	return { success: true };
 }
 

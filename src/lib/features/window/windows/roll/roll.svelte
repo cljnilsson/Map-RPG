@@ -55,7 +55,7 @@ let rollWindow = WindowController.getByName("Roll");
 	{/snippet}
 	{#snippet footer()}
 		<div class="text-center mt-3">
-			<button class="btn btn-lg btn-outline-light" onclick={roll} disabled={disable}>Roll</button>
+			<button type="button" class="btn btn-lg btn-outline-light" onclick={roll} disabled={disable}>Roll</button>
 		</div>
 	{/snippet}
 </Window>

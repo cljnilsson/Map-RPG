@@ -9,8 +9,8 @@ async function getAllLoans() {
 	return await db.query.loans.findMany({
 		with: {
 			city: true,
-			resource: true
-		}
+			resource: true,
+		},
 	});
 }
 
@@ -23,20 +23,24 @@ async function getCity(name: string) {
 }
 
 async function getCityData(characterId: number, cityId: number) {
-	return await db.select().from(cityData).where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId))).get();
+	return await db
+		.select()
+		.from(cityData)
+		.where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId)))
+		.get();
 }
 
 async function getCityDataOwnerById(id: number) {
-	const data =  await db.query.cityData.findFirst({
+	const data = await db.query.cityData.findFirst({
 		where: (cityData, { eq }) => eq(cityData.id, id),
 		with: {
 			city: true,
 			character: {
 				with: {
-					user: true
-				}
-			}
-		}
+					user: true,
+				},
+			},
+		},
 	});
 
 	return data?.character.user;
@@ -52,13 +56,14 @@ async function updateOneLoan(cityDataId: number, resourceId: number, value: numb
 }
 
 async function createLoan(full: number, resourceId: number, cityId: number) {
-	const rows = await db
-		.insert(loans).values([{
+	const rows = await db.insert(loans).values([
+		{
 			full: full,
 			paid: 0,
 			cityId: cityId,
 			resourceId: resourceId,
-		}]);
+		},
+	]);
 
 	return rows.changes > 0;
 }
@@ -78,7 +83,7 @@ type GetReturnType = {
 async function get(): Promise<GetReturnType[]> {
 	const existing = await getAllLoans();
 
-	const loans = existing.map(({ resource, paid, full, timestamp, city}) => ({
+	const loans = existing.map(({ resource, paid, full, timestamp, city }) => ({
 		paid,
 		full,
 		date: timestamp,
@@ -86,21 +91,19 @@ async function get(): Promise<GetReturnType[]> {
 		cityData: {
 			id: city.id,
 			characterId: city.characterId,
-			cityId: city.cityId
-		}, 
+			cityId: city.cityId,
+		},
 	}));
 
 	return loans;
 }
 
-
 const LoanSchema = v.object({
 	charaacterId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 	cityName: v.string(),
 	resourceName: v.string(),
-	value: v.pipe(v.number(), v.integer(), v.toMinValue(0))
+	value: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 });
-
 
 type LoanData = v.InferOutput<typeof LoanSchema>;
 
@@ -111,37 +114,37 @@ async function createPost(body: LoanData) {
 	// Clean up returns later
 	const resource = await getResourceByName(body.resourceName);
 	console.log(resource);
-	if(!resource) {
+	if (!resource) {
 		return { success: false, failed };
 	}
 
 	const city = await getCity(body.cityName);
 	console.log(city);
-	if(!city) {
+	if (!city) {
 		return { success: false, failed };
 	}
 
 	const cityData = await getCityData(body.charaacterId, city.id);
 	console.log(cityData);
-	if(!cityData) {
+	if (!cityData) {
 		return { success: false, failed };
 	}
 
 	const user = await getCityDataOwnerById(cityData.id);
-	if(!user || getUser().id !== user.id) {
+	if (!user || getUser().id !== user.id) {
 		return { success: false, failed };
 	}
 
 	const success = await createLoan(body.value, resource.id, cityData.id);
 	console.log(success);
-	if(!success) {
+	if (!success) {
 		failed = body;
 	}
-	
-	if(failed) {
+
+	if (failed) {
 		return { success: false, failed };
 	}
-	
+
 	return { success: true };
 }
 
@@ -151,34 +154,34 @@ async function updatePost(body: LoanData) {
 
 	// Clean up returns later
 	const resource = await getResourceByName(body.resourceName);
-	if(!resource) {
+	if (!resource) {
 		return { success: false, failed };
 	}
 
 	const city = await getCity(body.cityName);
-	if(!city) {
+	if (!city) {
 		return { success: false, failed };
 	}
 
 	const cityData = await getCityData(body.charaacterId, city.id);
-	if(!cityData) {
+	if (!cityData) {
 		return { success: false, failed };
 	}
 
 	const user = await getCityDataOwnerById(cityData.id);
-	if(!user || getUser().id !== user.id) {
+	if (!user || getUser().id !== user.id) {
 		return { success: false, failed };
 	}
 
 	const success = updateOneLoan(cityData.id, resource.id, body.value);
-	if(!success) {
+	if (!success) {
 		failed = body;
 	}
 
-	if(failed) {
+	if (failed) {
 		return { success: false, failed };
 	}
-	
+
 	return { success: true };
 }
 

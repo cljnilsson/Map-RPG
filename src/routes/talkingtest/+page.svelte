@@ -44,8 +44,8 @@
 </script>
 
 <div class="mt-5 mx-5 px-3 wrapper">
-	<button onclick={() => makeDialogue(msgs2)}>Talk to Alice</button>
-	<button onclick={() => makeDialogue(msgs)}>Talk to ALice and Bob</button>
+	<button type="button" onclick={() => makeDialogue(msgs2)}>Talk to Alice</button>
+	<button type="button" onclick={() => makeDialogue(msgs)}>Talk to ALice and Bob</button>
 	{DialogueController.all.length}
 	<Dialogue />
 </div>

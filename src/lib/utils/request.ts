@@ -3,8 +3,8 @@ async function request<T>(url: string, options: RequestInit): Promise<T> {
 		...options,
 		headers: {
 			"Content-Type": "application/json",
-			...options.headers
-		}
+			...options.headers,
+		},
 	});
 
 	if (!resp.ok) {
@@ -27,6 +27,6 @@ export function getRequest<T>(url: string): Promise<T> {
 export function postRequest<T, U>(url: string, data: U): Promise<T> {
 	return request<T>(url, {
 		method: "POST",
-		body: JSON.stringify(data)
+		body: JSON.stringify(data),
 	});
 }

@@ -27,8 +27,8 @@ vi.mock("$lib/stores/book.svelte", () => {
 			},
 			set currentBook(v: string[]) {
 				currentBook = v;
-			}
-		}
+			},
+		},
 	};
 });
 
@@ -43,7 +43,7 @@ describe("BookComponent", () => {
 		BookStore.visible = false;
 		BookStore.currentBook = ["<p>Hidden Page</p>"];
 		const { container } = render(BookComponent);
-	
+
 		expect(container.querySelector(".book")).toBeNull();
 	});
 

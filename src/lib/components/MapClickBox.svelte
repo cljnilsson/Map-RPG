@@ -41,12 +41,12 @@
 </script>
 
 <button
+    type="button"
 	bind:this={buttonEl}
 	class="overlay-rect"
 	class:overlay-rect-editing={selectedBox?.map.name === rect.map.name}
 	class:overlay-rect-edit-passive={MapController.editMode && selectedBox?.map.name !== rect.map.name}
 	class:overlay-rect-navigation={MapController.currentNavigationHover?.map.name === rect.map.name}
-	type="button"
 	onclick={() => onClick(rect)}
 	style="
         width: {rect.clickBox.width}px;

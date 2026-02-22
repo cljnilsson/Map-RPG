@@ -89,7 +89,7 @@ function trade() {
 		</div>
 		<div class="row my-1">
 			<div class="col text-center">
-				<button class="btn btn-primary" onclick={trade}>Trade</button>
+				<button type="button" class="btn btn-primary" onclick={trade}>Trade</button>
 			</div>
 		</div>
 	</div>

@@ -10,10 +10,10 @@ const mockMapStore = {
 		previous: null,
 		contains: [] as MapWithClickBox[],
 		npcs: [],
-		objects: []
+		objects: [],
 	} as CustomMap,
 	selectedBox: null as MapWithClickBox | null,
-	currentNavigationHover: null as MapWithClickBox | null
+	currentNavigationHover: null as MapWithClickBox | null,
 };
 
 const mockMaps: CustomMap[] = [
@@ -22,32 +22,32 @@ const mockMaps: CustomMap[] = [
 			name: "City One",
 			imagePath: "city1.png",
 			type: "city",
-			city: { owned: true, unlocked: true }
+			city: { owned: true, unlocked: true },
 		} as CityMap,
 		previous: null,
 		contains: [],
 		npcs: [],
-		objects: []
+		objects: [],
 	},
 	{
 		map: {
 			name: "Locked City",
 			imagePath: "city2.png",
 			type: "city",
-			city: { owned: true, unlocked: false }
+			city: { owned: true, unlocked: false },
 		} as CityMap,
 		previous: null,
 		contains: [],
 		npcs: [],
-		objects: []
+		objects: [],
 	},
 	{
 		map: { name: "World One", imagePath: "world1.png", type: "world" },
 		previous: null,
 		contains: [],
 		npcs: [],
-		objects: []
-	}
+		objects: [],
+	},
 ];
 
 // Mock MapStore
@@ -60,11 +60,11 @@ vi.mock("$lib/stores/map.svelte", () => {
 				previous: null,
 				contains: [],
 				npcs: [],
-				objects: []
+				objects: [],
 			},
 			selectedBox: null,
-			currentNavigationHover: null
-		}
+			currentNavigationHover: null,
+		},
 	};
 });
 
@@ -77,40 +77,40 @@ vi.mock("$lib/tempData", () => {
 					name: "City One",
 					imagePath: "city1.png",
 					type: "city",
-					city: { owned: true, unlocked: true }
+					city: { owned: true, unlocked: true },
 				},
 				previous: null,
 				contains: [],
 				npcs: [],
-				objects: []
+				objects: [],
 			},
 			{
 				map: {
 					name: "Locked City",
 					imagePath: "city2.png",
 					type: "city",
-					city: { owned: true, unlocked: false }
+					city: { owned: true, unlocked: false },
 				},
 				previous: null,
 				contains: [],
 				npcs: [],
-				objects: []
+				objects: [],
 			},
 			{
 				map: { name: "World One", imagePath: "world1.png", type: "world" },
 				previous: null,
 				contains: [],
 				npcs: [],
-				objects: []
-			}
-		]
+				objects: [],
+			},
+		],
 	};
 });
 
 // Mock typeguard
 vi.mock("$lib/typeguards/map", () => {
 	return {
-		isCityMap: (map: any) => map?.type === "city"
+		isCityMap: (map: any) => map?.type === "city",
 	};
 });
 
@@ -127,7 +127,7 @@ describe("MapController", () => {
 			previous: null,
 			contains: [],
 			npcs: [],
-			objects: []
+			objects: [],
 		};
 		MapStore.selectedBox = null;
 		MapStore.currentNavigationHover = null;
@@ -147,7 +147,7 @@ describe("MapController", () => {
 			previous: null,
 			contains: [],
 			npcs: [],
-			objects: []
+			objects: [],
 		};
 
 		MapController.currentMapState = newMap;
@@ -159,7 +159,7 @@ describe("MapController", () => {
 
 		const box: MapWithClickBox = {
 			map: { name: "BoxMap", imagePath: "box.png", type: "world" },
-			clickBox: { x: 0, y: 0, originalX: 0, originalY: 0, width: 10, height: 10, rotation: 0 }
+			clickBox: { x: 0, y: 0, originalX: 0, originalY: 0, width: 10, height: 10, rotation: 0 },
 		};
 
 		MapController.selectedBox = box;
@@ -199,7 +199,7 @@ describe("MapController", () => {
 	it("should add and remove submaps", () => {
 		const submap: MapWithClickBox = {
 			map: { name: "Submap A", imagePath: "sub.png", type: "world" },
-			clickBox: { x: 1, y: 1, originalX: 1, originalY: 1, width: 5, height: 5, rotation: 0 }
+			clickBox: { x: 1, y: 1, originalX: 1, originalY: 1, width: 5, height: 5, rotation: 0 },
 		};
 
 		MapController.addSubmap(submap);
@@ -213,7 +213,7 @@ describe("MapController", () => {
 	it("should getSubMapByName", () => {
 		const submap: MapWithClickBox = {
 			map: { name: "Submap B", imagePath: "sub.png", type: "world" },
-			clickBox: { x: 2, y: 2, originalX: 2, originalY: 2, width: 5, height: 5, rotation: 0 }
+			clickBox: { x: 2, y: 2, originalX: 2, originalY: 2, width: 5, height: 5, rotation: 0 },
 		};
 
 		MapController.addSubmap(submap);
@@ -228,7 +228,7 @@ describe("MapController", () => {
 
 		const submap: MapWithClickBox = {
 			map: { name: "Submap C", imagePath: "sub.png", type: "world" },
-			clickBox: { x: 3, y: 3, originalX: 3, originalY: 3, width: 5, height: 5, rotation: 0 }
+			clickBox: { x: 3, y: 3, originalX: 3, originalY: 3, width: 5, height: 5, rotation: 0 },
 		};
 
 		MapController.addSubmap(submap);

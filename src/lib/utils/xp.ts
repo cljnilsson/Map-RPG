@@ -5,11 +5,10 @@ export function getXPForLevel(level: number): number {
 
 	let xp = 0;
 	for (let i = 1; i < level; i++) {
-		xp += Math.floor(i + 300 * Math.pow(2, i / 7));
+		xp += Math.floor(i + 300 * 2 ** (i / 7));
 	}
 	return Math.floor(xp / 4);
 }
-
 
 export function xpToNextLevel(currentLevel: number, currentXP: number): number {
 	const xpForNextLevel = getXPForLevel(currentLevel + 1);

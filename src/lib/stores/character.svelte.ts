@@ -22,10 +22,10 @@ const Store = $state<{
 		money: {
 			gold: 1,
 			silver: 2,
-			copper: 3
-		}
+			copper: 3,
+		},
 	},
-	location: "Forest"
+	location: "Forest",
 });
 
 export default Store;

@@ -82,7 +82,7 @@ export class CityController {
 	}
 
 	public static updateResourceAmount(resource: string, newAmount: number) {
-		const toUpdate = this.getResource(resource);
+		const toUpdate = CityController.getResource(resource);
 
 		if (!toUpdate) {
 			console.warn("Trying to update resource that does not exist " + resource);
@@ -96,7 +96,7 @@ export class CityController {
 		let canAfford = true;
 
 		for (const resource of price) {
-			if (resource.amount > this.getResource(resource.name).amount) {
+			if (resource.amount > CityController.getResource(resource.name).amount) {
 				canAfford = false;
 				break;
 			}
@@ -106,21 +106,21 @@ export class CityController {
 	}
 
 	private static slimResources() {
-		return this.resources.map((r) => {
+		return CityController.resources.map((r) => {
 			return { resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount };
 		});
 	}
 
 	public static pay(price: Resource[]): boolean {
 		console.log(1);
-		if (this.canAfford(price)) {
+		if (CityController.canAfford(price)) {
 			for (const resource of price) {
-				this.getResource(resource.name).amount -= resource.amount; // Might not update object properly
+				CityController.getResource(resource.name).amount -= resource.amount; // Might not update object properly
 			}
 
 			LogController.newLog("You used the city's coffers to pay."); // More detailed costs here later
 
-			const slimmedResources = this.slimResources();
+			const slimmedResources = CityController.slimResources();
 
 			postResources(slimmedResources);
 
@@ -133,12 +133,12 @@ export class CityController {
 	// TODO, make sure it does not exceed city limit
 	public static give(price: Resource[]) {
 		for (const resource of price) {
-			this.getResource(resource.name).amount += resource.amount; // Might not update object properly
+			CityController.getResource(resource.name).amount += resource.amount; // Might not update object properly
 		}
 
 		LogController.newLog("You gained new resources"); // More detailed resources here later
 
-		const slimmedResources = this.slimResources();
+		const slimmedResources = CityController.slimResources();
 
 		postResources(slimmedResources);
 	}
@@ -146,7 +146,7 @@ export class CityController {
 	public static upgrade(price: Resource[], plot: number) {
 		if (isCityMap(MapController.currentMapState.map)) {
 			const level = MapController.currentMapState.map.city.plots[plot].level;
-			const upgraded = this.pay(
+			const upgraded = CityController.pay(
 				level === 1
 					? price
 					: price.map((v) => {

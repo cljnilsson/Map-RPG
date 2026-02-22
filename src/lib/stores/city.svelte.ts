@@ -6,13 +6,13 @@ const Store = $state<{
 	workers: number;
 	units: Unit[];
 	resources: CityResource[];
-	storage: {key: string, amount: number}[]
+	storage: { key: string; amount: number }[];
 }>({
 	population: 300,
 	workers: 4,
 	units: [],
 	resources: [],
-	storage: []
+	storage: [],
 });
 
 export default Store;

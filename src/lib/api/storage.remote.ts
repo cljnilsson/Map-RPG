@@ -8,8 +8,8 @@ import { getUser } from "$lib/utils/remoteAuthHelper";
 async function getAllStorage() {
 	return await db.query.storage.findMany({
 		with: {
-			city: true
-		}
+			city: true,
+		},
 	});
 }
 
@@ -17,12 +17,12 @@ async function getStorageByCity(cityDataId: number) {
 	return await db.query.storage.findMany({
 		where: (storage, { eq }) => eq(storage.cityId, cityDataId),
 		with: {
-			city: true
-		}
+			city: true,
+		},
 	});
 }
 
-async function cityDataExists(id: number) : Promise<boolean> {
+async function cityDataExists(id: number): Promise<boolean> {
 	const found = await db.query.cityData.findFirst({
 		where: (cityData, { eq }) => eq(cityData.id, id),
 	});
@@ -31,16 +31,16 @@ async function cityDataExists(id: number) : Promise<boolean> {
 }
 
 async function getCityDataOwnerById(id: number) {
-	const data =  await db.query.cityData.findFirst({
+	const data = await db.query.cityData.findFirst({
 		where: (cityData, { eq }) => eq(cityData.id, id),
 		with: {
 			city: true,
 			character: {
 				with: {
-					user: true
-				}
-			}
-		}
+					user: true,
+				},
+			},
+		},
 	});
 
 	return data?.character.user;
@@ -61,8 +61,8 @@ async function addOneToStorage(cityId: number, key: string, amount: number) {
 		{
 			cityId,
 			itemKey: key,
-			amount: amount
-		}
+			amount: amount,
+		},
 	]);
 
 	return rows.changes > 0;
@@ -70,7 +70,10 @@ async function addOneToStorage(cityId: number, key: string, amount: number) {
 
 async function removeOneFromStorage(cityId: number, key: string, amount: number) {
 	// TODO, if amount is less than current amount just reduce amount instead
-	const rows = await db.delete(storage).where(and(eq(storage.cityId, cityId), eq(storage.itemKey, key))).limit(1);
+	const rows = await db
+		.delete(storage)
+		.where(and(eq(storage.cityId, cityId), eq(storage.itemKey, key)))
+		.limit(1);
 
 	return rows.changes > 0;
 }
@@ -90,7 +93,7 @@ type GetReturnType = {
 };
 
 const GetOneSchema = v.object({
-	cityId: v.pipe(v.number(), v.integer(), v.toMinValue(0))
+	cityId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 });
 
 type GetOneData = v.InferOutput<typeof GetOneSchema>;
@@ -110,7 +113,7 @@ async function getAll(): Promise<GetReturnType[]> {
 const AddOneSchema = v.object({
 	cityId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 	key: v.string(),
-	amount: v.pipe(v.number(), v.integer(), v.toMinValue(1))
+	amount: v.pipe(v.number(), v.integer(), v.toMinValue(1)),
 });
 
 type AddOneData = v.InferOutput<typeof AddOneSchema>;
@@ -119,7 +122,7 @@ async function addOne(body: AddOneData): Promise<boolean> {
 	const existing = await cityDataExists(body.cityId);
 
 	if (!existing) {
-		console.warn("Trying to add storage to citydata that does not exist", body.cityId)
+		console.warn("Trying to add storage to citydata that does not exist", body.cityId);
 		return false;
 	}
 
@@ -143,7 +146,7 @@ async function addOne(body: AddOneData): Promise<boolean> {
 const RemoveOneSchema = v.object({
 	cityId: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 	key: v.string(),
-	amount: v.pipe(v.number(), v.integer(), v.toMinValue(1))
+	amount: v.pipe(v.number(), v.integer(), v.toMinValue(1)),
 });
 
 type RemoveOneData = v.InferOutput<typeof RemoveOneSchema>;
@@ -152,7 +155,7 @@ async function removeOne(body: RemoveOneData): Promise<boolean> {
 	const existing = await cityDataExists(body.cityId);
 
 	if (!existing) {
-		console.warn("Trying to remove storage from citydata that does not exist", body.cityId)
+		console.warn("Trying to remove storage from citydata that does not exist", body.cityId);
 		return false;
 	}
 

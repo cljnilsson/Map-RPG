@@ -26,6 +26,6 @@ export const POST: RequestHandler = async ({ request }) => {
 	fs.writeFileSync(filepath, buffer);
 
 	return new Response(JSON.stringify({ path: `/uploads/${filename}` }), {
-		headers: { "Content-Type": "application/json" }
+		headers: { "Content-Type": "application/json" },
 	});
 };

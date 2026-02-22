@@ -64,7 +64,7 @@ export default class MapController {
 	public static get cities(): CityMap[] {
 		const cities: CityMap[] = [];
 
-		for (const map of this.cityMaps) {
+		for (const map of MapController.cityMaps) {
 			// can be replaced with maps directly instead
 			if (isCityMap(map.map)) {
 				cities.push(map.map);
@@ -75,7 +75,7 @@ export default class MapController {
 	}
 
 	public static get ownedCities(): CityMap[] {
-		return this.cities.filter((city) => city.city.owned && city.city.unlocked);
+		return MapController.cities.filter((city) => city.city.owned && city.city.unlocked);
 	}
 
 	// ---------------
@@ -83,30 +83,32 @@ export default class MapController {
 	// ---------------
 
 	public static getMapByName(name: string) {
-		return this.maps.find((map) => map.map.name === name);
+		return MapController.maps.find((map) => map.map.name === name);
 	}
 
 	public static addSubmap(newSubmap: MapWithClickBox) {
-		MapStore.currentMapState.contains = [...this.currentMapState.contains, newSubmap];
+		MapStore.currentMapState.contains = [...MapController.currentMapState.contains, newSubmap];
 	}
 
 	public static removeSubmapByName(toRemove: string): boolean {
-		const len = this.currentMapState.contains.length;
+		const len = MapController.currentMapState.contains.length;
 
-		this.currentMapState.contains = this.currentMapState?.contains.filter((map) => map.map?.name !== toRemove);
+		MapController.currentMapState.contains = MapController.currentMapState?.contains.filter(
+			(map) => map.map?.name !== toRemove,
+		);
 
-		return len > this.currentMapState.contains.length;
+		return len > MapController.currentMapState.contains.length;
 	}
 
 	public static getSubMapByName(name: string): MapWithClickBox | undefined {
-		return this.submaps.find((map) => map.map?.name === name);
+		return MapController.submaps.find((map) => map.map?.name === name);
 	}
 
 	// convert to getter maybe
 	public static isSelectedBoxInCurrentMap(): boolean {
-		if (!this.selectedBox) {
+		if (!MapController.selectedBox) {
 			return false;
 		}
-		return !!this.getSubMapByName(this.selectedBox.map.name);
+		return !!MapController.getSubMapByName(MapController.selectedBox.map.name);
 	}
 }

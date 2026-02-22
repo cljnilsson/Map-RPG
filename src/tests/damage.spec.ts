@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import type {NPC} from "$lib/types/npc";
-import {PlayerController} from "$lib/controller/character.svelte";
+import type { NPC } from "$lib/types/npc";
+import { PlayerController } from "$lib/controller/character.svelte";
 
 describe("Damage", () => {
 	it("Player attacks NPC", () => {
@@ -13,8 +13,8 @@ describe("Damage", () => {
 			name: "Test Dummy",
 			img: "",
 			position: { x: 0, y: 0 },
-			conditions: []
-		}
+			conditions: [],
+		};
 
 		expect(targetDummy.health).toBe(hp);
 

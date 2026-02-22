@@ -145,7 +145,7 @@
 </script>
 
 <div class="container mt-3 px-5">
-	<a href={resolve("/map")}><button class="back btn btn-primary">Back</button></a>
+	<a href={resolve("/map")}><button type="button" class="back btn btn-primary">Back</button></a>
 
 	{#if dev}
 		<p>{currentMap?.name} (cityDataId: {cityData?.id}) slot: {data.plot}</p>
@@ -171,7 +171,7 @@
 				<div class="row mt-3">
 					<div class="col text-end">
 						<span class="px-3">00:00:{buildingFull.timeInSeconds}</span>
-						<button class="btn btn-primary" onclick={() => upgrade(buildingFull.cost)}>Upgrade</button>
+						<button type="button" class="btn btn-primary" onclick={() => upgrade(buildingFull.cost)}>Upgrade</button>
 					</div>
 				</div>
 			</div>

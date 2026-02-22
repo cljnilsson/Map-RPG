@@ -16,7 +16,7 @@
 				{@html pages[page]}
 			{/if}
 			{#if pageType === "right" || pages.length === 1}
-				<button class="btn btn-sm text-light close-btn" aria-label="Close" onclick={close}>
+				<button type="button" class="btn btn-sm text-light close-btn" aria-label="Close" onclick={close}>
 					<i class="bi bi-x"></i>
 				</button>
 			{/if}
@@ -25,11 +25,11 @@
 	<div class="row">
 		<div class="col" class:text-end={pageType === "right"}>
 			{#if pageType === "left"}
-				<button class="btn px-0" disabled={page === 0} aria-label="An arrow pointing to the left" onclick={() => currentPage = page - 1}>
+				<button type="button" class="btn px-0" disabled={page === 0} aria-label="An arrow pointing to the left" onclick={() => currentPage = page - 1}>
 					<i class="bi bi-arrow-bar-left"></i>
 				</button>
 			{:else}
-				<button class="btn px-0" disabled={page >= pages.length - 1} aria-label="An arrow pointing to the right" onclick={() => currentPage = page + 1}>
+				<button type="button" class="btn px-0" disabled={page >= pages.length - 1} aria-label="An arrow pointing to the right" onclick={() => currentPage = page + 1}>
 					<i class="bi bi-arrow-bar-right"></i>
 				</button>
 			{/if}
@@ -49,7 +49,7 @@
 		right: -1rem;
 		z-index: 10;
 	}
-	
+
 	.book-frame {
 		background: url("parchment.jpg") no-repeat;
 		background-size: 100% 700px;

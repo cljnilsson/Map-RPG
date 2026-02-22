@@ -51,7 +51,7 @@
 			</li>
 		</ul>
 		<div class="text-end py-2">
-			<button class="btn btn-primary" onclick={goInside}>Go Inside</button>
+			<button type="button" class="btn btn-primary" onclick={goInside}>Go Inside</button>
 		</div>
 	</div>
 </div>

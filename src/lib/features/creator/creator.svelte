@@ -105,22 +105,22 @@
 					<!-- Side Menu (absolute) -->
 					<div class="char-menu">
 						<div>
-							<button class="btn" class:activeSelection={view === "character"} onclick={() => (view = "character")}
+							<button type="button" class="btn" class:activeSelection={view === "character"} onclick={() => (view = "character")}
 								><h5>Character</h5></button
 							>
 						</div>
 						<div>
-							<button class="btn" class:activeSelection={view === "class"} onclick={() => (view = "class")}
+							<button type="button" class="btn" class:activeSelection={view === "class"} onclick={() => (view = "class")}
 								><h5>Class</h5></button
 							>
 						</div>
 						<div>
-							<button class="btn" class:activeSelection={view === "faith"} onclick={() => (view = "faith")}
+							<button type="button" class="btn" class:activeSelection={view === "faith"} onclick={() => (view = "faith")}
 								><h5>Faith</h5></button
 							>
 						</div>
 						<div>
-							<button class="btn" class:activeSelection={view === "image"} onclick={() => (view = "image")}
+							<button type="button" class="btn" class:activeSelection={view === "image"} onclick={() => (view = "image")}
 								><h5>Image</h5></button
 							>
 						</div>
@@ -252,7 +252,7 @@
 			</div>
 		</div>
 		<div class="text-center">
-			<button class="btn btn-lg btn-primary" onclick={createCharater} disabled={totalLeft > 0 || age <= 5 || name.length === 0}
+			<button type="button" class="btn btn-lg btn-primary" onclick={createCharater} disabled={totalLeft > 0 || age <= 5 || name.length === 0}
 				>Create!</button
 			>
 		</div>

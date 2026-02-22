@@ -8,7 +8,7 @@
 <ul class="nav nav-tabs">
 	{#each tabs as tab, i}
 		<li class="nav-item">
-			<button class="nav-link" class:active={i === 0} data-bs-toggle="tab" data-bs-target={"#" + tab.target}>
+			<button type="button" class="nav-link" class:active={i === 0} data-bs-toggle="tab" data-bs-target={"#" + tab.target}>
 				{tab.title}
 			</button>
 		</li>

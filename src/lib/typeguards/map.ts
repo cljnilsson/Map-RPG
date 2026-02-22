@@ -12,5 +12,4 @@ function isWorldMap(map: MapType): map is WorldMap {
 	return "type" in map && map.type === "world";
 }
 
-
 export { isCityMap, isBuildingMap, isWorldMap };

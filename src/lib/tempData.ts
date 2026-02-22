@@ -6,7 +6,7 @@ import { getGameobject } from "./data/gameObjects";
 const wo: WorldMap = {
 	name: "Westeros",
 	type: "world",
-	imagePath: "/map1.webp"
+	imagePath: "/map1.webp",
 };
 
 const winterfellO: CityMap = {
@@ -33,7 +33,7 @@ const winterfellO: CityMap = {
 			{ x: 1165, y: 770, building: undefined, plotType: "default", level: 1 },
 			{ x: 475, y: 940, building: undefined, plotType: "default", level: 1 },
 		],
-	}
+	},
 };
 
 const kingsLandingO: CityMap = {
@@ -48,8 +48,8 @@ const kingsLandingO: CityMap = {
 		population: 1000,
 		resources: [],
 		units: [],
-		plots: []
-	}
+		plots: [],
+	},
 };
 
 const starkKeepO: BuildingMap = {
@@ -58,26 +58,37 @@ const starkKeepO: BuildingMap = {
 	imagePath: "starkKeep.webp",
 	unlocked: true,
 	npcs: [],
-	upgrades: []
+	upgrades: [],
 };
 
 export const world: CustomMap = {
 	map: wo,
 	previous: null,
 	contains: [
-		{ map: kingsLandingO, clickBox: { x: 715, y: 2130, originalX: 715, originalY: 2130, width: 100, height: 80, rotation: 0 } },
-		{ map: winterfellO, clickBox: { x: 500, y: 1000, originalX: 500, originalY: 1000, width: 120, height: 90, rotation: 0 } }
+		{
+			map: kingsLandingO,
+			clickBox: { x: 715, y: 2130, originalX: 715, originalY: 2130, width: 100, height: 80, rotation: 0 },
+		},
+		{
+			map: winterfellO,
+			clickBox: { x: 500, y: 1000, originalX: 500, originalY: 1000, width: 120, height: 90, rotation: 0 },
+		},
 	],
 	objects: [],
-	npcs: []
+	npcs: [],
 };
 
 export const winterfell: CustomMap = {
 	map: winterfellO,
 	previous: world,
-	contains: [{ map: starkKeepO, clickBox: { x: 730, y: 170, originalX: 730, originalY: 170, width: 465, height: 250, rotation: 340 } }],
+	contains: [
+		{
+			map: starkKeepO,
+			clickBox: { x: 730, y: 170, originalX: 730, originalY: 170, width: 465, height: 250, rotation: 340 },
+		},
+	],
 	objects: [],
-	npcs: []
+	npcs: [],
 };
 
 export const kingsLanding: CustomMap = {
@@ -85,7 +96,7 @@ export const kingsLanding: CustomMap = {
 	previous: world,
 	contains: [],
 	objects: [],
-	npcs: []
+	npcs: [],
 };
 
 export const starkKeep: CustomMap = {
@@ -101,9 +112,9 @@ export const starkKeep: CustomMap = {
 			conditions: [],
 			items: [getItem("test-helm1"), getItem("test-armor1"), getItem("test-sword1")],
 			health: 100,
-			maxHealth: 100
-		} as VendorNPC
-	]
+			maxHealth: 100,
+		} as VendorNPC,
+	],
 };
 
 export const maps: CustomMap[] = [world, winterfell, kingsLanding, starkKeep];

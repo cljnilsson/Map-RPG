@@ -1,7 +1,7 @@
 <script lang="ts">
 import SettingsController from "$lib/controller/settings.svelte";
 import KeyBinder from "$lib/components/utils/keybind.svelte";
-import { type ToggleSetting, type SettingChunk, type KeybindSetting } from "$lib/types/settings";
+import type { ToggleSetting, SettingChunk, KeybindSetting } from "$lib/types/settings";
 
 let currentlyListening: string | undefined = $state(undefined);
 let searchText: string = $state("");

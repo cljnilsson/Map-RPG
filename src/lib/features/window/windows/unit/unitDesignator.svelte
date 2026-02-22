@@ -47,7 +47,7 @@
 		{unit}
 	</div>
 	<div class="col-xl-4 col-md-5 text-center">
-		<button class="btn btn-outline-light" onclick={onAdd} disabled={available <= 0}>+</button>
-		<button class="btn btn-outline-light" onclick={onRemove} disabled={unit <= min}>-</button>
+		<button type="button" class="btn btn-outline-light" onclick={onAdd} disabled={available <= 0}>+</button>
+		<button type="button" class="btn btn-outline-light" onclick={onRemove} disabled={unit <= min}>-</button>
 	</div>
 </div>
