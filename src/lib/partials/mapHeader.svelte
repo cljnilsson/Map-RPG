@@ -46,34 +46,40 @@
 
 {#if MapController.currentMapState}
   <h3>{MapController.currentMapState.map?.name}</h3>
-  {#if MapController.currentMapState.previous}
-    <button type="button" onclick={onBack}>Back</button>
-  {/if}
-  {#if dev}
-    <button type="button" onclick={newZone}>New</button>
-    <button type="button" onclick={toggleEditMode}
-      >Edit Mode [<b>{MapController.editMode ? "on" : "off"}</b>]</button
-    >
-    {#if MapController.editMode && MapController.selectedBox && MapController.isSelectedBoxInCurrentMap()}
-      <button
-        type="button"
-        onclick={() => {
-          if (MapController.selectedBox) {
-            MapController.removeSubmapByName(
-              MapController.selectedBox.map.name,
-            );
-            MapController.selectedBox = null;
-          }
-        }}
-      >
-        Delete
-      </button>
-      <!--
-				<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.height} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.width} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.rotation} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.x} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={found.clickBox.y} />-->
-    {/if}
-  {/if}
+  <div class="border p-2 mb-2">
+      {#if MapController.currentMapState.previous}
+        <button class="btn btn-primary" type="button" onclick={onBack}>Back</button>
+      {/if}
+      {#if dev}
+        <button type="button" class="btn btn-primary" onclick={newZone}>New</button>
+        <button type="button" class="btn btn-primary" onclick={toggleEditMode}
+          >Edit Mode [<b>{MapController.editMode ? "on" : "off"}</b>]</button
+        >
+        {#if MapController.editMode && MapController.selectedBox && MapController.isSelectedBoxInCurrentMap()}
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick={() => {
+              if (MapController.selectedBox) {
+                MapController.removeSubmapByName(
+                  MapController.selectedBox.map.name,
+                );
+                MapController.selectedBox = null;
+              }
+            }}
+          >
+            Delete
+          </button>
+        {/if}
+        {#if MapController.editMode && MapController?.selectedBox}
+            <div>
+				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.height} />
+				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.width} />
+				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.rotation} />
+				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.x} />
+				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.y} />
+            </div>
+        {/if}
+      {/if}
+  </div>
 {/if}
