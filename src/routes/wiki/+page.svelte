@@ -27,12 +27,15 @@
 			</div>
 		</div>
 		<div class="col">
+		    <h3>{mode !== "none" ? mode : ""}</h3>
 			{#if mode === "buildings"}
-				{#each getAllBuildings() as building (building.id)}
-					<div>{building.name}</div>
+				{#each getAllBuildings().sort((a, b) =>  a.name.localeCompare(b.name)) as building (building.id)}
+					<div>
+					    <a href="/wiki/buildings/{building.id}">{building.name}</a>
+					</div>
 				{/each}
 			{:else if mode === "quests"}
-				{#each getAllQuests() as quest (quest.id)}
+				{#each getAllQuests().sort((a, b) =>  a.title.localeCompare(b.title)) as quest (quest.id)}
                     <div class="row">
                         <div class="col">
                             <h3>{quest.title}</h3>
@@ -41,15 +44,15 @@
                     </div>
 				{/each}
 			{:else if mode === "units"}
-				{#each getAllUnits() as unit (unit.id)}
+				{#each getAllUnits().sort((a, b) =>  a.name.localeCompare(b.name)) as unit (unit.id)}
 					<div>{unit.name}</div>
 				{/each}
 			{:else if mode === "items"}
-				{#each getAllItems() as item (item.id)}
+				{#each getAllItems().sort((a, b) =>  a.name.localeCompare(b.name)) as item (item.id)}
 					<div>{item.name}</div>
 				{/each}
 			{:else if mode === "resources"}
-				{#each getAllResources() as resource (resource.name)}
+				{#each getAllResources().sort((a, b) =>  a.name.localeCompare(b.name)) as resource (resource.name)}
                 <div class="row">
                     <div class="col-auto">
                         <img src={resource.iconPath} alt={resource.name} width="32" height="32" />

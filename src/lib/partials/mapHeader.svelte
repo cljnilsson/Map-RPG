@@ -46,7 +46,7 @@
 
 {#if MapController.currentMapState}
   <h3>{MapController.currentMapState.map?.name}</h3>
-  <div class="border p-2 mb-2">
+  <div class="border rounded shadow p-2 mb-2">
       {#if MapController.currentMapState.previous}
         <button class="btn btn-primary" type="button" onclick={onBack}>Back</button>
       {/if}
@@ -72,14 +72,27 @@
           </button>
         {/if}
         {#if MapController.editMode && MapController?.selectedBox}
-            <div>
-				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.height} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.width} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.rotation} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.x} />
-				<input type="number" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.y} />
+            <div class="row">
+                <div class="col-12 col-xl-3">
+                    <label for="sheight">Height</label>
+    				<input type="number" name="sheight" class="form-control" placeholder="Height" bind:value={MapController.selectedBox.clickBox.height} />
+    				<label for="swidth">Width</label>
+                    <input type="number" name="swidth" class="form-control" placeholder="Width" bind:value={MapController.selectedBox.clickBox.width} />
+    				<label for="srotation">Rotation</label>
+                    <input type="number" name="srotation" class="form-control" placeholder="Rotation" bind:value={MapController.selectedBox.clickBox.rotation} />
+    				<label for="sx">X</label>
+                    <input type="number" name="sx" class="form-control" placeholder="X" bind:value={MapController.selectedBox.clickBox.x} />
+                    <label for="sy">Y</label>
+    				<input type="number" name="sy" class="form-control" placeholder="Y" bind:value={MapController.selectedBox.clickBox.y} />
+                </div>
             </div>
         {/if}
       {/if}
   </div>
 {/if}
+
+<style>
+    .border {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+</style>
