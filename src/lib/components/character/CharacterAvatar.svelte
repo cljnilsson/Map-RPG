@@ -34,8 +34,11 @@
 	aria-valuemax="100"
 >
 	<div class="progress-bar bg-success" style="width: {(CharacterStore.character.health / CharacterStore.character.maxHealth) * 100}%">
-		{CharacterStore.character.health} / {CharacterStore.character.maxHealth}
 	</div>
+
+	<span class="text-center w-100">
+        {CharacterStore.character.health} / {CharacterStore.character.maxHealth}
+    </span>
 </div>
 <div
 	class="progress mt-2"
@@ -46,8 +49,11 @@
 	aria-valuemax="100"
 >
 	<div class="progress-bar bg-purple" style="width: {(CharacterStore.character.xp / xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)) * 100}%">
-		{CharacterStore.character.xp} / {xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)}
 	</div>
+
+	<span class="text-center w-100">
+	    {CharacterStore.character.xp} / {xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)}
+    </span>
 </div>
 
 <style>
