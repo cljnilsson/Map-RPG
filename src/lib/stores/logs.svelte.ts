@@ -1,11 +1,12 @@
-type Logs = {
+type Log = {
 	timestamp: Date;
-	message: string;
+	message: string | number;
+	color?: string;
 	type: "info" | "error" | "warning";
 };
 
 const Store = $state<{
-	logs: Logs[];
+	logs: Log[];
 	currentPage: number;
 }>({ logs: [], currentPage: 1 });
 

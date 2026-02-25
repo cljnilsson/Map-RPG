@@ -4,7 +4,6 @@
 
   let email = $state("");
   let password = $state("");
-  let name = $state(""); // TODO
   let errorMsg = $state("");
   let loading = $state(false);
 
@@ -14,8 +13,8 @@
     }
   }
 
-  async function attemptLogin() {
-    const { data, error } = await authClient.signIn.email(
+  function attemptLogin() {
+    authClient.signIn.email(
       {
         email: email, // required
         password: password, // required
@@ -37,8 +36,8 @@
     );
   }
 
-  async function attemptLogout() {
-    await authClient.signOut();
+  function attemptLogout() {
+    authClient.signOut();
     // = null;
   }
   const session = authClient.useSession();

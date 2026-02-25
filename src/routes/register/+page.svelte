@@ -34,6 +34,12 @@
     return true;
   }
 
+  function onEnter(event: KeyboardEvent) {
+    if (event.key === "Enter" || event.key === " ") {
+      attemptRegister();
+    }
+  }
+
   async function attemptRegister() {
     if (!validate) {
       return;
@@ -56,6 +62,7 @@
         onError: (ctx) => {
           // display the error message
           errorMsg = ctx.error.message;
+          console.warn(errorMsg);
           loading = false;
         },
       },
@@ -84,6 +91,7 @@
             name="email"
             placeholder="Email"
             bind:value={email}
+            onkeydown={onEnter}
           />
         </div>
         <div class="mb-3">
@@ -95,6 +103,7 @@
             name="username"
             placeholder="Username"
             bind:value={name}
+            onkeydown={onEnter}
           />
         </div>
         <div class="mb-3">
@@ -106,6 +115,7 @@
             name="password"
             placeholder="Password"
             bind:value={password}
+            onkeydown={onEnter}
           />
         </div>
         <div class="mb-3">
@@ -114,6 +124,7 @@
             type="password"
             placeholder="Confirm password"
             bind:value={passwordConfirm}
+            onkeydown={onEnter}
           />
         </div>
         <div class="mt-3 text-center">

@@ -8,7 +8,13 @@ import dayjs from "dayjs";
 const intervalSeconds = 60;
 
 async function runTask() {
-	console.log("Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"));
+	console.log(
+		"Running server task at",
+		dayjs().format("YYYY-MM-DD HH:mm:ss"),
+		"with interval",
+		intervalSeconds,
+		"seconds",
+	);
 
 	const limit = 200;
 	//const production = 1; old harcoded remove once reading from db is proven stable.
@@ -61,13 +67,15 @@ const connections: Set<Client> = new Set();
 let loopRunning = false;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+let prevConnCount: number = 0;
 
 async function resourceLoop() {
 	if (loopRunning) return;
 	loopRunning = true;
 
+	await runTask(); // This should run regardless of clients being connected
+
 	while (connections.size > 0) {
-		await runTask();
 		const newResources = await getResources();
 		const payload: ServerPing = { timestamp: Date.now(), data: newResources };
 
@@ -76,7 +84,15 @@ async function resourceLoop() {
 			if (error) connections.delete(client);
 		}
 
-		console.log("Active connections:", connections.size);
+		prevConnCount = connections.size;
+		console.log(
+			"Active connections:",
+			connections.size,
+			"prev:",
+			prevConnCount,
+			"diff:",
+			prevConnCount - connections.size,
+		);
 		await delay(1000 * intervalSeconds);
 	}
 

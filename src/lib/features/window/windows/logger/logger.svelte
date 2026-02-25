@@ -32,7 +32,7 @@
   {#snippet body()}
     {#each currentLogs as logEntry, i (i)}
       <p in:fly={{ y: 6, duration: 180 }}>
-        [{dayjs(logEntry.timestamp).format("HH:mm")}] {logEntry.message}
+        [{dayjs(logEntry.timestamp).format("HH:mm")}] <span style={"color:" + logEntry.color ? logEntry.color : "default" +";"}>{logEntry.message}</span>
       </p>
     {/each}
   {/snippet}
