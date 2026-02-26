@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { NotificationController } from "$lib/controller/notification.svelte";
+import NotificationController from "$lib/controller/notification.svelte";
 import NotificationStore from "$lib/stores/notification.svelte";
 import LogController from "$lib/controller/logs.svelte";
 
@@ -13,7 +13,7 @@ vi.mock("$lib/stores/notification.svelte", () => ({
 vi.mock("$lib/controller/logs.svelte", () => {
 	return {
 		default: {
-			newLog: vi.fn(),
+			newLogSimple: vi.fn(),
 		},
 	};
 });
@@ -32,7 +32,7 @@ describe("NotificationController", () => {
 			message: "Test message",
 			type: "info",
 		});
-		expect(LogController.newLog).toHaveBeenCalledWith("[Notification]: Test message.", "info");
+		expect(LogController.newLogSimple).toHaveBeenCalledWith("[Notification]: Test message.", "info");
 	});
 
 	it("adds a valid warning notification", () => {
@@ -43,14 +43,14 @@ describe("NotificationController", () => {
 			message: "Warning message",
 			type: "warning",
 		});
-		expect(LogController.newLog).toHaveBeenCalledWith("[Notification]: Warning message.", "warning");
+		expect(LogController.newLogSimple).toHaveBeenCalledWith("[Notification]: Warning message.", "warning");
 	});
 
 	it("does not add notification for empty message", () => {
 		NotificationController.newNotification("");
 
 		expect(NotificationStore.queue).toHaveLength(0);
-		expect(LogController.newLog).not.toHaveBeenCalled();
+		expect(LogController.newLogSimple).not.toHaveBeenCalled();
 	});
 
 	it("does not add notification for very long message (>300)", () => {
@@ -58,6 +58,6 @@ describe("NotificationController", () => {
 		NotificationController.newNotification(longMessage);
 
 		expect(NotificationStore.queue).toHaveLength(0);
-		expect(LogController.newLog).not.toHaveBeenCalled();
+		expect(LogController.newLogSimple).not.toHaveBeenCalled();
 	});
 });

@@ -2,19 +2,19 @@ import { describe, it, expect, test } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 
 import LoggerWindow from "$lib/features/window/windows/logger/logger.svelte";
-import LoggerStore from "$lib/stores/logs.svelte";
 import WindowController from "$lib/controller/window.svelte";
+import LogsController from "$lib/controller/logs.svelte";
 
 describe("Logger", () => {
 	it("Works", () => {
 		const toAdd = "Unique Demo Message";
 
-		expect(LoggerStore.logs.length).toBe(0);
+		expect(LogsController.logs.length).toBe(0);
 
-		LoggerStore.logs = [...LoggerStore.logs, { timestamp: new Date(), message: toAdd, type: "info" }];
+		LogsController.newLogSimple(toAdd, "info");
 
-		expect(LoggerStore.logs.length).toBe(1);
-		expect(LoggerStore.logs[0]?.message).toBe(toAdd);
+		expect(LogsController.logs.length).toBe(1);
+		expect(LogsController.logs[0]?.message[0].text).toBe(toAdd);
 	});
 });
 

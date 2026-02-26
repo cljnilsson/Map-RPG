@@ -15,7 +15,7 @@ vi.mock("$lib/stores/quest.svelte", () => {
 vi.mock("$lib/controller/logs.svelte", () => {
 	return {
 		default: {
-			newLog: vi.fn(),
+			newLogSimple: vi.fn(),
 		},
 	};
 });
@@ -66,7 +66,7 @@ describe("QuestController", () => {
 
 		expect(added).toBe(true);
 		expect(QuestStore.quests).toContainEqual(sampleQuest);
-		expect(LogController.newLog).toHaveBeenCalledWith("You have accepted the quest: Find the Sword.");
+		expect(LogController.newLogSimple).toHaveBeenCalledWith("You have accepted the quest: Find the Sword.");
 		expect(SaveController.saveQuests).toHaveBeenCalled();
 	});
 
@@ -77,7 +77,7 @@ describe("QuestController", () => {
 
 		expect(added).toBe(false);
 		expect(QuestStore.quests.length).toBe(1);
-		expect(LogController.newLog).not.toHaveBeenCalled();
+		expect(LogController.newLogSimple).not.toHaveBeenCalled();
 		expect(SaveController.saveQuests).not.toHaveBeenCalled();
 	});
 
@@ -88,7 +88,7 @@ describe("QuestController", () => {
 
 		expect(removed).toBe(true);
 		expect(QuestStore.quests).not.toContainEqual(sampleQuest);
-		expect(LogController.newLog).toHaveBeenCalledWith("You have forfeit the quest: Find the Sword.");
+		expect(LogController.newLogSimple).toHaveBeenCalledWith("You have forfeit the quest: Find the Sword.");
 		expect(SaveController.saveQuests).toHaveBeenCalled();
 	});
 
@@ -97,7 +97,7 @@ describe("QuestController", () => {
 
 		expect(removed).toBe(false);
 		expect(QuestStore.quests.length).toBe(0);
-		expect(LogController.newLog).not.toHaveBeenCalled();
+		expect(LogController.newLogSimple).not.toHaveBeenCalled();
 		expect(SaveController.saveQuests).not.toHaveBeenCalled();
 	});
 

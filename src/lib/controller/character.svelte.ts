@@ -154,29 +154,29 @@ export class PlayerController extends CharacterController {
 
 	public static giveItem(i: Item, amount: number = 1): boolean {
 		if (i.unique && PlayerStore.inventory.some((slot) => slot.item.name === i.name)) {
-			LogController.newLog(`You already have a unique item: ${i.name}.`, "info");
+			LogController.newLogSimple(`You already have a unique item: ${i.name}.`, "info");
 			return false;
 		}
 
 		if (PlayerStore.inventory.length < PlayerController.inventorySize) {
 			PlayerStore.inventory = [...PlayerStore.inventory, { item: i, amount }];
 			const itemLabel = amount > 1 ? `${amount}x ${i.name}` : `a ${i.name}`;
-			LogController.newLog(`You received ${itemLabel}.`, "info");
+			LogController.newLogSimple(`You received ${itemLabel}.`, "info");
 			return true;
 		}
 
-		LogController.newLog("You need more inventory space.", "warning");
+		LogController.newLogSimple("You need more inventory space.", "warning");
 		return false;
 	}
 
 	public static buyItem(item: VendorItem): boolean {
 		if (!PlayerController.canAfford(item.price.copper, item.price.silver, item.price.gold)) {
-			LogController.newLog("You cannot afford this item.", "warning");
+			LogController.newLogSimple("You cannot afford this item.", "warning");
 			return false;
 		}
 
 		if (PlayerStore.inventory.length >= PlayerController.inventorySize) {
-			LogController.newLog("You need more inventory space.", "warning");
+			LogController.newLogSimple("You need more inventory space.", "warning");
 			return false;
 		}
 
@@ -224,7 +224,7 @@ export class PlayerController extends CharacterController {
 			const removedItem = PlayerStore.inventory[itemIndex];
 			PlayerStore.inventory = PlayerStore.inventory.filter((_, index) => index !== itemIndex);
 
-			LogController.newLog(`You lost ${removedItem.item.name}.`, "info");
+			LogController.newLogSimple(`You lost ${removedItem.item.name}.`, "info");
 		} else {
 			console.error("Trying to remove item that does not exist");
 		}
@@ -235,7 +235,7 @@ export class PlayerController extends CharacterController {
 		const damage = amount + PlayerStore.character.stats[modifier];
 		target.health -= damage;
 
-		LogController.newLog(`You dealt ${damage} to ${target.name}.`, "info");
+		LogController.newLogSimple(`You dealt ${damage} to ${target.name}.`, "info");
 	}
 
 	public static damage(amount: number) {
@@ -246,6 +246,6 @@ export class PlayerController extends CharacterController {
 
 		PlayerStore.character.health -= amount;
 
-		LogController.newLog(`You took ${amount} damage.`, "warning");
+		LogController.newLogSimple(`You took ${amount} damage.`, "warning");
 	}
 }

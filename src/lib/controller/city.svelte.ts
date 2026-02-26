@@ -118,7 +118,7 @@ export class CityController {
 				CityController.getResource(resource.name).amount -= resource.amount; // Might not update object properly
 			}
 
-			LogController.newLog("You used the city's coffers to pay."); // More detailed costs here later
+			LogController.newLogSimple("You used the city's coffers to pay."); // More detailed costs here later
 
 			const slimmedResources = CityController.slimResources();
 
@@ -136,7 +136,7 @@ export class CityController {
 			CityController.getResource(resource.name).amount += resource.amount; // Might not update object properly
 		}
 
-		LogController.newLog("You gained new resources"); // More detailed resources here later
+		LogController.newLogSimple("You gained new resources"); // More detailed resources here later
 
 		const slimmedResources = CityController.slimResources();
 

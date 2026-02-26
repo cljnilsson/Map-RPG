@@ -15,7 +15,7 @@ class QuestController {
 	public addQuest(quest: Quest) {
 		if (!this.hasQuest(quest)) {
 			this.quests = [...this.quests, quest];
-			LogController.newLog(`You have accepted the quest: ${quest.title}.`);
+			LogController.newLogSimple(`You have accepted the quest: ${quest.title}.`);
 			SaveController.saveQuests();
 			return true;
 		}
@@ -25,7 +25,7 @@ class QuestController {
 	public removeQuest(quest: Quest) {
 		if (this.hasQuest(quest)) {
 			this.quests = this.quests.filter((q) => q.id !== quest.id);
-			LogController.newLog(`You have forfeit the quest: ${quest.title}.`);
+			LogController.newLogSimple(`You have forfeit the quest: ${quest.title}.`);
 			SaveController.saveQuests();
 			return true;
 		}

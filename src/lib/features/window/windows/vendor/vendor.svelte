@@ -1,7 +1,7 @@
 <script lang="ts">
 import Window from "$lib/features/window/window.svelte";
 import WindowController from "$lib/controller/window.svelte";
-import { NotificationController } from "$lib/controller/notification.svelte";
+import NotificationController from "$lib/controller/notification.svelte";
 import type { VendorNPC } from "$lib/types/npc";
 import { q2c } from "$lib/utils/itemQuality";
 import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";

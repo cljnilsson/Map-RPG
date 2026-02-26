@@ -26,7 +26,7 @@ class SettingsController {
 
 	set keybindTooltips(value: boolean) {
 		this._keybindTooltips = value;
-		LogController.newLog(`keybind toolips set to ${value}`, "info");
+		LogController.newLogSimple(`keybind toolips set to ${value}`, "info");
 	}
 
 	get offlineMode() {
@@ -35,7 +35,7 @@ class SettingsController {
 
 	set offlineMode(value: boolean) {
 		this._offlineMode = value;
-		LogController.newLog(`offline mode set to ${value}`, "info");
+		LogController.newLogSimple(`offline mode set to ${value}`, "info");
 	}
 
 	get darkMode() {
@@ -44,7 +44,7 @@ class SettingsController {
 
 	set darkMode(value: boolean) {
 		this._darkMode = value;
-		LogController.newLog(`dark mode set to ${value}`, "info");
+		LogController.newLogSimple(`dark mode set to ${value}`, "info");
 	}
 
 	get showInventory() {
@@ -53,7 +53,7 @@ class SettingsController {
 
 	set showInventory(value: boolean) {
 		this._showInventory = value;
-		LogController.newLog(`showInventory set to ${value}`, "info");
+		LogController.newLogSimple(`showInventory set to ${value}`, "info");
 	}
 
 	get showNavigation() {
@@ -62,7 +62,7 @@ class SettingsController {
 
 	set showNavigation(value: boolean) {
 		this._showNavigation = value;
-		LogController.newLog(`dark mode set to ${value}`, "info");
+		LogController.newLogSimple(`dark mode set to ${value}`, "info");
 	}
 
 	get showQuests() {
@@ -71,7 +71,7 @@ class SettingsController {
 
 	set showQuests(value: boolean) {
 		this._showQuests = value;
-		LogController.newLog(`showQuests set to ${value}`, "info");
+		LogController.newLogSimple(`showQuests set to ${value}`, "info");
 	}
 
 	get showEvents() {
@@ -80,7 +80,7 @@ class SettingsController {
 
 	set showEvents(value: boolean) {
 		this._showEvents = value;
-		LogController.newLog(`showEvents set to ${value}`, "info");
+		LogController.newLogSimple(`showEvents set to ${value}`, "info");
 	}
 
 	get showLogs() {
@@ -89,7 +89,7 @@ class SettingsController {
 
 	set showLogs(value: boolean) {
 		this._showLogs = value;
-		LogController.newLog(`showLogs set to ${value}`, "info");
+		LogController.newLogSimple(`showLogs set to ${value}`, "info");
 	}
 
 	get showResources() {
@@ -98,7 +98,7 @@ class SettingsController {
 
 	set showResources(value: boolean) {
 		this._showResources = value;
-		LogController.newLog(`showResources set to ${value}`, "info");
+		LogController.newLogSimple(`showResources set to ${value}`, "info");
 	}
 
 	get inventoryKeybind() {
@@ -107,7 +107,7 @@ class SettingsController {
 
 	set inventoryKeybind(value: string) {
 		this._inventoryKeybind = value;
-		LogController.newLog(`inventory keybind set to ${value}`, "info");
+		LogController.newLogSimple(`inventory keybind set to ${value}`, "info");
 	}
 
 	get resourcesKeybind() {
@@ -116,7 +116,7 @@ class SettingsController {
 
 	set resourcesKeybind(value: string) {
 		this._resourcesKeybind = value;
-		LogController.newLog(`resources keybind set to ${value}`, "info");
+		LogController.newLogSimple(`resources keybind set to ${value}`, "info");
 	}
 
 	get backKeybind() {
@@ -125,7 +125,7 @@ class SettingsController {
 
 	set backKeybind(value: string) {
 		this._backKeybind = value;
-		LogController.newLog(`back keybind set to ${value}`, "info");
+		LogController.newLogSimple(`back keybind set to ${value}`, "info");
 	}
 
 	get questsKeybind() {
@@ -134,7 +134,7 @@ class SettingsController {
 
 	set questsKeybind(value: string) {
 		this._questsKeybind = value;
-		LogController.newLog(`quests keybind set to ${value}`, "info");
+		LogController.newLogSimple(`quests keybind set to ${value}`, "info");
 	}
 
 	get logsKeybind() {
@@ -143,7 +143,7 @@ class SettingsController {
 
 	set logsKeybind(value: string) {
 		this._logsKeybind = value;
-		LogController.newLog(`logs keybind set to ${value}`, "info");
+		LogController.newLogSimple(`logs keybind set to ${value}`, "info");
 	}
 
 	get eventsKeybind() {
@@ -152,7 +152,7 @@ class SettingsController {
 
 	set eventsKeybind(value: string) {
 		this._eventsKeybind = value;
-		LogController.newLog(`events keybind set to ${value}`, "info");
+		LogController.newLogSimple(`events keybind set to ${value}`, "info");
 	}
 
 	get navigationKeybind() {
@@ -161,7 +161,7 @@ class SettingsController {
 
 	set navigationKeybind(value: string) {
 		this._navigationKeybind = value;
-		LogController.newLog(`navigation keybind set to ${value}`, "info");
+		LogController.newLogSimple(`navigation keybind set to ${value}`, "info");
 	}
 
 	get allKeybinds() {
@@ -180,7 +180,7 @@ class SettingsController {
 		const resp = await getSettingForUser({ userId });
 
 		if (!resp) {
-			LogController.newLog(`Failed to load settings for user ${userId}`, "error");
+			LogController.newLogSimple(`Failed to load settings for user ${userId}`, "error");
 			return;
 		}
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import LoggerStore from "$lib/stores/logs.svelte";
+	import LogController from "$lib/controller/logs.svelte";
 	import { fly } from "svelte/transition";
 	import { onMount } from "svelte";
 	import NotificationStore from "$lib/stores/notification.svelte";
@@ -29,14 +30,7 @@
 	function doIt() {
 		if (currentNotificationMessage) {
 			showNotification = true;
-			LoggerStore.logs = [
-				...LoggerStore.logs,
-				{
-					message: currentNotificationMessage.message,
-					type: currentNotificationMessage.type,
-					timestamp: new Date()
-				}
-			];
+			LogController.newLogSimple(currentNotificationMessage.message, currentNotificationMessage.type);
 			setTimeout(onNotificationEnd, duration);
 		}
 	}

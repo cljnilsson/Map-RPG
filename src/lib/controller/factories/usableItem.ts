@@ -28,7 +28,7 @@ export function createBookItem(item: RegularItem, pages: string[]): UsableItem {
 			}
 
 			console.warn("You cannot use this item right now.");
-			LogController.newLog("You cannot use this item right now.", "warning");
+			LogController.newLogSimple("You cannot use this item right now.", "warning");
 			return false;
 		},
 	};

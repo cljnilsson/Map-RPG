@@ -1,9 +1,4 @@
-type Log = {
-	timestamp: Date;
-	message: string | number;
-	color?: string;
-	type: "info" | "error" | "warning";
-};
+import type { Log } from "$lib/types/logs";
 
 const Store = $state<{
 	logs: Log[];

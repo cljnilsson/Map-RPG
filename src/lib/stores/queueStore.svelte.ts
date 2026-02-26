@@ -18,7 +18,7 @@ if (typeof window !== "undefined") {
 				if (dayjs(q.time.end).isBefore(now)) {
 					q.onComplete();
 
-					LogController.newLog(`Finished ${q.type ?? "task"}: ${q.name}`);
+					LogController.newLogSimple(`Finished ${q.type ?? "task"}: ${q.name}`);
 
 					store.queue = store.queue.filter((item) => item !== q);
 				}

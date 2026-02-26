@@ -58,7 +58,7 @@
       <button
         type="button"
         class="btn btn-light mx-1"
-        onclick={() => LogController.newLog("Test")}
+        onclick={() => LogController.newLogSimple("Test")}
       >
         Test
       </button>

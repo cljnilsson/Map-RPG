@@ -40,14 +40,14 @@ export default class StorageController {
 			if (getMyStorage) {
 				StorageController.inventory = [...StorageController.inventory, { item, amount }];
 				const itemLabel = amount > 1 ? `${amount}x ${item.name}` : `a ${item.name}`;
-				LogController.newLog(`You received ${itemLabel}.`, "info");
+				LogController.newLogSimple(`You received ${itemLabel}.`, "info");
 				return true;
 			}
 
 			return false;
 		}
 
-		LogController.newLog("You need more inventory space.", "warning");
+		LogController.newLogSimple("You need more inventory space.", "warning");
 		return false;
 	}
 
@@ -82,7 +82,7 @@ export default class StorageController {
 			if (success) {
 				StorageController.inventory = StorageController.inventory.filter((_, index) => index !== itemIndex);
 
-				LogController.newLog(`You lost ${removedItem.item.name}.`, "info");
+				LogController.newLogSimple(`You lost ${removedItem.item.name}.`, "info");
 				return true;
 			}
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CharacterStore from "$lib/stores/character.svelte";
+	import {PlayerController} from "$lib/controller/character.svelte";
 	import { xpToNextLevel } from "$lib/utils/xp";
 	import ProgressBar from "$lib/components/progressBar.svelte";
 
@@ -26,5 +26,5 @@
         height: {height}px;"
 	/>
 </div>
-<ProgressBar val={CharacterStore.character.health / xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)} text={CharacterStore.character.health + " / " + CharacterStore.character.maxHealth} color={"bg-success"} />
-<ProgressBar val={CharacterStore.character.xp / xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)} text={CharacterStore.character.xp + " / " + xpToNextLevel(CharacterStore.character.level, CharacterStore.character.xp)} color={"bg-purple"} />
+<ProgressBar val={PlayerController.health / PlayerController.maxHealth} text={PlayerController.health + " / " + PlayerController.maxHealth} color={"bg-success"} />
+<ProgressBar val={PlayerController.xp / xpToNextLevel(PlayerController.level, PlayerController.xp)} text={PlayerController.xp + " / " + xpToNextLevel(PlayerController.level, PlayerController.xp)} color={"bg-purple"} />
