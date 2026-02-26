@@ -62,17 +62,14 @@ class LogController {
 		this._newLog([{ color, text: msg }], color, type);
 	}
 
-	public newLog(msg: Array<{ text: string | number }>, color: string, type: "warning" | "error" | "info" = "info") {
+	public newLog(msg: Array<string | number>, color: string, type: "warning" | "error" | "info" = "info") {
 		let newArr: Array<{ text: string | number; color: string }> = [];
 
 		for (const chunk of msg) {
-			if (!this.validateLogChunk(chunk.text)) {
+			if (!this.validateLogChunk(chunk)) {
 				return; // unsure if it breaks the function or just the loop, check later
 			}
-			newArr = [
-				...newArr,
-				{ text: chunk.text, color: typeof chunk.text === "string" ? "default" : LogController.numberColor },
-			];
+			newArr = [...newArr, { text: chunk, color: typeof chunk === "string" ? "default" : LogController.numberColor }];
 		}
 
 		this._newLog(newArr, color, type);

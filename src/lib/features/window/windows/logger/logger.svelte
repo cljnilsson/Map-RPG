@@ -31,9 +31,12 @@
   {/snippet}
   {#snippet body()}
     {#each currentLogs as logEntry, i (i)}
-      <p in:fly={{ y: 6, duration: 180 }}>
-        [{dayjs(logEntry.timestamp).format("HH:mm")}] <span style={"color:" + logEntry.color ? logEntry.color : "default" +";"}>{logEntry.message}</span>
-      </p>
+        <p in:fly={{ y: 6, duration: 180 }} style={`color: ${logEntry.color ? logEntry.color : "default"};`}>
+            [{dayjs(logEntry.timestamp).format("HH:mm")}]
+            {#each logEntry.message as chunk}
+                <span style={`color: ${chunk.color ? chunk.color : "default"};`}>{chunk.text}</span>
+            {/each}
+        </p>
     {/each}
   {/snippet}
   {#snippet footer()}
@@ -58,7 +61,7 @@
       <button
         type="button"
         class="btn btn-light mx-1"
-        onclick={() => LogController.newLogSimple("Test")}
+        onclick={() => LogController.newLog(["Test", 1], "red")}
       >
         Test
       </button>
