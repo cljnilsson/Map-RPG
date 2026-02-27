@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { Resource } from "$lib/types/resource";
-import { CityController } from "$lib/controller/city.svelte";
+import CityController from "$lib/controller/city.svelte";
 import { costToNextLevel } from "$lib/utils/cost";
 
 let { costs, level = 1 }: { costs: Resource[]; level?: number } = $props();

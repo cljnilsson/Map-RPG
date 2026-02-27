@@ -1,5 +1,5 @@
 <script lang="ts">
-import { CityController } from "$lib/controller/city.svelte";
+import CityController from "$lib/controller/city.svelte";
 import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
 import type { Resource, BaseResource } from "$lib/types/resource";
 import ClickableElement from "$lib/components/utils/clickableElement.svelte";

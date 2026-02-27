@@ -4,9 +4,13 @@
 	import { getAllItems } from "$lib/data/items";
 	import { getAllResources } from "$lib/data/resources";
 	import { getAllUnits } from "$lib/data/units";
+	import MapController from "$lib/controller/map.svelte";
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 
-	let mode: "none" | "buildings" | "quests" | "units" | "items" | "resources" = $state("none");
+	let mode: "none" | "buildings" | "quests" | "units" | "items" | "resources" | "cities" = $state("none");
+
+	// todo
+	// resources of a map does not seem to be loaded unless the map is visited.
 </script>
 
 <div class="container mt-3">
@@ -24,6 +28,7 @@
 				<ClickableElement onClickCallback={() => (mode = "items")}>Items</ClickableElement>
 				<ClickableElement onClickCallback={() => (mode = "quests")}>Quests</ClickableElement>
 				<ClickableElement onClickCallback={() => (mode = "resources")}>Resources</ClickableElement>
+				<ClickableElement onClickCallback={() => (mode = "cities")}>Cities</ClickableElement>
 			</div>
 		</div>
 		<div class="col">
@@ -62,6 +67,48 @@
                     </div>
                 </div>
 				{/each}
+			{:else if mode === "cities"}
+                {#each MapController.cities.sort((a, b) =>  a.name.localeCompare(b.name)) as city (city.name)}
+                    <div class="my-3 p-2 bg-light rounded">
+                        <div class="row">
+                           	<div class="col">
+                               	<h5>{city.name}</h5>
+                           	</div>
+                        </div>
+                        <div class="row">
+                           	<div class="col-6 col-xl-2">
+       	                        <div class="row">
+                                   	<div class="col-auto">
+                                        Pop
+                                   	</div>
+                                    <div class="col text-end">
+                                        {city.city.population}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                   	<div class="col-auto">
+                                        Type
+                                   	</div>
+                                    <div class="col text-end">
+                                        {city.type}
+                                    </div>
+                                </div>
+                           	</div>
+                            <div class="col-6 col-xl-2">
+       	                        <div class="row">
+                                   	<div class="col-auto">
+                                        Resources
+                                   	</div>
+                                    <div class="col text-end">
+                                        {city.city.resources.reduce((p, c) => c.amount + p, 0 )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {:else}
+                    <p>No cities found</p>
+                {/each}
 			{/if}
 		</div>
 	</div>

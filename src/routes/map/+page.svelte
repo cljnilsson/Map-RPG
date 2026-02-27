@@ -11,7 +11,7 @@
   import MapController from "$lib/controller/map.svelte";
   import { isCityMap } from "$lib/typeguards/map";
   import type { CityResource } from "$lib/types/resource";
-  import { CityController } from "$lib/controller/city.svelte";
+  import CityController from "$lib/controller/city.svelte";
   import { getUnit, safeGetUnit } from "$lib/data/units";
   import type { Unit } from "$lib/types/unit";
 

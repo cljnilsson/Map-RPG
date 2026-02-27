@@ -8,7 +8,7 @@ import { isCityMap } from "$lib/typeguards/map";
 import { costToNextLevel } from "$lib/utils/cost";
 import { postResources } from "$lib/api/resources.remote";
 
-export class CityController {
+class CityController {
 	// ---------------
 	// Variables
 	// ---------------
@@ -19,47 +19,47 @@ export class CityController {
 	// GETTERS / SETTERS
 	// ---------------
 
-	public static get population() {
+	public get population() {
 		return CityStore.population;
 	}
 
-	public static get workers() {
+	public get workers() {
 		return CityStore.workers;
 	}
 
-	public static get units() {
+	public get units() {
 		return CityStore.units;
 	}
 
-	public static get resources() {
+	public get resources() {
 		return CityStore.resources;
 	}
 
-	public static get storage() {
+	public get storage() {
 		return CityStore.storage;
 	}
 
-	public static set population(v: number) {
+	public set population(v: number) {
 		CityStore.population = v;
 	}
 
-	public static set workers(v: number) {
+	public set workers(v: number) {
 		CityStore.workers = v;
 	}
 
-	public static set units(v: Unit[]) {
+	public set units(v: Unit[]) {
 		CityStore.units = v;
 	}
 
-	public static set resources(v: CityResource[]) {
+	public set resources(v: CityResource[]) {
 		CityStore.resources = v;
 	}
 
-	public static set storage(v: { key: string; amount: number }[]) {
+	public set storage(v: { key: string; amount: number }[]) {
 		CityStore.storage = v;
 	}
 
-	public static get plots(): Plot[] {
+	public get plots(): Plot[] {
 		if (isCityMap(MapController.currentMapState.map)) {
 			return MapController.currentMapState.map.city.plots;
 		} else {
@@ -71,7 +71,7 @@ export class CityController {
 	// FUNCTIONS
 	// ---------------
 
-	public static getResource(resource: string): CityResource {
+	public getResource(resource: string): CityResource {
 		const found = CityStore.resources.find((v) => v.name === resource);
 
 		if (!found) {
@@ -81,8 +81,8 @@ export class CityController {
 		return found;
 	}
 
-	public static updateResourceAmount(resource: string, newAmount: number) {
-		const toUpdate = CityController.getResource(resource);
+	public updateResourceAmount(resource: string, newAmount: number) {
+		const toUpdate = this.getResource(resource);
 
 		if (!toUpdate) {
 			console.warn("Trying to update resource that does not exist " + resource);
@@ -92,11 +92,11 @@ export class CityController {
 		toUpdate.amount = newAmount;
 	}
 
-	public static canAfford(price: Resource[]): boolean {
+	public canAfford(price: Resource[]): boolean {
 		let canAfford = true;
 
 		for (const resource of price) {
-			if (resource.amount > CityController.getResource(resource.name).amount) {
+			if (resource.amount > this.getResource(resource.name).amount) {
 				canAfford = false;
 				break;
 			}
@@ -105,22 +105,22 @@ export class CityController {
 		return canAfford;
 	}
 
-	private static slimResources() {
-		return CityController.resources.map((r) => {
+	private slimResources() {
+		return this.resources.map((r) => {
 			return { resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount };
 		});
 	}
 
-	public static pay(price: Resource[]): boolean {
+	public pay(price: Resource[]): boolean {
 		console.log(1);
-		if (CityController.canAfford(price)) {
+		if (this.canAfford(price)) {
 			for (const resource of price) {
-				CityController.getResource(resource.name).amount -= resource.amount; // Might not update object properly
+				this.getResource(resource.name).amount -= resource.amount; // Might not update object properly
 			}
 
 			LogController.newLogSimple("You used the city's coffers to pay."); // More detailed costs here later
 
-			const slimmedResources = CityController.slimResources();
+			const slimmedResources = this.slimResources();
 
 			postResources(slimmedResources);
 
@@ -131,22 +131,22 @@ export class CityController {
 	}
 
 	// TODO, make sure it does not exceed city limit
-	public static give(price: Resource[]) {
+	public give(price: Resource[]) {
 		for (const resource of price) {
-			CityController.getResource(resource.name).amount += resource.amount; // Might not update object properly
+			this.getResource(resource.name).amount += resource.amount; // Might not update object properly
 		}
 
 		LogController.newLogSimple("You gained new resources"); // More detailed resources here later
 
-		const slimmedResources = CityController.slimResources();
+		const slimmedResources = this.slimResources();
 
 		postResources(slimmedResources);
 	}
 
-	public static upgrade(price: Resource[], plot: number) {
+	public upgrade(price: Resource[], plot: number) {
 		if (isCityMap(MapController.currentMapState.map)) {
 			const level = MapController.currentMapState.map.city.plots[plot].level;
-			const upgraded = CityController.pay(
+			const upgraded = this.pay(
 				level === 1
 					? price
 					: price.map((v) => {
@@ -160,7 +160,7 @@ export class CityController {
 		}
 	}
 
-	public static setMainCityFromCurrentOwned() {
+	public setMainCityFromCurrentOwned() {
 		const owned = MapController.ownedCities;
 		if (owned.length === 0) {
 			return null;
@@ -172,7 +172,7 @@ export class CityController {
 		CityStore.resources = owned[0].city.resources;
 	}
 
-	public static getUnitByName(name: string) {
+	public getUnitByName(name: string) {
 		const unit = CityStore.units.find((v) => v.name === name);
 
 		if (!unit) {
@@ -182,3 +182,7 @@ export class CityController {
 		return unit;
 	}
 }
+
+const instance = new CityController();
+
+export default instance;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {CityController} from "$lib/controller/city.svelte";
+	import CityController from "$lib/controller/city.svelte";
 	import Window from "$lib/features/window/window.svelte";
 	import UnitDesignator from "$lib/features/window/windows/unit/unitDesignator.svelte";
 	import dayjs from "dayjs";

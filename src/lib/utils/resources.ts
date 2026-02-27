@@ -1,4 +1,4 @@
-import { CityController } from "$lib/controller/city.svelte";
+import CityController from "$lib/controller/city.svelte";
 import MapController from "$lib/controller/map.svelte";
 import type { CityMap } from "$lib/types/mapTypes";
 

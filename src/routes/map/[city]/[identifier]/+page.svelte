@@ -7,7 +7,7 @@
 	import type { Plot } from "$lib/types/city";
 
 	import ResourceCost from "$lib/components/resourceCost.svelte";
-	import { CityController } from "$lib/controller/city.svelte.js";
+	import CityController from "$lib/controller/city.svelte.js";
 	import { safeGetBuilding } from "$lib/data/buildings";
 
 	import type { Building } from "$lib/types/building";
