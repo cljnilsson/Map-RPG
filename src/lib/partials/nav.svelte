@@ -30,7 +30,6 @@
 
 <nav class="text-center">
   <a href={resolve("/")}>Overview</a>
-  <a href={resolve("/map")}>Map</a>
   <a href={resolve("/dice")}>Dice demo</a>
   <a href={resolve("/talkingtest")}>Dialogue demo</a>
   <a href={resolve("/creator")}>Creator demo</a>

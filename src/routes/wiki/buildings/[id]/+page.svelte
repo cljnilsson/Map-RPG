@@ -25,12 +25,3 @@
         </div>
     {/if}
 </div>
-
-<style lang="scss">
-	.container {
-		background: rgba(235, 235, 235, 0.6);
-		border-radius: 10px;
-		padding-top: 0.75rem;
-		padding-bottom: 0.75rem;
-	}
-</style>

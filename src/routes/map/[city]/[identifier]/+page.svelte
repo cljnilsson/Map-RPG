@@ -184,13 +184,6 @@
 </div>
 
 <style lang="scss">
-	.container {
-		background: rgba(235, 235, 235, 0.6);
-		border-radius: 10px;
-		padding-top: 0.75rem;
-		padding-bottom: 0.75rem;
-	}
-
 	.back {
 		background-color: #e3c9b2;
 		border-color: #794f36;

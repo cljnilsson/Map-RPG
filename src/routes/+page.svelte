@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
-	//import CharacterComponent from "$lib/components/character/Character.svelte";
 </script>
 
 <div class="container mt-3">
@@ -18,14 +17,12 @@
 	<p>Your data / progress / save file will be easily available to the user so that it can be backed up by whatever means the user prefers.</p>
 
 	<h3>Game Info</h3>
-	A simple first-party wiki exists at <a href={resolve("/wiki")}>link</a> but for the most part the tutorial once implemented should tell you what you need to know.
+	<p>A simple first-party wiki exists at <a href={resolve("/wiki")}>link</a> but for the most part the tutorial once implemented should tell you what you need to know.</p>
+	<div class="text-center">
+    	<a href={resolve("/map")}>
+           	<button type="button" class="btn btn-lg btn-primary">
+                    Play!
+            </button>
+    	</a>
+	</div>
 </div>
-
-<style>
-	.container {
-		background: rgba(235, 235, 235, 0.6);
-		border-radius: 10px;
-		padding-top: 0.75rem;
-		padding-bottom: 0.75rem;
-	}
-</style>
