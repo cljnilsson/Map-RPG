@@ -9,7 +9,7 @@ import Footer from "$lib/features/window/windowFooter.svelte";
 import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
 import DialogueController from "$lib/controller/dialogue.svelte";
 import { browser } from "$app/environment";
-import { SaveController } from "$lib/controller/save.svelte";
+import SaveController from "$lib/controller/save.svelte";
 import { fade } from "svelte/transition";
 import { dev } from "$app/environment";
 import WindowController from "$lib/controller/window.svelte";

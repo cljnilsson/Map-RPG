@@ -356,6 +356,13 @@ exports[`Creator renders with correct elements 1`] = `
         >
           Create!
         </button>
+         
+        <button
+          class="btn btn-lg btn-primary"
+          type="button"
+        >
+          Randomize
+        </button>
       </div>
     </div>
   </div>

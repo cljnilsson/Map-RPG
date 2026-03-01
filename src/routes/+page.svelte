@@ -1,5 +1,10 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
+	import { authClient } from "$lib/auth-client";
+	import { PlayerController } from "$lib/controller/character.svelte";
+
+	const session = authClient.useSession();
+	let isLoggedIn: boolean = $derived(!!$session.data?.user);
 </script>
 
 <div class="container mt-3">
@@ -18,10 +23,14 @@
 
 	<h3>Game Info</h3>
 	<p>A simple first-party wiki exists at <a href={resolve("/wiki")}>link</a> but for the most part the tutorial once implemented should tell you what you need to know.</p>
+
+	<h5>Sanity Check</h5>
+	<p class="mb-0">Logged in: {isLoggedIn}</p>
+	<p>Has character: {PlayerController.exists}</p>
 	<div class="text-center">
     	<a href={resolve("/map")}>
            	<button type="button" class="btn btn-lg btn-primary">
-                    Play!
+                Play!
             </button>
     	</a>
 	</div>

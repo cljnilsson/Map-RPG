@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CharacterStore from "$lib/stores/character.svelte";
+    import { PlayerController} from "$lib/controller/character.svelte";
 	import CharacterAvatar from "$lib/components/character/CharacterAvatar.svelte";
 	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
 </script>
@@ -9,7 +9,7 @@
 		<CharacterAvatar height={200} width={200} />
 	</div>
 	<div class="col-auto">
-		<h3>{CharacterStore.character.name}</h3>
+		<h3>{PlayerController.name}</h3>
 		<CharacterStatCollection />
 	</div>
 </div>

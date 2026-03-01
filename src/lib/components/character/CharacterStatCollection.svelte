@@ -1,26 +1,26 @@
 <script lang="ts">
     import CharacterStat from "$lib/components/character/CharacterStat.svelte";
-    import CharacterStore from "$lib/stores/character.svelte";
+    import { PlayerController } from "$lib/controller/character.svelte";
 </script>
 
 <div class="row">
     <div class="col-auto border border-end-0 border-dark char-bg left">
-        <CharacterStat name="Strength" value={CharacterStore.character.stats.str}
+        <CharacterStat name="Strength" value={PlayerController.stats.str}
         ></CharacterStat>
-        <CharacterStat name="Int" value={CharacterStore.character.stats.int}
+        <CharacterStat name="Int" value={PlayerController.stats.int}
         ></CharacterStat>
-        <CharacterStat name="Vitality" value={CharacterStore.character.stats.vit}
+        <CharacterStat name="Vitality" value={PlayerController.stats.vit}
         ></CharacterStat>
-        <CharacterStat name="Charisma" value={CharacterStore.character.stats.char}
+        <CharacterStat name="Charisma" value={PlayerController.stats.char}
         ></CharacterStat>
-        <CharacterStat name="Dexterity" value={CharacterStore.character.stats.dex}
+        <CharacterStat name="Dexterity" value={PlayerController.stats.dex}
         ></CharacterStat>
     </div>
     <div class="col-auto border border-start-0 border-dark char-bg right">
-        <p class="py-1">Race: {CharacterStore.character.race}</p>
-        <p class="py-1">Age: {CharacterStore.character.age}</p>
-        <p class="py-1">Gender: {CharacterStore.character.gender}</p>
-        <p class="py-1">Condition(s): {CharacterStore.character.conditions.join(", ")}</p>
+        <p class="py-1">Race: {PlayerController.race}</p>
+        <p class="py-1">Age: {PlayerController.age}</p>
+        <p class="py-1">Gender: {PlayerController.gender}</p>
+        <p class="py-1">Condition(s): {PlayerController.conditions.join(", ")}</p>
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 import { postRequest } from "$lib/utils/request";
-import CharacterStore from "$lib/stores/character.svelte";
+import { PlayerController } from "$lib/controller/character.svelte";
 import QuestController from "./quest.svelte";
 
 type CharacterInput = {
@@ -31,38 +31,38 @@ type QuestInput = {
 	}[];
 };
 
-export class SaveController {
+class SaveController {
 	// might rework it in the future so oldname and name are not needed but for now it is needed to have the name currently used in the database
-	public static async saveCharacter(newName?: string) {
+	public async saveCharacter(newName?: string) {
 		await postRequest<unknown, CharacterInput>("/api/characters/save", {
-			oldName: CharacterStore.character.name,
-			name: newName ?? CharacterStore.character.name,
-			health: CharacterStore.character.health,
-			maxHealth: CharacterStore.character.maxHealth,
-			exp: CharacterStore.character.xp,
-			level: CharacterStore.character.level,
+			oldName: PlayerController.name,
+			name: newName ?? PlayerController.name,
+			health: PlayerController.health,
+			maxHealth: PlayerController.maxHealth,
+			exp: PlayerController.xp,
+			level: PlayerController.level,
 			stats: {
-				str: CharacterStore.character.stats.str,
-				dex: CharacterStore.character.stats.dex,
-				int: CharacterStore.character.stats.int,
-				vit: CharacterStore.character.stats.vit,
-				char: CharacterStore.character.stats.char,
+				str: PlayerController.stats.str,
+				dex: PlayerController.stats.dex,
+				int: PlayerController.stats.int,
+				vit: PlayerController.stats.vit,
+				char: PlayerController.stats.char,
 			},
-			inventory: CharacterStore.inventory.map((slot) => ({
+			inventory: PlayerController.inventory.map((slot) => ({
 				name: slot.item.id,
 				amount: slot.amount,
 			})),
 		});
 	}
 
-	public static async saveWindows(newX: number, newY: number, uniqueKey: string) {
+	public async saveWindows(newX: number, newY: number, uniqueKey: string) {
 		const resp = await postRequest<{ success: boolean }, { key: string; x: number; y: number; characterId: number }>(
 			"/api/characters/save/windows",
 			{
 				key: uniqueKey,
 				x: newX,
 				y: newY,
-				characterId: CharacterStore.character.id,
+				characterId: PlayerController.id,
 			},
 		);
 
@@ -75,7 +75,7 @@ export class SaveController {
 		console.log(`Window position saved: ${uniqueKey} at (${newX}, ${newY})`);
 	}
 
-	public static async saveQuests() {
+	public async saveQuests() {
 		await postRequest<unknown, QuestInput>("/api/characters/save/quests", {
 			characterId: 4,
 			quests: QuestController.quests.map((q) => {
@@ -88,7 +88,11 @@ export class SaveController {
 		});
 	}
 
-	public static saveCity() {}
+	public saveCity() {}
 
-	public static saveFlag() {}
+	public saveFlag() {}
 }
+
+const instance = new SaveController();
+
+export default instance;

@@ -1,5 +1,5 @@
 <script lang="ts">
-import CharacterStore from "$lib/stores/character.svelte";
+import { PlayerController } from "$lib/controller/character.svelte";
 import InventoryItemComponent from "$lib/features/inventory/inventoryItem.svelte";
 import type { InventoryItem } from "$lib/types/item";
 import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
@@ -25,7 +25,7 @@ const slots = 6 * rows;
 
 let selectedItem: InventoryItem | null = $state(null);
 let searchString: string = $state("");
-let size: number = $derived(showEmptySlots ? slots : CharacterStore.inventory.length);
+let size: number = $derived(showEmptySlots ? slots : PlayerController.inventory.length);
 
 $effect(() => {
 	$inspect(selectedItem);
@@ -42,7 +42,7 @@ $effect(() => {
 		<input type="text" class="form-control w-auto" placeholder="Search inventory..." bind:value={searchString} />
 	</div>
 </div>
-<ItemGrid items={CharacterStore.inventory} {size}>
+<ItemGrid items={PlayerController.inventory} {size}>
 	{#snippet item(gridItem)}
 		<Tooltip>
 			{#snippet onHoverTooltip()}
@@ -51,7 +51,7 @@ $effect(() => {
 			{/snippet}
 
 			<InventoryItemComponent
-				bind:inventory={CharacterStore.inventory}
+				bind:inventory={PlayerController.inventory}
 				item={gridItem}
 				currentSearchTerm={searchString}
 				bind:selectedItem
@@ -66,10 +66,10 @@ $effect(() => {
 	<div class="row justify-content-end money mt-2">
 		<div class="col-auto d-flex align-items-center">
 			<img src="/items/coin1.jpg" alt="Copper coin" height="24" />
-			<span class="coin-text">{CharacterStore.character.money.copper}</span>
+			<span class="coin-text">{PlayerController.money.copper}</span>
 			<img src="/items/coin2.jpg" alt="Silver coin" height="24" />
-			<span class="coin-text">{CharacterStore.character.money.silver}</span>
-			<img src="/items/coin3.jpg" alt="Gold coin" height="24" /> <span class="coin-text">{CharacterStore.character.money.gold}</span>
+			<span class="coin-text">{PlayerController.money.silver}</span>
+			<img src="/items/coin3.jpg" alt="Gold coin" height="24" /> <span class="coin-text">{PlayerController.money.gold}</span>
 		</div>
 	</div>
 {/if}

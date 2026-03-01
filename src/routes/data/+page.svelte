@@ -4,7 +4,7 @@
   //import type { PageServerData } from "./$types";
   import type { Character } from "$lib/server/db/schema";
   import { getRequest } from "$lib/utils/request";
-  import { SaveController } from "$lib/controller/save.svelte";
+  import SaveController from "$lib/controller/save.svelte";
   import { getFlags } from "$lib/test.remote";
   import CharacterStore from "$lib/stores/character.svelte";
   import { authClient } from "$lib/auth-client";

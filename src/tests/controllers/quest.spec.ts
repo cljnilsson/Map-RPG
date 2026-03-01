@@ -23,7 +23,7 @@ vi.mock("$lib/controller/logs.svelte", () => {
 // Mock SaveController
 vi.mock("$lib/controller/save.svelte", () => {
 	return {
-		SaveController: {
+		default: {
 			saveQuests: vi.fn(),
 		},
 	};
@@ -31,7 +31,7 @@ vi.mock("$lib/controller/save.svelte", () => {
 
 import QuestStore from "$lib/stores/quest.svelte";
 import LogController from "$lib/controller/logs.svelte";
-import { SaveController } from "$lib/controller/save.svelte";
+import SaveController from "$lib/controller/save.svelte";
 
 describe("QuestController", () => {
 	const sampleQuest: Quest = {

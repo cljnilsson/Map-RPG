@@ -1,5 +1,6 @@
 //import type { Character } from "$lib/types/character";
 import type { Item, VendorItem, InventoryItem } from "$lib/types/item";
+import type { Character } from "$lib/types/character";
 import PlayerStore from "$lib/stores/character.svelte";
 import type { NPC } from "$lib/types/npc";
 import LogController from "$lib/controller/logs.svelte";
@@ -18,28 +19,42 @@ export class PlayerController extends CharacterController {
 	// GETTERS / SETTERS
 	// ---------------
 
+	public static get exists(): boolean {
+		return PlayerStore.character != null;
+	}
+
+	private static safeGetCharacter(): Character {
+		const character = PlayerStore.character;
+
+		if (character === null) {
+			throw new Error("Trying to get from character but player has no character");
+		}
+
+		return character;
+	}
+
 	public static get stats() {
-		return PlayerStore.character.stats;
+		return PlayerController.safeGetCharacter().stats;
 	}
 
 	public static get id() {
-		return PlayerStore.character.id;
+		return PlayerController.safeGetCharacter().id;
 	}
 
 	public static get health(): number {
-		return PlayerStore.character.health;
+		return PlayerController.safeGetCharacter().health;
 	}
 
 	public static set health(v: number) {
 		if (v < 0) {
 			console.warn("Health cannot be set to a negative value. Setting to 0 instead.");
-			PlayerStore.character.health = 0;
+			PlayerController.safeGetCharacter().health = 0;
 			return;
 		}
 
-		PlayerStore.character.health = v;
+		PlayerController.safeGetCharacter().health = v;
 
-		const { name, health, maxHealth, xp, level, stats } = PlayerStore.character;
+		const { name, health, maxHealth, xp, level, stats } = PlayerController.safeGetCharacter();
 
 		fetch("/api/characters/save", {
 			method: "POST",
@@ -57,47 +72,71 @@ export class PlayerController extends CharacterController {
 	}
 
 	public static get conditions(): string[] {
-		return PlayerStore.character.conditions;
+		return PlayerController.safeGetCharacter().conditions;
 	}
 
 	public static set conditions(v: string[]) {
-		PlayerStore.character.conditions = [...v];
+		PlayerController.safeGetCharacter().conditions = [...v];
+	}
+
+	public static get age(): number {
+		return PlayerController.safeGetCharacter().age;
+	}
+
+	public static set age(v: number) {
+		PlayerController.safeGetCharacter().age = v;
+	}
+
+	public static get race(): string {
+		return PlayerController.safeGetCharacter().race;
+	}
+
+	public static set race(v: string) {
+		PlayerController.safeGetCharacter().race = v;
+	}
+
+	public static get gender(): "Male" | "Female" | "Unknown" {
+		return PlayerController.safeGetCharacter().gender;
+	}
+
+	public static set gender(v: "Male" | "Female" | "Unknown") {
+		PlayerController.safeGetCharacter().gender = v;
 	}
 
 	public static get maxHealth(): number {
-		return PlayerStore.character.maxHealth;
+		return PlayerController.safeGetCharacter().maxHealth;
 	}
 
 	public static get level(): number {
-		return PlayerStore.character.level;
+		return PlayerController.safeGetCharacter().level;
 	}
 
 	public static get xp(): number {
-		return PlayerStore.character.xp;
+		return PlayerController.safeGetCharacter().xp;
 	}
 
 	public static set xp(v: number) {
 		if (v < 0) {
 			console.warn("Xp cannot be set to a negative value. Setting to 0 instead.");
-			PlayerStore.character.health = 0;
+			PlayerController.safeGetCharacter().health = 0;
 			return;
 		}
 
-		PlayerStore.character.xp = v;
+		PlayerController.safeGetCharacter().xp = v;
 
 		// save in future
 		// also handle leveups
 	}
 
 	public static get money(): { gold: number; silver: number; copper: number } {
-		return PlayerStore.character.money;
+		return PlayerController.safeGetCharacter().money;
 	}
 	public static set money(m: { gold: number; silver: number; copper: number }) {
 		if (m.copper < 0 || m.silver < 0 || m.gold < 0) {
 			throw new Error("Money values cannot be negative");
 		}
 
-		PlayerStore.character.money = m;
+		PlayerController.safeGetCharacter().money = m;
 
 		// Current save does not support money nor does the database itself if I recall
 	}
@@ -140,9 +179,9 @@ export class PlayerController extends CharacterController {
 		}
 
 		const playerCopper = PlayerController.moneyToCopper(
-			PlayerStore.character.money.copper,
-			PlayerStore.character.money.silver,
-			PlayerStore.character.money.gold,
+			PlayerController.safeGetCharacter().money.copper,
+			PlayerController.safeGetCharacter().money.silver,
+			PlayerController.safeGetCharacter().money.gold,
 		);
 
 		const priceCopper = PlayerController.moneyToCopper(c, s, g);
@@ -181,9 +220,9 @@ export class PlayerController extends CharacterController {
 		}
 
 		const playerCopper = PlayerController.moneyToCopper(
-			PlayerStore.character.money.copper,
-			PlayerStore.character.money.silver,
-			PlayerStore.character.money.gold,
+			PlayerController.safeGetCharacter().money.copper,
+			PlayerController.safeGetCharacter().money.silver,
+			PlayerController.safeGetCharacter().money.gold,
 		);
 
 		const priceCopper = PlayerController.moneyToCopper(item.price.copper, item.price.silver, item.price.gold);
@@ -191,9 +230,9 @@ export class PlayerController extends CharacterController {
 		const remainingCopper = playerCopper - priceCopper;
 		const { gold, silver, copper } = PlayerController.copperToMoney(remainingCopper);
 
-		PlayerStore.character.money.gold = gold;
-		PlayerStore.character.money.silver = silver;
-		PlayerStore.character.money.copper = copper;
+		PlayerController.safeGetCharacter().money.gold = gold;
+		PlayerController.safeGetCharacter().money.silver = silver;
+		PlayerController.safeGetCharacter().money.copper = copper;
 
 		PlayerController.giveItem(item);
 
@@ -232,7 +271,7 @@ export class PlayerController extends CharacterController {
 
 	public static attack(amount: number, modifier: "str" | "int" | "vit" | "char" | "dex", target: NPC) {
 		// use npc.damage in future
-		const damage = amount + PlayerStore.character.stats[modifier];
+		const damage = amount + PlayerController.safeGetCharacter().stats[modifier];
 		target.health -= damage;
 
 		LogController.newLogSimple(`You dealt ${damage} to ${target.name}.`, "info");
@@ -244,7 +283,7 @@ export class PlayerController extends CharacterController {
 			return;
 		}
 
-		PlayerStore.character.health -= amount;
+		PlayerController.safeGetCharacter().health -= amount;
 
 		LogController.newLogSimple(`You took ${amount} damage.`, "warning");
 	}

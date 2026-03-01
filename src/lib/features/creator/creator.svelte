@@ -10,6 +10,7 @@
 	import FaithStore from "$lib/stores/faith.svelte";
 	import type { Class } from "$lib/types/class";
 	import type { Faith } from "$lib/types/faith";
+	import { faker } from '@faker-js/faker';
 
 	const defaultStat = 6; // change back to 5 after testing
 
@@ -86,6 +87,28 @@
 		} else {
 			console.error("Something went wrong while creating the character.", resp);
 		}
+	}
+
+	function generateRandomFactor(min: number, max: number): number {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	function randomize() {
+	    name = faker.person.firstName();
+		age = faker.number.int({min: 18, max: 80});
+		avatar = avatarList[generateRandomFactor(0, avatarList.length -1)];
+
+		// Todo proper random
+		str = 6;
+		dex = 6;
+		int = 6;
+		vitality = 6;
+		charisma = 6;
+
+		selectedClass = ClassStore.classes[generateRandomFactor(0, ClassStore.classes.length -1)];
+		selectedFaith = FaithStore.faith[generateRandomFactor(0, FaithStore.faith.length -1)];
+
+		// Sanity validation here
 	}
 </script>
 
@@ -255,6 +278,7 @@
 			<button type="button" class="btn btn-lg btn-primary" onclick={createCharater} disabled={totalLeft > 0 || age <= 5 || name.length === 0}
 				>Create!</button
 			>
+			<button type="button" class="btn btn-lg btn-primary" onclick={randomize}>Randomize</button>
 		</div>
 	</div>
 </div>

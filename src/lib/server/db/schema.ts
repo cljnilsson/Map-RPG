@@ -115,6 +115,7 @@ export const flags = sqliteTable("flags", {
 	value: integer("value").notNull().default(0), // Use 0 for false, 1 for true
 });
 
+const genderValues = ["Male", "Female", "Unknown"] as const;
 export const characters = sqliteTable("characters", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	userId: text("user_id")
@@ -132,7 +133,7 @@ export const characters = sqliteTable("characters", {
 	class: text("class").notNull().default("Fighter"),
 	faith: text("faith"), // Should be set to not null in the future when Faith is implemented
 	race: text("race").notNull().default("Human"),
-	gender: text("gender").notNull(),
+	gender: text("gender", { enum: genderValues }).notNull(),
 });
 
 export const items = sqliteTable("items", {

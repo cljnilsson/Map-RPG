@@ -6,7 +6,7 @@ type Character = {
 	name: string;
 	race: string;
 	age: number;
-	gender: string;
+	gender: "Male" | "Female" | "Unknown";
 	xp: number;
 	level: number;
 	conditions: string[];
