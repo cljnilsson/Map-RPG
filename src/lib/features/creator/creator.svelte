@@ -99,16 +99,39 @@
 		avatar = avatarList[generateRandomFactor(0, avatarList.length -1)];
 
 		// Todo proper random
-		str = 6;
-		dex = 6;
-		int = 6;
-		vitality = 6;
-		charisma = 6;
+		str = min;
+		dex = min;
+		int = min;
+		vitality = min;
+		charisma = min;
+
+		while(totalLeft > 0) {
+		  const rng = generateRandomFactor(0, 4);
+			switch(rng) {
+			  case 0:
+				str += 1;
+				break;
+    		  case 1:
+                dex += 1;
+     			break;
+           	  case 2:
+                int += 1;
+          		break;
+              case 3:
+                vitality += 1;
+             	break;
+              case 4:
+                charisma += 1;
+                break;
+			}
+		}
 
 		selectedClass = ClassStore.classes[generateRandomFactor(0, ClassStore.classes.length -1)];
 		selectedFaith = FaithStore.faith[generateRandomFactor(0, FaithStore.faith.length -1)];
 
-		// Sanity validation here
+		if(totalLeft === 0) {
+		  console.warn("Stats were not assigned correctly.");
+		}
 	}
 </script>
 
