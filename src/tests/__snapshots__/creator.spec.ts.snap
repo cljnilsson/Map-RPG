@@ -29,11 +29,11 @@ exports[`Creator renders with correct elements 1`] = `
             class="col-12 position-relative"
           >
             <div
-              class="char-menu svelte-1vun6ic"
+              class="char-menu svelte-3rrfkl"
             >
               <div>
                 <button
-                  class="btn svelte-1vun6ic activeSelection"
+                  class="btn svelte-3rrfkl activeSelection"
                   type="button"
                 >
                   <h5>
@@ -44,7 +44,7 @@ exports[`Creator renders with correct elements 1`] = `
                
               <div>
                 <button
-                  class="btn svelte-1vun6ic"
+                  class="btn svelte-3rrfkl"
                   type="button"
                 >
                   <h5>
@@ -55,7 +55,7 @@ exports[`Creator renders with correct elements 1`] = `
                
               <div>
                 <button
-                  class="btn svelte-1vun6ic"
+                  class="btn svelte-3rrfkl"
                   type="button"
                 >
                   <h5>
@@ -66,7 +66,7 @@ exports[`Creator renders with correct elements 1`] = `
                
               <div>
                 <button
-                  class="btn svelte-1vun6ic"
+                  class="btn svelte-3rrfkl"
                   type="button"
                 >
                   <h5>
@@ -75,6 +75,7 @@ exports[`Creator renders with correct elements 1`] = `
                 </button>
               </div>
             </div>
+            <!---->
              
             <div
               class="main-content offset"

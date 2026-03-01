@@ -2,15 +2,20 @@
 	import { postRequest } from "$lib/utils/request";
 	import ImageUploader from "$lib/components/ImageUploader.svelte";
 	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
-	import CreatorClass from "$lib/features/creator/creatorClassIcon.svelte";
-	import CreatorFaith from "$lib/features/creator/creatorFaithIcon.svelte";
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
 	import type { Character } from "$lib/server/db/schema";
 	import ClassStore from "$lib/stores/classes.svelte";
-	import FaithStore from "$lib/stores/faith.svelte";
 	import type { Class } from "$lib/types/class";
 	import type { Faith } from "$lib/types/faith";
 	import { faker } from '@faker-js/faker';
+   	import FaithStore from "$lib/stores/faith.svelte";
+    import FaithPicker from "$lib/features/creator/faithPicker.svelte";
+    import ClassPicker from "$lib/features/creator/classPicker.svelte";
+    import CharMenu from "$lib/features/creator/charMenu.svelte";
+    import { authClient } from "$lib/auth-client";
+
+    const session = authClient.useSession();
+    let isLoggedIn: boolean = $derived(!!$session.data?.user);
 
 	const defaultStat = 6; // change back to 5 after testing
 
@@ -47,12 +52,8 @@
 		"/characters/girl6.png"
 	];
 
-	function isLoggedIn() {
-		return true;
-	}
-
 	async function createCharater() {
-		if (!isLoggedIn()) {
+		if (!isLoggedIn) {
 			console.warn("You must be logged in to create a character.");
 			return;
 		}
@@ -149,28 +150,7 @@
 			<div class="row justify-content-center my-5">
 				<div class="col-12 position-relative">
 					<!-- Side Menu (absolute) -->
-					<div class="char-menu">
-						<div>
-							<button type="button" class="btn" class:activeSelection={view === "character"} onclick={() => (view = "character")}
-								><h5>Character</h5></button
-							>
-						</div>
-						<div>
-							<button type="button" class="btn" class:activeSelection={view === "class"} onclick={() => (view = "class")}
-								><h5>Class</h5></button
-							>
-						</div>
-						<div>
-							<button type="button" class="btn" class:activeSelection={view === "faith"} onclick={() => (view = "faith")}
-								><h5>Faith</h5></button
-							>
-						</div>
-						<div>
-							<button type="button" class="btn" class:activeSelection={view === "image"} onclick={() => (view = "image")}
-								><h5>Image</h5></button
-							>
-						</div>
-					</div>
+					<CharMenu bind:view />
 
 					<!-- Main stats/content -->
 					<div class="main-content offset">
@@ -210,57 +190,9 @@
 								<CreatorStat name="Charisma" {min} {max} {total} {totalMax} {totalLeft} bind:stat={charisma} />
 							</div>
 						{:else if view === "class"}
-							<div class="row">
-								<div class="col text-center">
-									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[0]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[1]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[2]} />
-									</div>
-									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[3]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[4]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[5]} />
-									</div>
-									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[6]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[7]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[8]} />
-									</div>
-									<div class="row justify-content-center">
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[9]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[10]} />
-										<CreatorClass bind:selectedClass gameClass={ClassStore.classes[11]} />
-									</div>
-								</div>
-							</div>
-							<div class="row my-5">
-								<div class="col">
-									<h5>{selectedClass?.name}</h5>
-									<p>{selectedClass?.description}</p>
-								</div>
-							</div>
+						    <ClassPicker bind:selectedClass />
 						{:else if view === "faith"}
-							<div class="row">
-								<div class="col text-center">
-									<div class="row justify-content-center">
-										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[0]} />
-										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[1]} />
-										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[2]} />
-									</div>
-									<div class="row py-2 justify-content-center">
-										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[3]} />
-										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[4]} />
-										<CreatorFaith bind:selectedFaith faith={FaithStore.faith[5]} />
-									</div>
-								</div>
-							</div>
-							<div class="row my-5">
-								<div class="col">
-									<h5>{selectedFaith?.name}</h5>
-									<p>{selectedFaith?.description}</p>
-								</div>
-							</div>
+						    <FaithPicker bind:selectedFaith />
 						{:else if view === "image"}
 							<div class="row mb-3">
 								<div class="col">
@@ -312,18 +244,5 @@
 		border-radius: 10px;
 		padding-top: 0.75rem;
 		padding-bottom: 0.75rem;
-	}
-	.char-menu {
-		position: absolute;
-		text-align: left;
-		.activeSelection {
-			color: rgb(88, 167, 250);
-			text-decoration: underline;
-		}
-		.btn {
-			&:hover {
-				color: rgb(88, 167, 250);
-			}
-		}
 	}
 </style>
