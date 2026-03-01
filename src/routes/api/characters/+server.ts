@@ -80,6 +80,13 @@ async function insertCharacter(
 			age,
 			race: "Unknown",
 			gender: "Unknown",
+			maxHealth: 10 + (str + dex) / 2,
+			health: 10 + (str + dex) / 2,
+			level: 1,
+			xp: 0,
+			copper: 0,
+			silver: 0,
+			gold: 0,
 		})
 		.returning({ id: characters.id });
 

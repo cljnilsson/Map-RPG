@@ -127,6 +127,7 @@ export const characters = sqliteTable("characters", {
 	xp: integer("exp").notNull().default(0),
 	health: integer("health").notNull().default(100),
 	maxHealth: integer("maxHealth").notNull().default(100),
+	imagePath: text("image").notNull().default(""),
 	gold: integer("gold").notNull().default(0),
 	silver: integer("silver").notNull().default(0),
 	copper: integer("copper").notNull().default(0),

@@ -18,7 +18,7 @@
 
 <div onclick={onClickCallback} tabindex="0" role="button" onkeydown={onEnter}>
 	<img
-		src="/char.jpg"
+		src={PlayerController.imagePath}
 		alt="Your character"
 		loading="lazy"
 		fetchpriority="high"

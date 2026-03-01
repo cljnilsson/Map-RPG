@@ -18,7 +18,9 @@
   let { children, data }: { children: Snippet<[]>; data: LayoutData } =
     $props();
   const session = authClient.useSession();
+  let isLoggedIn: boolean = $derived(!!$session.data?.user);
 
+  let loaded = $state(false);
   let flags: { name: string; value: boolean }[] = $derived(
     data?.userFlags.map((flag: { name: string; value: number }) => ({
       name: flag.name,
@@ -62,6 +64,7 @@
         race: character.race,
         conditions: [],
         xp: character.xp,
+        imagePath: character.imagePath,
         level: character.level,
         stats: {
           str: character.stats.filter((v) => v.name === "Strength")[0].value,
@@ -77,6 +80,7 @@
           copper: character.copper,
         },
       };
+      console.log("Loaded character");
     }
   }
 
@@ -86,6 +90,37 @@
     resource: string;
     value: number;
   };
+
+  // Ensure one login attempt had been made
+  async function onLoginAttempt() {
+    if ($session.data?.user) {
+      await loadCharacter();
+      SettingsController.load($session.data.user.id);
+
+      // Will load from DB eventually
+      if (CharacterStore.character && CharacterStore.inventory.length === 0) {
+        CharacterStore.inventory = [
+          // Throwaway testing items
+          { item: getItem("test-item-1"), amount: 1 },
+          { item: getItem("test-item-2"), amount: 1 },
+          { item: getItem("test-item-3"), amount: 3 },
+          // 'real' items
+          { item: getItem("health-potion"), amount: 3 },
+          { item: getItem("old-book"), amount: 1 },
+        ];
+      }
+
+      loaded = true;
+    }
+  }
+
+  $effect(() => {
+    if(!loaded) {
+      if($session.isPending === false) {
+        onLoginAttempt();
+      }
+    }
+  });
 
   onMount(() => {
     const hr = source("/api/resources");
@@ -114,24 +149,6 @@
         getCityResources(message.data);
       }
     });
-
-    loadCharacter();
-    if ($session.data?.user) {
-      SettingsController.load($session.data.user.id);
-    }
-
-    // Will load from DB eventually
-    if (CharacterStore.inventory.length === 0) {
-      CharacterStore.inventory = [
-        // Throwaway testing items
-        { item: getItem("test-item-1"), amount: 1 },
-        { item: getItem("test-item-2"), amount: 1 },
-        { item: getItem("test-item-3"), amount: 3 },
-        // 'real' items
-        { item: getItem("health-potion"), amount: 3 },
-        { item: getItem("old-book"), amount: 1 },
-      ];
-    }
   });
 </script>
 
@@ -149,12 +166,14 @@
 
 <div class="container-fluid p-0">
   <Nav {data}></Nav>
-  {#if !tutorialCompleted}
-    <Tutorial />
-  {:else}
-    <Notification />
+  {#if loaded}
+    {#if !tutorialCompleted}
+        <Tutorial />
+    {:else}
+        <Notification />
+    {/if}
+    {@render children()}
   {/if}
-  {@render children()}
 </div>
 
 <style>

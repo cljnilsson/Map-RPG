@@ -59,6 +59,7 @@
         conditions: [],
         xp: character.xp,
         level: character.level,
+        imagePath: character.imagePath,
         stats: {
           str: character.stats.filter((v) => v.name === "Strength")[0].value,
           int: character.stats.filter((v) => v.name === "Intelligence")[0]

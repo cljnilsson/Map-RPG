@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
   import type { LayoutData } from "$lib/types/layoutData";
   import { resolve } from "$app/paths";
   import { authClient } from "$lib/auth-client";
+  import { onMount } from "svelte";
 
   let { data }: { data: LayoutData } = $props();
   const session = authClient.useSession();
@@ -15,12 +15,12 @@
   );
 
   $effect(() => {
-    console.log(data);
     if (isLoggedIn) {
       console.log("Is logged in", flags);
     } else {
       console.log("Is not logged in");
     }
+    console.log(data);
   });
 
   async function attemptLogout() {

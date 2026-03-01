@@ -37,6 +37,14 @@ export class PlayerController extends CharacterController {
 		return PlayerController.safeGetCharacter().stats;
 	}
 
+	public static get imagePath() {
+		return PlayerController.safeGetCharacter().imagePath;
+	}
+
+	public static set imagePath(v: string) {
+		PlayerController.safeGetCharacter().imagePath = v;
+	}
+
 	public static get id() {
 		return PlayerController.safeGetCharacter().id;
 	}

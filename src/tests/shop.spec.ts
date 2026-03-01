@@ -1,8 +1,35 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import type { VendorItem } from "$lib/types/item";
-
 //import InventoryWindow from "$lib/components/windows/inventory/inventory.svelte";
 import { PlayerController } from "$lib/controller/character.svelte";
+
+vi.mock("$lib/stores/character.svelte", () => {
+	return {
+		default: {
+			inventory: [],
+			character: {
+				id: "1",
+				stats: { str: 6, int: 6, vit: 6, char: 6, dex: 6 },
+				health: 15,
+				maxHealth: 15,
+				name: "Test",
+				race: "Human",
+				age: 25,
+				imagePath: "/char.jpg",
+				gender: "Unknown",
+				xp: 0,
+				level: 1,
+				conditions: [],
+				money: {
+					gold: 1,
+					silver: 2,
+					copper: 3,
+				},
+			},
+			location: "Forest",
+		},
+	};
+});
 
 describe("Inventory", () => {
 	it("Vendor price checks", () => {

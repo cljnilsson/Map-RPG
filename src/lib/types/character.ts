@@ -6,6 +6,7 @@ type Character = {
 	name: string;
 	race: string;
 	age: number;
+	imagePath: string;
 	gender: "Male" | "Female" | "Unknown";
 	xp: number;
 	level: number;

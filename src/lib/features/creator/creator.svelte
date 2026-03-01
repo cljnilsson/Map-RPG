@@ -58,19 +58,20 @@
 			return;
 		}
 
-		const resp = await postRequest<
-			Character[],
-			{
-				name: string;
-				age: number;
-				stats: {
-					str: number;
-					dex: number;
-					int: number;
-					vit: number;
-					charisma: number;
-				};
+		 type PostReqBody = {
+			name: string;
+			age: number;
+			stats: {
+				str: number;
+				dex: number;
+				int: number;
+				vit: number;
+				charisma: number;
 			}
+		};
+		const resp = await postRequest<
+			{ success: boolean },
+			PostReqBody
 		>("api/characters", {
 			name,
 			age,
@@ -83,7 +84,7 @@
 			}
 		});
 
-		if (resp) {
+		if (resp.success) {
 			console.log("All went well!", resp);
 		} else {
 			console.error("Something went wrong while creating the character.", resp);
