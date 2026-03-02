@@ -1,5 +1,6 @@
 import { sqliteTable, text, integer, index, check, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
+import { classValues } from "$lib/types/class";
 
 /*
 	AUTH
@@ -116,6 +117,7 @@ export const flags = sqliteTable("flags", {
 });
 
 const genderValues = ["Male", "Female", "Unknown"] as const;
+
 export const characters = sqliteTable("characters", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	userId: text("user_id")
@@ -131,8 +133,8 @@ export const characters = sqliteTable("characters", {
 	gold: integer("gold").notNull().default(0),
 	silver: integer("silver").notNull().default(0),
 	copper: integer("copper").notNull().default(0),
-	class: text("class").notNull().default("Fighter"),
-	faith: text("faith"), // Should be set to not null in the future when Faith is implemented
+	class: text("class", { enum: classValues }).notNull().default("Fighter"),
+	faith: text("faith").notNull().default(""),
 	race: text("race").notNull().default("Human"),
 	gender: text("gender", { enum: genderValues }).notNull(),
 });

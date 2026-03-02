@@ -44,12 +44,19 @@
 		"/characters/male1.png",
 		"/characters/male2.png",
 		"/characters/male3.png",
+		"/characters/male4.png",
 		"/characters/girl1.png",
 		"/characters/girl2.png",
 		"/characters/girl3.png",
 		"/characters/girl4.png",
 		"/characters/girl5.png",
-		"/characters/girl6.png"
+		"/characters/girl6.png",
+		"/characters/girl7.png",
+		"/characters/girl8.png",
+		"/characters/girl9.png",
+		"/characters/girl10.png",
+		"/characters/girl11.png",
+		"/characters/girl12.png",
 	];
 
 	async function createCharater() {

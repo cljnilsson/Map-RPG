@@ -62,6 +62,8 @@
         age: character.age,
         gender: character.gender,
         race: character.race,
+        class: character.class,
+        faith: character.faith,
         conditions: [],
         xp: character.xp,
         imagePath: character.imagePath,

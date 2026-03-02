@@ -1,3 +1,5 @@
+import type { ClassName } from "$lib/types/class";
+
 type Character = {
 	id: number;
 	stats: { str: number; int: number; vit: number; char: number; dex: number };
@@ -7,6 +9,8 @@ type Character = {
 	race: string;
 	age: number;
 	imagePath: string;
+	faith: string;
+	class: ClassName;
 	gender: "Male" | "Female" | "Unknown";
 	xp: number;
 	level: number;

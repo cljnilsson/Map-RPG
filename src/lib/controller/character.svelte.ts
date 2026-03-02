@@ -49,6 +49,14 @@ export class PlayerController extends CharacterController {
 		return PlayerController.safeGetCharacter().id;
 	}
 
+	public static get faith() {
+		return PlayerController.safeGetCharacter().faith;
+	}
+
+	public static get class() {
+		return PlayerController.safeGetCharacter().class;
+	}
+
 	public static get health(): number {
 		return PlayerController.safeGetCharacter().health;
 	}
