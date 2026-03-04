@@ -29,8 +29,13 @@
 	<p>Has character: {PlayerController.exists}</p>
 	<div class="text-center">
     	<a href={resolve("/map")}>
-           	<button type="button" class="btn btn-lg btn-primary">
+           	<button type="button" class="btn btn-lg btn-primary" disabled={!PlayerController.exists}>
                 Play!
+            </button>
+    	</a>
+    	<a href={resolve("/creator")}>
+           	<button type="button" class="btn btn-lg btn-primary" disabled={PlayerController.exists}>
+                Create Character
             </button>
     	</a>
 	</div>
