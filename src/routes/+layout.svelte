@@ -155,7 +155,7 @@
 </script>
 
 <svelte:head>
-  <link rel="icon" type="image/svg" href="/facicon.png" />
+  <link rel="icon" type="image/svg" href="/favicon.png" />
   <title>Travian x DnD</title>
   <meta
     name="description"

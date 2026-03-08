@@ -40,14 +40,14 @@
 		"jsdom": "^28.1.0",
 		"sass-embedded": "^1.97.3",
 		"svelte": "^5.53.7",
-		"svelte-check": "^4.4.4",
+		"svelte-check": "^4.4.5",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1",
 		"vitest": "^4.0.18"
 	},
 	"dependencies": {
 		"@faker-js/faker": "^10.3.0",
-		"better-auth": "^1.5.3",
+		"better-auth": "^1.5.4",
 		"better-sqlite3": "^12.6.2",
 		"dayjs": "^1.11.19",
 		"drizzle-orm": "^0.45.1",

@@ -1,18 +1,25 @@
 import { getRequestEvent } from "$app/server";
 import { redirect } from "@sveltejs/kit";
+import { auth } from "$lib/auth";
 
-// TODO, since locals exist we don't need to send userId with the client.
-export function matchingUserId(userId: string, caller: string = "") {
-	const { locals, url } = getRequestEvent();
+export async function matchingUserId(userId: string, caller: string = "") {
+	const { request } = getRequestEvent();
 
-	if (!locals.user) {
-		console.log(caller + " no user exists at all");
-		return false;
-	} else if (locals.user.id !== userId) {
-		console.log(caller + " the user does not match locals");
+	const session = await auth.api.getSession({
+		headers: request.headers,
+	});
+
+	if (!session?.user) {
+		console.log(caller, "no user exists at all");
 		return false;
 	}
-	console.log(caller + " user exists and matches, allowing access!");
+
+	if (session.user.id !== userId) {
+		console.log(caller, "the user does not match session");
+		return false;
+	}
+
+	console.log(caller, "user exists and matches, allowing access!");
 	return true;
 }
 
