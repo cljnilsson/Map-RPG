@@ -15,15 +15,15 @@ async function getAllLoans() {
 }
 
 async function getResourceByName(name: string) {
-	return await db.select().from(resource).where(eq(resource.name, name)).get();
+	return db.select().from(resource).where(eq(resource.name, name)).get();
 }
 
 async function getCity(name: string) {
-	return await db.select().from(city).where(eq(city.name, name)).get();
+	return db.select().from(city).where(eq(city.name, name)).get();
 }
 
 async function getCityData(characterId: number, cityId: number) {
-	return await db
+	return db
 		.select()
 		.from(cityData)
 		.where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId)))
@@ -131,7 +131,7 @@ async function createPost(body: LoanData) {
 	}
 
 	const user = await getCityDataOwnerById(cityData.id);
-	if (!user || getUser().id !== user.id) {
+	if (!user || (await getUser()).id !== user.id) {
 		return { success: false, failed };
 	}
 
@@ -169,7 +169,7 @@ async function updatePost(body: LoanData) {
 	}
 
 	const user = await getCityDataOwnerById(cityData.id);
-	if (!user || getUser().id !== user.id) {
+	if (!user || (await getUser()).id !== user.id) {
 		return { success: false, failed };
 	}
 

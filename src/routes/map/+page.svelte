@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Map from "$lib/components/map.svelte";
+  import GameMap from "$lib/components/map.svelte";
   import MapHeader from "$lib/partials/mapHeader.svelte";
   import { world, winterfell, kingsLanding } from "$lib/tempData";
   import MapStore from "$lib/stores/map.svelte";
@@ -14,6 +14,7 @@
   import CityController from "$lib/controller/city.svelte";
   import { getUnit, safeGetUnit } from "$lib/data/units";
   import type { Unit } from "$lib/types/unit";
+  import {getCities} from "$lib/api/cities.remote";
 
   type WindowPosition = {
     id: number;
@@ -103,31 +104,9 @@
     }
   }
 
-  async function getCities() {
-    const { cities, success } = await getRequest<{
-      cities: Array<{
-        id: number;
-        cityId: number;
-        population: number;
-        workers: number;
-        name: string;
-        units: {
-          iconPath: string;
-          value: number;
-          name: string;
-        }[];
-        resources: CityResource[];
-        plots: {
-          building: string;
-          cityId: number;
-          id: number;
-          identifier: string;
-        }[];
-      }>;
-      success: boolean;
-    }>("/api/cities");
+  async function getAllCities() {
+    const cities = await getCities();
 
-    if (success) {
       // There has to be a cleaner way to do this, maybe send data more selectively from server so don't have to cleanup
       for (const city of cities) {
         if (city.resources.length === 0) {
@@ -152,19 +131,23 @@
           found.map.city.units = toAdd;
 
           for (const plot of city.plots) {
-            const id = parseInt(plot.identifier);
-            found.map.city.plots[id].building = plot.building;
+            // Second arg is 'default' supposedly
+            const id = parseInt(plot.identifier, 10);
+            if(plot.building) {
+              found.map.city.plots[id].building = plot.building;
+            } else {
+              console.warn("Trying to add building to plot but has undefeined building")
+            }
           }
 
           found.map.city.workers = city.workers;
           found.map.city.population = city.population;
         }
       }
+
       console.log("Cities:", cities);
       CityController.setMainCityFromCurrentOwned();
-    } else {
-      console.error("Failed to fetch cities");
-    }
+
   }
 
   const loadFromBackup = true;
@@ -172,7 +155,7 @@
   onMount(async () => {
     if (loadFromBackup) {
       getWindowPositions();
-      getCities();
+      getAllCities();
     }
   });
 </script>
@@ -186,7 +169,7 @@
     </div>
     <div class="row mx-0">
       <div class="col">
-        <Map />
+        <GameMap />
       </div>
 
       <PlayerWindows />

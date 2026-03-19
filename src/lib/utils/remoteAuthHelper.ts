@@ -23,13 +23,18 @@ export async function matchingUserId(userId: string, caller: string = "") {
 	return true;
 }
 
-export function getUser(caller: string = "") {
-	const { locals } = getRequestEvent();
-	if (!locals.user) {
-		//return -1;
-		console.log(caller + " no user exists (not logged in)");
+export async function getUser(caller: string = "") {
+	const { request } = getRequestEvent();
+
+	const session = await auth.api.getSession({
+		headers: request.headers,
+	});
+
+	if (!session?.user) {
+		console.log(caller, " no user exists (not logged in)");
 		redirect(307, "/login");
 	}
-	console.log(caller + " user exists allowing access!");
-	return locals.user;
+
+	console.log(caller, " user exists allowing access!");
+	return session.user;
 }

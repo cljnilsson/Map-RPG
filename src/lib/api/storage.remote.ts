@@ -128,7 +128,7 @@ async function addOne(body: AddOneData): Promise<boolean> {
 
 	const user = await getCityDataOwnerById(body.cityId);
 
-	if (!user || user.id !== getUser().id) {
+	if (!user || user.id !== (await getUser()).id) {
 		console.warn("Trying to add to storage from citydata that is not owned by the logged in user", body.cityId);
 		return false;
 	}
@@ -161,7 +161,7 @@ async function removeOne(body: RemoveOneData): Promise<boolean> {
 
 	const user = await getCityDataOwnerById(body.cityId);
 
-	if (!user || user.id !== getUser().id) {
+	if (!user || user.id !== (await getUser()).id) {
 		console.warn("Trying to remove storage from citydata that is not owned by the logged in user", body.cityId);
 		return false;
 	}

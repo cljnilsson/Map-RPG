@@ -92,7 +92,7 @@ type OneResourceData = v.InferOutput<typeof ResourceSchema>;
 async function post(body: ResourceArrayData) {
 	console.log(body);
 	const failed: ResourceArrayData = [];
-	const user = getUser();
+	const user = await getUser();
 
 	for (const resource of body) {
 		const cityData = await getCityDataById(resource.cityDataId);
@@ -123,7 +123,7 @@ async function post(body: ResourceArrayData) {
 // Untested
 async function postOne({ cityDataId, resourceId, value }: OneResourceData) {
 	const failed: ResourceArrayData = [];
-	const user = getUser();
+	const user = await getUser();
 
 	const cityData = await getCityDataById(cityDataId);
 	if (cityData) {

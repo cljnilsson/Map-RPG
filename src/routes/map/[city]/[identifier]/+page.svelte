@@ -16,9 +16,7 @@
 	import { resolve } from "$app/paths";
 	import MapController from "$lib/controller/map.svelte";
 	import { maps } from "$lib/tempData";
-	import { getRequest } from "$lib/utils/request";
-
-	import type { CityResource } from "$lib/types/resource";
+	import {getCities} from "$lib/api/cities.remote";
 
 	import { getUnit, safeGetUnit } from "$lib/data/units";
 
@@ -70,76 +68,55 @@
 		return { Component, strippedBuilding };
 	}
 
-	async function getCities() {
-		const { cities, success } = await getRequest<{
-			cities: Array<{
-				id: number;
-				cityId: number;
-				population: number;
-				workers: number;
-				name: string;
-				units: {
-					iconPath: string;
-					value: number;
-					name: string;
-				}[];
-				resources: CityResource[];
-				plots: {
-					building: string;
-					cityId: number;
-					id: number;
-					identifier: string;
-				}[];
-			}>;
-			success: boolean;
-		}>("/api/cities");
+	async function getAllCities() {
+	  const cities = await getCities();
 
-		if (success) {
-			// There has to be a cleaner way to do this, maybe send data more selectively from server so don't have to cleanup
-			for (const city of cities) {
-				if (city.resources.length === 0) {
-					console.warn("City has no resources which is probably invalid");
-				}
-
-				const found = MapController.getMapByName(city.name);
-				if (found && isCityMap(found.map)) {
-					found.map.city.resources = city.resources.map((r) => {
-						return { ...r };
-					});
-
-					// Missing an attribute or two?
-					const toAdd: Unit[] = [];
-					for (const u of city.units) {
-						const temp = safeGetUnit(u.name);
-						if (temp) {
-							toAdd.push({ ...temp, amount: u.value, unlocked: true }); // hardcoded to true, unlocked will be deprecated most likely
-						}
-					}
-
-					found.map.city.units = toAdd;
-
-					for (const plot of city.plots) {
-						const id = parseInt(plot.identifier);
-						found.map.city.plots[id].building = plot.building;
-					}
-
-					found.map.city.workers = city.workers;
-					found.map.city.population = city.population;
-				}
+		// There has to be a cleaner way to do this, maybe send data more selectively from server so don't have to cleanup
+		for (const city of cities) {
+			if (city.resources.length === 0) {
+				console.warn("City has no resources which is probably invalid");
 			}
-			console.log("Cities:", cities);
-			CityController.setMainCityFromCurrentOwned();
-			currentMap = MapController.cityMaps.filter((v) => v.map.name === data.city)[0].map;
-			cityData.id = cities.find((v) => v.name === currentMap.name)?.id;
-		} else {
-			console.error("Failed to fetch cities");
+
+			const found = MapController.getMapByName(city.name);
+			if (found && isCityMap(found.map)) {
+				found.map.city.resources = city.resources.map((r) => {
+					return { ...r };
+				});
+
+				// Missing an attribute or two?
+				const toAdd: Unit[] = [];
+				for (const u of city.units) {
+					const temp = safeGetUnit(u.name);
+					if (temp) {
+						toAdd.push({ ...temp, amount: u.value, unlocked: true }); // hardcoded to true, unlocked will be deprecated most likely
+					}
+				}
+
+				found.map.city.units = toAdd;
+
+				for (const plot of city.plots) {
+					const id = parseInt(plot.identifier, 10);
+                    if(plot.building) {
+                      found.map.city.plots[id].building = plot.building;
+                    } else {
+                      console.warn("Trying to add building to plot but has undefeined building")
+                    }
+				}
+
+				found.map.city.workers = city.workers;
+				found.map.city.population = city.population;
+			}
 		}
+		console.log("Cities:", cities);
+		CityController.setMainCityFromCurrentOwned();
+		currentMap = MapController.cityMaps.filter((v) => v.map.name === data.city)[0].map;
+		cityData.id = cities.find((v) => v.name === currentMap.name)?.id;
 	}
 
 	onMount(() => {
 		// If data does not match state (such as after some SSR or refreshing the page) then fetch data based on props, while this should never happen in production it is annoying in development.
 		if (currentMap.name !== data.city && dev) {
-			getCities();
+			getAllCities();
 		}
 	});
 </script>
