@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { postRequest } from "$lib/utils/request";
 	import { isCityMap } from "$lib/typeguards/map";
 	import MapController from "$lib/controller/map.svelte";
+	import { PlayerController } from "$lib/controller/character.svelte.js";
 	import { getBuildingsByPlotType } from "$lib/data/buildings";
 	import { dev } from "$app/environment";
 	import type { Building } from "$lib/types/building";
 	import ResourceCost from "$lib/components/resourceCost.svelte";
 	import { goto } from "$app/navigation";
+	import { updateSpecificPlot } from "$lib/api/plot.remote.js";
 	import { resolve } from "$app/paths";
 
 	const { data } = $props();
@@ -36,11 +37,7 @@
 
 		plots[plotIndex] = { ...plots[plotIndex], building: pickedBuilding.name };
 
-		const resp = await postRequest<{ success: boolean }, { building: string; plot: string; city: string }>("/api/cities/build", {
-			building: pickedBuilding.name,
-			plot: plotIndex + "",
-			city: MapController.currentMapState.map.city.name // change to id later?
-		});
+		const resp = await updateSpecificPlot({building: pickedBuilding.name, plot: plotIndex + "", cityId: MapController.currentMapState.map.city.id, characterId: PlayerController.id});
 
 		console.log(resp);
 

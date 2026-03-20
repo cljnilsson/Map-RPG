@@ -14,6 +14,7 @@ const winterfellO: CityMap = {
 	type: "city",
 	imagePath: "/city-with-plots.png",
 	city: {
+		id: 1, // Hardcoded, grab from DB later
 		name: "Winterfell",
 		owned: true,
 		unlocked: true,
@@ -41,6 +42,7 @@ const kingsLandingO: CityMap = {
 	type: "city",
 	imagePath: "/map2.webp",
 	city: {
+		id: 2, // Hardcoded, grab from DB later
 		name: "King's Landing",
 		owned: false,
 		unlocked: true,

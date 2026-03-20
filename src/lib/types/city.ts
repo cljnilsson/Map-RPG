@@ -10,6 +10,7 @@ type Plot = {
 };
 
 type City = {
+	id: number;
 	name: string;
 	unlocked: boolean;
 	owned: boolean;

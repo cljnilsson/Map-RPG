@@ -18,6 +18,7 @@ export class PlayerController extends CharacterController {
 	// ---------------
 	// GETTERS / SETTERS
 	// ---------------
+	//
 
 	public static get exists(): boolean {
 		return PlayerStore.character != null;
