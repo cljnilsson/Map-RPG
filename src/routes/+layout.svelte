@@ -8,7 +8,7 @@
   import Tutorial from "$lib/game/tutorial.svelte";
   import Notification from "$lib/features/notification/notification.svelte";
   import { getItem } from "$lib/data/items";
-  import { getRequest } from "$lib/utils/request";
+  import { getAllCharacters } from "$lib/api/character.remote";
   import { getCityResources } from "$lib/utils/resources";
   import type { Character } from "$lib/server/db/schema";
   import { source } from "sveltekit-sse";
@@ -38,10 +38,7 @@
   };
 
   async function loadCharacter() {
-    const chars = await getRequest<{
-      success: boolean;
-      characters: CharacterWithStats[];
-    }>("/api/characters");
+    const chars = await getAllCharacters();
 
     // Always loads the first one rather than selecting from user choice, fix later
     if (chars.characters.length > 0) {
@@ -83,6 +80,8 @@
         },
       };
       console.log("Loaded character");
+    } else {
+      console.warn("No characters found");
     }
   }
 

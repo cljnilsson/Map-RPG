@@ -1,9 +1,9 @@
-import { json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
+import { query, command } from "$app/server";
 import { characters, stats, stat } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
-import { auth } from "$lib/auth";
+import * as v from "valibot";
+import { getUser } from "$lib/utils/remoteAuthHelper";
 
 async function getCharacters(userId: string) {
 	return await db.query.characters.findMany({
@@ -19,16 +19,11 @@ async function getCharacters(userId: string) {
 	});
 }
 
-export const GET: RequestHandler = async ({ request }) => {
-	const session = await auth.api.getSession({
-		headers: request.headers,
-	});
+async function get() {
+	// In theory should block requests if user is not logged in
+	const user = await getUser();
 
-	if (!session || !session?.user) {
-		return new Response("Unauthorized", { status: 401 });
-	}
-
-	const userId = session.user.id;
+	const userId = user.id;
 	const existing = await getCharacters(userId);
 
 	const adjusted = existing.map((char) => ({
@@ -39,28 +34,22 @@ export const GET: RequestHandler = async ({ request }) => {
 		})),
 	}));
 
-	return json({ success: true, characters: adjusted });
-};
-
-function isValidInput(
-	name: unknown,
-	age: unknown,
-	str: unknown,
-	dex: unknown,
-	int: unknown,
-	vit: unknown,
-	charisma: unknown,
-): boolean {
-	return (
-		typeof name === "string" &&
-		typeof age === "number" &&
-		typeof str === "number" &&
-		typeof dex === "number" &&
-		typeof int === "number" &&
-		typeof vit === "number" &&
-		typeof charisma === "number"
-	);
+	return { success: true, characters: adjusted };
 }
+
+const CreateCharacterSchema = v.object({
+	name: v.string(),
+	age: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+	stats: v.object({
+		str: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+		dex: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+		int: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+		vit: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+		charisma: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+	}),
+});
+
+type CreateCharacterData = v.InferOutput<typeof CreateCharacterSchema>;
 
 async function insertCharacter(
 	userId: string,
@@ -116,25 +105,18 @@ async function insertCharacter(
 	]);
 }
 
-export const POST: RequestHandler = async ({ request }) => {
-	const session = await auth.api.getSession({
-		headers: request.headers,
-	});
+async function create({ name, age, stats }: CreateCharacterData): Promise<boolean> {
+	// In theory should block requests if user is not logged in
+	const user = await getUser();
 
-	if (!session || !session?.user) {
-		return new Response("Unauthorized", { status: 401 });
-	}
-
-	const { name, age, stats } = await request.json();
 	console.log(name, age, stats);
 
-	if (!isValidInput(name, age, stats.str, stats.dex, stats.int, stats.vit, stats.charisma)) {
-		return new Response("Invalid input", { status: 400 });
-	}
-
-	const userId = session.user.id;
+	const userId = user.id;
 
 	await insertCharacter(userId, name, age, stats.str, stats.dex, stats.int, stats.vit, stats.charisma);
 
-	return json({ success: true });
-};
+	return true;
+}
+
+export const getAllCharacters = query(get);
+export const createCharacter = command(CreateCharacterSchema, create);

@@ -3,6 +3,14 @@ import { render, screen, fireEvent } from "@testing-library/svelte";
 import Creator from "$lib/features/creator/creator.svelte";
 import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 
+vi.mock("$lib/api/character.remote", () => {
+	return {
+		getCharacter: vi.fn(() => ({
+			name: "Mock Character", // Not used in the test at the time of writing thus it's not returning a full proper object (should be array also?)
+		})),
+	};
+});
+
 test("Creator renders with correct elements", () => {
 	const { container } = render(Creator);
 	expect(container).toMatchSnapshot();

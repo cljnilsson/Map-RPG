@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { postRequest } from "$lib/utils/request";
 	import ImageUploader from "$lib/components/ImageUploader.svelte";
 	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
 	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
-	import type { Character } from "$lib/server/db/schema";
+	import { createCharacter } from "$lib/api/character.remote";
 	import ClassStore from "$lib/stores/classes.svelte";
 	import type { Class } from "$lib/types/class";
 	import type { Faith } from "$lib/types/faith";
@@ -65,21 +64,7 @@
 			return;
 		}
 
-		 type PostReqBody = {
-			name: string;
-			age: number;
-			stats: {
-				str: number;
-				dex: number;
-				int: number;
-				vit: number;
-				charisma: number;
-			}
-		};
-		const resp = await postRequest<
-			{ success: boolean },
-			PostReqBody
-		>("api/characters", {
+		const resp = await createCharacter({
 			name,
 			age,
 			stats: {
@@ -91,7 +76,7 @@
 			}
 		});
 
-		if (resp.success) {
+		if (resp) {
 			console.log("All went well!", resp);
 		} else {
 			console.error("Something went wrong while creating the character.", resp);
