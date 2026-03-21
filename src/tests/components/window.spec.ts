@@ -30,6 +30,14 @@ vi.mock("$lib/api/quests.remote.ts", () => {
 	};
 });
 
+vi.mock("$lib/api/character.remote.ts", () => {
+	return {
+		getAllCharacters: vi.fn(() => []),
+		createCharacter: vi.fn(() => true),
+		saveCharacter: vi.fn(() => true),
+	};
+});
+
 test("Window renders", async () => {
 	const { component, container } = render(Window, renderOptions);
 	console.log(component);

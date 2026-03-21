@@ -3,6 +3,40 @@ import type { VendorItem } from "$lib/types/item";
 //import InventoryWindow from "$lib/components/windows/inventory/inventory.svelte";
 import { PlayerController } from "$lib/controller/character.svelte";
 
+vi.mock("$lib/api/windows.remote.ts", () => {
+	return {
+		getWindowPositionsByCharacter: vi.fn(() => ({
+			success: true,
+			positions: [],
+		})),
+		updateWindowPositionsByCharacter: vi.fn(() => ({ success: true })),
+	};
+});
+
+vi.mock("$lib/api/windows.remote.ts", () => {
+	return {
+		getWindowPositionsByCharacter: vi.fn(() => ({
+			success: true,
+			positions: [],
+		})),
+		updateWindowPositionsByCharacter: vi.fn(() => ({ success: true })),
+	};
+});
+
+vi.mock("$lib/api/quests.remote.ts", () => {
+	return {
+		updateOneQuest: vi.fn(() => ({ success: true, failedQuests: [] })),
+	};
+});
+
+vi.mock("$lib/api/character.remote.ts", () => {
+	return {
+		getAllCharacters: vi.fn(() => []),
+		createCharacter: vi.fn(() => true),
+		saveCharacter: vi.fn(() => true),
+	};
+});
+
 vi.mock("$lib/stores/character.svelte", () => {
 	return {
 		default: {

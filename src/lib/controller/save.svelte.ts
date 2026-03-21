@@ -1,38 +1,18 @@
-import { postRequest } from "$lib/utils/request";
 import { PlayerController } from "$lib/controller/character.svelte";
 import QuestController from "./quest.svelte";
 import { updateWindowPositionsByCharacter } from "$lib/api/windows.remote";
 import { updateOneQuest } from "$lib/api/quests.remote";
-
-type CharacterInput = {
-	oldName: string;
-	name: string;
-	health: number;
-	maxHealth: number;
-	exp: number;
-	level: number;
-	stats: {
-		str: number;
-		dex: number;
-		int: number;
-		vit: number;
-		char: number;
-	};
-	inventory: {
-		name: string; // Perhaps a bit missleading, might rename the 'name' attribute to key at some point
-		amount: number;
-	}[];
-};
+import { saveCharacter } from "$lib/api/character.remote";
 
 class SaveController {
 	// might rework it in the future so oldname and name are not needed but for now it is needed to have the name currently used in the database
 	public async saveCharacter(newName?: string) {
-		await postRequest<unknown, CharacterInput>("/api/characters/save", {
+		await saveCharacter({
 			oldName: PlayerController.name,
 			name: newName ?? PlayerController.name,
 			health: PlayerController.health,
 			maxHealth: PlayerController.maxHealth,
-			exp: PlayerController.xp,
+			xp: PlayerController.xp,
 			level: PlayerController.level,
 			stats: {
 				str: PlayerController.stats.str,

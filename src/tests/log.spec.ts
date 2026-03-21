@@ -21,6 +21,14 @@ vi.mock("$lib/api/quests.remote.ts", () => {
 	};
 });
 
+vi.mock("$lib/api/character.remote.ts", () => {
+	return {
+		getAllCharacters: vi.fn(() => []),
+		createCharacter: vi.fn(() => true),
+		saveCharacter: vi.fn(() => true),
+	};
+});
+
 describe("Logger", () => {
 	it("Works", () => {
 		const toAdd = "Unique Demo Message";

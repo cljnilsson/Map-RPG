@@ -4,6 +4,7 @@ import type { Character } from "$lib/types/character";
 import PlayerStore from "$lib/stores/character.svelte";
 import type { NPC } from "$lib/types/npc";
 import LogController from "$lib/controller/logs.svelte";
+import SaveController from "$lib/controller/save.svelte";
 
 export class CharacterController {}
 
@@ -71,9 +72,9 @@ export class PlayerController extends CharacterController {
 
 		PlayerController.safeGetCharacter().health = v;
 
-		const { name, health, maxHealth, xp, level, stats } = PlayerController.safeGetCharacter();
-
-		fetch("/api/characters/save", {
+		//const { name, health, maxHealth, xp, level, stats } = PlayerController.safeGetCharacter();
+		SaveController.saveCharacter();
+		/*fetch("/api/characters/save", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -85,7 +86,7 @@ export class PlayerController extends CharacterController {
 				level: level,
 				stats: stats,
 			}),
-		});
+			});*/
 	}
 
 	public static get conditions(): string[] {
