@@ -1,6 +1,8 @@
 import { postRequest } from "$lib/utils/request";
 import { PlayerController } from "$lib/controller/character.svelte";
 import QuestController from "./quest.svelte";
+import { updateWindowPositionsByCharacter } from "$lib/api/windows.remote";
+import { updateOneQuest } from "$lib/api/quests.remote";
 
 type CharacterInput = {
 	oldName: string;
@@ -19,15 +21,6 @@ type CharacterInput = {
 	inventory: {
 		name: string; // Perhaps a bit missleading, might rename the 'name' attribute to key at some point
 		amount: number;
-	}[];
-};
-
-type QuestInput = {
-	characterId: number;
-	quests: {
-		key: string;
-		progress: number;
-		status: "active" | "completed" | "failed";
 	}[];
 };
 
@@ -56,17 +49,13 @@ class SaveController {
 	}
 
 	public async saveWindows(newX: number, newY: number, uniqueKey: string) {
-		const resp = await postRequest<{ success: boolean }, { key: string; x: number; y: number; characterId: number }>(
-			"/api/characters/save/windows",
-			{
-				key: uniqueKey,
-				x: newX,
-				y: newY,
-				characterId: PlayerController.id,
-			},
-		);
+		const success = await updateWindowPositionsByCharacter({
+			key: uniqueKey,
+			x: newX,
+			y: newY,
+			characterId: PlayerController.id,
+		});
 
-		const { success } = resp;
 		if (!success) {
 			console.error("Failed to save window position");
 			return;
@@ -76,7 +65,7 @@ class SaveController {
 	}
 
 	public async saveQuests() {
-		await postRequest<unknown, QuestInput>("/api/characters/save/quests", {
+		await updateOneQuest({
 			characterId: 4,
 			quests: QuestController.quests.map((q) => {
 				return {

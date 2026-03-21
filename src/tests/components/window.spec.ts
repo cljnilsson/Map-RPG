@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/svelte";
 import Window from "$lib/features/window/window.svelte";
@@ -13,6 +13,22 @@ const renderOptions = {
 	visibility: true,
 	uniqueKey: "test-window",
 };
+
+vi.mock("$lib/api/windows.remote.ts", () => {
+	return {
+		getWindowPositionsByCharacter: vi.fn(() => ({
+			success: true,
+			positions: [],
+		})),
+		updateWindowPositionsByCharacter: vi.fn(() => ({ success: true })),
+	};
+});
+
+vi.mock("$lib/api/quests.remote.ts", () => {
+	return {
+		updateOneQuest: vi.fn(() => ({ success: true, failedQuests: [] })),
+	};
+});
 
 test("Window renders", async () => {
 	const { component, container } = render(Window, renderOptions);

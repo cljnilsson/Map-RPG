@@ -1,9 +1,25 @@
-import { describe, it, expect, test } from "vitest";
+import { describe, it, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 
 import LoggerWindow from "$lib/features/window/windows/logger/logger.svelte";
 import WindowController from "$lib/controller/window.svelte";
 import LogsController from "$lib/controller/logs.svelte";
+
+vi.mock("$lib/api/windows.remote.ts", () => {
+	return {
+		getWindowPositionsByCharacter: vi.fn(() => ({
+			success: true,
+			positions: [],
+		})),
+		updateWindowPositionsByCharacter: vi.fn(() => ({ success: true })),
+	};
+});
+
+vi.mock("$lib/api/quests.remote.ts", () => {
+	return {
+		updateOneQuest: vi.fn(() => ({ success: true, failedQuests: [] })),
+	};
+});
 
 describe("Logger", () => {
 	it("Works", () => {

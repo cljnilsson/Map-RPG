@@ -1,10 +1,9 @@
-import { json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types";
 import { db } from "$lib/server/db";
+import { command } from "$app/server";
 import { quests } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { auth } from "$lib/auth";
+import { getUser } from "$lib/utils/remoteAuthHelper";
 
 const QuestSchema = v.object({
 	key: v.pipe(v.string(), v.minLength(1)),
@@ -25,12 +24,12 @@ async function updateQuest(
 	progress: number,
 	status: "active" | "completed" | "failed",
 ): Promise<boolean> {
-	await db
+	const rows = await db
 		.update(quests)
 		.set({ progress, status })
 		.where(and(eq(quests.characterId, characterId), eq(quests.key, key)));
 
-	return true;
+	return rows.changes > 0;
 }
 
 async function createQuest(
@@ -39,7 +38,9 @@ async function createQuest(
 	progress: number,
 	status: "active" | "completed" | "failed",
 ) {
-	await db.insert(quests).values({ characterId, key: key, progress, status });
+	const rows = await db.insert(quests).values({ characterId, key: key, progress, status });
+
+	return rows.changes > 0;
 }
 
 async function questExists(characterId: number, key: string): Promise<boolean> {
@@ -52,41 +53,27 @@ async function questExists(characterId: number, key: string): Promise<boolean> {
 	return !!exists;
 }
 
-function isUpdateQuestsPayload(data: unknown): data is UpdateQuestsPayload {
-	return v.safeParse(UpdateQuestsPayloadSchema, data).success;
-}
+async function update({ quests, characterId }: UpdateQuestsPayload) {
+	// In theory should block requests if user is not logged in
+	await getUser();
 
-export const POST: RequestHandler = async ({ request }) => {
-	const session = await auth.api.getSession({
-		headers: request.headers,
-	});
-
-	if (!session || !session?.user) {
-		return new Response("Unauthorized", { status: 401 });
-	}
-
-	const body = await request.json();
-
-	if (!isUpdateQuestsPayload(body)) {
-		return new Response("Invalid input", { status: 400 });
-	}
-
-	const { quests, characterId } = body;
 	let failedQuests: string[] = [];
 
 	// Loop quests
 	for (const q of quests) {
 		if (await questExists(characterId, q.key)) {
-			console.log("Quest" + q.key + "exists, updating");
+			console.log("Quest", q.key, "exists, updating");
 			const success = await updateQuest(characterId, q.key, q.progress, q.status);
 			if (!success) {
 				failedQuests = [...failedQuests, q.key];
 			}
 		} else {
-			console.log("Quest" + q.key + " does NOT exist, creating new");
+			console.log("Quest", q.key, " does NOT exist, creating new");
 			await createQuest(characterId, q.key, q.progress, q.status);
 		}
 	}
 
-	return json({ success: true });
-};
+	return { success: failedQuests.length === 0, failedQuests };
+}
+
+export const updateOneQuest = command(UpdateQuestsPayloadSchema, update);

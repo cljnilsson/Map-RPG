@@ -7,8 +7,9 @@
   import GameWindows from "$lib/partials/gamewindows.svelte";
   import WindowController from "$lib/controller/window.svelte";
   import { onMount } from "svelte";
-  import { getRequest } from "$lib/utils/request";
+  import { getWindowPositionsByCharacter } from "$lib/api/windows.remote";
   import MapController from "$lib/controller/map.svelte";
+  import { PlayerController } from "$lib/controller/character.svelte";
   import { isCityMap } from "$lib/typeguards/map";
   import type { CityResource } from "$lib/types/resource";
   import CityController from "$lib/controller/city.svelte";
@@ -25,10 +26,7 @@
   };
 
   async function getWindowPositions() {
-    const { positions, success } = await getRequest<{
-      positions: Array<WindowPosition>;
-      success: boolean;
-    }>("/api/characters/1/windows"); // Hardcoded because characters are not loaded from database yet
+    const { positions, success } = await getWindowPositionsByCharacter({characterId: PlayerController.id});
 
     if (success) {
       const slimmedPositions = positions.map((pos: WindowPosition) => ({
