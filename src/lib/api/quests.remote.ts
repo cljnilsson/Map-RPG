@@ -43,8 +43,8 @@ async function createQuest(
 	return rows.changes > 0;
 }
 
-async function questExists(characterId: number, key: string): Promise<boolean> {
-	const exists = await db
+function questExists(characterId: number, key: string): boolean {
+	const exists = db
 		.select()
 		.from(quests)
 		.where(and(eq(quests.characterId, characterId), eq(quests.key, key)))
@@ -61,7 +61,7 @@ async function update({ quests, characterId }: UpdateQuestsPayload) {
 
 	// Loop quests
 	for (const q of quests) {
-		if (await questExists(characterId, q.key)) {
+		if (questExists(characterId, q.key)) {
 			console.log("Quest", q.key, "exists, updating");
 			const success = await updateQuest(characterId, q.key, q.progress, q.status);
 			if (!success) {

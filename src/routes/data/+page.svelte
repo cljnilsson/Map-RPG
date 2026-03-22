@@ -8,6 +8,7 @@
   import { getFlags } from "$lib/test.remote";
   import CharacterStore from "$lib/stores/character.svelte";
   import { authClient } from "$lib/auth-client";
+  import { updateOneFlag } from "$lib/api/flags.remote";
 
   const { data: session, error } = await authClient.getSession();
 
@@ -19,13 +20,9 @@
   let flags: { name: string; value: boolean }[] = $state([]);
 
   async function testToggle() {
-    await fetch("/api/flag", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: "tutorialCompleted",
-        value: true,
-      }),
+    updateOneFlag({
+      name: "tutorialCompleted",
+      value: true,
     });
   }
 
