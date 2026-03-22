@@ -1,23 +1,21 @@
 <script lang="ts">
+    import {uploadOneImage} from "$lib/api/upload.remote";
 	let { avatar = $bindable() }: { avatar: string } = $props();
 	let fileinput: HTMLInputElement;
 
 	async function uploadImage(file: File): Promise<{ path: string; filename: string } | null> {
-		const formData = new FormData();
-		formData.append("image", file);
+		const res = await uploadOneImage({image: file});
 
-		const res = await fetch("/api/upload", {
-			method: "POST",
-			body: formData
-		});
-
-		if (res.ok) {
-			const data = await res.json();
-			const parts = data.path.split("/");
+		if (res.success) {
+    		if(!res.path) {
+              console.error("No image path returned from API.", res.error);
+      		  return null;
+    		}
+			const parts = res.path.split("/");
 			const filename = parts[parts.length - 1];
-			return { path: data.path, filename };
+			return { path: res.path, filename };
 		} else {
-			console.error("Image upload failed");
+			console.error("Image upload failed", res.error);
 			return null;
 		}
 	}
