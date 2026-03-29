@@ -34,9 +34,10 @@ bun run build
 
 You also need to run the seed.ts file to populate certain DB fields.
 You need to have an account made for the seeding to work because it gives a bunch of test data to the first account made
-```bash
 
-```npx tsx ./seed.ts```
+```bash
+npx tsx ./seed.ts
+```
 
 You can preview the production build with `bun run preview`.
 
