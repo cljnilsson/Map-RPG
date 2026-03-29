@@ -3,6 +3,12 @@
 
     const width = 200;
     const height = 200;
+    const terrain: "Forest" | "Plains" | "City" | "Indoors" = "Plains";
+    const strategy: string[] = [
+      "Charge",
+      "Hold the line",
+      "Flank"
+    ];
 
     const army = [
       {name: "Soldier", amount: 2, icon: "/units/soldier.jpg"},
@@ -44,6 +50,11 @@
     	</div>
     </div>
     <div class="row">
+	<div class="col text-center py-3">
+	<h5>Terrain: {terrain} </h5>
+	</div>
+    </div>
+    <div class="row">
     	<div class="col-6 text-end">
             <span><b>{PlayerController.name}</b>'s army</span>
             <div class="row mt-3 border-end border-primary">
@@ -68,6 +79,11 @@
                            	</div>
                         </div>
                     {/each}
+                    <div class="row">
+                       	<div class="col">
+                           	<span class="unit-total fw-bold">{army.reduce((a, b) => a + b.amount, 0)}</span>
+                       	</div>
+                    </div>
                	</div>
             </div>
          </div>
@@ -95,14 +111,40 @@
                             </div>
                         </div>
                     {/each}
+                    <div class="row">
+                       	<div class="col">
+                           	<span class="unit-total fw-bold">{army2.reduce((a, b) => a + b.amount, 0)}</span>
+                       	</div>
+                    </div>
                	</div>
              </div>
          </div>
    	</div>
+    <div class="row justify-content-center my-3">
+	<div class="col-auto">
+	    <h5>Strategy</h5>
+		{#each strategy as strat, i}
+			<div class="form-check">
+                <input class="form-check-input" type="radio" name="radioDefault" id={`radioDefault${i}`}>
+                <label class="form-check-label" for={`radioDefault${i}`}>
+                    {strat}
+                </label>
+            </div>
+		{/each}
+	</div>
+    </div>
+    <div class="row justify-content-center my-3">
+	<div class="col-auto">
+	    All modifiers here
+	</div>
+    </div>
+    <div class="text-center mt-3">
+        <button type="button" class="btn btn-lg btn-primary">Engage</button>
+    </div>
 </div>
 
 <style>
-    .unit-name, .unit-amount {
+    .unit-name, .unit-amount, .unit-total {
         font-size: 1.2rem;
     }
 
