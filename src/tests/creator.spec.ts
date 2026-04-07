@@ -11,6 +11,12 @@ vi.mock("$lib/api/character.remote", () => {
 	};
 });
 
+vi.mock("$lib/api/upload.remote", () => {
+	return {
+		uploadOneImage: vi.fn(),
+	};
+});
+
 test("Creator renders with correct elements", () => {
 	const { container } = render(Creator);
 	expect(container).toMatchSnapshot();

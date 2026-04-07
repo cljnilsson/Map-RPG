@@ -113,7 +113,7 @@ export const POST: RequestHandler = async () => {
 				console.log("Client disconnected, total:", connections.size);
 			};
 		},
-		{ ping: 10 },
+		{ ping: 10000 },
 	);
 };
 

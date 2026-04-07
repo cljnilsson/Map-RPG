@@ -1,82 +1,82 @@
 <script lang="ts">
-	import type { Snippet } from "svelte";
+    import type { Snippet } from "svelte";
 
-	let {
-		x = $bindable(),
-		y = $bindable(),
-		editMode,
-		locked,
-		onDragStart,
-		onDragEnd,
-		onDrag = () => {},
-		containerWrapper,
-		children
-	}: {
-		x: number;
-		y: number;
-		editMode: boolean;
-		locked: boolean;
-		onDragStart: () => void;
-		onDragEnd: (didDrag: boolean) => void;
-		onDrag?: (newX: number, newY: number) => void;
-		containerWrapper: string;
-		children: Snippet<[]>;
-	} = $props();
+    let {
+        x = $bindable(),
+        y = $bindable(),
+        editMode,
+        locked,
+        onDragStart,
+        onDragEnd,
+        onDrag = () => {},
+        containerWrapper,
+        children,
+    }: {
+        x: number;
+        y: number;
+        editMode: boolean;
+        locked: boolean;
+        onDragStart: () => void;
+        onDragEnd: (didDrag: boolean) => void;
+        onDrag?: (newX: number, newY: number) => void;
+        containerWrapper: string;
+        children: Snippet<[]>;
+    } = $props();
 
-	let offsetX = 0;
-	let offsetY = 0;
-	let dragging = false;
-	let didDrag = false;
+    let offsetX = 0;
+    let offsetY = 0;
+    let dragging = false;
+    let didDrag = false;
 
-	function handleMouseDown(event: MouseEvent) {
-		if (!editMode || locked) return;
+    function handleMouseDown(event: MouseEvent) {
+        if (!editMode || locked) return;
 
-		offsetX = event.offsetX;
-		offsetY = event.offsetY;
+        offsetX = event.offsetX;
+        offsetY = event.offsetY;
 
-		dragging = true;
-		didDrag = false;
+        dragging = true;
+        didDrag = false;
 
-		onDragStart();
+        onDragStart();
 
-		window.addEventListener("mousemove", handleMouseMove);
-		window.addEventListener("mouseup", handleMouseUp);
-	}
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
+    }
 
-	function handleMouseMove(event: MouseEvent) {
-		if (!dragging) return;
-		didDrag = true;
+    function handleMouseMove(event: MouseEvent) {
+        if (!dragging) return;
+        didDrag = true;
 
-		const container = (
-			(event.currentTarget as HTMLElement)?.ownerDocument ?? document
-		).querySelector(containerWrapper) as HTMLElement;
-		if (!container) return;
+        const container = (
+            (event.currentTarget as HTMLElement)?.ownerDocument ?? document
+        ).querySelector(containerWrapper) as HTMLElement;
+        if (!container) return;
 
-		const rect = container.getBoundingClientRect();
+        const rect = container.getBoundingClientRect();
 
-		x = event.clientX - rect.left - offsetX;
-		y = event.clientY - rect.top - offsetY;
+        x = event.clientX - rect.left - offsetX;
+        y = event.clientY - rect.top - offsetY;
+        console.log(x, y);
+        onDrag(x, y);
+    }
 
-		onDrag(x, y);
-	}
+    function handleMouseUp() {
+        if (dragging) {
+            onDragEnd(didDrag);
+        }
+        dragging = false;
+        didDrag = false;
 
-	function handleMouseUp() {
-		if (dragging) {
-			onDragEnd(didDrag);
-		}
-		dragging = false;
-		didDrag = false;
-
-		window.removeEventListener("mousemove", handleMouseMove);
-		window.removeEventListener("mouseup", handleMouseUp);
-	}
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+    }
 </script>
 
 <div
-	style="position: absolute; left: {x}px; top: {y}px;"
-	onmousedown={handleMouseDown}
-	role="button"
-	tabindex="0"
+    style="position: absolute; left: {x}px; top: {y}px;"
+    onmousedown={handleMouseDown}
+    role="button"
+    tabindex="0"
 >
-	{@render children()}
+    {@render children()}
 </div>
