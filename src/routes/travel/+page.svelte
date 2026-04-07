@@ -2,6 +2,7 @@
     import { bezier, getControlPoint, type pos } from "$lib/utils/math";
     import Line from "$lib/components/line.svelte";
     import Point from "$lib/components/travel/point.svelte";
+    import InfoPanel from "$lib/components/travel/infoPanel.svelte";
 
     let from: pos = $state({ x: 50, y: 50 });
     let start: pos = { x: 50, y: 50 };
@@ -12,6 +13,8 @@
     ]);
     let angles: number[] = [0.3, 0.5, 0.7];
     let editMode: boolean = $state(false);
+    let saveName: string = $state("");
+    let currentlyDragged: number | null = $state(null);
     let saves: string[] = [
         "Test1",
         "Winterfell to Capital",
@@ -74,7 +77,14 @@
         <div class="travel">
             <Line from={start} to={waypoints[0]} angle={angles[0]} />
 
-            <Point bind:y={from.y} bind:x={from.x} extraClasses="" {editMode} />
+            <Point
+                bind:y={from.y}
+                bind:x={from.x}
+                extraClasses=""
+                {editMode}
+                bind:currentlyDragged
+                index={-1}
+            />
             {#each waypoints as w, i}
                 {#if i < waypoints.length - 1}
                     <Line
@@ -88,50 +98,21 @@
                     bind:x={w.x}
                     extraClasses="target"
                     {editMode}
+                    bind:currentlyDragged
+                    index={i}
                 />
             {/each}
         </div>
     </div>
     <div class="col-2 info">
-        {#each waypoints as w, i}
-            <p class="my-2">{w.x} {w.y} {angles[i]}</p>
-        {/each}
-        <div class="mt-3 mb-2 row">
-            <div class="col">
-                <button>Save Current</button>
-            </div>
-            <div class="col">
-                <input class="form-control" />
-            </div>
-        </div>
-        <div class="mt-3 mb-2 row">
-            <div class="col">
-                <button>Load</button>
-            </div>
-            <div class="col">
-                <div class="dropdown">
-                    <button
-                        class="btn btn-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        {saveSelector}
-                    </button>
-                    <ul class="dropdown-menu">
-                        {#each saves as s}
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    onclick={() => (saveSelector = s)}>{s}</a
-                                >
-                            </li>
-                        {/each}
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <InfoPanel
+            {waypoints}
+            {angles}
+            {currentlyDragged}
+            bind:saveName
+            bind:saveSelector
+            bind:saves
+        />
     </div>
 </div>
 
