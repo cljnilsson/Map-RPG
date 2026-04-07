@@ -56,7 +56,7 @@
 
         x = event.clientX - rect.left - offsetX;
         y = event.clientY - rect.top - offsetY;
-        console.log(x, y);
+
         onDrag(x, y);
     }
 
