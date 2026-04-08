@@ -3,6 +3,8 @@
     import Line from "$lib/components/line.svelte";
     import Point from "$lib/components/travel/point.svelte";
     import InfoPanel from "$lib/components/travel/infoPanel.svelte";
+    import { getWaypoints } from "$lib/api/waypoint.remote";
+    import { onMount, type Snippet } from "svelte";
 
     let from: pos = $state({ x: 50, y: 50 });
     let start: pos = { x: 50, y: 50 };
@@ -70,6 +72,11 @@
 
         requestAnimationFrame(step);
     }
+
+    onMount(async () => {
+        let test = await getWaypoints();
+        console.log("Waypoints", test);
+    });
 </script>
 
 <div class="row">
