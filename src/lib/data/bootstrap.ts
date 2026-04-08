@@ -1,6 +1,6 @@
 import { inArray, sql } from "drizzle-orm";
 import { db } from "$lib/server/db";
-import { resource, unit } from "$lib/server/db/schema";
+import { resource, unit, waypointNode, waypointPath } from "$lib/server/db/schema";
 
 let hasRun = false;
 
@@ -50,6 +50,10 @@ async function checkUnits() {
 	}
 }
 
+async function checkWaypoints() {
+	console.log("Reminder to implement a check for unused waypointNodes aka nodes that are not references in any path");
+}
+
 export async function dbCheckup() {
 	if (hasRun) return;
 	hasRun = true;
@@ -59,6 +63,7 @@ export async function dbCheckup() {
 	await checkTablesExist();
 	await checkResources();
 	await checkUnits();
+	await checkWaypoints();
 
 	console.log("[db] health check OK");
 }

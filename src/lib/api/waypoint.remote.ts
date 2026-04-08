@@ -162,7 +162,7 @@ async function save(body: SaveData) {
 
 	for (const path of body.paths) {
 		const fromExists = await getNodeExact(base.id, path.from.x, path.from.y);
-		const toExists = await getNodeExact(base.id, path.from.x, path.from.y);
+		const toExists = await getNodeExact(base.id, path.to.x, path.to.y);
 		let fromId: number | bigint;
 		let toId: number | bigint;
 
@@ -178,7 +178,7 @@ async function save(body: SaveData) {
 			toId = await createPoint(path.to.x, path.to.y);
 		}
 
-		createPath(base.id, Number(fromId), Number(toId), path.angle);
+		await createPath(base.id, Number(fromId), Number(toId), path.angle);
 	}
 }
 
