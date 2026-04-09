@@ -19,6 +19,9 @@ export default defineConfig({
     },
     ...(process.env.VITEST ? { conditions: ["browser"] } : {}),
   },
+  optimizeDeps: {
+    exclude: ["@fortawesome/svelte-fontawesome"],
+  },
   server: {
     port: 1420,
     strictPort: true,

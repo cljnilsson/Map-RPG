@@ -24,6 +24,7 @@
         bind:y
         {editMode}
         containerWrapper=".travel"
+        onDrag={(newX: number, newY: number) => {}}
         onDragStart={() => {
             currentlyDragged = index; //Ugly but I just want it to work right now
             console.log(index);

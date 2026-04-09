@@ -47,6 +47,10 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/svelte-fontawesome": "^0.2.4",
     "better-auth": "^1.6.0",
     "better-sqlite3": "^12.8.0",
     "dayjs": "^1.11.20",

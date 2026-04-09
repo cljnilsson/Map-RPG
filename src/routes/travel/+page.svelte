@@ -12,12 +12,19 @@
         angle: number;
     };
 
-    let waypoints: path[] = $state([
-        { from: { x: 50, y: 50 }, to: { x: 150, y: 150 }, angle: 0.3 },
-        { from: { x: 150, y: 150 }, to: { x: 500, y: 500 }, angle: 0.5 },
-        { from: { x: 500, y: 500 }, to: { x: 300, y: 200 }, angle: 0.7 },
+    // needs to be shared object to update both connected lines from a node
+    let nodes: pos[] = $state([
+        { x: 50, y: 50 },
+        { x: 150, y: 150 },
+        { x: 500, y: 500 },
+        { x: 300, y: 200 },
     ]);
-
+    let waypoints: path[] = $state([
+        { from: nodes[0], to: nodes[1], angle: 0.3 },
+        { from: nodes[1], to: nodes[2], angle: 0.5 },
+        { from: nodes[2], to: nodes[3], angle: 0.7 },
+    ]);
+    console.log("paths are valid", validateJoinedNodes(waypoints));
     let currentPos: pos = $state({ ...waypoints[0].from });
     let editMode: boolean = $state(false);
     let saveName: string = $state("");
@@ -33,6 +40,28 @@
 
     function smoothstep(t: number) {
         return t * t * (3 - 2 * t);
+    }
+
+    function validateJoinedNodes(toCheck: path[], epsilon = 0.001): boolean {
+        if (toCheck.length <= 1) return true;
+
+        function isClose(a: number, b: number) {
+            return Math.abs(a - b) < epsilon;
+        }
+
+        for (let i = 0; i < toCheck.length - 1; i++) {
+            const current = toCheck[i];
+            const next = toCheck[i + 1];
+
+            const xMatch = isClose(current.to.x, next.from.x);
+            const yMatch = isClose(current.to.y, next.from.y);
+
+            if (!xMatch || !yMatch) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     function move() {
@@ -144,7 +173,7 @@
         </div>
     </div>
 
-    <div class="col-2 info">
+    <div class="col-2 info d-flex flex-column">
         <InfoPanel
             {waypoints}
             {currentlyDragged}
