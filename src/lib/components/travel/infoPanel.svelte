@@ -1,19 +1,24 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
     import { saveWaypoint } from "$lib/api/waypoint.remote";
+
+    type path = {
+        from: pos;
+        to: pos;
+        angle: number;
+    };
+
     let {
         waypoints,
-        angles,
         currentlyDragged,
         saves = $bindable(),
         saveName = $bindable(),
         saveSelector = $bindable(),
     }: {
-        waypoints: pos[];
+        waypoints: path[];
         saveName: string;
         saves: string[];
         saveSelector: string;
-        angles: number[];
         currentlyDragged: number | null;
     } = $props();
 
@@ -26,18 +31,7 @@
         // FRESH! always makes new, never updates (for now)
         const result = await saveWaypoint({
             name: saveName,
-            paths: [
-                {
-                    angle: angles[0],
-                    from: waypoints[0],
-                    to: waypoints[1],
-                },
-                {
-                    angle: angles[1],
-                    from: waypoints[1],
-                    to: waypoints[2],
-                },
-            ],
+            paths: waypoints,
         });
 
         if (result) {
@@ -50,9 +44,12 @@
 
 {#each waypoints as w, i}
     <p class="my-2" class:fw-bold={i === currentlyDragged}>
-        {w.x}
-        {w.y}
-        {angles[i]}
+        {w.from.x}
+        {w.from.y}
+        =>
+        {w.to.x}
+        {w.to.y}
+        {w.angle}
     </p>
 {/each}
 <div class="mt-3 mb-2 row">

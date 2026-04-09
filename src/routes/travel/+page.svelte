@@ -4,16 +4,21 @@
     import Point from "$lib/components/travel/point.svelte";
     import InfoPanel from "$lib/components/travel/infoPanel.svelte";
     import { getWaypoints } from "$lib/api/waypoint.remote";
-    import { onMount, type Snippet } from "svelte";
+    import { onMount } from "svelte";
 
-    let from: pos | null = $state({ x: 50, y: 50 });
-    let start: pos | null = $state({ x: 50, y: 50 });
-    let waypoints: pos[] = $state([
-        { x: 150, y: 150 },
-        { x: 500, y: 500 },
-        { x: 300, y: 200 },
+    type path = {
+        from: pos;
+        to: pos;
+        angle: number;
+    };
+
+    let waypoints: path[] = $state([
+        { from: { x: 50, y: 50 }, to: { x: 150, y: 150 }, angle: 0.3 },
+        { from: { x: 150, y: 150 }, to: { x: 500, y: 500 }, angle: 0.5 },
+        { from: { x: 500, y: 500 }, to: { x: 300, y: 200 }, angle: 0.7 },
     ]);
-    let angles: number[] = $state([0.3, 0.5, 0.7]);
+
+    let currentPos: pos = $state({ ...waypoints[0].from });
     let editMode: boolean = $state(false);
     let saveName: string = $state("");
     let currentlyDragged: number | null = $state(null);
@@ -24,52 +29,58 @@
     ]);
     let saveSelector: string = $state("Select Save");
 
-    let angle: number = $state(0.3);
     let animating = false;
+
+    function smoothstep(t: number) {
+        return t * t * (3 - 2 * t);
+    }
 
     function move() {
         if (animating || waypoints.length === 0) return;
 
-        if (!from || waypoints.length === 0) {
-            return;
-        }
-
         animating = true;
 
         let segmentIndex = 0;
-        let currentStart = { ...from };
-        let currentEnd = waypoints[segmentIndex];
-        let control = getControlPoint(currentStart, currentEnd, angle);
         let t = 0;
+        const speed = 0.02;
 
-        function nextSegment() {
-            segmentIndex++;
+        currentPos = { ...waypoints[0].from };
 
-            if (segmentIndex >= waypoints.length) {
-                animating = false;
-                from = { ...currentEnd };
-                return;
-            }
+        // Precompute control points (performance + clarity)
+        const controls = waypoints.map((w) =>
+            getControlPoint(w.from, w.to, w.angle),
+        );
 
-            currentStart = { ...currentEnd };
-            currentEnd = waypoints[segmentIndex];
-            control = getControlPoint(currentStart, currentEnd, angle);
-            t = 0;
+        let lastTime = performance.now();
 
-            requestAnimationFrame(step);
-        }
+        function step(now: number) {
+            const dt = (now - lastTime) / 16; // normalize ~60fps
+            const segment = waypoints[segmentIndex];
 
-        function step() {
-            t += 0.02;
+            lastTime = now;
+            t += speed * dt;
 
             if (t >= 1) {
-                from = { ...currentEnd };
-                nextSegment();
+                segmentIndex++;
+
+                if (segmentIndex >= waypoints.length) {
+                    animating = false;
+                    return;
+                }
+
+                t = 0;
+                requestAnimationFrame(step);
                 return;
             }
 
-            const eased = t * t * (3 - 2 * t);
-            from = bezier(eased, currentStart, control, currentEnd);
+            const eased = smoothstep(t);
+
+            currentPos = bezier(
+                eased,
+                segment.from,
+                controls[segmentIndex],
+                segment.to,
+            );
 
             requestAnimationFrame(step);
         }
@@ -79,56 +90,63 @@
 
     function unload() {
         waypoints = [];
-        angles = [];
         editMode = false;
-        start = null;
-        from = null;
+        currentlyDragged = null;
     }
 
     onMount(async () => {
-        let test = await getWaypoints();
-        console.log("Waypoints", test);
+        const data = await getWaypoints();
+        console.log("Waypoints", data);
     });
 </script>
 
 <div class="row">
     <div class="col-auto">
         <div class="travel">
-            {#if from && start}
-                <Line from={start} to={waypoints[0]} angle={angles[0]} />
-
+            {#if waypoints.length > 0}
+                <!-- Moving point -->
                 <Point
-                    bind:y={from.y}
-                    bind:x={from.x}
+                    bind:x={currentPos.x}
+                    bind:y={currentPos.y}
                     extraClasses=""
                     {editMode}
                     bind:currentlyDragged
                     index={-1}
                 />
+
                 {#each waypoints as w, i}
-                    {#if i < waypoints.length - 1}
-                        <Line
-                            from={waypoints[i]}
-                            to={waypoints[i + 1]}
-                            angle={angles[i]}
-                        />
-                    {/if}
+                    <!-- Path line -->
+                    <Line from={w.from} to={w.to} angle={w.angle} />
+
+                    <!-- Start point -->
                     <Point
-                        bind:y={w.y}
-                        bind:x={w.x}
+                        bind:x={w.from.x}
+                        bind:y={w.from.y}
                         extraClasses="target"
                         {editMode}
                         bind:currentlyDragged
                         index={i}
                     />
+
+                    <!-- End point (only last segment) -->
+                    {#if i === waypoints.length - 1}
+                        <Point
+                            bind:x={w.to.x}
+                            bind:y={w.to.y}
+                            extraClasses="target"
+                            {editMode}
+                            bind:currentlyDragged
+                            index={i}
+                        />
+                    {/if}
                 {/each}
             {/if}
         </div>
     </div>
+
     <div class="col-2 info">
         <InfoPanel
             {waypoints}
-            {angles}
             {currentlyDragged}
             bind:saveName
             bind:saveSelector
@@ -138,9 +156,11 @@
 </div>
 
 <button type="button" onclick={move}>Test Movement</button>
-<button type="button" onclick={() => (editMode = !editMode)}
-    >Editmode is {editMode ? "on" : "off"}</button
->
+
+<button type="button" onclick={() => (editMode = !editMode)}>
+    Editmode is {editMode ? "on" : "off"}
+</button>
+
 <button type="button" onclick={unload}>Reset</button>
 
 <style lang="scss">
