@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
+    import { saveWaypoint } from "$lib/api/waypoint.remote";
     let {
         waypoints,
         angles,
@@ -20,8 +21,30 @@
         console.log("Tries to load");
     }
 
-    function onSave() {
-        console.log("Tries to save");
+    async function onSave() {
+        console.log("Tries to save", saveName);
+        // FRESH! always makes new, never updates (for now)
+        const result = await saveWaypoint({
+            name: saveName,
+            paths: [
+                {
+                    angle: angles[0],
+                    from: waypoints[0],
+                    to: waypoints[1],
+                },
+                {
+                    angle: angles[1],
+                    from: waypoints[1],
+                    to: waypoints[2],
+                },
+            ],
+        });
+
+        if (result) {
+            console.log("Save went well");
+        } else {
+            console.warn("All did not go well");
+        }
     }
 </script>
 

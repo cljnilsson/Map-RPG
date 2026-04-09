@@ -100,8 +100,8 @@ const SaveSchema = v.object({
 	name: v.string(),
 	paths: v.array(
 		v.object({
-			waypoint: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
-			angle: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
+			//waypoint: v.pipe(v.number(), v.integer(), v.toMinValue(0)), use this only for updating
+			angle: v.number(), // not using min value 0 because the value is between 0 and 1, could check for max though
 			from: v.object({
 				x: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 				y: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
@@ -157,7 +157,7 @@ async function save(body: SaveData) {
 
 	if (!base) {
 		console.error("Failed to create base");
-		return;
+		return false;
 	}
 
 	for (const path of body.paths) {
@@ -180,6 +180,8 @@ async function save(body: SaveData) {
 
 		await createPath(base.id, Number(fromId), Number(toId), path.angle);
 	}
+
+	return true;
 }
 
 type ReturnWaypoints = {

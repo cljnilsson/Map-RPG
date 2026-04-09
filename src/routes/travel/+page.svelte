@@ -6,22 +6,22 @@
     import { getWaypoints } from "$lib/api/waypoint.remote";
     import { onMount, type Snippet } from "svelte";
 
-    let from: pos = $state({ x: 50, y: 50 });
-    let start: pos = { x: 50, y: 50 };
+    let from: pos | null = $state({ x: 50, y: 50 });
+    let start: pos | null = $state({ x: 50, y: 50 });
     let waypoints: pos[] = $state([
         { x: 150, y: 150 },
         { x: 500, y: 500 },
         { x: 300, y: 200 },
     ]);
-    let angles: number[] = [0.3, 0.5, 0.7];
+    let angles: number[] = $state([0.3, 0.5, 0.7]);
     let editMode: boolean = $state(false);
     let saveName: string = $state("");
     let currentlyDragged: number | null = $state(null);
-    let saves: string[] = [
+    let saves: string[] = $state([
         "Test1",
         "Winterfell to Capital",
         "Wilderness to Winterfell",
-    ];
+    ]);
     let saveSelector: string = $state("Select Save");
 
     let angle: number = $state(0.3);
@@ -29,6 +29,10 @@
 
     function move() {
         if (animating || waypoints.length === 0) return;
+
+        if (!from || waypoints.length === 0) {
+            return;
+        }
 
         animating = true;
 
@@ -73,6 +77,14 @@
         requestAnimationFrame(step);
     }
 
+    function unload() {
+        waypoints = [];
+        angles = [];
+        editMode = false;
+        start = null;
+        from = null;
+    }
+
     onMount(async () => {
         let test = await getWaypoints();
         console.log("Waypoints", test);
@@ -82,33 +94,35 @@
 <div class="row">
     <div class="col-auto">
         <div class="travel">
-            <Line from={start} to={waypoints[0]} angle={angles[0]} />
+            {#if from && start}
+                <Line from={start} to={waypoints[0]} angle={angles[0]} />
 
-            <Point
-                bind:y={from.y}
-                bind:x={from.x}
-                extraClasses=""
-                {editMode}
-                bind:currentlyDragged
-                index={-1}
-            />
-            {#each waypoints as w, i}
-                {#if i < waypoints.length - 1}
-                    <Line
-                        from={waypoints[i]}
-                        to={waypoints[i + 1]}
-                        angle={angles[i]}
-                    />
-                {/if}
                 <Point
-                    bind:y={w.y}
-                    bind:x={w.x}
-                    extraClasses="target"
+                    bind:y={from.y}
+                    bind:x={from.x}
+                    extraClasses=""
                     {editMode}
                     bind:currentlyDragged
-                    index={i}
+                    index={-1}
                 />
-            {/each}
+                {#each waypoints as w, i}
+                    {#if i < waypoints.length - 1}
+                        <Line
+                            from={waypoints[i]}
+                            to={waypoints[i + 1]}
+                            angle={angles[i]}
+                        />
+                    {/if}
+                    <Point
+                        bind:y={w.y}
+                        bind:x={w.x}
+                        extraClasses="target"
+                        {editMode}
+                        bind:currentlyDragged
+                        index={i}
+                    />
+                {/each}
+            {/if}
         </div>
     </div>
     <div class="col-2 info">
@@ -127,6 +141,7 @@
 <button type="button" onclick={() => (editMode = !editMode)}
     >Editmode is {editMode ? "on" : "off"}</button
 >
+<button type="button" onclick={unload}>Reset</button>
 
 <style lang="scss">
     .travel {
