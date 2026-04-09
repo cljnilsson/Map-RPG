@@ -173,10 +173,11 @@
         </div>
     </div>
 
-    <div class="col-2 info d-flex flex-column">
+    <div class="col-3 info d-flex flex-column">
         <InfoPanel
             {waypoints}
             {currentlyDragged}
+            {nodes}
             bind:saveName
             bind:saveSelector
             bind:saves

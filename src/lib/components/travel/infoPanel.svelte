@@ -17,6 +17,7 @@
     let {
         waypoints,
         currentlyDragged,
+        nodes,
         saves = $bindable(),
         saveName = $bindable(),
         saveSelector = $bindable(),
@@ -26,9 +27,16 @@
         saves: string[];
         saveSelector: string;
         currentlyDragged: number | null;
+        nodes: pos[];
     } = $props();
 
+    // TODO, add scrollwheel to modify angle
+    // change from and to from each path with dropdown
+    // Visual indicator for what is currently being edited
+
     let editingWaypoint: path | null = $state(null);
+    let nodeSelectorFrom: pos | null = $state(null);
+    let nodeSelectorTo: pos | null = $state(null);
 
     function onRemove(p: path) {
         //
@@ -39,7 +47,7 @@
     }
 </script>
 
-<div class="waypoints flex-grow-1 overflow-auto">
+<div class="waypoints flex-grow-1">
     {#each waypoints as w, i}
         <p class="my-2" class:fw-bold={i === currentlyDragged}>
             {w.from.x}
@@ -69,36 +77,75 @@
         </p>
     {/each}
     {#if editingWaypoint}
-        <input
-            type="number"
-            min="0"
-            bind:value={editingWaypoint.from.x}
-            placeholder="x"
-        />
-        <input
-            type="number"
-            min="0"
-            bind:value={editingWaypoint.from.y}
-            placeholder="y"
-        />
-        <input
-            type="number"
-            min="0"
-            bind:value={editingWaypoint.to.x}
-            placeholder="x"
-        />
-        <input
-            type="number"
-            min="0"
-            bind:value={editingWaypoint.to.y}
-            placeholder="y"
-        />
+        <div class="row py-2">
+            <div class="col-auto">
+                <div class="dropdown">
+                    <button
+                        class="btn btn-sm btn-primary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        {nodeSelectorFrom === null
+                            ? "Select node"
+                            : nodeSelectorFrom.x + "," + nodeSelectorFrom.y}
+                    </button>
+                    <ul class="dropdown-menu">
+                        {#each nodes as n}
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick={() => (nodeSelectorFrom = n)}
+                                    >{n.x + "," + n.y}</a
+                                >
+                            </li>
+                        {/each}
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <button
+                        class="btn btn-sm btn-primary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        {nodeSelectorTo === null
+                            ? "Select node"
+                            : nodeSelectorTo.x + "," + nodeSelectorTo.y}
+                    </button>
+                    <ul class="dropdown-menu">
+                        {#each nodes as n}
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="#"
+                                    onclick={() => (nodeSelectorTo = n)}
+                                    >{n.x + "," + n.y}</a
+                                >
+                            </li>
+                        {/each}
+                    </ul>
+                </div>
+            </div>
+        </div>
         <input
             type="number"
             min="0"
             bind:value={editingWaypoint.angle}
             placeholder="angle"
         />
+        <div>
+            <button
+                type="button"
+                class="btn btn-primary my-2"
+                onclick={() => {
+                    editingWaypoint = null;
+                }}>Done</button
+            >
+        </div>
     {/if}
 </div>
 
