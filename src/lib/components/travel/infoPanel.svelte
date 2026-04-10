@@ -37,6 +37,7 @@
     let editingWaypoint: path | null = $state(null);
     let nodeSelectorFrom: pos | null = $state(null);
     let nodeSelectorTo: pos | null = $state(null);
+    let error: string = $state("");
 
     function onRemove(p: path) {
         //
@@ -48,33 +49,48 @@
 </script>
 
 <div class="waypoints flex-grow-1">
+    {#if error.length > 0}
+        <div class="alert alert-danger my-2" role="alert">
+            A simple danger alert—check it out!
+        </div>
+    {/if}
     {#each waypoints as w, i}
-        <p class="my-2" class:fw-bold={i === currentlyDragged}>
-            {w.from.x}
-            {w.from.y}
-            =>
-            {w.to.x}
-            {w.to.y}
-            {w.angle}
-            <button
-                type="button"
-                onclick={() => {
-                    onEdit(w);
-                }}
-                class="icon-btn"
-            >
-                <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
-            <button
-                type="button"
-                onclick={() => {
-                    onRemove(w);
-                }}
-                class="icon-btn"
-            >
-                <FontAwesomeIcon icon={faCircleMinus} />
-            </button>
-        </p>
+        <div class="row my-2" class:fw-boldd={i === currentlyDragged}>
+            <div class="col-2">
+                {w.from.x},
+                {w.from.y}
+            </div>
+            <div class="col-auto">=></div>
+            <div class="col-auto">
+                <p class="p-0">
+                    {w.to.x},
+                    {w.to.y}
+                </p>
+            </div>
+            <div class="col-auto">
+                <p class="p-0">{w.angle}</p>
+            </div>
+            <div class="col">
+                <button
+                    type="button"
+                    onclick={() => {
+                        onEdit(w);
+                    }}
+                    class="icon-btn"
+                >
+                    <FontAwesomeIcon icon={faPenToSquare} class="icon" />
+                </button>
+                <button
+                    type="button"
+                    onclick={() => {
+                        onRemove(w);
+                    }}
+                    class="icon-btn"
+                >
+                    <FontAwesomeIcon icon={faCircleMinus} class="icon" />
+                </button>
+            </div>
+        </div>
     {/each}
     {#if editingWaypoint}
         <div class="row py-2">
@@ -159,5 +175,29 @@
         background: none;
         border: none;
         cursor: pointer;
+    }
+
+    /* not actually global because the class name gets transformed on build */
+    :global(.icon:hover) {
+        color: #794f36;
+        animation: fa-shake 0.8s ease;
+    }
+
+    @keyframes fa-shake {
+        0% {
+            transform: rotate(0);
+        }
+        25% {
+            transform: rotate(10deg);
+        }
+        50% {
+            transform: rotate(-10deg);
+        }
+        75% {
+            transform: rotate(6deg);
+        }
+        100% {
+            transform: rotate(0);
+        }
     }
 </style>
