@@ -6,6 +6,7 @@
     import {
         faPenToSquare,
         faCircleMinus,
+        faPlus,
     } from "@fortawesome/free-solid-svg-icons";
 
     type path = {
@@ -45,6 +46,10 @@
     function onEdit(p: path) {
         console.log(":D");
         editingWaypoint = p;
+    }
+
+    function onAddFresh() {
+        //
     }
 </script>
 
@@ -100,6 +105,15 @@
             </div>
         {/each}
     </div>
+    <button
+        type="button"
+        onclick={() => {
+            onAddFresh();
+        }}
+        class="btn btn-primary btn-sm my-2"
+    >
+        <FontAwesomeIcon icon={faPlus} class="iconSecondary" />
+    </button>
     {#if editingWaypoint}
         <div class="row py-2">
             <div class="col-auto">
@@ -224,12 +238,21 @@
     }
 
     /* not actually global because the class name gets transformed on build */
+    /* TODO, fix animations playing on svg hover rather than on svg hover ideally */
     :global(.icon:hover) {
         color: #794f36;
         animation: fa-shake 0.8s ease;
     }
     :global(.icon) {
         color: rgb(240, 223, 194);
+    }
+
+    :global(.iconSecondary) {
+        color: #685247;
+    }
+    :global(.iconSecondary:hover) {
+        color: #794f36;
+        animation: fa-shake 0.8s ease;
     }
 
     @keyframes fa-shake {
