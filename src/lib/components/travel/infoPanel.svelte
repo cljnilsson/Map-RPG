@@ -49,49 +49,50 @@
 </script>
 
 <div class="waypoints flex-grow-1">
+    <h3 class="py-2 mb-0">Editor</h3>
     {#if error.length > 0}
         <div class="alert alert-danger my-2" role="alert">
             A simple danger alert—check it out!
         </div>
     {/if}
-    {#each waypoints as w, i}
-        <div class="row my-2" class:fw-boldd={i === currentlyDragged}>
-            <div class="col-2">
-                {w.from.x},
-                {w.from.y}
-            </div>
-            <div class="col-auto">=></div>
-            <div class="col-auto">
-                <p class="p-0">
+    <div class="innerWaypointwrapper px-3 py-2">
+        {#each waypoints as w, i}
+            <div class="row my-1" class:fw-boldd={i === currentlyDragged}>
+                <div class="col-2">
+                    {w.from.x},
+                    {w.from.y}
+                </div>
+                <div class="col-auto">=></div>
+                <div class="col-auto">
                     {w.to.x},
                     {w.to.y}
-                </p>
+                </div>
+                <div class="col-auto">
+                    {w.angle}
+                </div>
+                <div class="col">
+                    <button
+                        type="button"
+                        onclick={() => {
+                            onEdit(w);
+                        }}
+                        class="icon-btn"
+                    >
+                        <FontAwesomeIcon icon={faPenToSquare} class="icon" />
+                    </button>
+                    <button
+                        type="button"
+                        onclick={() => {
+                            onRemove(w);
+                        }}
+                        class="icon-btn"
+                    >
+                        <FontAwesomeIcon icon={faCircleMinus} class="icon" />
+                    </button>
+                </div>
             </div>
-            <div class="col-auto">
-                <p class="p-0">{w.angle}</p>
-            </div>
-            <div class="col">
-                <button
-                    type="button"
-                    onclick={() => {
-                        onEdit(w);
-                    }}
-                    class="icon-btn"
-                >
-                    <FontAwesomeIcon icon={faPenToSquare} class="icon" />
-                </button>
-                <button
-                    type="button"
-                    onclick={() => {
-                        onRemove(w);
-                    }}
-                    class="icon-btn"
-                >
-                    <FontAwesomeIcon icon={faCircleMinus} class="icon" />
-                </button>
-            </div>
-        </div>
-    {/each}
+        {/each}
+    </div>
     {#if editingWaypoint}
         <div class="row py-2">
             <div class="col-auto">
@@ -171,6 +172,19 @@
 </div>
 
 <style>
+    h3 {
+        color: rgb(255, 207, 88);
+        text-weight: bold;
+    }
+
+    .innerWaypointwrapper {
+        border: rgb(101, 88, 69);
+        border-width: 1px;
+        border-style: solid;
+        background-color: rgb(61, 47, 33);
+        border-radius: 16px;
+    }
+
     .icon-btn {
         background: none;
         border: none;
@@ -181,6 +195,9 @@
     :global(.icon:hover) {
         color: #794f36;
         animation: fa-shake 0.8s ease;
+    }
+    :global(.icon) {
+        color: rgb(240, 223, 194);
     }
 
     @keyframes fa-shake {

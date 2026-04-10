@@ -203,6 +203,13 @@
     }
 
     .info {
-        background: white;
+        /*background: rgba(0, 0, 0, 0.53);*/
+        background: rgb(106, 95, 77);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        /*backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);*/
+        border: 1px solid rgb(56, 47, 39);
+        color: rgb(240, 223, 194);
     }
 </style>
