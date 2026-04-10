@@ -56,27 +56,34 @@
         </div>
     {/if}
     <div class="innerWaypointwrapper px-3 py-2">
+        <div class="row header py-1">
+            <div class="col-fixed">From</div>
+            <div class="col-arrow g-0"></div>
+            <div class="col-fixed">To</div>
+            <div class="col-angle g-0">Angle</div>
+            <div class="col-actions"></div>
+        </div>
         {#each waypoints as w, i}
             <div class="row my-1" class:fw-boldd={i === currentlyDragged}>
-                <div class="col-2">
+                <div class="col-fixed">
                     {w.from.x},
                     {w.from.y}
                 </div>
-                <div class="col-auto">=></div>
-                <div class="col-auto">
+                <div class="col-arrow g-0">=></div>
+                <div class="col-fixed">
                     {w.to.x},
                     {w.to.y}
                 </div>
-                <div class="col-auto">
+                <div class="col-angle g-0">
                     {w.angle}
                 </div>
-                <div class="col">
+                <div class="col-actions">
                     <button
                         type="button"
                         onclick={() => {
                             onEdit(w);
                         }}
-                        class="icon-btn"
+                        class="icon-btn p-0"
                     >
                         <FontAwesomeIcon icon={faPenToSquare} class="icon" />
                     </button>
@@ -85,7 +92,7 @@
                         onclick={() => {
                             onRemove(w);
                         }}
-                        class="icon-btn"
+                        class="icon-btn p-0"
                     >
                         <FontAwesomeIcon icon={faCircleMinus} class="icon" />
                     </button>
@@ -172,9 +179,34 @@
 </div>
 
 <style>
+    @font-face {
+        font-family: "Ginto Bold";
+        src: url("/fonts/Ginto Bold.ttf") format("truetype");
+        font-weight: bold;
+        font-style: normal;
+    }
+
     h3 {
         color: rgb(255, 207, 88);
-        text-weight: bold;
+        font-family: "Ginto Bold", sans-serif;
+    }
+
+    .col-fixed {
+        width: 90px; /* adjust based on your data */
+        font-variant-numeric: tabular-nums; /* keeps numbers aligned nicely */
+    }
+
+    .col-arrow {
+        width: 40px;
+        text-align: center;
+    }
+
+    .col-angle {
+        width: 45px;
+    }
+
+    .col-actions {
+        flex: 1;
     }
 
     .innerWaypointwrapper {
