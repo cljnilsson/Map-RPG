@@ -11,6 +11,9 @@
         faCircle,
     } from "@fortawesome/free-solid-svg-icons";
     import { faCircle as regFaCircle } from "@fortawesome/free-regular-svg-icons";
+    import WaypointViewerFull from "$lib/components/travel/waypointViewer.svelte";
+    import WaypointViewerCompact from "$lib/components/travel/waypointViewerCompact.svelte";
+    import Dropdown from "$lib/components/travel/dropdown.svelte";
 
     type path = {
         from: pos;
@@ -123,67 +126,22 @@
         {/if}
         {#each waypoints as w, i}
             {#if viewFull}
-                <div class="row my-1" class:fw-bold={i === currentlyDragged}>
-                    <div class="col-fixed">
-                        {Math.round(w.from.x)},
-                        {Math.round(w.from.y)}
-                    </div>
-                    <div class="col-arrow g-0">=></div>
-                    <div class="col-fixed">
-                        {Math.round(w.to.x)},
-                        {Math.round(w.to.y)}
-                    </div>
-                    <div class="col-angle g-0">
-                        {w.angle}
-                    </div>
-                    <div class="col-actions">
-                        <button
-                            type="button"
-                            onclick={() => {
-                                onEdit(w);
-                            }}
-                            class="icon-btn p-0"
-                        >
-                            <FontAwesomeIcon
-                                icon={faPenToSquare}
-                                class="icon"
-                            />
-                        </button>
-                        <button
-                            type="button"
-                            onclick={() => {
-                                onRemove(w);
-                            }}
-                            class="icon-btn p-0"
-                        >
-                            <FontAwesomeIcon
-                                icon={faCircleMinus}
-                                class="icon"
-                            />
-                        </button>
-                    </div>
-                </div>
+                <WaypointViewerFull
+                    {i}
+                    {w}
+                    {currentlyDragged}
+                    {onRemove}
+                    {onEdit}
+                />
             {:else}
-                <div class="row my-1" class:fw-bold={i === currentlyDragged}>
-                    <div class="col-fixed">
-                        {Math.round(w.from.x)},
-                        {Math.round(w.from.y)}
-                    </div>
-                    <div class="col-angle g-0">
-                        {w.angle}
-                    </div>
-                </div>
-                {#if i === waypoints.length - 1}
-                    <div
-                        class="row my-1"
-                        class:fw-bold={i === currentlyDragged}
-                    >
-                        <div class="col-fixed">
-                            {Math.round(w.to.x)},
-                            {Math.round(w.to.y)}
-                        </div>
-                    </div>
-                {/if}
+                <WaypointViewerCompact
+                    {i}
+                    {w}
+                    {waypoints}
+                    {currentlyDragged}
+                    {onRemove}
+                    {onEdit}
+                />
             {/if}
         {/each}
     </div>
@@ -213,56 +171,28 @@
         <h3 class="py-2 mb-0">Editing Waypoint</h3>
         <div class="row py-2">
             <div class="col-auto">
-                <div class="dropdown">
-                    <button
-                        class="btn btn-sm btn-primary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        {nodeSelectorFrom === null
-                            ? "Select node"
-                            : nodeSelectorFrom.x + "," + nodeSelectorFrom.y}
-                    </button>
-                    <ul class="dropdown-menu">
-                        {#each nodes as n}
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    onclick={() => (nodeSelectorFrom = n)}
-                                    >{n.x + "," + n.y}</a
-                                >
-                            </li>
-                        {/each}
-                    </ul>
-                </div>
+                <Dropdown
+                    text="{nodeSelectorFrom === null
+                        ? 'Select node'
+                        : nodeSelectorFrom.x + ',' + nodeSelectorFrom.y},"
+                    options={nodes.map((v) => ({
+                        val: v,
+                        text: `${v.x}, ${v.y}`,
+                    }))}
+                    onclick={(n: pos) => (nodeSelectorFrom = n)}
+                />
             </div>
             <div class="col">
-                <div class="dropdown">
-                    <button
-                        class="btn btn-sm btn-primary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        {nodeSelectorTo === null
-                            ? "Select node"
-                            : nodeSelectorTo.x + "," + nodeSelectorTo.y}
-                    </button>
-                    <ul class="dropdown-menu">
-                        {#each nodes as n}
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    onclick={() => (nodeSelectorTo = n)}
-                                    >{n.x + "," + n.y}</a
-                                >
-                            </li>
-                        {/each}
-                    </ul>
-                </div>
+                <Dropdown
+                    text="{nodeSelectorTo === null
+                        ? 'Select node'
+                        : nodeSelectorTo.x + ',' + nodeSelectorTo.y},"
+                    options={nodes.map((v) => ({
+                        val: v,
+                        text: `${v.x}, ${v.y}`,
+                    }))}
+                    onclick={(n: pos) => (nodeSelectorTo = n)}
+                />
             </div>
         </div>
         <input
@@ -359,12 +289,6 @@
         border-style: solid;
         background-color: rgb(61, 47, 33);
         border-radius: 16px;
-    }
-
-    .icon-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
     }
 
     /* not actually global because the class name gets transformed on build */
