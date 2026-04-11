@@ -13,7 +13,8 @@
     import { faCircle as regFaCircle } from "@fortawesome/free-regular-svg-icons";
     import WaypointViewerFull from "$lib/components/travel/waypointViewer.svelte";
     import WaypointViewerCompact from "$lib/components/travel/waypointViewerCompact.svelte";
-    import Dropdown from "$lib/components/travel/dropdown.svelte";
+    import PathEditor from "$lib/components/travel/edit.svelte";
+    import NodeCreator from "$lib/components/travel/create.svelte";
 
     type path = {
         from: pos;
@@ -74,31 +75,6 @@
         nodeSelectorTo = null;
         newWaypoint = { x: 0, y: 0 };
         isCreating = true;
-    }
-
-    function confirmNewNode() {
-        if (!newWaypoint) {
-            console.warn("Wops, should not be able to run this function.");
-            return;
-        }
-
-        nodes = [
-            ...nodes,
-            {
-                x: newWaypoint.x,
-                y: newWaypoint.y,
-            },
-        ];
-
-        // For testing purposes just adds to the end as default, assumes it's not the first node. TODO, handle this edge case
-        waypoints = [
-            ...waypoints,
-            {
-                from: nodes[nodes.length - 2],
-                to: nodes[nodes.length - 1],
-                angle: 0,
-            },
-        ];
     }
 </script>
 
@@ -168,81 +144,14 @@
         {/if}
     </button>
     {#if editingWaypoint}
-        <h3 class="py-2 mb-0">Editing Waypoint</h3>
-        <div class="row py-2">
-            <div class="col-auto">
-                <Dropdown
-                    text="{nodeSelectorFrom === null
-                        ? 'Select node'
-                        : nodeSelectorFrom.x + ',' + nodeSelectorFrom.y},"
-                    options={nodes.map((v) => ({
-                        val: v,
-                        text: `${v.x}, ${v.y}`,
-                    }))}
-                    onclick={(n: pos) => (nodeSelectorFrom = n)}
-                />
-            </div>
-            <div class="col">
-                <Dropdown
-                    text="{nodeSelectorTo === null
-                        ? 'Select node'
-                        : nodeSelectorTo.x + ',' + nodeSelectorTo.y},"
-                    options={nodes.map((v) => ({
-                        val: v,
-                        text: `${v.x}, ${v.y}`,
-                    }))}
-                    onclick={(n: pos) => (nodeSelectorTo = n)}
-                />
-            </div>
-        </div>
-        <input
-            type="number"
-            min="0"
-            bind:value={editingWaypoint.angle}
-            placeholder="angle"
+        <PathEditor
+            {nodes}
+            bind:editingWaypoint
+            bind:nodeSelectorFrom
+            bind:nodeSelectorTo
         />
-        <div>
-            <button
-                type="button"
-                class="btn btn-primary my-2"
-                onclick={() => {
-                    editingWaypoint = null;
-                }}>Done</button
-            >
-        </div>
     {:else if isCreating && newWaypoint}
-        <h3 class="py-2 mb-0">New Waypoint</h3>
-        <div class="newWaypointWrapper py-2 px-3">
-            <div class="row">
-                <div class="col">
-                    <input
-                        type="number"
-                        min="0"
-                        bind:value={newWaypoint.y}
-                        placeholder="x"
-                        class="form-control my-1"
-                    />
-                </div>
-                <div class="col">
-                    <input
-                        type="number"
-                        min="0"
-                        bind:value={newWaypoint.x}
-                        placeholder="y"
-                        class="form-control my-1"
-                    />
-                </div>
-            </div>
-            <div>
-                <button
-                    type="button"
-                    class="btn btn-primary my-2"
-                    onclick={confirmNewNode}
-                    disabled={newWaypoint.x > 0 && newWaypoint.y > 0}
-                    >Done</button
-                >
-            </div>
-        </div>
+        <NodeCreator bind:nodes bind:waypoints bind:newNode={newWaypoint} />
     {/if}
 </div>
 
@@ -282,8 +191,7 @@
         flex: 1;
     }
 
-    .innerWaypointwrapper,
-    .newWaypointWrapper {
+    .innerWaypointwrapper {
         border: rgb(101, 88, 69);
         border-width: 1px;
         border-style: solid;
