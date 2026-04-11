@@ -8,7 +8,9 @@
         faCircleMinus,
         faPlus,
         faMinus,
+        faCircle,
     } from "@fortawesome/free-solid-svg-icons";
+    import { faCircle as regFaCircle } from "@fortawesome/free-regular-svg-icons";
 
     type path = {
         from: pos;
@@ -39,6 +41,7 @@
     let editingWaypoint: path | null = $state(null);
     let newWaypoint: pos | null = $state(null);
     let isCreating: boolean = $state(false);
+    let viewFull: boolean = $state(true);
     let nodeSelectorFrom: pos | null = $state(null);
     let nodeSelectorTo: pos | null = $state(null);
     let error: string = $state("");
@@ -104,48 +107,84 @@
         </div>
     {/if}
     <div class="innerWaypointwrapper px-3 py-2">
-        <div class="row header py-1">
-            <div class="col-fixed">From</div>
-            <div class="col-arrow g-0"></div>
-            <div class="col-fixed">To</div>
-            <div class="col-angle g-0">Angle</div>
-            <div class="col-actions"></div>
-        </div>
-        {#each waypoints as w, i}
-            <div class="row my-1" class:fw-boldd={i === currentlyDragged}>
-                <div class="col-fixed">
-                    {Math.round(w.from.x)},
-                    {Math.round(w.from.y)}
-                </div>
-                <div class="col-arrow g-0">=></div>
-                <div class="col-fixed">
-                    {Math.round(w.to.x)},
-                    {Math.round(w.to.y)}
-                </div>
-                <div class="col-angle g-0">
-                    {w.angle}
-                </div>
-                <div class="col-actions">
-                    <button
-                        type="button"
-                        onclick={() => {
-                            onEdit(w);
-                        }}
-                        class="icon-btn p-0"
-                    >
-                        <FontAwesomeIcon icon={faPenToSquare} class="icon" />
-                    </button>
-                    <button
-                        type="button"
-                        onclick={() => {
-                            onRemove(w);
-                        }}
-                        class="icon-btn p-0"
-                    >
-                        <FontAwesomeIcon icon={faCircleMinus} class="icon" />
-                    </button>
-                </div>
+        {#if viewFull}
+            <div class="row header py-1">
+                <div class="col-fixed">From</div>
+                <div class="col-arrow g-0"></div>
+                <div class="col-fixed">To</div>
+                <div class="col-angle g-0">Angle</div>
+                <div class="col-actions"></div>
             </div>
+        {:else}
+            <div class="row header py-1">
+                <div class="col-fixed">Node</div>
+                <div class="col-angle g-0">Angle</div>
+            </div>
+        {/if}
+        {#each waypoints as w, i}
+            {#if viewFull}
+                <div class="row my-1" class:fw-bold={i === currentlyDragged}>
+                    <div class="col-fixed">
+                        {Math.round(w.from.x)},
+                        {Math.round(w.from.y)}
+                    </div>
+                    <div class="col-arrow g-0">=></div>
+                    <div class="col-fixed">
+                        {Math.round(w.to.x)},
+                        {Math.round(w.to.y)}
+                    </div>
+                    <div class="col-angle g-0">
+                        {w.angle}
+                    </div>
+                    <div class="col-actions">
+                        <button
+                            type="button"
+                            onclick={() => {
+                                onEdit(w);
+                            }}
+                            class="icon-btn p-0"
+                        >
+                            <FontAwesomeIcon
+                                icon={faPenToSquare}
+                                class="icon"
+                            />
+                        </button>
+                        <button
+                            type="button"
+                            onclick={() => {
+                                onRemove(w);
+                            }}
+                            class="icon-btn p-0"
+                        >
+                            <FontAwesomeIcon
+                                icon={faCircleMinus}
+                                class="icon"
+                            />
+                        </button>
+                    </div>
+                </div>
+            {:else}
+                <div class="row my-1" class:fw-bold={i === currentlyDragged}>
+                    <div class="col-fixed">
+                        {Math.round(w.from.x)},
+                        {Math.round(w.from.y)}
+                    </div>
+                    <div class="col-angle g-0">
+                        {w.angle}
+                    </div>
+                </div>
+                {#if i === waypoints.length - 1}
+                    <div
+                        class="row my-1"
+                        class:fw-bold={i === currentlyDragged}
+                    >
+                        <div class="col-fixed">
+                            {Math.round(w.to.x)},
+                            {Math.round(w.to.y)}
+                        </div>
+                    </div>
+                {/if}
+            {/if}
         {/each}
     </div>
     <button
@@ -157,6 +196,17 @@
             <FontAwesomeIcon icon={faMinus} class="iconSecondary" />
         {:else}
             <FontAwesomeIcon icon={faPlus} class="iconSecondary" />
+        {/if}
+    </button>
+    <button
+        type="button"
+        onclick={() => (viewFull = !viewFull)}
+        class="btn btn-primary btn-sm my-2"
+    >
+        {#if viewFull}
+            <FontAwesomeIcon icon={faCircle} class="iconSecondary" />
+        {:else}
+            <FontAwesomeIcon icon={regFaCircle} class="iconSecondary" />
         {/if}
     </button>
     {#if editingWaypoint}
