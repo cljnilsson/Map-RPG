@@ -7,6 +7,7 @@
         faPenToSquare,
         faCircleMinus,
         faPlus,
+        faMinus,
     } from "@fortawesome/free-solid-svg-icons";
 
     type path = {
@@ -16,9 +17,9 @@
     };
 
     let {
-        waypoints,
+        waypoints = $bindable(),
         currentlyDragged,
-        nodes,
+        nodes = $bindable(),
         saves = $bindable(),
         saveName = $bindable(),
         saveSelector = $bindable(),
@@ -36,6 +37,8 @@
     // Visual indicator for what is currently being edited
 
     let editingWaypoint: path | null = $state(null);
+    let newWaypoint: pos | null = $state(null);
+    let isCreating: boolean = $state(false);
     let nodeSelectorFrom: pos | null = $state(null);
     let nodeSelectorTo: pos | null = $state(null);
     let error: string = $state("");
@@ -43,13 +46,53 @@
     function onRemove(p: path) {
         //
     }
+
     function onEdit(p: path) {
         console.log(":D");
         editingWaypoint = p;
+        newWaypoint = null;
+        isCreating = false;
+        nodeSelectorFrom = p.from;
+        nodeSelectorTo = p.to;
     }
 
     function onAddFresh() {
-        //
+        console.log(":D");
+        if (isCreating) {
+            isCreating = false;
+            newWaypoint = null;
+            return;
+        }
+        editingWaypoint = null;
+        nodeSelectorFrom = null;
+        nodeSelectorTo = null;
+        newWaypoint = { x: 0, y: 0 };
+        isCreating = true;
+    }
+
+    function confirmNewNode() {
+        if (!newWaypoint) {
+            console.warn("Wops, should not be able to run this function.");
+            return;
+        }
+
+        nodes = [
+            ...nodes,
+            {
+                x: newWaypoint.x,
+                y: newWaypoint.y,
+            },
+        ];
+
+        // For testing purposes just adds to the end as default, assumes it's not the first node. TODO, handle this edge case
+        waypoints = [
+            ...waypoints,
+            {
+                from: nodes[nodes.length - 2],
+                to: nodes[nodes.length - 1],
+                angle: 0,
+            },
+        ];
     }
 </script>
 
@@ -57,7 +100,7 @@
     <h3 class="py-2 mb-0">Editor</h3>
     {#if error.length > 0}
         <div class="alert alert-danger my-2" role="alert">
-            A simple danger alert—check it out!
+            {error}
         </div>
     {/if}
     <div class="innerWaypointwrapper px-3 py-2">
@@ -71,13 +114,13 @@
         {#each waypoints as w, i}
             <div class="row my-1" class:fw-boldd={i === currentlyDragged}>
                 <div class="col-fixed">
-                    {w.from.x},
-                    {w.from.y}
+                    {Math.round(w.from.x)},
+                    {Math.round(w.from.y)}
                 </div>
                 <div class="col-arrow g-0">=></div>
                 <div class="col-fixed">
-                    {w.to.x},
-                    {w.to.y}
+                    {Math.round(w.to.x)},
+                    {Math.round(w.to.y)}
                 </div>
                 <div class="col-angle g-0">
                     {w.angle}
@@ -107,14 +150,17 @@
     </div>
     <button
         type="button"
-        onclick={() => {
-            onAddFresh();
-        }}
+        onclick={onAddFresh}
         class="btn btn-primary btn-sm my-2"
     >
-        <FontAwesomeIcon icon={faPlus} class="iconSecondary" />
+        {#if isCreating}
+            <FontAwesomeIcon icon={faMinus} class="iconSecondary" />
+        {:else}
+            <FontAwesomeIcon icon={faPlus} class="iconSecondary" />
+        {/if}
     </button>
     {#if editingWaypoint}
+        <h3 class="py-2 mb-0">Editing Waypoint</h3>
         <div class="row py-2">
             <div class="col-auto">
                 <div class="dropdown">
@@ -184,6 +230,39 @@
                 }}>Done</button
             >
         </div>
+    {:else if isCreating && newWaypoint}
+        <h3 class="py-2 mb-0">New Waypoint</h3>
+        <div class="newWaypointWrapper py-2 px-3">
+            <div class="row">
+                <div class="col">
+                    <input
+                        type="number"
+                        min="0"
+                        bind:value={newWaypoint.y}
+                        placeholder="x"
+                        class="form-control my-1"
+                    />
+                </div>
+                <div class="col">
+                    <input
+                        type="number"
+                        min="0"
+                        bind:value={newWaypoint.x}
+                        placeholder="y"
+                        class="form-control my-1"
+                    />
+                </div>
+            </div>
+            <div>
+                <button
+                    type="button"
+                    class="btn btn-primary my-2"
+                    onclick={confirmNewNode}
+                    disabled={newWaypoint.x > 0 && newWaypoint.y > 0}
+                    >Done</button
+                >
+            </div>
+        </div>
     {/if}
 </div>
 
@@ -223,7 +302,8 @@
         flex: 1;
     }
 
-    .innerWaypointwrapper {
+    .innerWaypointwrapper,
+    .newWaypointWrapper {
         border: rgb(101, 88, 69);
         border-width: 1px;
         border-style: solid;

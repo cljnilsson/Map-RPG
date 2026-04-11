@@ -175,9 +175,9 @@
 
     <div class="col-3 info d-flex flex-column">
         <InfoPanel
-            {waypoints}
+            bind:waypoints
             {currentlyDragged}
-            {nodes}
+            bind:nodes
             bind:saveName
             bind:saveSelector
             bind:saves
