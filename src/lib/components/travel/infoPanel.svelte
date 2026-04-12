@@ -11,10 +11,12 @@
         faCircle,
     } from "@fortawesome/free-solid-svg-icons";
     import { faCircle as regFaCircle } from "@fortawesome/free-regular-svg-icons";
-    import WaypointViewerFull from "$lib/components/travel/waypointViewer.svelte";
-    import WaypointViewerCompact from "$lib/components/travel/waypointViewerCompact.svelte";
+    import WaypointViewerFull from "$lib/components/travel/partials/waypointViewer.svelte";
+    import WaypointViewerCompact from "$lib/components/travel/partials/waypointViewerCompact.svelte";
     import PathEditor from "$lib/components/travel/edit.svelte";
     import NodeCreator from "$lib/components/travel/create.svelte";
+    import PathHeader from "$lib/components/travel/partials/pathHeader.svelte";
+    import IconButton from "$lib/components/travel/generic/iconButton.svelte";
 
     type path = {
         from: pos;
@@ -86,20 +88,7 @@
         </div>
     {/if}
     <div class="innerWaypointwrapper px-3 py-2">
-        {#if viewFull}
-            <div class="row header py-1">
-                <div class="col-fixed">From</div>
-                <div class="col-arrow g-0"></div>
-                <div class="col-fixed">To</div>
-                <div class="col-angle g-0">Angle</div>
-                <div class="col-actions"></div>
-            </div>
-        {:else}
-            <div class="row header py-1">
-                <div class="col-fixed">Node</div>
-                <div class="col-angle g-0">Angle</div>
-            </div>
-        {/if}
+        <PathHeader {viewFull} />
         {#each waypoints as w, i}
             {#if viewFull}
                 <WaypointViewerFull
@@ -121,28 +110,24 @@
             {/if}
         {/each}
     </div>
-    <button
-        type="button"
-        onclick={onAddFresh}
-        class="btn btn-primary btn-sm my-2"
-    >
-        {#if isCreating}
-            <FontAwesomeIcon icon={faMinus} class="iconSecondary" />
-        {:else}
-            <FontAwesomeIcon icon={faPlus} class="iconSecondary" />
-        {/if}
-    </button>
-    <button
-        type="button"
-        onclick={() => (viewFull = !viewFull)}
-        class="btn btn-primary btn-sm my-2"
-    >
-        {#if viewFull}
-            <FontAwesomeIcon icon={faCircle} class="iconSecondary" />
-        {:else}
-            <FontAwesomeIcon icon={regFaCircle} class="iconSecondary" />
-        {/if}
-    </button>
+    {#if isCreating}
+        <IconButton onClick={onAddFresh} extraClasses="my-2" icon={faMinus} />
+    {:else}
+        <IconButton onClick={onAddFresh} extraClasses="my-2" icon={faPlus} />
+    {/if}
+    {#if viewFull}
+        <IconButton
+            onClick={() => (viewFull = !viewFull)}
+            extraClasses="my-2"
+            icon={faCircle}
+        />
+    {:else}
+        <IconButton
+            onClick={() => (viewFull = !viewFull)}
+            extraClasses="my-2"
+            icon={regFaCircle}
+        />
+    {/if}
     {#if editingWaypoint}
         <PathEditor
             {nodes}
@@ -171,24 +156,6 @@
     h3 {
         color: rgb(255, 207, 88);
         font-family: "Ginto Bold", sans-serif;
-    }
-
-    .col-fixed {
-        width: 90px; /* adjust based on your data */
-        font-variant-numeric: tabular-nums; /* keeps numbers aligned nicely */
-    }
-
-    .col-arrow {
-        width: 40px;
-        text-align: center;
-    }
-
-    .col-angle {
-        width: 45px;
-    }
-
-    .col-actions {
-        flex: 1;
     }
 
     .innerWaypointwrapper {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
-    import ActionButtons from "$lib/components/travel/actionButtons.svelte";
+    import ActionButtons from "$lib/components/travel/generic/actionButtons.svelte";
 
     type path = {
         from: pos;

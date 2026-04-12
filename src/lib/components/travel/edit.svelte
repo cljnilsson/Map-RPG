@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
-    import Dropdown from "$lib/components/travel/dropdown.svelte";
+    import Dropdown from "$lib/components/travel/generic/dropdown.svelte";
 
     type path = {
         from: pos;
