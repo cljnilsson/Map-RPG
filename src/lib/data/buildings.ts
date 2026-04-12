@@ -38,8 +38,7 @@ const buildingRegistry = {
 	inn: (): Building => ({
 		id: "inn",
 		name: "Inn",
-		description:
-			"Not only good for morale, but also makes it easy to find people as the community gathers in the evening.",
+		description: "Not only good for morale, but also makes it easy to find people as the community gathers in the evening.",
 		requirements: true,
 		artPath: "/buildings/inn.png",
 		cost: [
@@ -139,8 +138,7 @@ const buildingRegistry = {
 	"tourney-grounds": (): Building => ({
 		id: "tourney-grounds",
 		name: "Tourney Grounds",
-		description:
-			"A great source of entertainment and a boon to the economy. Skilled soldiers can be turned into knights when a tournament is held.",
+		description: "A great source of entertainment and a boon to the economy. Skilled soldiers can be turned into knights when a tournament is held.",
 		requirements: true,
 		artPath: "/buildings/tourney-grounds.png",
 		cost: [],
@@ -162,8 +160,7 @@ const buildingRegistry = {
 	bank: (): Building => ({
 		id: "bank",
 		name: "Bank",
-		description:
-			"A rich third party institute allows you to borrow large batches of resources in exchange for paying them back with interest.",
+		description: "A rich third party institute allows you to borrow large batches of resources in exchange for paying them back with interest.",
 		requirements: true,
 		artPath: "/buildings/bank.png",
 		cost: [],
@@ -174,8 +171,7 @@ const buildingRegistry = {
 	"slave-market": (): Building => ({
 		id: "slave-market",
 		name: "Slave Market",
-		description:
-			"Allows the 'recruitment' of slaves, cheaper than workers but with a higher fatality rate and a moral price",
+		description: "Allows the 'recruitment' of slaves, cheaper than workers but with a higher fatality rate and a moral price",
 		requirements: true,
 		artPath: "/buildings/black-market.png",
 		cost: [],
@@ -186,8 +182,7 @@ const buildingRegistry = {
 	storage: (): Building => ({
 		id: "storage",
 		name: "Storage",
-		description:
-			"Resources are useless without a safe location to store them, this building increases your max capacity for all resources.",
+		description: "Resources are useless without a safe location to store them, this building increases your max capacity for all resources.",
 		requirements: true,
 		artPath: "/buildings/storage.png",
 		cost: [

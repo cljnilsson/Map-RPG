@@ -24,10 +24,7 @@ async function checkTablesExist() {
 const REQUIRED_RESOURCES = ["Wood", "Gold", "Iron", "Stone", "Silk", "Wheat"] as const;
 
 async function checkResources() {
-	const rows = await db
-		.select({ name: resource.name })
-		.from(resource)
-		.where(inArray(resource.name, REQUIRED_RESOURCES));
+	const rows = await db.select({ name: resource.name }).from(resource).where(inArray(resource.name, REQUIRED_RESOURCES));
 
 	const found = new Set(rows.map((r) => r.name));
 	const missing = REQUIRED_RESOURCES.filter((r) => !found.has(r));

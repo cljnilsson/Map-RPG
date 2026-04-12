@@ -89,11 +89,7 @@ describe("Inventory", () => {
 			},
 		};
 		const startingMoney = PlayerController.money; // 3c 2s 1g at the time of writing
-		const startingMoneyInCopper = PlayerController.moneyToCopper(
-			startingMoney.copper,
-			startingMoney.silver,
-			startingMoney.gold,
-		);
+		const startingMoneyInCopper = PlayerController.moneyToCopper(startingMoney.copper, startingMoney.silver, startingMoney.gold);
 
 		PlayerController.buyItem(item);
 

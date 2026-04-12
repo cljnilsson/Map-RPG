@@ -30,10 +30,7 @@ async function updateSettingsForUser(
 		return false;
 	}
 
-	const rows = await db
-		.update(settings)
-		.set({ darkMode, offlineMode, keybindTooltips, keybinds })
-		.where(eq(settings.userId, userId));
+	const rows = await db.update(settings).set({ darkMode, offlineMode, keybindTooltips, keybinds }).where(eq(settings.userId, userId));
 
 	return rows.changes > 0;
 }
@@ -133,13 +130,7 @@ async function updatePost(body: SettingData): Promise<{ success: boolean; failed
 		return { success: false, failed };
 	}
 
-	const success = updateSettingsForUser(
-		body.userId,
-		body.darkMode,
-		body.offlineMode,
-		body.keybindTooltips,
-		body.keybinds,
-	);
+	const success = updateSettingsForUser(body.userId, body.darkMode, body.offlineMode, body.keybindTooltips, body.keybinds);
 	if (!success) {
 		failed = body;
 	}

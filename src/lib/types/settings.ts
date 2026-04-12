@@ -9,14 +9,7 @@ type ToggleKey =
 	| "showLogs"
 	| "showResources";
 
-type KeybindKey =
-	| "inventoryKeybind"
-	| "navigationKeybind"
-	| "questsKeybind"
-	| "eventsKeybind"
-	| "logsKeybind"
-	| "resourcesKeybind"
-	| "backKeybind";
+type KeybindKey = "inventoryKeybind" | "navigationKeybind" | "questsKeybind" | "eventsKeybind" | "logsKeybind" | "resourcesKeybind" | "backKeybind";
 
 export type ToggleSetting = { name: string; key: ToggleKey; description: string };
 

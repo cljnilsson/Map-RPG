@@ -1,10 +1,4 @@
-import type {
-	GameObject,
-	LootableGameObject,
-	QuestGameObject,
-	LootableQuestGameObject,
-	ContainerGameObject,
-} from "$lib/types/gameObject";
+import type { GameObject, LootableGameObject, QuestGameObject, LootableQuestGameObject, ContainerGameObject } from "$lib/types/gameObject";
 
 function isLootableGameObject(obj: GameObject): obj is LootableGameObject {
 	return "pickedUpItem" in obj && !("quests" in obj);

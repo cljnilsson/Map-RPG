@@ -7,9 +7,7 @@ const questRegistry = {
 			title: "Test Quest",
 			description: "This is a test quest to demonstrate the quest window.",
 			rewardResources: [{ name: "Copper", amount: 100, icon: "/items/coin1.jpg" }],
-			rewardItems: [
-				{ name: "Potion", amount: 1, icon: "/items/potion2.jpg", description: "A potion that restores 10 vitality." },
-			],
+			rewardItems: [{ name: "Potion", amount: 1, icon: "/items/potion2.jpg", description: "A potion that restores 10 vitality." }],
 			rewardMisc: "Access to the rest of the game!",
 			progress: 1,
 			progressGoals: ["Start the quest", "Complete the quest"],

@@ -78,16 +78,7 @@ const SaveCharacterSchema = v.object({
 
 type SaveCharacterData = v.InferOutput<typeof SaveCharacterSchema>;
 
-async function insertCharacter(
-	userId: string,
-	name: string,
-	age: number,
-	str: number,
-	dex: number,
-	int: number,
-	vit: number,
-	charisma: number,
-) {
+async function insertCharacter(userId: string, name: string, age: number, str: number, dex: number, int: number, vit: number, charisma: number) {
 	const [character] = await db
 		.insert(characters)
 		.values({

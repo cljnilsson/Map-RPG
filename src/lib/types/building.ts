@@ -10,9 +10,7 @@ type Building = {
 	cost: Resource[];
 	timeInSeconds: number;
 	plotType: "default" | "sacred" | "pristine" | "damaged";
-	componentOnClick:
-		| Component<{ level: number; building: Omit<Building, "componentOnClick">; cityName: string; cityDataId: number }>
-		| undefined;
+	componentOnClick: Component<{ level: number; building: Omit<Building, "componentOnClick">; cityName: string; cityDataId: number }> | undefined;
 };
 
 type BuildingData = Building & {

@@ -100,9 +100,7 @@ async function post(body: ResourceArrayData) {
 			console.log(cityData.character.user?.id);
 			if (!cityData.character.user?.id || cityData.character.user.id !== user.id) {
 				failed.push(resource);
-				console.log(
-					`User ${user.id} tried to update cityData ${resource.cityDataId} (${cityData.city.name}) they don't own.`,
-				);
+				console.log(`User ${user.id} tried to update cityData ${resource.cityDataId} (${cityData.city.name}) they don't own.`);
 				continue;
 			}
 		}

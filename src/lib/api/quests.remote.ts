@@ -18,12 +18,7 @@ const UpdateQuestsPayloadSchema = v.object({
 
 type UpdateQuestsPayload = v.InferOutput<typeof UpdateQuestsPayloadSchema>;
 
-async function updateQuest(
-	characterId: number,
-	key: string,
-	progress: number,
-	status: "active" | "completed" | "failed",
-): Promise<boolean> {
+async function updateQuest(characterId: number, key: string, progress: number, status: "active" | "completed" | "failed"): Promise<boolean> {
 	const rows = await db
 		.update(quests)
 		.set({ progress, status })
@@ -32,12 +27,7 @@ async function updateQuest(
 	return rows.changes > 0;
 }
 
-async function createQuest(
-	characterId: number,
-	key: string,
-	progress: number,
-	status: "active" | "completed" | "failed",
-) {
+async function createQuest(characterId: number, key: string, progress: number, status: "active" | "completed" | "failed") {
 	const rows = await db.insert(quests).values({ characterId, key: key, progress, status });
 
 	return rows.changes > 0;

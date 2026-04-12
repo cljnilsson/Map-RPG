@@ -258,9 +258,7 @@ export class PlayerController extends CharacterController {
 	}
 
 	public static hasItems(items: InventoryItem[]): boolean {
-		return items.every(({ item, amount }) =>
-			PlayerStore.inventory.some((slot) => slot.item.name === item.name && slot.amount >= amount),
-		);
+		return items.every(({ item, amount }) => PlayerStore.inventory.some((slot) => slot.item.name === item.name && slot.amount >= amount));
 	}
 
 	public static hasItem(name: string): boolean;

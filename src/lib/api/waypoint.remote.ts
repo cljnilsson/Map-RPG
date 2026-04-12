@@ -21,6 +21,44 @@ async function getWaypoint(name: string) {
 		},
 	});
 }
+type pos = {
+	x: number;
+	y: number;
+};
+
+type path = {
+	from: pos;
+	to: pos;
+	angle: number;
+};
+
+type pathMod = path & {
+	parentId: number;
+};
+
+async function getWaypointPath({ parentId, from, to, angle }: pathMod) {
+	const result = await db.query.waypointPath.findMany({
+		where: (waypoint, { eq }) => eq(waypoint.waypoint, parentId),
+		with: {
+			from: true,
+			to: true,
+		},
+	});
+
+	const found = result.filter((w) => w.from.x === from.x && w.from.y === to.y && w.to.x === to.x && w.to.y === to.y && w.angle === angle);
+
+	if (!found) {
+		console.warn("Found no match, should never happen");
+	}
+
+	return found[0];
+}
+
+async function deleteWaypointPathById(id: number) {
+	const result = await db.delete(waypointPath).where(eq(waypointPath.id, id)).returning(); // optional, if you want the deleted row(s)
+
+	return result.length > 0 ? result[0] : false; // or just return result if you expect multiple
+}
 
 async function getWaypointById(id: number) {
 	return await db.query.waypoint.findFirst({
@@ -37,11 +75,7 @@ async function getNode(id: number) {
 	});
 }
 
-async function getNodeExact(
-	baseId: number,
-	x: number,
-	y: number,
-): Promise<{ x: number; y: number; id: number } | false> {
+async function getNodeExact(baseId: number, x: number, y: number): Promise<{ x: number; y: number; id: number } | false> {
 	const base = await db.query.waypoint.findFirst({
 		where: (waypoint, { eq }) => eq(waypoint.id, baseId),
 		with: {
@@ -184,6 +218,32 @@ async function save(body: SaveData) {
 	return true;
 }
 
+const RemoveOneSchema = v.object({
+	from: v.object({
+		x: v.number(),
+		y: v.number(),
+	}),
+	to: v.object({
+		x: v.number(),
+		y: v.number(),
+	}),
+	angle: v.number(),
+	parentId: v.number(),
+});
+
+type RemoveOneData = v.InferOutput<typeof RemoveOneSchema>;
+
+async function removeOne({ from, to, angle, parentId }: RemoveOneData): Promise<boolean> {
+	const existing = await getWaypointPath({ from, to, angle, parentId });
+
+	if (existing) {
+		const result = await deleteWaypointPathById(existing.id);
+		return true;
+	}
+
+	return false;
+}
+
 type ReturnWaypoints = {
 	name: string;
 	id: number;
@@ -203,9 +263,6 @@ const GetOneSchema = v.object({
 type GetOneData = v.InferOutput<typeof GetOneSchema>;
 
 async function getOne({ name }: GetOneData): Promise<ReturnWaypoints | undefined> {
-	// In theory should block requests if user is not logged in
-	await getUser();
-
 	const existing = await getWaypoint(name);
 
 	return existing;
@@ -220,5 +277,4 @@ async function get(): Promise<ReturnWaypoints[]> {
 export const getWaypoints = query(get);
 export const getOneWaypoint = command(GetOneSchema, getOne);
 export const saveWaypoint = command(SaveSchema, save);
-//export const saveWaypoint = command(SaveUpdateSchema, saveUpdate);
-//export const saveWaypoint = command(SaveNodeSchema, saveNode);
+export const removePath = command(RemoveOneSchema, removeOne);

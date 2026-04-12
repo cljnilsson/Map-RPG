@@ -8,13 +8,7 @@ import dayjs from "dayjs";
 const intervalSeconds = 60;
 
 async function runTask() {
-	console.log(
-		"Running server task at",
-		dayjs().format("YYYY-MM-DD HH:mm:ss"),
-		"with interval",
-		intervalSeconds,
-		"seconds",
-	);
+	console.log("Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"), "with interval", intervalSeconds, "seconds");
 
 	const limit = 200;
 	//const production = 1; old harcoded remove once reading from db is proven stable.
@@ -85,14 +79,7 @@ async function resourceLoop() {
 		}
 
 		prevConnCount = connections.size;
-		console.log(
-			"Active connections:",
-			connections.size,
-			"prev:",
-			prevConnCount,
-			"diff:",
-			prevConnCount - connections.size,
-		);
+		console.log("Active connections:", connections.size, "prev:", prevConnCount, "diff:", prevConnCount - connections.size);
 		await delay(1000 * intervalSeconds);
 	}
 

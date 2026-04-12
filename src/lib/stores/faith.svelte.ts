@@ -14,8 +14,7 @@ const Store = $state<{ faith: Faith[] }>({
 		},
 		{
 			name: "3",
-			description:
-				"Choosing an upfront fight is not a requirement for victory, the Rogue will use cunning and deception for their goals.",
+			description: "Choosing an upfront fight is not a requirement for victory, the Rogue will use cunning and deception for their goals.",
 			icon: "/faith/3.png",
 		},
 		{

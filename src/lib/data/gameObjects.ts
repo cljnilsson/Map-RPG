@@ -1,9 +1,4 @@
-import type {
-	GameObject,
-	LootableGameObject,
-	LootableQuestGameObject,
-	ContainerGameObject,
-} from "$lib/types/gameObject";
+import type { GameObject, LootableGameObject, LootableQuestGameObject, ContainerGameObject } from "$lib/types/gameObject";
 import { getQuest } from "$lib/data/quests";
 import { getItem } from "$lib/data/items";
 

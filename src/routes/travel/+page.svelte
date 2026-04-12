@@ -13,6 +13,7 @@
     };
 
     // needs to be shared object to update both connected lines from a node
+    let currentWaypointParentId = $state(1);
     let nodes: pos[] = $state([
         { x: 50, y: 50 },
         { x: 150, y: 150 },
@@ -176,6 +177,7 @@
     <div class="col-3 info d-flex flex-column">
         <InfoPanel
             bind:waypoints
+            bind:currentWaypointParentId
             {currentlyDragged}
             bind:nodes
             bind:saveName

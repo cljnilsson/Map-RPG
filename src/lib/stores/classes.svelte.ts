@@ -20,8 +20,7 @@ const Store = $state<{ classes: Class[] }>({
 			abilities: [],
 			suggestedStats: ["Dexterity", "Charisma"],
 			name: "Rogue",
-			description:
-				"Choosing an upfront fight is not a requirement for victory, the Rogue will use cunning and deception for their goals.",
+			description: "Choosing an upfront fight is not a requirement for victory, the Rogue will use cunning and deception for their goals.",
 			icon: "/classes/rogue.png",
 		},
 		{

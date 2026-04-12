@@ -2,10 +2,7 @@
     import type { pos } from "$lib/utils/math";
     import Saver from "$lib/components/travel/saver.svelte";
     import Loader from "$lib/components/travel/loader.svelte";
-    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import {
-        faPenToSquare,
-        faCircleMinus,
         faPlus,
         faMinus,
         faCircle,
@@ -17,6 +14,7 @@
     import NodeCreator from "$lib/components/travel/create.svelte";
     import PathHeader from "$lib/components/travel/partials/pathHeader.svelte";
     import IconButton from "$lib/components/travel/generic/iconButton.svelte";
+    import { removePath } from "$lib/api/waypoint.remote";
 
     type path = {
         from: pos;
@@ -26,6 +24,7 @@
 
     let {
         waypoints = $bindable(),
+        currentWaypointParentId = $bindable(),
         currentlyDragged,
         nodes = $bindable(),
         saves = $bindable(),
@@ -34,6 +33,7 @@
     }: {
         waypoints: path[];
         saveName: string;
+        currentWaypointParentId: number;
         saves: string[];
         saveSelector: string;
         currentlyDragged: number | null;
@@ -43,6 +43,7 @@
     // TODO, add scrollwheel to modify angle
     // change from and to from each path with dropdown
     // Visual indicator for what is currently being edited
+    // Angle sould be between -1 and 1
 
     let editingWaypoint: path | null = $state(null);
     let newWaypoint: pos | null = $state(null);
@@ -53,7 +54,15 @@
     let error: string = $state("");
 
     function onRemove(p: path) {
-        //
+        waypoints = waypoints.filter(
+            (w) => !(w.angle === p.angle && w.from === p.from && w.to === p.to),
+        );
+
+        // Should do this first ideally but it works for now
+        removePath({
+            ...p,
+            parentId: currentWaypointParentId,
+        });
     }
 
     function onEdit(p: path) {

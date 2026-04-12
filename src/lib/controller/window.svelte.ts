@@ -87,9 +87,7 @@ export default class WindowController extends ClassInstanceList {
 	// ---------------
 
 	public static getByName(name: WindowTypes): WindowController {
-		return WindowController.all.filter(
-			(w): w is WindowController => w instanceof WindowController && w.name === name,
-		)[0];
+		return WindowController.all.filter((w): w is WindowController => w instanceof WindowController && w.name === name)[0];
 	}
 
 	public static hideAll() {
