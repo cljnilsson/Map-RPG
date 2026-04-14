@@ -40,15 +40,16 @@ async function updateWindowPositions(characterId: number, key: string, x: number
 	const rows = await db
 		.update(windowPositions)
 		.set({ x, y })
-		.where(and(eq(windowPositions.characterId, characterId), eq(windowPositions.windowKey, key)));
+		.where(and(eq(windowPositions.characterId, characterId), eq(windowPositions.windowKey, key)))
+		.returning({ id: windowPositions.id });
 
-	return rows.changes > 0;
+	return rows.length > 0;
 }
 
 async function createWindowPosition(characterId: number, key: string, x: number, y: number) {
-	const rows = await db.insert(windowPositions).values({ characterId, windowKey: key, x, y });
+	const rows = await db.insert(windowPositions).values({ characterId, windowKey: key, x, y }).returning({ id: windowPositions.id });
 
-	return rows.changes > 0;
+	return rows.length > 0;
 }
 
 async function windowPositionsExists(characterId: number, key: string): Promise<boolean> {

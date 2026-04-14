@@ -30,23 +30,30 @@ async function updateSettingsForUser(
 		return false;
 	}
 
-	const rows = await db.update(settings).set({ darkMode, offlineMode, keybindTooltips, keybinds }).where(eq(settings.userId, userId));
+	const rows = await db
+		.update(settings)
+		.set({ darkMode, offlineMode, keybindTooltips, keybinds })
+		.where(eq(settings.userId, userId))
+		.returning({ userId: settings.userId });
 
-	return rows.changes > 0;
+	return rows.length > 0;
 }
 
 async function createSettings(userId: string) {
-	const rows = await db.insert(settings).values([
-		{
-			userId,
-			darkMode: false,
-			offlineMode: false,
-			keybindTooltips: false,
-			keybinds: {},
-		},
-	]);
+	const rows = await db
+		.insert(settings)
+		.values([
+			{
+				userId,
+				darkMode: false,
+				offlineMode: false,
+				keybindTooltips: false,
+				keybinds: {},
+			},
+		])
+		.returning({ userId: settings.userId });
 
-	return rows.changes > 0;
+	return rows.length > 0;
 }
 
 async function get(): Promise<Settings[]> {

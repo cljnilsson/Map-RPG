@@ -5,26 +5,29 @@
     import InfoPanel from "$lib/components/travel/infoPanel.svelte";
     import { getWaypoints } from "$lib/api/waypoint.remote";
     import { onMount } from "svelte";
+    import type { Path, WaypointPathCollection } from "$lib/types/waypoint";
 
-    type path = {
-        from: pos;
-        to: pos;
-        angle: number;
-    };
+    let waypointPathCollection: WaypointPathCollection[] = $state([]);
+
+    let currentWaypointParent: { id: number; name: string } = $state({
+        id: 1,
+        name: "not-real",
+    });
 
     // needs to be shared object to update both connected lines from a node
-    let currentWaypointParentId = $state(1);
     let nodes: pos[] = $state([
         { x: 50, y: 50 },
         { x: 150, y: 150 },
         { x: 500, y: 500 },
         { x: 300, y: 200 },
     ]);
-    let waypoints: path[] = $state([
+
+    let waypoints: Path[] = $state([
         { from: nodes[0], to: nodes[1], angle: 0.3 },
         { from: nodes[1], to: nodes[2], angle: 0.5 },
         { from: nodes[2], to: nodes[3], angle: 0.7 },
     ]);
+
     console.log("paths are valid", validateJoinedNodes(waypoints));
     let currentPos: pos = $state({ ...waypoints[0].from });
     let editMode: boolean = $state(false);
@@ -43,7 +46,7 @@
         return t * t * (3 - 2 * t);
     }
 
-    function validateJoinedNodes(toCheck: path[], epsilon = 0.001): boolean {
+    function validateJoinedNodes(toCheck: Path[], epsilon = 0.001): boolean {
         if (toCheck.length <= 1) return true;
 
         function isClose(a: number, b: number) {
@@ -127,6 +130,9 @@
     onMount(async () => {
         const data = await getWaypoints();
         console.log("Waypoints", data);
+        if (data) {
+            waypointPathCollection = data;
+        }
     });
 </script>
 
@@ -177,7 +183,8 @@
     <div class="col-3 info d-flex flex-column">
         <InfoPanel
             bind:waypoints
-            bind:currentWaypointParentId
+            bind:currentWaypointParent
+            {waypointPathCollection}
             {currentlyDragged}
             bind:nodes
             bind:saveName

@@ -22,15 +22,16 @@ async function updateQuest(characterId: number, key: string, progress: number, s
 	const rows = await db
 		.update(quests)
 		.set({ progress, status })
-		.where(and(eq(quests.characterId, characterId), eq(quests.key, key)));
+		.where(and(eq(quests.characterId, characterId), eq(quests.key, key)))
+		.returning({ id: quests.id });
 
-	return rows.changes > 0;
+	return rows.length > 0;
 }
 
 async function createQuest(characterId: number, key: string, progress: number, status: "active" | "completed" | "failed") {
-	const rows = await db.insert(quests).values({ characterId, key: key, progress, status });
+	const rows = await db.insert(quests).values({ characterId, key: key, progress, status }).returning({ id: quests.id });
 
-	return rows.changes > 0;
+	return rows.length > 0;
 }
 
 function questExists(characterId: number, key: string): boolean {

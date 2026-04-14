@@ -15,6 +15,8 @@
     import PathHeader from "$lib/components/travel/partials/pathHeader.svelte";
     import IconButton from "$lib/components/travel/generic/iconButton.svelte";
     import { removePath } from "$lib/api/waypoint.remote";
+    import Dropdown from "$lib/components/travel/generic/dropdown.svelte";
+    import type { WaypointPathCollection } from "$lib/types/waypoint";
 
     type path = {
         from: pos;
@@ -24,8 +26,9 @@
 
     let {
         waypoints = $bindable(),
-        currentWaypointParentId = $bindable(),
+        currentWaypointParent = $bindable(),
         currentlyDragged,
+        waypointPathCollection,
         nodes = $bindable(),
         saves = $bindable(),
         saveName = $bindable(),
@@ -33,7 +36,11 @@
     }: {
         waypoints: path[];
         saveName: string;
-        currentWaypointParentId: number;
+        currentWaypointParent: {
+            id: number;
+            name: string;
+        };
+        waypointPathCollection: WaypointPathCollection[];
         saves: string[];
         saveSelector: string;
         currentlyDragged: number | null;
@@ -61,7 +68,7 @@
         // Should do this first ideally but it works for now
         removePath({
             ...p,
-            parentId: currentWaypointParentId,
+            parentId: currentWaypointParent.id,
         });
     }
 
@@ -87,10 +94,36 @@
         newWaypoint = { x: 0, y: 0 };
         isCreating = true;
     }
+
+    function onChangeCollection(val: string) {
+        console.log("clicked on", val);
+        currentWaypointParent = waypointPathCollection.filter(
+            (v) => v.name === val,
+        )[0];
+    }
 </script>
 
 <div class="waypoints flex-grow-1">
     <h3 class="py-2 mb-0">Editor</h3>
+    <div class="row align-items-center">
+        <div class="col-8 my-2">
+            <h5 class="my-0">
+                Editing: {currentWaypointParent.name} ({currentWaypointParent.id})
+            </h5>
+        </div>
+        <div class="col text-end my-2">
+            <Dropdown
+                options={waypointPathCollection.map((v) => {
+                    return {
+                        text: `${v.name} (${v.paths.length})`,
+                        val: v.name,
+                    };
+                })}
+                text={"Pick Collection"}
+                onclick={onChangeCollection}
+            />
+        </div>
+    </div>
     {#if error.length > 0}
         <div class="alert alert-danger my-2" role="alert">
             {error}

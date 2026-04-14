@@ -59,9 +59,10 @@ async function updateOneCityData({ cityId, characterId, population, workers }: U
 	const rows = await db
 		.update(cityData)
 		.set({ population, workers })
-		.where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId)));
+		.where(and(eq(cityData.characterId, characterId), eq(cityData.cityId, cityId)))
+		.returning({ id: cityData.id });
 
-	return rows.changes > 0;
+	return rows.length > 0;
 }
 
 type ReturnCityDataEager = {

@@ -3,36 +3,61 @@ import { query, command } from "$app/server";
 import { waypoint, waypointNode, waypointPath } from "$lib/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { getUser } from "$lib/utils/remoteAuthHelper";
+import type { WaypointPathCollection, Path } from "$lib/types/waypoint";
+import type { pos } from "$lib/utils/math";
 
-async function getAllWaypoints() {
-	return await db.query.waypoint.findMany({
+async function getAllWaypoints(): Promise<WaypointPathCollection[]> {
+	const result = await db.query.waypoint.findMany({
 		with: {
-			paths: true,
+			paths: {
+				with: {
+					from: true,
+					to: true,
+				},
+			},
 		},
 	});
+
+	return result.map(({ id, name, paths }) => ({
+		id,
+		name,
+		paths: paths.map(({ from, to, angle }) => ({
+			from,
+			to,
+			angle,
+		})),
+	}));
 }
 
-async function getWaypoint(name: string) {
-	return await db.query.waypoint.findFirst({
+async function getWaypoint(name: string): Promise<WaypointPathCollection | undefined> {
+	const result = await db.query.waypoint.findFirst({
 		where: (waypoint, { eq }) => eq(waypoint.name, name),
 		with: {
-			paths: true,
+			paths: {
+				with: {
+					from: true,
+					to: true,
+				},
+			},
 		},
 	});
+
+	if (!result) return undefined;
+
+	const { id, name: waypointName, paths } = result;
+
+	return {
+		id,
+		name: waypointName,
+		paths: paths.map(({ from, to, angle }) => ({
+			from,
+			to,
+			angle,
+		})),
+	};
 }
-type pos = {
-	x: number;
-	y: number;
-};
 
-type path = {
-	from: pos;
-	to: pos;
-	angle: number;
-};
-
-type pathMod = path & {
+type pathMod = Path & {
 	parentId: number;
 };
 
@@ -153,37 +178,46 @@ type SaveData = v.InferOutput<typeof SaveSchema>;
 // Assuming no data exists at all, use another endpoint to update an existing.
 async function save(body: SaveData) {
 	async function createBase(parentName: string) {
-		const rows = await db.insert(waypoint).values([
-			{
-				name: parentName,
-			},
-		]);
+		const rows = await db
+			.insert(waypoint)
+			.values([
+				{
+					name: parentName,
+				},
+			])
+			.returning({ id: waypoint.id });
 
-		return rows.lastInsertRowid;
+		return rows.length > 0;
 	}
 
-	async function createPoint(x: number, y: number) {
-		const rows = await db.insert(waypointNode).values([
-			{
-				x,
-				y,
-			},
-		]);
+	async function createPoint(x: number, y: number): Promise<number | undefined> {
+		const rows = await db
+			.insert(waypointNode)
+			.values([
+				{
+					x,
+					y,
+				},
+			])
+			.returning({ id: waypointNode.id });
 
-		return rows.lastInsertRowid;
+		return rows.length > 0 ? rows[0].id : undefined;
 	}
 
-	async function createPath(base: number, from: number, to: number, angle: number) {
-		const rows = await db.insert(waypointPath).values([
-			{
-				waypoint: base,
-				to,
-				from,
-				angle,
-			},
-		]);
+	async function createPath(base: number, from: number, to: number, angle: number): Promise<boolean> {
+		const rows = await db
+			.insert(waypointPath)
+			.values([
+				{
+					waypoint: base,
+					to,
+					from,
+					angle,
+				},
+			])
+			.returning({ id: waypointPath.id });
 
-		return rows.changes > 0;
+		return rows.length > 0;
 	}
 
 	const b = await createBase(body.name);
@@ -203,13 +237,23 @@ async function save(body: SaveData) {
 		if (fromExists) {
 			fromId = fromExists.id;
 		} else {
-			fromId = await createPoint(path.from.x, path.from.y);
+			const success = await createPoint(path.from.x, path.from.y);
+			if (success) {
+				fromId = success;
+			} else {
+				return false;
+			}
 		}
 
 		if (toExists) {
 			toId = toExists.id;
 		} else {
-			toId = await createPoint(path.to.x, path.to.y);
+			const success = await createPoint(path.to.x, path.to.y);
+			if (success) {
+				toId = success;
+			} else {
+				return false;
+			}
 		}
 
 		await createPath(base.id, Number(fromId), Number(toId), path.angle);
@@ -248,11 +292,9 @@ type ReturnWaypoints = {
 	name: string;
 	id: number;
 	paths: {
-		id: number;
-		waypoint: number;
 		angle: number;
-		from: number;
-		to: number;
+		from: pos;
+		to: pos;
 	}[];
 };
 
