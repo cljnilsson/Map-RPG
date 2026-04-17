@@ -9,10 +9,8 @@
 
     let waypointPathCollection: WaypointPathCollection[] = $state([]);
 
-    let currentWaypointParent: { id: number; name: string } = $state({
-        id: 1,
-        name: "not-real",
-    });
+    let currentWaypointParent: { id: number; name: string } | undefined =
+        $state(undefined);
 
     // needs to be shared object to update both connected lines from a node
     let nodes: pos[] = $state([]);
@@ -56,6 +54,14 @@
         }
 
         return true;
+    }
+
+    function validateAllPathNodes(paths: WaypointPathCollection[]) {
+        for (const w of paths) {
+            console.log(
+                `paths are valid (${w.name}) ${validateJoinedNodes(w.paths)}`,
+            );
+        }
     }
 
     function move() {
@@ -132,13 +138,20 @@
                 { from: nodes[2], to: nodes[3], angle: 0.7 },
             ];
             currentPos = { ...waypoints[0].from };
-            console.log("paths are valid", validateJoinedNodes(waypoints));
-            return;
+            console.log(
+                "paths are valid (demo)",
+                validateJoinedNodes(waypoints),
+            );
+            currentWaypointParent = {
+                id: 1,
+                name: "not-real",
+            };
         }
         const data = await getWaypoints();
         console.log("Waypoints", data);
         if (data) {
             waypointPathCollection = data;
+            validateAllPathNodes(waypointPathCollection);
         }
     });
 </script>
@@ -188,16 +201,19 @@
     </div>
 
     <div class="col-3 info d-flex flex-column">
-        <InfoPanel
-            bind:waypoints
-            bind:currentWaypointParent
-            {waypointPathCollection}
-            {currentlyDragged}
-            bind:nodes
-            bind:saveName
-            bind:saveSelector
-            bind:saves
-        />
+        {#if !!currentWaypointParent}
+            <InfoPanel
+                bind:waypoints
+                bind:currentWaypointParent
+                {waypointPathCollection}
+                {currentlyDragged}
+                bind:nodes
+                bind:saveName
+                bind:saveSelector
+                bind:saves
+                bind:currentPos
+            />
+        {/if}
     </div>
 </div>
 

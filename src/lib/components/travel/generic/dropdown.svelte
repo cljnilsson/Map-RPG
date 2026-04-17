@@ -21,11 +21,13 @@
     </button>
     <ul class="dropdown-menu">
         {#each options as o}
-            <li>
-                <a class="dropdown-item" href="#" onclick={() => onclick(o.val)}
-                    >{o.text}</a
-                >
-            </li>
+            <button
+                type="button"
+                class="dropdown-item"
+                onclick={() => onclick(o.val)}
+            >
+                {o.text}
+            </button>
         {/each}
     </ul>
 </div>

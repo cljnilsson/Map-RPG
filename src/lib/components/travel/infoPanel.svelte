@@ -27,6 +27,7 @@
     let {
         waypoints = $bindable(),
         currentWaypointParent = $bindable(),
+        currentPos = $bindable(),
         currentlyDragged,
         waypointPathCollection,
         nodes = $bindable(),
@@ -35,6 +36,7 @@
         saveSelector = $bindable(),
     }: {
         waypoints: path[];
+        currentPos: pos | undefined;
         saveName: string;
         currentWaypointParent: {
             id: number;
@@ -100,6 +102,19 @@
         currentWaypointParent = waypointPathCollection.filter(
             (v) => v.name === val,
         )[0];
+        nodes = [
+            { x: 50, y: 50 },
+            { x: 150, y: 150 },
+            { x: 500, y: 500 },
+            { x: 300, y: 200 },
+        ];
+        waypoints = [
+            { from: nodes[0], to: nodes[1], angle: 0.3 },
+            { from: nodes[1], to: nodes[2], angle: 0.5 },
+            { from: nodes[2], to: nodes[3], angle: 0.7 },
+        ];
+
+        currentPos = { ...waypoints[0].from };
     }
 </script>
 
