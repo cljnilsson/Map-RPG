@@ -36,11 +36,13 @@
             <ul class="dropdown-menu">
                 {#each saves as s}
                     <li>
-                        <a
+                        <button
+                            type="button"
                             class="dropdown-item"
-                            href="#"
-                            onclick={() => (saveSelector = s)}>{s}</a
+                            onclick={() => (saveSelector = s)}
                         >
+                            {s}
+                        </button>
                     </li>
                 {/each}
             </ul>

@@ -1,18 +1,11 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite";
 import { sveltekit } from "@sveltejs/kit/vite";
-import { svelteTesting } from "@testing-library/svelte/vite";
 
 const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig({
-  plugins: [sveltekit(), svelteTesting()],
+  plugins: [sveltekit()],
   clearScreen: false,
-  test: {
-    environment: "jsdom",
-    setupFiles: ["./vitest-setup.js"],
-    include: ["src/**/*.{test,spec}.{js,ts}"],
-    pool: "threads",
-  },
   resolve: {
     alias: {
       $routes: "/src/routes",

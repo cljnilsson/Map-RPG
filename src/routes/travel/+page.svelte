@@ -15,21 +15,11 @@
     });
 
     // needs to be shared object to update both connected lines from a node
-    let nodes: pos[] = $state([
-        { x: 50, y: 50 },
-        { x: 150, y: 150 },
-        { x: 500, y: 500 },
-        { x: 300, y: 200 },
-    ]);
+    let nodes: pos[] = $state([]);
 
-    let waypoints: Path[] = $state([
-        { from: nodes[0], to: nodes[1], angle: 0.3 },
-        { from: nodes[1], to: nodes[2], angle: 0.5 },
-        { from: nodes[2], to: nodes[3], angle: 0.7 },
-    ]);
+    let waypoints: Path[] = $state([]);
 
-    console.log("paths are valid", validateJoinedNodes(waypoints));
-    let currentPos: pos = $state({ ...waypoints[0].from });
+    let currentPos: pos | undefined = $state(undefined);
     let editMode: boolean = $state(false);
     let saveName: string = $state("");
     let currentlyDragged: number | null = $state(null);
@@ -128,6 +118,23 @@
     }
 
     onMount(async () => {
+        const test = true;
+        if (test) {
+            nodes = [
+                { x: 50, y: 50 },
+                { x: 150, y: 150 },
+                { x: 500, y: 500 },
+                { x: 300, y: 200 },
+            ];
+            waypoints = [
+                { from: nodes[0], to: nodes[1], angle: 0.3 },
+                { from: nodes[1], to: nodes[2], angle: 0.5 },
+                { from: nodes[2], to: nodes[3], angle: 0.7 },
+            ];
+            currentPos = { ...waypoints[0].from };
+            console.log("paths are valid", validateJoinedNodes(waypoints));
+            return;
+        }
         const data = await getWaypoints();
         console.log("Waypoints", data);
         if (data) {
@@ -139,7 +146,7 @@
 <div class="row">
     <div class="col-auto">
         <div class="travel">
-            {#if waypoints.length > 0}
+            {#if waypoints.length > 0 && currentPos}
                 <!-- Moving point -->
                 <Point
                     bind:x={currentPos.x}
