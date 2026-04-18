@@ -1,10 +1,5 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
-    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
-    import {
-        faPenToSquare,
-        faCircleMinus,
-    } from "@fortawesome/free-solid-svg-icons";
 
     type path = {
         from: pos;

@@ -1,17 +1,11 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
-
-    type path = {
-        from: pos;
-        to: pos;
-        angle: number;
-    };
+    import WaypointController from "$lib/controller/waypoints.svelte";
 
     let {
         nodes = $bindable(),
-        waypoints = $bindable(),
         newNode = $bindable(),
-    }: { nodes: pos[]; waypoints: path[]; newNode: pos } = $props();
+    }: { nodes: pos[]; newNode: pos } = $props();
 
     function confirmNewNode() {
         if (!newNode) {
@@ -28,8 +22,8 @@
         ];
 
         // For testing purposes just adds to the end as default, assumes it's not the first node. TODO, handle this edge case
-        waypoints = [
-            ...waypoints,
+        WaypointController.waypoints = [
+            ...WaypointController.waypoints,
             {
                 from: nodes[nodes.length - 2],
                 to: nodes[nodes.length - 1],

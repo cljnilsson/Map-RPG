@@ -6,18 +6,13 @@
     import { getWaypoints } from "$lib/api/waypoint.remote";
     import { onMount } from "svelte";
     import type { Path, WaypointPathCollection } from "$lib/types/waypoint";
+    import WaypointController from "$lib/controller/waypoints.svelte";
 
     let waypointPathCollection: WaypointPathCollection[] = $state([]);
-
-    let currentWaypointParent: { id: number; name: string } | undefined =
-        $state(undefined);
 
     // needs to be shared object to update both connected lines from a node
     let nodes: pos[] = $state([]);
 
-    let waypoints: Path[] = $state([]);
-
-    let currentPos: pos | undefined = $state(undefined);
     let editMode: boolean = $state(false);
     let saveName: string = $state("");
     let currentlyDragged: number | null = $state(null);
@@ -34,38 +29,8 @@
         return t * t * (3 - 2 * t);
     }
 
-    function validateJoinedNodes(toCheck: Path[], epsilon = 0.001): boolean {
-        if (toCheck.length <= 1) return true;
-
-        function isClose(a: number, b: number) {
-            return Math.abs(a - b) < epsilon;
-        }
-
-        for (let i = 0; i < toCheck.length - 1; i++) {
-            const current = toCheck[i];
-            const next = toCheck[i + 1];
-
-            const xMatch = isClose(current.to.x, next.from.x);
-            const yMatch = isClose(current.to.y, next.from.y);
-
-            if (!xMatch || !yMatch) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    function validateAllPathNodes(paths: WaypointPathCollection[]) {
-        for (const w of paths) {
-            console.log(
-                `paths are valid (${w.name}) ${validateJoinedNodes(w.paths)}`,
-            );
-        }
-    }
-
     function move() {
-        if (animating || waypoints.length === 0) return;
+        if (animating || WaypointController.waypoints.length === 0) return;
 
         animating = true;
 
@@ -73,10 +38,12 @@
         let t = 0;
         const speed = 0.02;
 
-        currentPos = { ...waypoints[0].from };
+        WaypointController.currentPos = {
+            ...WaypointController.waypoints[0].from,
+        };
 
         // Precompute control points (performance + clarity)
-        const controls = waypoints.map((w) =>
+        const controls = WaypointController.waypoints.map((w) =>
             getControlPoint(w.from, w.to, w.angle),
         );
 
@@ -84,7 +51,7 @@
 
         function step(now: number) {
             const dt = (now - lastTime) / 16; // normalize ~60fps
-            const segment = waypoints[segmentIndex];
+            const segment = WaypointController.waypoints[segmentIndex];
 
             lastTime = now;
             t += speed * dt;
@@ -92,7 +59,7 @@
             if (t >= 1) {
                 segmentIndex++;
 
-                if (segmentIndex >= waypoints.length) {
+                if (segmentIndex >= WaypointController.waypoints.length) {
                     animating = false;
                     return;
                 }
@@ -104,7 +71,7 @@
 
             const eased = smoothstep(t);
 
-            currentPos = bezier(
+            WaypointController.currentPos = bezier(
                 eased,
                 segment.from,
                 controls[segmentIndex],
@@ -118,7 +85,7 @@
     }
 
     function unload() {
-        waypoints = [];
+        WaypointController.waypoints = [];
         editMode = false;
         currentlyDragged = null;
     }
@@ -132,17 +99,21 @@
                 { x: 500, y: 500 },
                 { x: 300, y: 200 },
             ];
-            waypoints = [
+            WaypointController.waypoints = [
                 { from: nodes[0], to: nodes[1], angle: 0.3 },
                 { from: nodes[1], to: nodes[2], angle: 0.5 },
                 { from: nodes[2], to: nodes[3], angle: 0.7 },
             ];
-            currentPos = { ...waypoints[0].from };
+            WaypointController.currentPos = {
+                ...WaypointController.waypoints[0].from,
+            };
             console.log(
                 "paths are valid (demo)",
-                validateJoinedNodes(waypoints),
+                WaypointController.validateJoinedNodes(
+                    WaypointController.waypoints,
+                ),
             );
-            currentWaypointParent = {
+            WaypointController.currentWaypointParent = {
                 id: 1,
                 name: "not-real",
             };
@@ -151,7 +122,7 @@
         console.log("Waypoints", data);
         if (data) {
             waypointPathCollection = data;
-            validateAllPathNodes(waypointPathCollection);
+            WaypointController.validateAllPathNodes(waypointPathCollection);
         }
     });
 </script>
@@ -159,18 +130,18 @@
 <div class="row">
     <div class="col-auto">
         <div class="travel">
-            {#if waypoints.length > 0 && currentPos}
+            {#if WaypointController.waypoints.length > 0 && WaypointController.currentPos}
                 <!-- Moving point -->
                 <Point
-                    bind:x={currentPos.x}
-                    bind:y={currentPos.y}
+                    bind:x={WaypointController.currentPos.x}
+                    bind:y={WaypointController.currentPos.y}
                     extraClasses=""
                     {editMode}
                     bind:currentlyDragged
                     index={-1}
                 />
 
-                {#each waypoints as w, i}
+                {#each WaypointController.waypoints as w, i}
                     <!-- Path line -->
                     <Line from={w.from} to={w.to} angle={w.angle} />
 
@@ -185,7 +156,7 @@
                     />
 
                     <!-- End point (only last segment) -->
-                    {#if i === waypoints.length - 1}
+                    {#if i === WaypointController.waypoints.length - 1}
                         <Point
                             bind:x={w.to.x}
                             bind:y={w.to.y}
@@ -201,17 +172,14 @@
     </div>
 
     <div class="col-3 info d-flex flex-column">
-        {#if !!currentWaypointParent}
+        {#if !!WaypointController.currentWaypointParent}
             <InfoPanel
-                bind:waypoints
-                bind:currentWaypointParent
                 {waypointPathCollection}
                 {currentlyDragged}
                 bind:nodes
                 bind:saveName
                 bind:saveSelector
                 bind:saves
-                bind:currentPos
             />
         {/if}
     </div>

@@ -14,20 +14,11 @@
     import NodeCreator from "$lib/components/travel/create.svelte";
     import PathHeader from "$lib/components/travel/partials/pathHeader.svelte";
     import IconButton from "$lib/components/travel/generic/iconButton.svelte";
-    import { removePath } from "$lib/api/waypoint.remote";
     import Dropdown from "$lib/components/travel/generic/dropdown.svelte";
-    import type { WaypointPathCollection } from "$lib/types/waypoint";
-
-    type path = {
-        from: pos;
-        to: pos;
-        angle: number;
-    };
+    import type { WaypointPathCollection, Path } from "$lib/types/waypoint";
+    import WaypointController from "$lib/controller/waypoints.svelte";
 
     let {
-        waypoints = $bindable(),
-        currentWaypointParent = $bindable(),
-        currentPos = $bindable(),
         currentlyDragged,
         waypointPathCollection,
         nodes = $bindable(),
@@ -35,13 +26,7 @@
         saveName = $bindable(),
         saveSelector = $bindable(),
     }: {
-        waypoints: path[];
-        currentPos: pos | undefined;
         saveName: string;
-        currentWaypointParent: {
-            id: number;
-            name: string;
-        };
         waypointPathCollection: WaypointPathCollection[];
         saves: string[];
         saveSelector: string;
@@ -54,7 +39,7 @@
     // Visual indicator for what is currently being edited
     // Angle sould be between -1 and 1
 
-    let editingWaypoint: path | null = $state(null);
+    let editingWaypoint: Path | null = $state(null);
     let newWaypoint: pos | null = $state(null);
     let isCreating: boolean = $state(false);
     let viewFull: boolean = $state(true);
@@ -62,19 +47,7 @@
     let nodeSelectorTo: pos | null = $state(null);
     let error: string = $state("");
 
-    function onRemove(p: path) {
-        waypoints = waypoints.filter(
-            (w) => !(w.angle === p.angle && w.from === p.from && w.to === p.to),
-        );
-
-        // Should do this first ideally but it works for now
-        removePath({
-            ...p,
-            parentId: currentWaypointParent.id,
-        });
-    }
-
-    function onEdit(p: path) {
+    function onEdit(p: Path) {
         console.log(":D");
         editingWaypoint = p;
         newWaypoint = null;
@@ -99,22 +72,23 @@
 
     function onChangeCollection(val: string) {
         console.log("clicked on", val);
-        currentWaypointParent = waypointPathCollection.filter(
-            (v) => v.name === val,
-        )[0];
+        WaypointController.currentWaypointParent =
+            waypointPathCollection.filter((v) => v.name === val)[0];
         nodes = [
             { x: 50, y: 50 },
             { x: 150, y: 150 },
             { x: 500, y: 500 },
             { x: 300, y: 200 },
         ];
-        waypoints = [
+        WaypointController.waypoints = [
             { from: nodes[0], to: nodes[1], angle: 0.3 },
             { from: nodes[1], to: nodes[2], angle: 0.5 },
             { from: nodes[2], to: nodes[3], angle: 0.7 },
         ];
 
-        currentPos = { ...waypoints[0].from };
+        WaypointController.currentPos = {
+            ...WaypointController.waypoints[0].from,
+        };
     }
 </script>
 
@@ -122,9 +96,12 @@
     <h3 class="py-2 mb-0">Editor</h3>
     <div class="row align-items-center">
         <div class="col-8 my-2">
-            <h5 class="my-0">
-                Editing: {currentWaypointParent.name} ({currentWaypointParent.id})
-            </h5>
+            {#if !!WaypointController.currentWaypointParent}
+                <h5 class="my-0">
+                    Editing: {WaypointController.currentWaypointParent.name} ({WaypointController
+                        .currentWaypointParent.id})
+                </h5>
+            {/if}
         </div>
         <div class="col text-end my-2">
             <Dropdown
@@ -146,22 +123,22 @@
     {/if}
     <div class="innerWaypointwrapper px-3 py-2">
         <PathHeader {viewFull} />
-        {#each waypoints as w, i}
+        {#each WaypointController.waypoints as w, i}
             {#if viewFull}
                 <WaypointViewerFull
                     {i}
                     {w}
                     {currentlyDragged}
-                    {onRemove}
+                    onRemove={WaypointController.removeOneWaypoint}
                     {onEdit}
                 />
             {:else}
                 <WaypointViewerCompact
                     {i}
                     {w}
-                    {waypoints}
+                    waypoints={WaypointController.waypoints}
                     {currentlyDragged}
-                    {onRemove}
+                    onRemove={WaypointController.removeOneWaypoint}
                     {onEdit}
                 />
             {/if}
@@ -193,12 +170,17 @@
             bind:nodeSelectorTo
         />
     {:else if isCreating && newWaypoint}
-        <NodeCreator bind:nodes bind:waypoints bind:newNode={newWaypoint} />
+        <NodeCreator bind:nodes bind:newNode={newWaypoint} />
     {/if}
 </div>
 
 <div class="bottom">
-    <Saver {waypoints} bind:saveName bind:saveSelector bind:saves />
+    <Saver
+        waypoints={WaypointController.waypoints}
+        bind:saveName
+        bind:saveSelector
+        bind:saves
+    />
     <Loader {saveName} bind:saveSelector {saves} />
 </div>
 
