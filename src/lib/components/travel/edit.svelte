@@ -1,21 +1,15 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
+    import type { Path } from "$lib/types/waypoint";
     import Dropdown from "$lib/components/travel/generic/dropdown.svelte";
-
-    type path = {
-        from: pos;
-        to: pos;
-        angle: number;
-    };
+    import WaypointController from "$lib/controller/waypoints.svelte";
 
     let {
-        nodes,
         editingWaypoint = $bindable(),
         nodeSelectorFrom = $bindable(),
         nodeSelectorTo = $bindable(),
     }: {
-        nodes: pos[];
-        editingWaypoint: path | null;
+        editingWaypoint: Path | null;
         nodeSelectorFrom: pos | null;
         nodeSelectorTo: pos | null;
     } = $props();
@@ -29,7 +23,7 @@
                 text="{nodeSelectorFrom === null
                     ? 'Select node'
                     : nodeSelectorFrom.x + ',' + nodeSelectorFrom.y},"
-                options={nodes.map((v) => ({
+                options={WaypointController.nodes.map((v) => ({
                     val: v,
                     text: `${v.x}, ${v.y}`,
                 }))}
@@ -41,7 +35,7 @@
                 text="{nodeSelectorTo === null
                     ? 'Select node'
                     : nodeSelectorTo.x + ',' + nodeSelectorTo.y},"
-                options={nodes.map((v) => ({
+                options={WaypointController.nodes.map((v) => ({
                     val: v,
                     text: `${v.x}, ${v.y}`,
                 }))}

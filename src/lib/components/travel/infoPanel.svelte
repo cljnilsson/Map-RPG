@@ -21,7 +21,6 @@
     let {
         currentlyDragged,
         waypointPathCollection,
-        nodes = $bindable(),
         saves = $bindable(),
         saveName = $bindable(),
         saveSelector = $bindable(),
@@ -31,7 +30,6 @@
         saves: string[];
         saveSelector: string;
         currentlyDragged: number | null;
-        nodes: pos[];
     } = $props();
 
     // TODO, add scrollwheel to modify angle
@@ -74,16 +72,28 @@
         console.log("clicked on", val);
         WaypointController.currentWaypointParent =
             waypointPathCollection.filter((v) => v.name === val)[0];
-        nodes = [
+        WaypointController.nodes = [
             { x: 50, y: 50 },
             { x: 150, y: 150 },
             { x: 500, y: 500 },
             { x: 300, y: 200 },
         ];
         WaypointController.waypoints = [
-            { from: nodes[0], to: nodes[1], angle: 0.3 },
-            { from: nodes[1], to: nodes[2], angle: 0.5 },
-            { from: nodes[2], to: nodes[3], angle: 0.7 },
+            {
+                from: WaypointController.nodes[0],
+                to: WaypointController.nodes[1],
+                angle: 0.3,
+            },
+            {
+                from: WaypointController.nodes[1],
+                to: WaypointController.nodes[2],
+                angle: 0.5,
+            },
+            {
+                from: WaypointController.nodes[2],
+                to: WaypointController.nodes[3],
+                angle: 0.7,
+            },
         ];
 
         WaypointController.currentPos = {
@@ -164,13 +174,12 @@
     {/if}
     {#if editingWaypoint}
         <PathEditor
-            {nodes}
             bind:editingWaypoint
             bind:nodeSelectorFrom
             bind:nodeSelectorTo
         />
     {:else if isCreating && newWaypoint}
-        <NodeCreator bind:nodes bind:newNode={newWaypoint} />
+        <NodeCreator bind:newNode={newWaypoint} />
     {/if}
 </div>
 

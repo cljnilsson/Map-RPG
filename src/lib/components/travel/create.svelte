@@ -2,10 +2,7 @@
     import type { pos } from "$lib/utils/math";
     import WaypointController from "$lib/controller/waypoints.svelte";
 
-    let {
-        nodes = $bindable(),
-        newNode = $bindable(),
-    }: { nodes: pos[]; newNode: pos } = $props();
+    let { newNode = $bindable() }: { newNode: pos } = $props();
 
     function confirmNewNode() {
         if (!newNode) {
@@ -13,8 +10,8 @@
             return;
         }
 
-        nodes = [
-            ...nodes,
+        WaypointController.nodes = [
+            ...WaypointController.nodes,
             {
                 x: newNode.x,
                 y: newNode.y,
@@ -25,8 +22,12 @@
         WaypointController.waypoints = [
             ...WaypointController.waypoints,
             {
-                from: nodes[nodes.length - 2],
-                to: nodes[nodes.length - 1],
+                from: WaypointController.nodes[
+                    WaypointController.nodes.length - 2
+                ],
+                to: WaypointController.nodes[
+                    WaypointController.nodes.length - 1
+                ],
                 angle: 0,
             },
         ];

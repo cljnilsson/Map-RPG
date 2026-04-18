@@ -1,13 +1,13 @@
 import type { pos } from "$lib/utils/math";
 import type { Path } from "$lib/types/waypoint";
 import { removePath } from "$lib/api/waypoint.remote";
-import Dropdown from "$lib/components/travel/generic/dropdown.svelte";
 import type { WaypointPathCollection } from "$lib/types/waypoint";
 
 // Can be const because we'll only ever modify a key directly not the whole object
 const Store: {
 	waypoints: Path[];
 	currentPos: pos | undefined;
+	nodes: pos[];
 	currentWaypointParent:
 		| {
 				id: number;
@@ -17,6 +17,7 @@ const Store: {
 } = $state({
 	waypoints: [],
 	currentPos: undefined,
+	nodes: [],
 	currentWaypointParent: undefined,
 });
 
@@ -40,6 +41,14 @@ class WaypointController {
 
 	public set waypoints(v: Path[]) {
 		Store.waypoints = v;
+	}
+
+	public get nodes() {
+		return Store.nodes;
+	}
+
+	public set nodes(v: pos[]) {
+		Store.nodes = v;
 	}
 
 	public get currentPos() {
