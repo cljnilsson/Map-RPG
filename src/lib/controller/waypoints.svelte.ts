@@ -8,6 +8,7 @@ const Store: {
 	waypoints: Path[];
 	currentPos: pos | undefined;
 	nodes: pos[];
+	waypointPathCollection: WaypointPathCollection[];
 	currentWaypointParent:
 		| {
 				id: number;
@@ -15,6 +16,7 @@ const Store: {
 		  }
 		| undefined;
 } = $state({
+	waypointPathCollection: [],
 	waypoints: [],
 	currentPos: undefined,
 	nodes: [],
@@ -33,6 +35,14 @@ class WaypointController {
 		  }
 		| undefined,) {
 		Store.currentWaypointParent = v;
+	}
+
+	public get waypointPathCollection() {
+		return Store.waypointPathCollection;
+	}
+
+	public set waypointPathCollection(v: WaypointPathCollection[]) {
+		Store.waypointPathCollection = v;
 	}
 
 	public get waypoints() {
@@ -99,6 +109,40 @@ class WaypointController {
 			...p,
 			parentId: this.currentWaypointParent.id,
 		});
+	}
+
+	public changeCurrentCollection(val: string) {
+		this.currentWaypointParent = this.waypointPathCollection.filter((v) => v.name === val)[0];
+
+		// Hardcoded nonsense
+		this.nodes = [
+			{ x: 50, y: 50 },
+			{ x: 150, y: 150 },
+			{ x: 500, y: 500 },
+			{ x: 300, y: 200 },
+		];
+
+		this.waypoints = [
+			{
+				from: this.nodes[0],
+				to: this.nodes[1],
+				angle: 0.3,
+			},
+			{
+				from: this.nodes[1],
+				to: this.nodes[2],
+				angle: 0.5,
+			},
+			{
+				from: this.nodes[2],
+				to: this.nodes[3],
+				angle: 0.7,
+			},
+		];
+
+		this.currentPos = {
+			...this.waypoints[0].from,
+		};
 	}
 }
 

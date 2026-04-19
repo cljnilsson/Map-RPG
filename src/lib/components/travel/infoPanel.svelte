@@ -70,35 +70,7 @@
 
     function onChangeCollection(val: string) {
         console.log("clicked on", val);
-        WaypointController.currentWaypointParent =
-            waypointPathCollection.filter((v) => v.name === val)[0];
-        WaypointController.nodes = [
-            { x: 50, y: 50 },
-            { x: 150, y: 150 },
-            { x: 500, y: 500 },
-            { x: 300, y: 200 },
-        ];
-        WaypointController.waypoints = [
-            {
-                from: WaypointController.nodes[0],
-                to: WaypointController.nodes[1],
-                angle: 0.3,
-            },
-            {
-                from: WaypointController.nodes[1],
-                to: WaypointController.nodes[2],
-                angle: 0.5,
-            },
-            {
-                from: WaypointController.nodes[2],
-                to: WaypointController.nodes[3],
-                angle: 0.7,
-            },
-        ];
-
-        WaypointController.currentPos = {
-            ...WaypointController.waypoints[0].from,
-        };
+        WaypointController.changeCurrentCollection(val);
     }
 </script>
 
