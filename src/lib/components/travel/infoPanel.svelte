@@ -20,13 +20,11 @@
 
     let {
         currentlyDragged,
-        waypointPathCollection,
         saves = $bindable(),
         saveName = $bindable(),
         saveSelector = $bindable(),
     }: {
         saveName: string;
-        waypointPathCollection: WaypointPathCollection[];
         saves: string[];
         saveSelector: string;
         currentlyDragged: number | null;
@@ -87,7 +85,7 @@
         </div>
         <div class="col text-end my-2">
             <Dropdown
-                options={waypointPathCollection.map((v) => {
+                options={WaypointController.waypointPathCollection.map((v) => {
                     return {
                         text: `${v.name} (${v.paths.length})`,
                         val: v.name,

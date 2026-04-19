@@ -8,8 +8,6 @@
     import type { Path, WaypointPathCollection } from "$lib/types/waypoint";
     import WaypointController from "$lib/controller/waypoints.svelte";
 
-    let waypointPathCollection: WaypointPathCollection[] = $state([]);
-
     let editMode: boolean = $state(false);
     let saveName: string = $state("");
     let currentlyDragged: number | null = $state(null);
@@ -130,8 +128,10 @@
         const data = await getWaypoints();
         console.log("Waypoints", data);
         if (data) {
-            waypointPathCollection = data;
-            WaypointController.validateAllPathNodes(waypointPathCollection);
+            WaypointController.waypointPathCollection = data;
+            WaypointController.validateAllPathNodes(
+                WaypointController.waypointPathCollection,
+            );
         }
     });
 </script>
@@ -183,7 +183,6 @@
     <div class="col-3 info d-flex flex-column">
         {#if !!WaypointController.currentWaypointParent}
             <InfoPanel
-                {waypointPathCollection}
                 {currentlyDragged}
                 bind:saveName
                 bind:saveSelector

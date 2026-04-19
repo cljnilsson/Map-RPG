@@ -112,33 +112,24 @@ class WaypointController {
 	}
 
 	public changeCurrentCollection(val: string) {
-		this.currentWaypointParent = this.waypointPathCollection.filter((v) => v.name === val)[0];
+		console.log(this.waypointPathCollection);
+		const current = this.waypointPathCollection.filter((v) => v.name === val)[0];
+		// unsure if this screws up mutation or not
+		this.currentWaypointParent = { id: current.id, name: current.name };
 
 		// Hardcoded nonsense
-		this.nodes = [
-			{ x: 50, y: 50 },
-			{ x: 150, y: 150 },
-			{ x: 500, y: 500 },
-			{ x: 300, y: 200 },
-		];
+		/*this.nodes = [
+      { x: 50, y: 50 },
+      { x: 150, y: 150 },
+      { x: 500, y: 500 },
+      { x: 300, y: 200 },
+      ];*/
 
-		this.waypoints = [
-			{
-				from: this.nodes[0],
-				to: this.nodes[1],
-				angle: 0.3,
-			},
-			{
-				from: this.nodes[1],
-				to: this.nodes[2],
-				angle: 0.5,
-			},
-			{
-				from: this.nodes[2],
-				to: this.nodes[3],
-				angle: 0.7,
-			},
-		];
+		// last node needs to be added seperately by this method
+		this.nodes = current.paths.map((v) => v.from);
+		this.nodes = [...this.nodes, current.paths[current.paths.length - 1].to];
+
+		this.waypoints = current.paths;
 
 		this.currentPos = {
 			...this.waypoints[0].from,
