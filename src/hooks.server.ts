@@ -7,13 +7,7 @@ import type { RequestEvent } from "@sveltejs/kit";
 
 dbCheckup();
 
-export async function handle({
-	event,
-	resolve,
-}: {
-	event: RequestEvent;
-	resolve: (event: RequestEvent) => Response | Promise<Response>;
-}): Promise<Response> {
+export async function handle({ event, resolve }: { event: RequestEvent; resolve: (event: RequestEvent) => Response | Promise<Response> }): Promise<Response> {
 	if (dev && event.url.pathname === "/.well-known/appspecific/com.chrome.devtools.json") {
 		return new Response(undefined, { status: 404 });
 	}

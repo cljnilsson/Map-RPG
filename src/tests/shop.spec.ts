@@ -93,11 +93,7 @@ describe("Inventory", () => {
 
 		PlayerController.buyItem(item);
 
-		const remainingMoneyInCopper = PlayerController.moneyToCopper(
-			PlayerController.money.copper,
-			PlayerController.money.silver,
-			PlayerController.money.gold,
-		);
+		const remainingMoneyInCopper = PlayerController.moneyToCopper(PlayerController.money.copper, PlayerController.money.silver, PlayerController.money.gold);
 
 		expect(PlayerController.money.copper).toEqual(3);
 		expect(PlayerController.money.silver).toEqual(7);

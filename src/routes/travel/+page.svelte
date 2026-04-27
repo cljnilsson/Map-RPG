@@ -5,8 +5,8 @@
     import InfoPanel from "$lib/components/travel/infoPanel.svelte";
     import { getWaypoints } from "$lib/api/waypoint.remote";
     import { onMount } from "svelte";
-    import type { Path, WaypointPathCollection } from "$lib/types/waypoint";
     import WaypointController from "$lib/controller/waypoints.svelte";
+    import type { WaypointPathCollection } from "$lib/types/waypoint";
 
     let editMode: boolean = $state(false);
     let saveName: string = $state("");
@@ -86,7 +86,7 @@
     }
 
     onMount(async () => {
-        const test = true;
+        const test = false;
         if (test) {
             WaypointController.nodes = [
                 { x: 50, y: 50 },
@@ -129,9 +129,32 @@
         console.log("Waypoints", data);
         if (data) {
             WaypointController.waypointPathCollection = data;
-            WaypointController.validateAllPathNodes(
-                WaypointController.waypointPathCollection,
-            );
+
+            function updateNodes(collections: WaypointPathCollection[]) {
+                const unique = new Map<string, pos>();
+
+                collections
+                    .flatMap((c) => c.paths)
+                    .flatMap((p) => [p.from, p.to])
+                    .forEach((n) => {
+                        unique.set(`${n.x},${n.y}`, n);
+                    });
+
+                WaypointController.nodes = Array.from(unique.values());
+                console.log("nodes", WaypointController.nodes);
+            }
+
+            updateNodes(WaypointController.waypointPathCollection);
+
+            WaypointController.waypoints =
+                WaypointController.waypointPathCollection[0].paths;
+            WaypointController.currentPos = {
+                ...WaypointController.waypoints[0].from,
+            };
+            WaypointController.currentWaypointParent = {
+                id: WaypointController.waypointPathCollection[0].id,
+                name: WaypointController.waypointPathCollection[0].name,
+            };
         }
     });
 </script>

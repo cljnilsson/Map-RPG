@@ -107,19 +107,7 @@ export default class WindowController extends ClassInstanceList {
 	}
 
 	public static isWindowType(key: string): key is WindowTypes {
-		return [
-			"Logger",
-			"Navigator",
-			"UnitManagement",
-			"Resources",
-			"Events",
-			"Quests",
-			"Inventory",
-			"Vendor",
-			"Roll",
-			"Container",
-			"InventorySplitter",
-		].includes(key); // reuse windowtypes here
+		return ["Logger", "Navigator", "UnitManagement", "Resources", "Events", "Quests", "Inventory", "Vendor", "Roll", "Container", "InventorySplitter"].includes(key); // reuse windowtypes here
 	}
 }
 

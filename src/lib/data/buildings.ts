@@ -14,8 +14,7 @@ const buildingRegistry = {
 	"black-market": (): Building => ({
 		id: "black-market",
 		name: "Black Market",
-		description:
-			"A dubious establishment that offers a rotating selection of goods from questionable sources for the right buyer. Don't ask questions.",
+		description: "A dubious establishment that offers a rotating selection of goods from questionable sources for the right buyer. Don't ask questions.",
 		requirements: true,
 		artPath: "/buildings/black-market.png",
 		cost: [],
@@ -26,8 +25,7 @@ const buildingRegistry = {
 	library: (): Building => ({
 		id: "library",
 		name: "Library",
-		description:
-			"With both a private and public section the library houses helpful information in its tomes while also storing your personal collection.",
+		description: "With both a private and public section the library houses helpful information in its tomes while also storing your personal collection.",
 		requirements: true,
 		artPath: "/buildings/library.png",
 		cost: [],

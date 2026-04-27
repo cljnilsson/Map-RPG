@@ -223,21 +223,7 @@ async function save({ oldName, name, stats, xp, health, maxHealth, level, invent
 
 	const userId = user.id;
 
-	const success = await updateCharacter(
-		userId,
-		oldName,
-		name,
-		stats.str,
-		stats.dex,
-		stats.int,
-		stats.vit,
-		stats.char,
-		xp,
-		health,
-		maxHealth,
-		level,
-		inventory,
-	);
+	const success = await updateCharacter(userId, oldName, name, stats.str, stats.dex, stats.int, stats.vit, stats.char, xp, health, maxHealth, level, inventory);
 
 	return success;
 }

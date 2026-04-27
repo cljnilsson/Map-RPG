@@ -76,8 +76,7 @@ const Store = $state<{ classes: Class[] }>({
 			abilities: [],
 			suggestedStats: ["Intelligence"],
 			name: "Wizard",
-			description:
-				"Their ways and magic are largely unknown but it is common knowledge that bloodlines fill an imporant role in a Wizard's abilities.",
+			description: "Their ways and magic are largely unknown but it is common knowledge that bloodlines fill an imporant role in a Wizard's abilities.",
 			icon: "/classes/wizard.png",
 		},
 		{

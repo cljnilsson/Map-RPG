@@ -1,17 +1,4 @@
-export const classValues = [
-	"Barbarian",
-	"Fighter",
-	"Rogue",
-	"Druid",
-	"Bard",
-	"Ranger",
-	"Monk",
-	"Paladin",
-	"Cleric",
-	"Warlock",
-	"Wizard",
-	"Sorcerer",
-] as const;
+export const classValues = ["Barbarian", "Fighter", "Rogue", "Druid", "Bard", "Ranger", "Monk", "Paladin", "Cleric", "Warlock", "Wizard", "Sorcerer"] as const;
 
 type ClassName = (typeof classValues)[number];
 

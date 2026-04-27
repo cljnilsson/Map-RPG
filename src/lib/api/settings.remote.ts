@@ -19,22 +19,12 @@ async function getSetting(userId: string) {
 	return await db.select().from(resource).where(eq(resource.name, name)).get();
 }*/
 
-async function updateSettingsForUser(
-	userId: string,
-	darkMode: boolean,
-	offlineMode: boolean,
-	keybindTooltips: boolean,
-	keybinds: Record<string, string>,
-): Promise<boolean> {
+async function updateSettingsForUser(userId: string, darkMode: boolean, offlineMode: boolean, keybindTooltips: boolean, keybinds: Record<string, string>): Promise<boolean> {
 	if (!(await matchingUserId(userId, "updateSettingsForUser"))) {
 		return false;
 	}
 
-	const rows = await db
-		.update(settings)
-		.set({ darkMode, offlineMode, keybindTooltips, keybinds })
-		.where(eq(settings.userId, userId))
-		.returning({ userId: settings.userId });
+	const rows = await db.update(settings).set({ darkMode, offlineMode, keybindTooltips, keybinds }).where(eq(settings.userId, userId)).returning({ userId: settings.userId });
 
 	return rows.length > 0;
 }

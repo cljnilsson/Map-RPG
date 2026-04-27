@@ -42,6 +42,9 @@ class WaypointController {
 	}
 
 	public set waypointPathCollection(v: WaypointPathCollection[]) {
+		if (!this.validateAllPathNodes(v)) {
+			console.warn("Invalid path nodes set to waypointPathCollection");
+		}
 		Store.waypointPathCollection = v;
 	}
 
@@ -91,10 +94,18 @@ class WaypointController {
 		return true;
 	}
 
-	public validateAllPathNodes(paths: WaypointPathCollection[]) {
+	public validateAllPathNodes(paths: WaypointPathCollection[]): boolean {
+		let valid = true;
+
 		for (const w of paths) {
-			console.log(`paths are valid (${w.name}) ${this.validateJoinedNodes(w.paths)}`);
+			const result = this.validateJoinedNodes(w.paths);
+			console.log(`paths are valid (${w.name}) ${result}`);
+			if (!result) {
+				valid = false;
+			}
 		}
+
+		return valid;
 	}
 
 	public removeOneWaypoint(p: Path) {

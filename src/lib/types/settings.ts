@@ -1,13 +1,4 @@
-type ToggleKey =
-	| "keybindTooltips"
-	| "offlineMode"
-	| "darkMode"
-	| "showInventory"
-	| "showNavigation"
-	| "showQuests"
-	| "showEvents"
-	| "showLogs"
-	| "showResources";
+type ToggleKey = "keybindTooltips" | "offlineMode" | "darkMode" | "showInventory" | "showNavigation" | "showQuests" | "showEvents" | "showLogs" | "showResources";
 
 type KeybindKey = "inventoryKeybind" | "navigationKeybind" | "questsKeybind" | "eventsKeybind" | "logsKeybind" | "resourcesKeybind" | "backKeybind";
 

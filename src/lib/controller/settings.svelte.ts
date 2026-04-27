@@ -165,15 +165,7 @@ class SettingsController {
 	}
 
 	get allKeybinds() {
-		return [
-			this.inventoryKeybind,
-			this.resourcesKeybind,
-			this.questsKeybind,
-			this.logsKeybind,
-			this.eventsKeybind,
-			this.navigationKeybind,
-			this.backKeybind,
-		];
+		return [this.inventoryKeybind, this.resourcesKeybind, this.questsKeybind, this.logsKeybind, this.eventsKeybind, this.navigationKeybind, this.backKeybind];
 	}
 
 	async load(userId: string) {

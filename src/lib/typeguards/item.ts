@@ -2,9 +2,7 @@ import type { Item, VendorItem, InventoryItem, UsableItem } from "$lib/types/ite
 
 function isVendorItem(item: Item): item is VendorItem {
 	return (
-		typeof (item as VendorItem).price?.gold === "number" &&
-		typeof (item as VendorItem).price?.silver === "number" &&
-		typeof (item as VendorItem).price?.copper === "number"
+		typeof (item as VendorItem).price?.gold === "number" && typeof (item as VendorItem).price?.silver === "number" && typeof (item as VendorItem).price?.copper === "number"
 	);
 }
 
