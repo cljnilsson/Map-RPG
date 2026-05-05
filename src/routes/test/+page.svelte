@@ -3,6 +3,7 @@
     import InventorySplitter from "$lib/features/window/windows/inventory/inventorySplitter.svelte";
     import WindowController from "$lib/controller/window.svelte";
     import { now } from "$lib/api/server.remote";
+    import dayjs from "dayjs";
 
     let inventoryWindow = WindowController.getByName("InventorySplitter");
 
@@ -11,12 +12,23 @@
         inventoryWindow.x = e.clientX + 10;
         inventoryWindow.y = e.clientY + 10;
     }
+
+    let timestamp = $state(0);
+
+    $effect(() => {
+        now().then((result) => {
+            timestamp = result.timestamp;
+        });
+
+        // this is effectively your callback
+        //console.log("New data received", result.data);
+    });
 </script>
 
 <div class="px-5 py-5">
     <div class="row justify-content-center">
         <div class="col-auto">
-            <p>the time is {await now()}</p>
+            <p>the time is {dayjs(timestamp).format("HH:mm:ss")}</p>
         </div>
     </div>
     <div class="row justify-content-center">

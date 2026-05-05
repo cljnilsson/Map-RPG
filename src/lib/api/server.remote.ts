@@ -31,7 +31,7 @@ type ServerPing = {
 };
 
 async function runTask() {
-	console.log("Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"), "with interval", intervalSeconds, "seconds");
+	console.log("(new) Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"), "with interval", intervalSeconds, "seconds");
 
 	const limit = 200;
 	//const production = 1; old harcoded remove once reading from db is proven stable.
