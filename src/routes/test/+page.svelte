@@ -16,7 +16,7 @@
 <div class="px-5 py-5">
     <div class="row justify-content-center">
         <div class="col-auto bg-light">
-            <Tick />
+            <Tick showBar={true} showText={true} />
         </div>
     </div>
     <div class="row justify-content-center">

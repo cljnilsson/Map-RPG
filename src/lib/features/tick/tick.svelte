@@ -3,6 +3,9 @@
     import dayjs from "dayjs";
     import { Tween } from "svelte/motion";
 
+    let { showText, showBar }: { showText: boolean; showBar: boolean } =
+        $props();
+
     let test = new Tween(0, { duration: 0 });
 
     let timestamp = $state(0);
@@ -40,9 +43,13 @@
     });
 </script>
 
-<p>
-    the time is {dayjs(timestamp).format("HH:mm:ss")} next update is in
-    {nextUpdateCountdown} seconds
-</p>
+{#if showText}
+    <p>
+        the time is {dayjs(timestamp).format("HH:mm:ss")} next update is in
+        {nextUpdateCountdown} seconds
+    </p>
+{/if}
 <!--<progress class="" max="100" value={progress}>{progress}%</progress>-->
-<progress class="" max="100" value={test.current}>{test.current}%</progress>
+{#if showBar}
+    <progress class="" max="100" value={test.current}>{test.current}%</progress>
+{/if}
