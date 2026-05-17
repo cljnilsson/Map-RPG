@@ -10,13 +10,13 @@
     let initialRemaining = $state(0);
     let currentTime = $state(Date.now());
 
-    /*function tick() {
+    function tick() {
         currentTime = Date.now();
         requestAnimationFrame(tick);
     }
 
     tick();
-
+    /*
     const progress = $derived.by(() => {
         if (!nextUpdate) return 0;
 
