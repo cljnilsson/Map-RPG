@@ -11,9 +11,10 @@
     import { getAllCharacters } from "$lib/api/character.remote";
     import { getCityResources } from "$lib/utils/resources";
     import type { Character } from "$lib/server/db/schema";
-    import { source } from "sveltekit-sse";
+    //import { source } from "sveltekit-sse";
     import SettingsController from "$lib/controller/settings.svelte";
     import { authClient } from "$lib/auth-client";
+    import { now } from "$lib/api/server.remote";
 
     let { children, data }: { children: Snippet<[]>; data: LayoutData } =
         $props();
@@ -125,21 +126,25 @@
         loaded = true;
     }
 
+    let timestamp = $state(0);
+
     $effect(() => {
         if (!loaded) {
             if ($session.isPending === false) {
                 onLoginAttempt();
             }
         }
+        now().then((result) => {
+            timestamp = result.timestamp;
+        });
     });
 
     onMount(() => {
-        let unsubscribe: (() => void) | undefined;
-
-        try {
-            const hr = source("/api/resources");
-            // Wip waiting for query.live instead
-            /*const json = hr
+        //let unsubscribe: (() => void) | undefined;
+        /*try {*/
+        //const hr = source("/api/resources");
+        // Wip waiting for query.live instead
+        /*const json = hr
                 .select("message")
                 .json<{ timpStamp: Date; data: serverPing[] }>((or) => {
                     console.log(or);
@@ -157,13 +162,12 @@
                 if (!message?.data) return;
                 getCityResources(message.data);
                 });*/
-        } catch (err) {
+        /* } catch (err) {
             console.error("SSE connection failed:", err);
-        }
-
-        return () => {
+        }*/
+        /*return () => {
             unsubscribe?.();
-        };
+            };*/
     });
 </script>
 

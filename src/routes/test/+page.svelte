@@ -4,6 +4,9 @@
     import WindowController from "$lib/controller/window.svelte";
     import { now } from "$lib/api/server.remote";
     import dayjs from "dayjs";
+    import { Tween } from "svelte/motion";
+    import { cubicOut, linear } from "svelte/easing";
+    import { tick, onMount } from "svelte";
 
     let inventoryWindow = WindowController.getByName("InventorySplitter");
 
@@ -14,21 +17,46 @@
     }
 
     let timestamp = $state(0);
+    let nextUpdate = $state(0);
+    let initialRemaining = $state(0);
+    let currentTime = $state(Date.now());
+
+    setInterval(() => {
+        currentTime = Date.now();
+    }, 50);
+
+    const progress = $derived.by(() => {
+        if (!nextUpdate) return 0;
+
+        const remaining = nextUpdate - currentTime;
+        //console.log(Math.round(100 - (remaining / initialRemaining) * 100));
+
+        return Math.round(100 - (remaining / initialRemaining) * 100);
+    });
+
+    const nextUpdateCountdown = $derived(
+        Math.max(0, Math.ceil((nextUpdate - currentTime) / 1000)),
+    );
 
     $effect(() => {
         now().then((result) => {
+            nextUpdate = result.nextUpdate;
             timestamp = result.timestamp;
+            initialRemaining = result.nextUpdate - Date.now();
         });
-
-        // this is effectively your callback
-        //console.log("New data received", result.data);
     });
 </script>
 
 <div class="px-5 py-5">
     <div class="row justify-content-center">
-        <div class="col-auto">
-            <p>the time is {dayjs(timestamp).format("HH:mm:ss")}</p>
+        <div class="col-auto bg-light">
+            <p>
+                the time is {dayjs(timestamp).format("HH:mm:ss")} next update is in
+                {nextUpdateCountdown} seconds
+            </p>
+            <progress class="w-100" max="100" value={progress}
+                >{progress}%</progress
+            >
         </div>
     </div>
     <div class="row justify-content-center">

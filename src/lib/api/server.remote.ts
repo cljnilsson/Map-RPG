@@ -1,66 +1,71 @@
 import { query } from "$app/server";
-import { resources } from "$lib/server/db/schema";
-import { eq, and } from "drizzle-orm";
-import { db } from "$lib/server/db";
-import dayjs from "dayjs";
 
-const intervalSeconds = 60;
-
-async function getResources() {
-	const existing = await db.query.resources.findMany({
-		with: {
-			resource: true,
-			city: {
-				with: {
-					city: true,
-				},
-			},
-		},
-	});
-
-	return existing.map(({ city, resource, resourceId, id, ...rest }) => ({
-		...rest,
-		name: city.city.name,
-		resource: resource.name,
-	}));
-}
+const INTERVAL_SECONDS = 5;
+let lastUpdate = Date.now();
+let nextUpdate = lastUpdate + INTERVAL_SECONDS * 1000;
 
 type ServerPing = {
 	timestamp: number;
-	data: ReturnType<typeof getResources> extends Promise<infer R> ? R : unknown;
+	nextUpdate: number;
+	msUntilNextUpdate: number;
+	data: number;
 };
 
-async function runTask() {
-	console.log("(new) Running server task at", dayjs().format("YYYY-MM-DD HH:mm:ss"), "with interval", intervalSeconds, "seconds");
+type Subscriber = (value: ServerPing) => void;
 
-	const limit = 200;
-	//const production = 1; old harcoded remove once reading from db is proven stable.
+let counter = 0;
 
-	const cities = await db.query.cityData.findMany({
-		with: { resources: { with: { resource: true } }, city: true },
-	});
+const subscribers = new Set<Subscriber>();
 
-	for (const city of cities) {
-		for (const res of city.resources) {
-			if (res.value < limit) {
-				await db
-					.update(resources)
-					.set({ value: res.value + res.production })
-					.where(and(eq(resources.cityId, city.city.id), eq(resources.resourceId, res.resource.id)));
-			}
-		}
+function broadcast(payload: ServerPing) {
+	for (const subscriber of subscribers) {
+		subscriber(payload);
 	}
 }
 
-// Basic demo based on Rich Harris PR
-const sleep = (ms: number) => new Promise((f) => setTimeout(f, ms));
+function waitForNextPing(): Promise<ServerPing> {
+	return new Promise((resolve) => {
+		const subscriber: Subscriber = (payload) => {
+			subscribers.delete(subscriber);
+			resolve(payload);
+		};
+
+		subscribers.add(subscriber);
+	});
+}
+
+const timer = setInterval(() => {
+	counter += 1;
+
+	console.log(counter);
+
+	lastUpdate = Date.now();
+	nextUpdate = lastUpdate + INTERVAL_SECONDS * 1000;
+
+	broadcast({
+		data: counter,
+		timestamp: Date.now(),
+		nextUpdate,
+		msUntilNextUpdate: 1000 * INTERVAL_SECONDS,
+	});
+}, INTERVAL_SECONDS * 1000);
 
 export const now = query.live(async function* () {
+	yield {
+		data: counter,
+		timestamp: Date.now(),
+		nextUpdate,
+		msUntilNextUpdate: Math.max(0, nextUpdate - Date.now()),
+	};
+
 	while (true) {
-		await runTask();
-		const newResources = await getResources();
-		const payload: ServerPing = { timestamp: Date.now(), data: newResources };
-		yield payload;
-		await sleep(1000 * intervalSeconds);
+		yield await waitForNextPing();
 	}
 });
+
+if (import.meta.hot) {
+	import.meta.hot.dispose(() => {
+		clearInterval(timer);
+		subscribers.clear();
+	});
+}
