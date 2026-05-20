@@ -34,17 +34,17 @@
     "@testing-library/svelte": "^5.3.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/better-sqlite3": "^7.6.13",
-    "@vitest/ui": "^4.1.6",
+    "@vitest/ui": "^4.1.7",
     "drizzle-kit": "^0.31.10",
     "globals": "^17.6.0",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "sass-embedded": "^1.99.0",
-    "svelte": "^5.55.7",
+    "svelte": "^5.55.8",
     "svelte-check": "^4.4.8",
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.7"
   },
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
