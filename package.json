@@ -39,7 +39,6 @@
     "globals": "^17.6.0",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
-    "sass-embedded": "^1.100.0",
     "svelte": "^5.55.9",
     "svelte-check": "^4.4.8",
     "typescript": "^6.0.3",
@@ -56,6 +55,8 @@
     "better-sqlite3": "^12.10.0",
     "dayjs": "^1.11.20",
     "drizzle-orm": "^0.45.2",
+    "happy-dom": "^20.9.0",
+    "sass": "^1.100.0",
     "valibot": "^1.4.0"
   }
 }

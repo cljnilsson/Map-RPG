@@ -5,7 +5,7 @@ exports[`Window renders 1`] = `
   <!---->
   <div
     class="overlay-rect svelte-110qxpm"
-    style="left: 4px; top: 5.333333333333333px; width: 400px; z-index: 499;"
+    style="left: 4px; top: 5.333333px; width: 400px; z-index: 499;"
   >
     <div
       role="button"
