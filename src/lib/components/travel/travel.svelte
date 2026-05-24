@@ -10,7 +10,7 @@
 
     let {
         editMode,
-        currentlyDragged,
+        currentlyDragged = $bindable(),
     }: { editMode: boolean; currentlyDragged: number | null } = $props();
 </script>
 

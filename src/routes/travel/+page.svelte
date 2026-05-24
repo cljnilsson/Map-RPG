@@ -160,7 +160,7 @@
 
 <div class="row">
     <div class="col-auto">
-        <Travel {currentlyDragged} {editMode} />
+        <Travel bind:currentlyDragged {editMode} />
     </div>
 
     <div class="col-3 info d-flex flex-column">
