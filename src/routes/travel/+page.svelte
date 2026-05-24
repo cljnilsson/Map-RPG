@@ -1,16 +1,15 @@
 <script lang="ts">
     import { bezier, getControlPoint, type pos } from "$lib/utils/math";
-    import Line from "$lib/components/line.svelte";
-    import Point from "$lib/components/travel/point.svelte";
     import InfoPanel from "$lib/components/travel/infoPanel.svelte";
     import { getWaypoints } from "$lib/api/waypoint.remote";
     import { onMount } from "svelte";
     import WaypointController from "$lib/controller/waypoints.svelte";
+    import Travel from "$lib/components/travel/travel.svelte";
     import type { WaypointPathCollection } from "$lib/types/waypoint";
 
     let editMode: boolean = $state(false);
-    let saveName: string = $state("");
     let currentlyDragged: number | null = $state(null);
+    let saveName: string = $state("");
     let saves: string[] = $state([
         "Test1",
         "Winterfell to Capital",
@@ -18,7 +17,7 @@
     ]);
     let saveSelector: string = $state("Select Save");
 
-    let animating = false;
+    let animating = $state(false);
 
     function smoothstep(t: number) {
         return t * t * (3 - 2 * t);
@@ -161,46 +160,7 @@
 
 <div class="row">
     <div class="col-auto">
-        <div class="travel">
-            {#if WaypointController.waypoints.length > 0 && WaypointController.currentPos}
-                <!-- Moving point -->
-                <Point
-                    bind:x={WaypointController.currentPos.x}
-                    bind:y={WaypointController.currentPos.y}
-                    extraClasses=""
-                    {editMode}
-                    bind:currentlyDragged
-                    index={-1}
-                />
-
-                {#each WaypointController.waypoints as w, i}
-                    <!-- Path line -->
-                    <Line from={w.from} to={w.to} angle={w.angle} />
-
-                    <!-- Start point -->
-                    <Point
-                        bind:x={w.from.x}
-                        bind:y={w.from.y}
-                        extraClasses="target"
-                        {editMode}
-                        bind:currentlyDragged
-                        index={i}
-                    />
-
-                    <!-- End point (only last segment) -->
-                    {#if i === WaypointController.waypoints.length - 1}
-                        <Point
-                            bind:x={w.to.x}
-                            bind:y={w.to.y}
-                            extraClasses="target"
-                            {editMode}
-                            bind:currentlyDragged
-                            index={i}
-                        />
-                    {/if}
-                {/each}
-            {/if}
-        </div>
+        <Travel {currentlyDragged} {editMode} />
     </div>
 
     <div class="col-3 info d-flex flex-column">
@@ -224,14 +184,6 @@
 <button type="button" onclick={unload}>Reset</button>
 
 <style lang="scss">
-    .travel {
-        position: relative;
-        width: 1000px;
-        height: 800px;
-        background-color: red;
-        overflow: hidden;
-    }
-
     .info {
         /*background: rgba(0, 0, 0, 0.53);*/
         background: rgb(106, 95, 77);
