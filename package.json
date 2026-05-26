@@ -53,10 +53,10 @@
     "@fortawesome/svelte-fontawesome": "^0.2.4",
     "better-auth": "^1.6.11",
     "better-sqlite3": "^12.10.0",
-    "dayjs": "^1.11.20",
+    "dayjs": "^1.11.21",
     "drizzle-orm": "^0.45.2",
     "happy-dom": "^20.9.0",
     "sass": "^1.100.0",
-    "valibot": "^1.4.0"
+    "valibot": "^1.4.1"
   }
 }

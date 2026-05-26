@@ -84,76 +84,51 @@
         currentlyDragged = null;
     }
 
+    function setTestData() {
+        WaypointController.nodes = [
+            { x: 50, y: 50 },
+            { x: 150, y: 150 },
+            { x: 500, y: 500 },
+            { x: 300, y: 200 },
+        ];
+        WaypointController.waypoints = [
+            {
+                from: WaypointController.nodes[0],
+                to: WaypointController.nodes[1],
+                angle: 0.3,
+            },
+            {
+                from: WaypointController.nodes[1],
+                to: WaypointController.nodes[2],
+                angle: 0.5,
+            },
+            {
+                from: WaypointController.nodes[2],
+                to: WaypointController.nodes[3],
+                angle: 0.7,
+            },
+        ];
+        WaypointController.currentPos = {
+            ...WaypointController.waypoints[0].from,
+        };
+        console.log(
+            "paths are valid (demo)",
+            WaypointController.validateJoinedNodes(
+                WaypointController.waypoints,
+            ),
+        );
+        WaypointController.currentWaypointParent = {
+            id: 1,
+            name: "not-real",
+        };
+    }
+
     onMount(async () => {
         const test = false;
         if (test) {
-            WaypointController.nodes = [
-                { x: 50, y: 50 },
-                { x: 150, y: 150 },
-                { x: 500, y: 500 },
-                { x: 300, y: 200 },
-            ];
-            WaypointController.waypoints = [
-                {
-                    from: WaypointController.nodes[0],
-                    to: WaypointController.nodes[1],
-                    angle: 0.3,
-                },
-                {
-                    from: WaypointController.nodes[1],
-                    to: WaypointController.nodes[2],
-                    angle: 0.5,
-                },
-                {
-                    from: WaypointController.nodes[2],
-                    to: WaypointController.nodes[3],
-                    angle: 0.7,
-                },
-            ];
-            WaypointController.currentPos = {
-                ...WaypointController.waypoints[0].from,
-            };
-            console.log(
-                "paths are valid (demo)",
-                WaypointController.validateJoinedNodes(
-                    WaypointController.waypoints,
-                ),
-            );
-            WaypointController.currentWaypointParent = {
-                id: 1,
-                name: "not-real",
-            };
-        }
-        const data = await getWaypoints();
-        console.log("Waypoints", data);
-        if (data) {
-            WaypointController.waypointPathCollection = data;
-
-            function updateNodes(collections: WaypointPathCollection[]) {
-                const unique = new Map<string, pos>();
-
-                collections
-                    .flatMap((c) => c.paths)
-                    .flatMap((p) => [p.from, p.to])
-                    .forEach((n) => {
-                        unique.set(`${n.x},${n.y}`, n);
-                    });
-
-                WaypointController.nodes = Array.from(unique.values());
-                console.log("nodes", WaypointController.nodes);
-            }
-
-            updateNodes(WaypointController.waypointPathCollection);
-
-            WaypointController.waypoints =
-                WaypointController.waypointPathCollection[0].paths;
-            WaypointController.currentPos = {
-                ...WaypointController.waypoints[0].from,
-            };
-            WaypointController.currentWaypointParent = {
-                id: WaypointController.waypointPathCollection[0].id,
-                name: WaypointController.waypointPathCollection[0].name,
-            };
+            setTestData();
+        } else {
+            WaypointController.loadInitFromServer();
         }
     });
 </script>

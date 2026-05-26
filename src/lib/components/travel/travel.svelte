@@ -1,8 +1,6 @@
 <script lang="ts">
-    import { bezier, getControlPoint, type pos } from "$lib/utils/math";
     import Line from "$lib/components/line.svelte";
     import Point from "$lib/components/travel/point.svelte";
-    import InfoPanel from "$lib/components/travel/infoPanel.svelte";
     import { getWaypoints } from "$lib/api/waypoint.remote";
     import { onMount } from "svelte";
     import WaypointController from "$lib/controller/waypoints.svelte";

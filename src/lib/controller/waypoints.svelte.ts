@@ -2,6 +2,7 @@ import type { pos } from "$lib/utils/math";
 import type { Path } from "$lib/types/waypoint";
 import { removePath } from "$lib/api/waypoint.remote";
 import type { WaypointPathCollection } from "$lib/types/waypoint";
+import { getWaypoints } from "$lib/api/waypoint.remote";
 
 // Can be const because we'll only ever modify a key directly not the whole object
 const Store: {
@@ -142,6 +143,44 @@ class WaypointController {
 
 		this.waypoints = current.paths;
 
+		this.currentPos = {
+			...this.waypoints[0].from,
+		};
+	}
+
+	private formatServerResponse(collections: WaypointPathCollection[]) {
+		const unique = new Map<string, pos>();
+
+		collections
+			.flatMap((c) => c.paths)
+			.flatMap((p) => [p.from, p.to])
+			.forEach((n) => {
+				unique.set(`${n.x},${n.y}`, n);
+			});
+
+		return Array.from(unique.values());
+	}
+
+	public async loadInitFromServer() {
+		const data = await getWaypoints();
+		console.log("Waypoints", data);
+		if (data) {
+			this.waypointPathCollection = data;
+
+			this.nodes = this.formatServerResponse(this.waypointPathCollection);
+			console.log("nodes", this.nodes);
+
+			this.initDefaultValues();
+			this.currentWaypointParent = {
+				id: this.waypointPathCollection[0].id,
+				name: this.waypointPathCollection[0].name,
+			};
+		}
+	}
+
+	private initDefaultValues() {
+		// Assumes the overall has been loaded, should maybe be moved into the other function
+		this.waypoints = this.waypointPathCollection[0].paths;
 		this.currentPos = {
 			...this.waypoints[0].from,
 		};
