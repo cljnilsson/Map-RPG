@@ -1,10 +1,7 @@
 <script lang="ts">
     import Line from "$lib/components/line.svelte";
     import Point from "$lib/components/travel/point.svelte";
-    import { getWaypoints } from "$lib/api/waypoint.remote";
-    import { onMount } from "svelte";
     import WaypointController from "$lib/controller/waypoints.svelte";
-    import type { WaypointPathCollection } from "$lib/types/waypoint";
 
     let {
         editMode,
@@ -22,6 +19,7 @@
             {editMode}
             bind:currentlyDragged
             index={-1}
+            imagePath="/characters/girl1.png"
         />
 
         {#each WaypointController.waypoints as w, i}

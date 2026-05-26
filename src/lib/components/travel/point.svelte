@@ -7,6 +7,7 @@
         editMode,
         currentlyDragged = $bindable(),
         index,
+        imagePath,
     }: {
         x: number;
         y: number;
@@ -14,6 +15,7 @@
         editMode: boolean;
         currentlyDragged: number | null;
         index: number;
+        imagePath?: string;
     } = $props();
 </script>
 
@@ -39,21 +41,37 @@
         <span
             class={`point ${extraClasses}`}
             class:dragging={index === currentlyDragged}
+            class:colored={!imagePath}
+            style:background-image={imagePath
+                ? `url("${imagePath}")`
+                : undefined}
         ></span>
     </Draggable>
 {:else}
-    <span class={`point ${extraClasses}`} style="left: {x}px; top: {y}px;"
+    <span
+        class={`point ${extraClasses}`}
+        class:colored={!imagePath}
+        style:background-image={imagePath ? `url("${imagePath}")` : undefined}
+        style="left: {x}px; top: {y}px;"
     ></span>
 {/if}
 
 <style>
     .point {
         position: absolute;
-        width: 32px;
-        height: 32px;
-        background-color: white;
-        border-radius: 16px;
+        width: 48px;
+        height: 48px;
+        /*background-color: white;*/
+        border-radius: 24px;
         transform: translate(-50%, -50%);
+        background-size: cover;
+        background-repeat: no-repeat;
+        z-index: 110;
+    }
+
+    .colored {
+        background-color: white;
+        background-image: none;
     }
 
     .dragging {
@@ -65,5 +83,10 @@
 
     .target {
         background-color: yellow;
+        width: 32px;
+        height: 32px;
+        border-radius: 16px;
+        background-image: none;
+        z-index: 100;
     }
 </style>

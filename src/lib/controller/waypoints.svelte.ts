@@ -175,6 +175,8 @@ class WaypointController {
 				id: this.waypointPathCollection[0].id,
 				name: this.waypointPathCollection[0].name,
 			};
+		} else {
+			console.warn("Loading waypoint data from server is invalid");
 		}
 	}
 
