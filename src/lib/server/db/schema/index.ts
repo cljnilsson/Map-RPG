@@ -6,3 +6,6 @@ export * from "$lib/server/db/schema/schema";
 export * from "$lib/server/db/schema/stat";
 export * from "$lib/server/db/schema/waypoint";
 export * from "$lib/server/db/schema/flags";
+export * from "$lib/server/db/schema/settings";
+export * from "$lib/server/db/schema/unit";
+export * from "$lib/server/db/schema/relations";
