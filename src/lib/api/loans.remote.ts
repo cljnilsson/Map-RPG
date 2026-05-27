@@ -1,6 +1,8 @@
 import { db } from "$lib/server/db";
 import { query, command } from "$app/server";
-import { loans, resource, city, cityData } from "$lib/server/db/schema";
+import { loans, cityData } from "$lib/server/db/schema/schema";
+import { resource } from "$lib/server/db/schema/resource";
+import { city } from "$lib/server/db/schema/city";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
 import { getUser } from "$lib/utils/remoteAuthHelper";

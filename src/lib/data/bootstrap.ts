@@ -1,6 +1,7 @@
 import { inArray, sql } from "drizzle-orm";
 import { db } from "$lib/server/db";
-import { resource, unit, waypointNode, waypointPath } from "$lib/server/db/schema";
+import { unit } from "$lib/server/db/schema/schema";
+import { resource } from "$lib/server/db/schema/resource";
 
 let hasRun = false;
 
