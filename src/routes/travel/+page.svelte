@@ -23,32 +23,51 @@
         return t * t * (3 - 2 * t);
     }
 
-    function move() {
+    function move(totalDurationMs = 5 * 1000) {
         if (animating || WaypointController.waypoints.length === 0) return;
 
         animating = true;
 
         let segmentIndex = 0;
         let t = 0;
-        const speed = 0.02;
 
         WaypointController.currentPos = {
             ...WaypointController.waypoints[0].from,
         };
 
-        // Precompute control points (performance + clarity)
+        // Precompute control points
         const controls = WaypointController.waypoints.map((w) =>
             getControlPoint(w.from, w.to, w.angle),
         );
 
+        // Simple distance helper
+        function distance(a: pos, b: pos) {
+            return Math.hypot(b.x - a.x, b.y - a.y);
+        }
+
+        // Length of each segment
+        const segmentLengths = WaypointController.waypoints.map((w) =>
+            distance(w.from, w.to),
+        );
+
+        // Total path length
+        const totalLength = segmentLengths.reduce((a, b) => a + b, 0);
+
         let lastTime = performance.now();
 
         function step(now: number) {
-            const dt = (now - lastTime) / 16; // normalize ~60fps
-            const segment = WaypointController.waypoints[segmentIndex];
-
+            const dt = now - lastTime;
             lastTime = now;
-            t += speed * dt;
+
+            const segment = WaypointController.waypoints[segmentIndex];
+            const segmentLength = segmentLengths[segmentIndex];
+
+            // Portion of total duration this segment should consume
+            const segmentDuration =
+                (segmentLength / totalLength) * totalDurationMs;
+
+            // Advance t based on real elapsed time
+            t += dt / segmentDuration;
 
             if (t >= 1) {
                 segmentIndex++;
@@ -150,7 +169,7 @@
     </div>
 </div>
 
-<button type="button" onclick={move}>Test Movement</button>
+<button type="button" onclick={() => move()}>Test Movement</button>
 
 <button type="button" onclick={() => (editMode = !editMode)}>
     Editmode is {editMode ? "on" : "off"}
