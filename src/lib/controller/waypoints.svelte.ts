@@ -165,6 +165,10 @@ class WaypointController {
 		const data = await getWaypoints();
 		console.log("Waypoints", data);
 		if (data) {
+			if (data.length === 0) {
+				console.warn("No waypoints from server, assumed empty DB. Probably an error.");
+				return;
+			}
 			this.waypointPathCollection = data;
 
 			this.nodes = this.formatServerResponse(this.waypointPathCollection);
@@ -182,6 +186,9 @@ class WaypointController {
 
 	private initDefaultValues() {
 		// Assumes the overall has been loaded, should maybe be moved into the other function
+		if (this.waypointPathCollection.length === 0) {
+			return;
+		}
 		this.waypoints = this.waypointPathCollection[0].paths;
 		this.currentPos = {
 			...this.waypoints[0].from,

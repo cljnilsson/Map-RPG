@@ -67,6 +67,11 @@
         background-size: cover;
         background-repeat: no-repeat;
         z-index: 110;
+        border-width: 2px;
+        border-color: black;
+        border-style: solid;
+        /*white background to make the outline not look weird on transparent background images */
+        background-color: white; /* TODO, maybe have a cool gradient instead */
     }
 
     .colored {

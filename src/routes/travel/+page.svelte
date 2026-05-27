@@ -10,6 +10,7 @@
     let editMode: boolean = $state(false);
     let currentlyDragged: number | null = $state(null);
     let saveName: string = $state("");
+    let time: number = $state(1000);
     let saves: string[] = $state([
         "Test1",
         "Winterfell to Capital",
@@ -164,7 +165,10 @@
                 bind:saveName
                 bind:saveSelector
                 bind:saves
+                bind:time
             />
+        {:else}
+            <h5 class="text-center py-3">No waypoints exist</h5>
         {/if}
     </div>
 </div>

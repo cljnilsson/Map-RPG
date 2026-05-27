@@ -1,11 +1,10 @@
-import { sqliteTable, text, integer, index, check, uniqueIndex } from "drizzle-orm/sqlite-core";
-import { relations, sql } from "drizzle-orm";
-import { classValues } from "$lib/types/class";
-import { user, session, account } from "$lib/server/db/schema/auth";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
 
 export const waypoint = sqliteTable("waypoint", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	name: text("name").notNull(),
+	time: integer("time").notNull().default(1000),
 });
 
 export const waypointNode = sqliteTable("waypointnode", {

@@ -5,7 +5,7 @@ import { building } from "$app/environment";
 import { dev } from "$app/environment";
 import type { RequestEvent } from "@sveltejs/kit";
 
-dbCheckup();
+//dbCheckup();
 
 export async function handle({ event, resolve }: { event: RequestEvent; resolve: (event: RequestEvent) => Response | Promise<Response> }): Promise<Response> {
 	if (dev && event.url.pathname === "/.well-known/appspecific/com.chrome.devtools.json") {

@@ -13,9 +13,11 @@
         saves = $bindable(),
         saveName = $bindable(),
         saveSelector = $bindable(),
+        time = $bindable(),
     }: {
         waypoints: path[];
         saveName: string;
+        time: number;
         saves: string[];
         saveSelector: string;
     } = $props();
@@ -26,6 +28,7 @@
         const result = await saveWaypoint({
             name: saveName,
             paths: waypoints,
+            time: time,
         });
 
         if (result) {

@@ -157,6 +157,7 @@ type SaveData = v.InferOutput<typeof SaveSchema>;*/
 
 const SaveSchema = v.object({
 	name: v.string(),
+	time: v.pipe(v.number(), v.integer(), v.toMinValue(0)),
 	paths: v.array(
 		v.object({
 			//waypoint: v.pipe(v.number(), v.integer(), v.toMinValue(0)), use this only for updating
@@ -177,12 +178,13 @@ type SaveData = v.InferOutput<typeof SaveSchema>;
 
 // Assuming no data exists at all, use another endpoint to update an existing.
 async function save(body: SaveData) {
-	async function createBase(parentName: string) {
+	async function createBase(parentName: string, time: number) {
 		const rows = await db
 			.insert(waypoint)
 			.values([
 				{
 					name: parentName,
+					time: time,
 				},
 			])
 			.returning({ id: waypoint.id });
@@ -220,7 +222,7 @@ async function save(body: SaveData) {
 		return rows.length > 0;
 	}
 
-	const b = await createBase(body.name);
+	const b = await createBase(body.name, body.time);
 	const base = await getWaypointById(Number(b));
 
 	if (!base) {

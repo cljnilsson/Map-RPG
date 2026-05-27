@@ -23,10 +23,12 @@
         saves = $bindable(),
         saveName = $bindable(),
         saveSelector = $bindable(),
+        time = $bindable(),
     }: {
         saveName: string;
         saves: string[];
         saveSelector: string;
+        time: number;
         currentlyDragged: number | null;
     } = $props();
 
@@ -159,6 +161,7 @@
         bind:saveName
         bind:saveSelector
         bind:saves
+        bind:time
     />
     <Loader {saveName} bind:saveSelector {saves} />
 </div>

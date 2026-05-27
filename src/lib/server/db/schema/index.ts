@@ -9,3 +9,4 @@ export * from "$lib/server/db/schema/flags";
 export * from "$lib/server/db/schema/settings";
 export * from "$lib/server/db/schema/unit";
 export * from "$lib/server/db/schema/relations";
+export * from "$lib/server/db/schema/resource";
