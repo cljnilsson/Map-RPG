@@ -76,73 +76,83 @@
 
 <div class="waypoints flex-grow-1">
     <h3 class="py-2 mb-0">Editor</h3>
-    <div class="row align-items-center">
-        <div class="col-8 my-2">
-            {#if !!WaypointController.currentWaypointParent}
-                <h5 class="my-0">
-                    Editing: {WaypointController.currentWaypointParent.name} ({WaypointController
-                        .currentWaypointParent.id})
-                </h5>
-            {/if}
+    {#if WaypointController.waypoints.length > 0}
+        <div class="row align-items-center">
+            <div class="col-8 my-2">
+                {#if !!WaypointController.currentWaypointParent}
+                    <h5 class="my-0">
+                        Editing: {WaypointController.currentWaypointParent.name} ({WaypointController
+                            .currentWaypointParent.id})
+                    </h5>
+                {/if}
+            </div>
+            <div class="col text-end my-2">
+                <Dropdown
+                    options={WaypointController.waypointPathCollection.map(
+                        (v) => {
+                            return {
+                                text: `${v.name} (${v.paths.length})`,
+                                val: v.name,
+                            };
+                        },
+                    )}
+                    text={"Pick Collection"}
+                    onclick={onChangeCollection}
+                />
+            </div>
         </div>
-        <div class="col text-end my-2">
-            <Dropdown
-                options={WaypointController.waypointPathCollection.map((v) => {
-                    return {
-                        text: `${v.name} (${v.paths.length})`,
-                        val: v.name,
-                    };
-                })}
-                text={"Pick Collection"}
-                onclick={onChangeCollection}
-            />
-        </div>
-    </div>
+    {:else}
+        <h5>There are no waypoints yet!</h5>
+    {/if}
     {#if error.length > 0}
         <div class="alert alert-danger my-2" role="alert">
             {error}
         </div>
     {/if}
-    <div class="innerWaypointwrapper px-3 py-2">
-        <PathHeader {viewFull} />
-        {#each WaypointController.waypoints as w, i}
-            {#if viewFull}
-                <WaypointViewerFull
-                    {i}
-                    {w}
-                    {currentlyDragged}
-                    onRemove={WaypointController.removeOneWaypoint}
-                    {onEdit}
-                />
-            {:else}
-                <WaypointViewerCompact
-                    {i}
-                    {w}
-                    waypoints={WaypointController.waypoints}
-                    {currentlyDragged}
-                    onRemove={WaypointController.removeOneWaypoint}
-                    {onEdit}
-                />
-            {/if}
-        {/each}
-    </div>
+    {#if WaypointController.waypoints.length > 0}
+        <div class="innerWaypointwrapper px-3 py-2">
+            <PathHeader {viewFull} />
+            {#each WaypointController.waypoints as w, i}
+                {#if viewFull}
+                    <WaypointViewerFull
+                        {i}
+                        {w}
+                        {currentlyDragged}
+                        onRemove={WaypointController.removeOneWaypoint}
+                        {onEdit}
+                    />
+                {:else}
+                    <WaypointViewerCompact
+                        {i}
+                        {w}
+                        waypoints={WaypointController.waypoints}
+                        {currentlyDragged}
+                        onRemove={WaypointController.removeOneWaypoint}
+                        {onEdit}
+                    />
+                {/if}
+            {/each}
+        </div>
+    {/if}
     {#if isCreating}
         <IconButton onClick={onAddFresh} extraClasses="my-2" icon={faMinus} />
     {:else}
         <IconButton onClick={onAddFresh} extraClasses="my-2" icon={faPlus} />
     {/if}
-    {#if viewFull}
-        <IconButton
-            onClick={() => (viewFull = !viewFull)}
-            extraClasses="my-2"
-            icon={faCircle}
-        />
-    {:else}
-        <IconButton
-            onClick={() => (viewFull = !viewFull)}
-            extraClasses="my-2"
-            icon={regFaCircle}
-        />
+    {#if WaypointController.waypoints.length > 0}
+        {#if viewFull}
+            <IconButton
+                onClick={() => (viewFull = !viewFull)}
+                extraClasses="my-2"
+                icon={faCircle}
+            />
+        {:else}
+            <IconButton
+                onClick={() => (viewFull = !viewFull)}
+                extraClasses="my-2"
+                icon={regFaCircle}
+            />
+        {/if}
     {/if}
     {#if editingWaypoint}
         <PathEditor

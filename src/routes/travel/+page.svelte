@@ -1,11 +1,9 @@
 <script lang="ts">
     import { bezier, getControlPoint, type pos } from "$lib/utils/math";
     import InfoPanel from "$lib/components/travel/infoPanel.svelte";
-    import { getWaypoints } from "$lib/api/waypoint.remote";
     import { onMount } from "svelte";
     import WaypointController from "$lib/controller/waypoints.svelte";
     import Travel from "$lib/components/travel/travel.svelte";
-    import type { WaypointPathCollection } from "$lib/types/waypoint";
 
     let editMode: boolean = $state(false);
     let currentlyDragged: number | null = $state(null);
@@ -153,33 +151,46 @@
     });
 </script>
 
-<div class="row">
+<div class="row p-1">
     <div class="col-auto">
         <Travel bind:currentlyDragged {editMode} />
     </div>
 
     <div class="col-3 info d-flex flex-column">
-        {#if !!WaypointController.currentWaypointParent}
-            <InfoPanel
-                {currentlyDragged}
-                bind:saveName
-                bind:saveSelector
-                bind:saves
-                bind:time
-            />
-        {:else}
-            <h5 class="text-center py-3">No waypoints exist</h5>
-        {/if}
+        <InfoPanel
+            {currentlyDragged}
+            bind:saveName
+            bind:saveSelector
+            bind:saves
+            bind:time
+        />
     </div>
 </div>
 
-<button type="button" onclick={() => move()}>Test Movement</button>
+<div class="py-1 px-1">
+    <button
+        type="button"
+        class="btn btn-primary"
+        disabled={WaypointController.waypoints.length === 0}
+        onclick={() => move()}>Test Movement</button
+    >
 
-<button type="button" onclick={() => (editMode = !editMode)}>
-    Editmode is {editMode ? "on" : "off"}
-</button>
+    <button
+        type="button"
+        class="btn btn-primary"
+        disabled={WaypointController.waypoints.length === 0}
+        onclick={() => (editMode = !editMode)}
+    >
+        Editmode is {editMode ? "on" : "off"}
+    </button>
 
-<button type="button" onclick={unload}>Reset</button>
+    <button
+        type="button"
+        class="btn btn-primary"
+        disabled={WaypointController.waypoints.length === 0}
+        onclick={unload}>Reset</button
+    >
+</div>
 
 <style lang="scss">
     .info {

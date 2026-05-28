@@ -24,7 +24,7 @@
     "seed": "npx tsx ./seed.ts"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.15",
+    "@biomejs/biome": "2.4.16",
     "@playwright/test": "^1.60.0",
     "@sveltejs/adapter-auto": "^7.0.1",
     "@sveltejs/kit": "^2.61.1",
@@ -39,7 +39,7 @@
     "globals": "^17.6.0",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
-    "svelte": "^5.55.9",
+    "svelte": "^5.55.10",
     "svelte-check": "^4.4.8",
     "typescript": "^6.0.3",
     "vite": "^8.0.14",
