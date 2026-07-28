@@ -67,6 +67,6 @@ drizzle:
 ## Art Credit
 More detailed credits will be added once I know which pieces are final but generally speaking:
 - Pinterest for character art
-- ChatGPT AI generated for character art, NPCs and icons
+- ChatGPT AI generated for character art, NPCs, buildings and icons
 - hiveworkshop for item icons
 - Goblinounours for modified Blizzard icons

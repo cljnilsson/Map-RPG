@@ -13,82 +13,109 @@
 
     let strat: string | undefined = $state(undefined);
 
-    const army = [
-      {name: "Soldier", amount: 2, icon: "/units/soldier.jpg"},
-      {name: "Captain", amount: 1, icon: "/units/captain.jpg"},
-      {name: "Ranger", amount: 2, icon: "/units/ranger.png"},
-      {name: "Dog", amount: 2, icon: "/units/wolf.png"},
+    type statBase = {name: string, description: string};
+    type stat = {value: number} & statBase;
+    type Unit = {name: string, amount: number, icon: string, stats: stat[]};
+    type PlayerArmy = Unit[];
+
+    const hp: statBase = {name: "Health", description: "Current hit points"};
+    const bp: statBase = {name: "Battle Power", description: "Damage dealt"};
+
+    const army: PlayerArmy = [
+      {name: "Soldier", amount: 2, icon: "/units/soldier.jpg", stats: [{...bp, value: 5}, {...hp, value: 10}]},
+      {name: "Captain", amount: 1, icon: "/units/captain.jpg", stats: [{...bp, value: 5}, {...hp, value: 15}]},
+      {name: "Ranger", amount: 2, icon: "/units/ranger.png", stats: [{...bp, value: 5}, {...hp, value: 8}]},
+      {name: "Dog", amount: 2, icon: "/units/wolf.png", stats: [{...bp, value: 5}, {...hp, value: 12}]},
     ];
 
-    const army2 = [
-      {name: "Marauder", amount: 4, icon: "/units/orc1.jpg"},
-      {name: "Witch", amount: 1, icon: "/units/orc-witch.jpg"},
-      {name: "Assassin", amount: 2, icon: "/units/orc-assassin.jpg"},
-      {name: "Warchief", amount: 1, icon: "/units/orc2.jpg"},
+    const army2: PlayerArmy = [
+      {name: "Marauder", amount: 4, icon: "/units/orc1.jpg", stats: [{...bp, value: 5}, {...hp, value: 20}]},
+      {name: "Witch", amount: 1, icon: "/units/orc-witch.jpg", stats:[{...bp, value: 5}, {...hp, value: 15}]},
+      {name: "Assassin", amount: 2, icon: "/units/orc-assassin.jpg", stats: [{...bp, value: 5}, {...hp, value: 10}]},
+      {name: "Warchief", amount: 1, icon: "/units/orc2.jpg", stats: [{...bp, value: 5}, {...hp, value: 25}]},
     ];
+    
+    console.log("a", army, army2);
+
+    let hovering: Unit | null = $state(null);
+
+    function onUnitHover(u: Unit | null) {
+      hovering = u === null ? null : {...u};
+    }
 </script>
 
-<div class="battle-wrapper my-3 mx-5">
-    <h2 class="text-center">Battle</h2>
+<div class="battle-wrapper my-3 mx-5 position-relative">
     <div class="row">
-    	<div class="col text-end">
-       		<img
-          		src={PlayerController.imagePath}
-          		alt="Your character"
-          		loading="lazy"
-          		fetchpriority="high"
-          		style="width: {width}px;
-                            height: {height}px;"
-           	/>
-    	</div>
-    	<div class="col">
-       		<img
-          		src={"/orc.png"}
-          		alt="Enemy"
-          		loading="lazy"
-          		fetchpriority="high"
-          		style="width: {width}px;
-                            height: {height}px;"
-           	/>
-    	</div>
-    </div>
-    <div class="row">
-    	<div class="col text-center py-3">
-        	<h5>Terrain: {terrain} </h5>
-    	</div>
-    </div>
-    <div class="row">
-    	<div class="col-6 text-end">
-            <span><b>{PlayerController.name}</b>'s army</span>
-            <Army side="left" army={army} />
-        </div>
-         <div class="col-6">
-             <span><b>Enemy</b>'s army</span>
-             <Army side="right" army={army2} />
-         </div>
-   	</div>
-    <div class="row justify-content-center my-3">
-	<div class="col-auto">
-	    <h5>Strategy</h5>
-		{#each strategyOptions as s, i}
-			<div class="form-check">
-                <input class="form-check-input" type="radio" name="radioDefault" id={`radioDefault${i}`}
-                    bind:group={strat}
-                    value={s}>
-                <label class="form-check-label" for={`radioDefault${i}`}>
-                    {s}
-                </label>
+        <div class="col">
+            <h2 class="text-center">Battle</h2>
+            <div class="row">
+            	<div class="col text-end">
+               		<img
+                  		src={PlayerController.imagePath}
+                  		alt="Your character"
+                  		loading="lazy"
+                  		fetchpriority="high"
+                  		style="width: {width}px;
+                                    height: {height}px;"
+                   	/>
+            	</div>
+            	<div class="col">
+               		<img
+                  		src={"/orc.png"}
+                  		alt="Enemy"
+                  		loading="lazy"
+                  		fetchpriority="high"
+                  		style="width: {width}px;
+                                    height: {height}px;"
+                   	/>
+            	</div>
             </div>
-		{/each}
-	</div>
-    </div>
-    <div class="row justify-content-center my-3">
-	<div class="col-auto">
-	    All modifiers here
-	</div>
-    </div>
-    <div class="text-center mt-3">
-        <button type="button" class="btn btn-lg btn-primary" disabled={!strat}>Engage</button>
+            <div class="row">
+            	<div class="col text-center py-3">
+                	<h5>Terrain: {terrain} </h5>
+            	</div>
+            </div>
+            <div class="row">
+            	<div class="col-6 text-end">
+                    <span><b>{PlayerController.name}</b>'s army</span>
+                    <Army side="left" army={army} onUnitHover={onUnitHover} />
+                </div>
+                 <div class="col-6">
+                     <span><b>Enemy</b>'s army</span>
+                     <Army side="right" army={army2} onUnitHover={onUnitHover} />
+                 </div>
+           	</div>
+            <div class="row justify-content-center my-3">
+               	<div class="col-auto">
+               	    <h5>Strategy</h5>
+              		{#each strategyOptions as s, i}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="radioDefault" id={`radioDefault${i}`}
+                                bind:group={strat}
+                                value={s}>
+                            <label class="form-check-label" for={`radioDefault${i}`}>
+                                {s}
+                            </label>
+                        </div>
+              		{/each}
+               	</div>
+            </div>
+            <div class="row justify-content-center my-3">
+               	<div class="col-auto">
+               	    All modifiers here
+               	</div>
+            </div>
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-lg btn-primary" disabled={!strat}>Engage</button>
+            </div>
+        </div>
+        {#if hovering}
+            <div class="position-absolute rounded top-0 end-0 border col-3 bg-dark text-light m-2 p-2">
+                <h3>{hovering.name}</h3>
+                <p>Woooo</p>
+                <p>POWER</p>
+            </div>
+        {/if}
     </div>
 </div>
 
