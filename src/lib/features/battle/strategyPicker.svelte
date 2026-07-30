@@ -1,5 +1,7 @@
 <script lang="ts">
-    let {strategyOptions, strat = $bindable()}: {strategyOptions: string[], strat: string | undefined} = $props();
+    import type { Strategy } from "$lib/features/battle/combat";
+
+    let {strategyOptions, strat = $bindable()}: {strategyOptions: Strategy[], strat: Strategy | undefined} = $props();
 </script>
 
 <div class="row justify-content-center my-3">

@@ -4,11 +4,14 @@
     import InfoWindow from "$lib/features/battle/infoWIndow.svelte";
     import StrategyPicker from "$lib/features/battle/strategyPicker.svelte";
     import AvatarHeaders from "$lib/features/battle/avatarHeader.svelte";
+    import { resolveCombat, type CombatResult, type Strategy, type Terrain } from "$lib/features/battle/combat";
 
-    const terrain: "Forest" | "Plains" | "City" | "Indoors" = "Plains";
-    const strategyOptions: string[] = ["Charge", "Hold the line", "Flank"];
+    const terrainOptions: Terrain[] = ["Forest", "Plains", "City", "Indoors"];
+    let terrain: Terrain = $state("Plains");
+    const strategyOptions: Strategy[] = ["Charge", "Hold the line", "Flank"];
 
-    let strat: string | undefined = $state(undefined);
+    let strat: Strategy | undefined = $state(undefined);
+    let combatResult: CombatResult | null = $state(null);
 
     // Move into a separate file for reusability
     type statBase = { name: string; description: string };
@@ -124,6 +127,11 @@
     function onUnitHover(u: Unit | null, from: PlayerArmy) {
         hovering = u === null ? null : { unit: { ...u }, from: { ...from } };
     }
+
+    function engage() {
+        if (!strat) return;
+        combatResult = resolveCombat(army, army2, { terrain, attackerStrategy: strat });
+    }
 </script>
 
 <div class="battle-wrapper my-3 mx-5 position-relative">
@@ -133,7 +141,12 @@
             <AvatarHeaders />
             <div class="row">
                 <div class="col text-center py-3">
-                    <h5>Terrain: {terrain}</h5>
+                    <label for="terrain" class="me-2 fw-bold">Terrain:</label>
+                    <select id="terrain" bind:value={terrain}>
+                        {#each terrainOptions as option}
+                            <option value={option}>{option}</option>
+                        {/each}
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -154,9 +167,25 @@
                 <button
                     type="button"
                     class="btn btn-lg btn-primary"
-                    disabled={!strat}>Engage</button
+                    disabled={!strat}
+                    onclick={engage}>Engage</button
                 >
             </div>
+            {#if combatResult}
+                <div class="row justify-content-center mt-4">
+                    <div class="col-auto text-center">
+                        <h4>
+                            {combatResult.winner === "draw"
+                                ? "The battle ends in a draw"
+                                : combatResult.winner === "attacker"
+                                    ? `${PlayerController.name}'s army wins`
+                                    : "Enemy army wins"}
+                        </h4>
+                        <p class="mb-1"><b>Your losses:</b> {combatResult.attackerLosses.map((loss) => `${loss.name}: ${loss.lost}`).join(", ")}</p>
+                        <p><b>Enemy losses:</b> {combatResult.defenderLosses.map((loss) => `${loss.name}: ${loss.lost}`).join(", ")}</p>
+                    </div>
+                </div>
+            {/if}
         </div>
         {#if hovering}
             <InfoWindow hovering={hovering.unit} friendly={hovering?.from.friendly} />
