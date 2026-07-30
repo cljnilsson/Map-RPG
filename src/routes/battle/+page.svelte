@@ -2,22 +2,27 @@
     import { PlayerController } from "$lib/controller/character.svelte";
     import Army from "$lib/features/battle/army.svelte";
     import InfoWindow from "$lib/features/battle/infoWIndow.svelte";
+    import StrategyPicker from "$lib/features/battle/strategyPicker.svelte";
+    import AvatarHeaders from "$lib/features/battle/avatarHeader.svelte";
 
-    const width = 200;
-    const height = 200;
     const terrain: "Forest" | "Plains" | "City" | "Indoors" = "Plains";
     const strategyOptions: string[] = ["Charge", "Hold the line", "Flank"];
 
     let strat: string | undefined = $state(undefined);
 
+    // Move into a separate file for reusability
     type statBase = { name: string; description: string };
     type stat = { value: number } & statBase;
     type Unit = { name: string; amount: number; icon: string; stats: stat[] };
     type PlayerArmy = {friendly: boolean, units:Unit[]};
 
+    // Temp stat types for testing
     const hp: statBase = { name: "Health", description: "Current hit points" };
     const bp: statBase = { name: "Battle Power", description: "Damage dealt" };
+    const armor: statBase = { name: "Armor", description: "Defense" };
+    const mobility: statBase = { name: "Mobility", description: "Movement speed" };
 
+    // Demo armies
     const army: PlayerArmy = {friendly: true, units: [
         {
             name: "Soldier",
@@ -26,6 +31,8 @@
             stats: [
                 { ...bp, value: 5 },
                 { ...hp, value: 10 },
+                { ...armor, value: 2 },
+                { ...mobility, value: 2 },
             ],
         },
         {
@@ -35,6 +42,8 @@
             stats: [
                 { ...bp, value: 5 },
                 { ...hp, value: 15 },
+                { ...armor, value: 3 },
+                { ...mobility, value: 2 },
             ],
         },
         {
@@ -44,6 +53,8 @@
             stats: [
                 { ...bp, value: 5 },
                 { ...hp, value: 8 },
+                { ...armor, value: 1 },
+                { ...mobility, value: 3 },
             ],
         },
         {
@@ -53,6 +64,8 @@
             stats: [
                 { ...bp, value: 5 },
                 { ...hp, value: 12 },
+                { ...armor, value: 0 },
+                { ...mobility, value: 4 },
             ],
         },
     ]};
@@ -65,6 +78,8 @@
             stats: [
                 { ...bp, value: 5 },
                 { ...hp, value: 20 },
+                { ...armor, value: 3 },
+                { ...mobility, value: 2 },
             ],
         },
         {
@@ -74,6 +89,8 @@
             stats: [
                 { ...bp, value: 5 },
                 { ...hp, value: 15 },
+                { ...armor, value: 1 },
+                { ...mobility, value: 1 },
             ],
         },
         {
@@ -81,8 +98,10 @@
             amount: 2,
             icon: "/units/orc-assassin.jpg",
             stats: [
-                { ...bp, value: 5 },
-                { ...hp, value: 10 },
+                { ...bp, value: 15 },
+                { ...hp, value: 5 },
+                { ...armor, value: 1 },
+                { ...mobility, value: 3 },
             ],
         },
         {
@@ -92,14 +111,16 @@
             stats: [
                 { ...bp, value: 5 },
                 { ...hp, value: 25 },
+                { ...armor, value: 3 },
+                { ...mobility, value: 2 },
             ],
         },
     ]};
 
-    console.log("a", army, army2);
-
     let hovering: {unit:Unit, from: PlayerArmy} | null = $state(null);
 
+
+    // Funcs
     function onUnitHover(u: Unit | null, from: PlayerArmy) {
         hovering = u === null ? null : { unit: { ...u }, from: { ...from } };
     }
@@ -109,28 +130,7 @@
     <div class="row">
         <div class="col">
             <h2 class="text-center">Battle</h2>
-            <div class="row">
-                <div class="col text-end">
-                    <img
-                        src={PlayerController.imagePath}
-                        alt="Your character"
-                        loading="lazy"
-                        fetchpriority="high"
-                        style="width: {width}px;
-                                    height: {height}px;"
-                    />
-                </div>
-                <div class="col">
-                    <img
-                        src={"/orc.png"}
-                        alt="Enemy"
-                        loading="lazy"
-                        fetchpriority="high"
-                        style="width: {width}px;
-                                    height: {height}px;"
-                    />
-                </div>
-            </div>
+            <AvatarHeaders />
             <div class="row">
                 <div class="col text-center py-3">
                     <h5>Terrain: {terrain}</h5>
@@ -146,29 +146,7 @@
                     <Army side="right" army={army2} {onUnitHover} />
                 </div>
             </div>
-            <div class="row justify-content-center my-3">
-                <div class="col-auto">
-                    <h5>Strategy</h5>
-                    {#each strategyOptions as s, i}
-                        <div class="form-check">
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                name="radioDefault"
-                                id={`radioDefault${i}`}
-                                bind:group={strat}
-                                value={s}
-                            />
-                            <label
-                                class="form-check-label"
-                                for={`radioDefault${i}`}
-                            >
-                                {s}
-                            </label>
-                        </div>
-                    {/each}
-                </div>
-            </div>
+            <StrategyPicker {strategyOptions} bind:strat />
             <div class="row justify-content-center my-3">
                 <div class="col-auto">All modifiers here</div>
             </div>
