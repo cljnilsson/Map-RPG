@@ -13,7 +13,7 @@
 	// resources of a map does not seem to be loaded unless the map is visited.
 </script>
 
-<div class="container mt-3">
+<div class="container page-surface mt-3">
 	<div class="row justify-content-center">
 		<div class="col-auto">
 			<h1>Wiki</h1>

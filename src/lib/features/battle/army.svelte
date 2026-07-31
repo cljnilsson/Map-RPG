@@ -1,12 +1,9 @@
 <script lang="ts">
-    type statBase = {name: string, description: string};
-    type stat = {value: number} & statBase;
-    type Unit = {name: string, amount: number, icon: string, stats: stat[]};
-    type Army = {friendly: boolean, units: Unit[]};
+    import type { BattleArmy, BattleUnit } from "$lib/types/battle";
 
-    let {army, side, onUnitHover}: {side: "left" | "right", army: Army, onUnitHover: (unit: Unit | null, from: Army) => void} = $props();
+    let {army, side, onUnitHover}: {side: "left" | "right", army: BattleArmy, onUnitHover: (unit: BattleUnit | null, from: BattleArmy) => void} = $props();
 
-    function onHoverCallback(u: Unit | null) {
+    function onHoverCallback(u: BattleUnit | null) {
       onUnitHover(u, army);
       console.log("Passing it on");
     }

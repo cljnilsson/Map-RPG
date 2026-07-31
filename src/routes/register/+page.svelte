@@ -73,7 +73,7 @@
   const session = authClient.useSession();
 </script>
 
-<div class="container mt-3">
+<div class="container page-surface mt-3">
   <div class="row justify-content-center">
     <div class="col-auto">
       <h1 class="text-center">Register Account</h1>

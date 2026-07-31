@@ -1,9 +1,7 @@
 <script lang="ts">
-    type statBase = {name: string, description: string};
-    type stat = {value: number} & statBase;
-    type Unit = {name: string, amount: number, icon: string, stats: stat[]};
+    import type { BattleUnit } from "$lib/types/battle";
 
-    let {friendly = true, hovering}: {hovering: Unit | null, friendly?: boolean} = $props();
+    let {friendly = true, hovering}: {hovering: BattleUnit | null, friendly?: boolean} = $props();
 
 </script>
 

@@ -43,7 +43,7 @@
 	}
 </script>
 
-<div class="mt-5 mx-5 px-3 wrapper">
+<div class="mt-5 mx-5 px-3 wrapper page-surface">
 	<button type="button" onclick={() => makeDialogue(msgs2)}>Talk to Alice</button>
 	<button type="button" onclick={() => makeDialogue(msgs)}>Talk to ALice and Bob</button>
 	{DialogueController.all.length}
@@ -53,10 +53,6 @@
 
 <style>
 	.wrapper {
-		background: rgba(235, 235, 235, 0.6);
-		border-radius: 10px;
-		padding-top: 0.75rem;
-		padding-bottom: 0.75rem;
 		max-width: 1000px;
 	}
 </style>

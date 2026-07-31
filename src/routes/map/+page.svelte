@@ -158,7 +158,7 @@
   });
 </script>
 
-<div class="map-wrapper mt-3">
+<div class="map-wrapper page-surface mt-3">
   {#if MapStore.currentMapState}
     <div class="row mx-0">
       <div class="col">
@@ -185,12 +185,3 @@
     {/each}
   {/if}
 </div>
-
-<style>
-  .map-wrapper {
-    background: rgba(235, 235, 235, 0.6);
-    border-radius: 10px;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-</style>

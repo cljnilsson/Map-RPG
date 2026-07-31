@@ -4,7 +4,8 @@
     import InfoWindow from "$lib/features/battle/infoWIndow.svelte";
     import StrategyPicker from "$lib/features/battle/strategyPicker.svelte";
     import AvatarHeaders from "$lib/features/battle/avatarHeader.svelte";
-    import { resolveCombat, type CombatResult, type Strategy, type Terrain } from "$lib/features/battle/combat";
+    import { describeStrategyModifier, describeTerrainModifier, resolveCombat, type CombatResult, type Strategy, type Terrain } from "$lib/features/battle/combat";
+    import type { BattleArmy, BattleStatBase, BattleUnit } from "$lib/types/battle";
 
     const terrainOptions: Terrain[] = ["Forest", "Plains", "City", "Indoors"];
     let terrain: Terrain = $state("Plains");
@@ -13,20 +14,14 @@
     let strat: Strategy | undefined = $state(undefined);
     let combatResult: CombatResult | null = $state(null);
 
-    // Move into a separate file for reusability
-    type statBase = { name: string; description: string };
-    type stat = { value: number } & statBase;
-    type Unit = { name: string; amount: number; icon: string; stats: stat[] };
-    type PlayerArmy = {friendly: boolean, units:Unit[]};
-
     // Temp stat types for testing
-    const hp: statBase = { name: "Health", description: "Current hit points" };
-    const bp: statBase = { name: "Battle Power", description: "Damage dealt" };
-    const armor: statBase = { name: "Armor", description: "Defense" };
-    const mobility: statBase = { name: "Mobility", description: "Movement speed" };
+    const hp: BattleStatBase = { name: "Health", description: "Current hit points" };
+    const bp: BattleStatBase = { name: "Battle Power", description: "Damage dealt" };
+    const armor: BattleStatBase = { name: "Armor", description: "Defense" };
+    const mobility: BattleStatBase = { name: "Mobility", description: "Movement speed" };
 
     // Demo armies
-    const army: PlayerArmy = {friendly: true, units: [
+    const army: BattleArmy = {friendly: true, units: [
         {
             name: "Soldier",
             amount: 2,
@@ -73,7 +68,7 @@
         },
     ]};
 
-    const army2: PlayerArmy = {friendly: false, units: [
+    const army2: BattleArmy = {friendly: false, units: [
         {
             name: "Marauder",
             amount: 4,
@@ -120,11 +115,11 @@
         },
     ]};
 
-    let hovering: {unit:Unit, from: PlayerArmy} | null = $state(null);
+    let hovering: {unit: BattleUnit, from: BattleArmy} | null = $state(null);
 
 
     // Funcs
-    function onUnitHover(u: Unit | null, from: PlayerArmy) {
+    function onUnitHover(u: BattleUnit | null, from: BattleArmy) {
         hovering = u === null ? null : { unit: { ...u }, from: { ...from } };
     }
 
@@ -134,19 +129,21 @@
     }
 </script>
 
-<div class="battle-wrapper my-3 mx-5 position-relative">
+<div class="battle-wrapper page-surface my-3 mx-5 position-relative">
     <div class="row">
         <div class="col">
             <h2 class="text-center">Battle</h2>
             <AvatarHeaders />
             <div class="row">
                 <div class="col text-center py-3">
-                    <label for="terrain" class="me-2 fw-bold">Terrain:</label>
-                    <select id="terrain" bind:value={terrain}>
-                        {#each terrainOptions as option}
-                            <option value={option}>{option}</option>
-                        {/each}
-                    </select>
+                    <div class="d-inline-flex align-items-center gap-2">
+                        <label for="terrain" class="fw-bold">Terrain:</label>
+                        <select id="terrain" class="form-select w-auto" bind:value={terrain}>
+                            {#each terrainOptions as option}
+                                <option value={option}>{option}</option>
+                            {/each}
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -161,7 +158,20 @@
             </div>
             <StrategyPicker {strategyOptions} bind:strat />
             <div class="row justify-content-center my-3">
-                <div class="col-auto">All modifiers here</div>
+                <div class="col-md-8 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">Battle modifiers</div>
+                        <ul class="list-group list-group-flush text-start">
+                            <li class="list-group-item">
+                                <b>{terrain}:</b> {describeTerrainModifier(terrain)}
+                            </li>
+                            <li class="list-group-item">
+                                <b>{strat ?? "Choose a strategy"}:</b>
+                                {strat ? describeStrategyModifier(strat) : " Select a strategy to see its modifiers."}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="text-center mt-3">
                 <button
@@ -192,12 +202,3 @@
         {/if}
     </div>
 </div>
-
-<style>
-    .battle-wrapper {
-        background: rgba(235, 235, 235, 0.6);
-        border-radius: 10px;
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-    }
-</style>

@@ -130,7 +130,7 @@
 </script>
 
 <div class="row justify-content-center px-3 mt-5 position-relative">
-	<div class="col-xl-10 col-md-12 wrapper">
+	<div class="col-xl-10 col-md-12 wrapper page-surface">
 		<div class="c-header">
 			{#if name.length === 0}
 				<h3 class="text-center">Create your character!</h3>
@@ -230,12 +230,3 @@
 		</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.wrapper {
-		background: rgba(235, 235, 235, 0.6);
-		border-radius: 10px;
-		padding-top: 0.75rem;
-		padding-bottom: 0.75rem;
-	}
-</style>

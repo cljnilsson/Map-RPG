@@ -78,7 +78,7 @@
 						</div>
 					</div>
 					<div class="row justify-content-center">
-						<div class="col wrapper position-relative">
+					<div class="col wrapper page-surface position-relative">
 							<h5>
 								{active.msgs[active.current].from.name}
 								{#if dev}({active.current}){/if}
@@ -95,9 +95,6 @@
 
 <style>
 	.wrapper {
-		background: rgba(235, 235, 235, 0.6);
-		border-radius: 10px;
-		padding-top: 0.75rem;
 		padding-bottom: 0.5rem; /* Extra space for button overlap */
 		min-height: 10rem; /* attempt to have the box same size always */
 		position: relative;

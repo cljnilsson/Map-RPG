@@ -8,7 +8,7 @@
     const building: Building | undefined = $derived(safeGetBuilding(data.building));
 </script>
 
-<div class="container mt-3 px-5">
+<div class="container page-surface mt-3 px-5">
     {#if building}
         <h3>{building.name}</h3>
         <div class="row">

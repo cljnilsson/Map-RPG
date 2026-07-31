@@ -6,7 +6,7 @@ exports[`Creator renders with correct elements 1`] = `
     class="row justify-content-center px-3 mt-5 position-relative"
   >
     <div
-      class="col-xl-10 col-md-12 wrapper svelte-1vun6ic"
+      class="col-xl-10 col-md-12 wrapper page-surface"
     >
       <div
         class="c-header"

@@ -28,7 +28,7 @@ npx tsx ./seed.ts           # seed the first account with demo data
 - `src/lib/controller/`: higher-level game logic and APIs used by the UI.
 - `src/lib/stores/`: client-side reactive state; these intentionally use the `.svelte.ts` extension.
 - `src/lib/data/`: static game data and definitions.
-- `src/lib/types/`: shared TypeScript types.
+- `src/lib/types/`: shared TypeScript types. Place reusable feature/domain types here (for example, `types/battle.ts`), rather than alongside a feature component.
 - `src/lib/api/`: server-side remote/data operations.
 - `src/lib/server/db/schema/`: Drizzle schema definitions; export schema additions through `index.ts`.
 - `src/tests/`: Vitest unit tests. Component and controller tests have subdirectories.
@@ -41,6 +41,13 @@ npx tsx ./seed.ts           # seed the first account with demo data
 - Use `$lib/...` imports for code under `src/lib` and `import type` when importing types only.
 - Model game rules as plain, testable TypeScript functions where practical. Keep UI components focused on input, display, and calling those rules.
 - Do not silently mutate unrelated global stores or controller state. Persist gameplay changes through the relevant controller/API path.
+
+## HTML, Svelte markup, and styles
+
+- Use Bootstrap 5 components and utility classes for layout, spacing, forms, buttons, and common visual treatment before adding custom CSS. For example, a native select should use `form-select`, and layout should generally use the Bootstrap grid or flex utilities.
+- Use semantic HTML and associate every form control with a `label`. Prefer `button` over clickable non-interactive elements.
+- Put cross-page styles in `src/routes/styles.scss`. Use the shared `page-surface` class for the standard translucent white page background, rounded corners, and vertical padding.
+- Keep CSS scoped in a component only when it is specific to that component. Do not duplicate a shared rule in component `<style>` blocks.
 
 ## Data, auth, and database safety
 

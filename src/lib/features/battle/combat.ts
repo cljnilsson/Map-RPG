@@ -1,19 +1,9 @@
+import type { CombatArmy, CombatResult, CombatUnit, UnitLoss } from "$lib/types/battle";
+
+export type { CombatArmy, CombatResult, UnitLoss } from "$lib/types/battle";
+
 export type Terrain = "Forest" | "Plains" | "City" | "Indoors";
 export type Strategy = "Charge" | "Hold the line" | "Flank";
-
-export type UnitStat = { name: string; value: number };
-export type CombatUnit = {
-	name: string;
-	amount: number;
-	stats: UnitStat[];
-};
-export type CombatArmy = { units: CombatUnit[] };
-export type UnitLoss = { name: string; lost: number };
-export type CombatResult = {
-	winner: "attacker" | "defender" | "draw";
-	attackerLosses: UnitLoss[];
-	defenderLosses: UnitLoss[];
-};
 
 type UnitProfile = {
 	unit: CombatUnit;
@@ -27,6 +17,19 @@ const strategyModifiers: Record<Strategy, { power: number; durability: number; m
 	"Hold the line": { power: 0.9, durability: 1.2, mobility: 0.8 },
 	Flank: { power: 1, durability: 0.95, mobility: 1.25 },
 };
+
+export function describeTerrainModifier(terrain: Terrain) {
+	if (terrain === "Forest") return "Attack strength gains 4% per Mobility, up to 16%.";
+	if (terrain === "City") return "Attack strength gains 3% per Mobility, up to 9%.";
+	if (terrain === "Indoors") return "Units with Mobility 2 or less gain 8% attack strength; faster units lose 8%.";
+	return "No terrain modifier.";
+}
+
+export function describeStrategyModifier(strategy: Strategy) {
+	const modifier = strategyModifiers[strategy];
+	const percent = (value: number) => `${value >= 1 ? "+" : ""}${Math.round((value - 1) * 100)}%`;
+	return `Battle Power ${percent(modifier.power)}, durability ${percent(modifier.durability)}, effective Mobility ${percent(modifier.mobility)}.`;
+}
 
 function stat(unit: CombatUnit, name: string, fallback: number) {
 	return unit.stats.find((candidate) => candidate.name.toLowerCase() === name)?.value ?? fallback;

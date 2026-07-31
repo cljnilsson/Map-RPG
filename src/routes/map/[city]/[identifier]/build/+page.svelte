@@ -46,7 +46,7 @@
 	}
 </script>
 
-<div class="container mt-3 px-5">
+<div class="container page-surface mt-3 px-5">
 	<a href={resolve("/map")}>Back</a>
 	{#if dev}
 		<p>{MapController.currentMapState.map.name} ({isCityMap(MapController.currentMapState.map)}) slot: {data.plot}</p>

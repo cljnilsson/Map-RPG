@@ -7,7 +7,7 @@
     let isLoggedIn: boolean = $derived(!!$session.data?.user);
 </script>
 
-<div class="container mt-3">
+<div class="container page-surface mt-3">
     <h1>Welcome!</h1>
     <p>
         More information about this project exists in the readme.md file in the

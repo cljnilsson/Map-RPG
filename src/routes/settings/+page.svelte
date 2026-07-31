@@ -129,7 +129,7 @@ function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): A
 }
 </script>
 
-<div class="map-wrapper mt-3 container">
+<div class="map-wrapper page-surface mt-3 container">
 	<h4>Settings</h4>
 	<div class="row">
 		<div class="col-xl-3 col-md-6 col-12 my-3">
@@ -180,13 +180,6 @@ function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): A
 </div>
 
 <style>
-	.map-wrapper {
-		background: rgba(235, 235, 235, 0.6);
-		border-radius: 10px;
-		padding-top: 0.75rem;
-		padding-bottom: 0.75rem;
-	}
-
 	.settings-chunk + .settings-chunk {
 		margin-top: 1.5rem;
 	}

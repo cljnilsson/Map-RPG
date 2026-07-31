@@ -121,7 +121,7 @@
 	});
 </script>
 
-<div class="container mt-3 px-5">
+<div class="container page-surface mt-3 px-5">
 	<a href={resolve("/map")}><button type="button" class="back btn btn-primary">Back</button></a>
 
 	{#if dev}

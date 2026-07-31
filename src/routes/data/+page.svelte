@@ -81,7 +81,7 @@
 </script>
 
 {#if session}
-  <div class="wrapper mt-3 mx-5 px-3 py-3">
+  <div class="wrapper page-surface mt-3 mx-5 px-3 py-3">
     <h1>Hi, {session.user.email}!</h1>
     <p>Your user ID is {session.user.id}.</p>
     <div class="my-5">
@@ -117,12 +117,3 @@
 {:else}
   <h5>No data available, you're probably not logged in</h5>
 {/if}
-
-<style>
-  .wrapper {
-    background: rgba(235, 235, 235, 0.6);
-    border-radius: 10px;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-</style>
