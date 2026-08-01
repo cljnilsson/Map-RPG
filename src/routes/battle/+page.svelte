@@ -8,6 +8,12 @@
     import type { BattleArmy, BattleStatBase, BattleUnit } from "$lib/types/battle";
 
     const terrainOptions: Terrain[] = ["Forest", "Plains", "City", "Indoors"];
+    const terrainBanners: Record<Terrain, string> = {
+        Forest: "/Banners/forest.jpg",
+        Plains: "/Banners/plains.png",
+        City: "/Banners/city.jpg",
+        Indoors: "/Banners/indoors.jpg",
+    };
     let terrain: Terrain = $state("Plains");
     const strategyOptions: Strategy[] = ["Charge", "Hold the line", "Flank"];
 
@@ -68,7 +74,7 @@
         },
     ]};
 
-    const army2: BattleArmy = {friendly: false, units: [
+    const army2: BattleArmy = {friendly: false, name: "Orc Warband", hideUnitAmounts: true, units: [
         {
             name: "Marauder",
             amount: 4,
@@ -132,68 +138,83 @@
 <div class="battle-wrapper page-surface my-3 mx-5 position-relative">
     <div class="row">
         <div class="col">
-            <h2 class="text-center">Battle</h2>
-            <AvatarHeaders />
-            <div class="row">
-                <div class="col text-center py-3">
-                    <div class="d-inline-flex align-items-center gap-2">
-                        <label for="terrain" class="fw-bold">Terrain:</label>
-                        <select id="terrain" class="form-select w-auto" bind:value={terrain}>
-                            {#each terrainOptions as option}
-                                <option value={option}>{option}</option>
-                            {/each}
-                        </select>
-                    </div>
+            <div class="row justify-content-center">
+                <div
+                    class="col-md-10 col-lg-8 col-xl-6 battle-banner rounded-3 pb-5 text-white"
+                    style:background-image={`url("${terrainBanners[terrain]}")`}
+                >
+                    <h2 class="text-center">{combatResult ? "Post-battle" : "Battle"}</h2>
+                    <AvatarHeaders />
                 </div>
             </div>
+            {#if !combatResult}
+                <div class="row">
+                    <div class="col text-center py-3">
+                        <div class="d-inline-flex align-items-center gap-2">
+                            <label for="terrain" class="fw-bold">Terrain:</label>
+                            <select id="terrain" class="form-select w-auto" bind:value={terrain}>
+                                {#each terrainOptions as option}
+                                    <option value={option}>{option}</option>
+                                {/each}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            {/if}
             <div class="row">
                 <div class="col-6 text-end">
-                    <span><b>{PlayerController.name}</b>'s army</span>
-                    <Army side="left" {army} {onUnitHover} />
+                    <span><b>{army.name ?? `${PlayerController.name}'s army`}</b></span>
+                    <Army side="left" {army} {onUnitHover} losses={combatResult?.attackerLosses} postBattle={combatResult !== null} />
                 </div>
                 <div class="col-6">
-                    <span><b>Enemy</b>'s army</span>
-                    <Army side="right" army={army2} {onUnitHover} />
+                    <span><b>{army2.name ?? "Enemy army"}</b></span>
+                    <Army side="right" army={army2} {onUnitHover} losses={combatResult?.defenderLosses} postBattle={combatResult !== null} />
                 </div>
-            </div>
-            <StrategyPicker {strategyOptions} bind:strat />
-            <div class="row justify-content-center my-3">
-                <div class="col-md-8 col-lg-6">
-                    <div class="card">
-                        <div class="card-header">Battle modifiers</div>
-                        <ul class="list-group list-group-flush text-start">
-                            <li class="list-group-item">
-                                <b>{terrain}:</b> {describeTerrainModifier(terrain)}
-                            </li>
-                            <li class="list-group-item">
-                                <b>{strat ?? "Choose a strategy"}:</b>
-                                {strat ? describeStrategyModifier(strat) : " Select a strategy to see its modifiers."}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-3">
-                <button
-                    type="button"
-                    class="btn btn-lg btn-primary"
-                    disabled={!strat}
-                    onclick={engage}>Engage</button
-                >
             </div>
             {#if combatResult}
                 <div class="row justify-content-center mt-4">
-                    <div class="col-auto text-center">
-                        <h4>
-                            {combatResult.winner === "draw"
-                                ? "The battle ends in a draw"
-                                : combatResult.winner === "attacker"
-                                    ? `${PlayerController.name}'s army wins`
-                                    : "Enemy army wins"}
-                        </h4>
-                        <p class="mb-1"><b>Your losses:</b> {combatResult.attackerLosses.map((loss) => `${loss.name}: ${loss.lost}`).join(", ")}</p>
-                        <p><b>Enemy losses:</b> {combatResult.defenderLosses.map((loss) => `${loss.name}: ${loss.lost}`).join(", ")}</p>
+                    <div class="col-md-8 col-lg-6 text-center">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    {combatResult.winner === "draw"
+                                        ? "The battle ends in a draw"
+                                        : combatResult.winner === "attacker"
+                                            ? `${army.name ?? PlayerController.name}'s army wins`
+                                            : `${army2.name ?? "Enemy army"} wins`}
+                                </h4>
+                                {#if combatResult.rewards}
+                                    <p class="mb-2"><b>Winner's rewards:</b> {combatResult.rewards.gold} gold{combatResult.rewards.item ? ` and ${combatResult.rewards.item}` : ""}</p>
+                                {/if}
+                                <p class="fst-italic mb-0">{combatResult.flavorText}</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            {:else}
+                <StrategyPicker {strategyOptions} bind:strat />
+                <div class="row justify-content-center my-3">
+                    <div class="col-md-8 col-lg-6 col-xl-4">
+                        <div class="card">
+                            <div class="card-header">Battle modifiers</div>
+                            <ul class="list-group list-group-flush text-start">
+                                <li class="list-group-item">
+                                    <b>{terrain}:</b> {describeTerrainModifier(terrain)}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>{strat ?? "Choose a strategy"}:</b>
+                                    {strat ? describeStrategyModifier(strat) : " Select a strategy to see its modifiers."}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button
+                        type="button"
+                        class="btn btn-lg btn-primary"
+                        disabled={!strat}
+                        onclick={engage}>Engage</button>
                 </div>
             {/if}
         </div>
@@ -202,3 +223,12 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .battle-banner {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 8rem;
+    }
+</style>

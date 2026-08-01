@@ -23,6 +23,8 @@ describe("resolveCombat", () => {
 		expect(result.winner).toBe("attacker");
 		expect(result.attackerLosses).toHaveLength(2);
 		expect(result.defenderLosses).toEqual([{ name: "Raider", lost: 10 }]);
+		expect(result.rewards?.gold).toBeGreaterThan(0);
+		expect(result.flavorText).not.toBe("");
 	});
 
 	it("takes terrain and strategy into account", () => {

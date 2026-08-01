@@ -16,6 +16,9 @@ export type BattleUnit = CombatUnit & {
 
 export type BattleArmy = {
 	friendly: boolean;
+	name?: string;
+	/** Keep unit amounts hidden from the opposing player while retaining the real values for combat. */
+	hideUnitAmounts?: boolean;
 	units: BattleUnit[];
 };
 
@@ -23,8 +26,11 @@ export type BattleArmy = {
 export type CombatArmy = { units: CombatUnit[] };
 
 export type UnitLoss = { name: string; lost: number };
+export type BattleReward = { gold: number; item?: string };
 export type CombatResult = {
 	winner: "attacker" | "defender" | "draw";
 	attackerLosses: UnitLoss[];
 	defenderLosses: UnitLoss[];
+	rewards: BattleReward | null;
+	flavorText: string;
 };

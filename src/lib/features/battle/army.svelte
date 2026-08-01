@@ -1,80 +1,65 @@
 <script lang="ts">
-    import type { BattleArmy, BattleUnit } from "$lib/types/battle";
+    import type { BattleArmy, BattleUnit, UnitLoss } from "$lib/types/battle";
 
-    let {army, side, onUnitHover}: {side: "left" | "right", army: BattleArmy, onUnitHover: (unit: BattleUnit | null, from: BattleArmy) => void} = $props();
+    let {army, side, onUnitHover, losses = [], postBattle = false}: {
+        side: "left" | "right";
+        army: BattleArmy;
+        onUnitHover: (unit: BattleUnit | null, from: BattleArmy) => void;
+        losses?: UnitLoss[];
+        postBattle?: boolean;
+    } = $props();
 
     function onHoverCallback(u: BattleUnit | null) {
-      onUnitHover(u, army);
-      console.log("Passing it on");
+        onUnitHover(u, army);
+    }
+
+    function unitLoss(unit: BattleUnit) {
+        return losses.find((loss) => loss.name === unit.name)?.lost ?? 0;
+    }
+
+    function displayedAmount(unit: BattleUnit) {
+        if (army.hideUnitAmounts) return "?";
+        return postBattle ? unit.amount - unitLoss(unit) : unit.amount;
+    }
+
+    function displayedTotal() {
+        if (army.hideUnitAmounts) return "?";
+        return army.units.reduce((total, unit) => total + (postBattle ? unit.amount - unitLoss(unit) : unit.amount), 0);
     }
 </script>
 
-<div class="row mt-3" class:border-end={side === "left"} class:border-primary={side === "left"} class:border-danger={side === "right"} class:border-start={side === "right"}>
+<div class="row mt-3 border-3" class:border-end={side === "left"} class:border-primary={side === "left"} class:border-danger={side === "right"} class:border-start={side === "right"}>
     <div class="col-xl-4 col-md-6 col-sm-8 col-12" class:offset-xl-8={side === "left"} class:offset-md-6={side === "left"} class:offset-sm-4={side === "left"}>
-        {#each army.units as a}
-            {#if a}
-                {#if side === "right"}
-                   	<div class="row align-items-center">
-                       	<div class="col-2">
-                           	<span class="unit-amount">{a.amount}</span>
-                       	</div>
-                       	<div class="col-5">
-                            <span class="unit-name">{a.name}</span>
-                       	</div>
-                        <div class="col-auto">
-                      		<img
-                          		src={a.icon}
-                                onmouseenter={() => onHoverCallback(a)}
-                                onmouseleave={() => onHoverCallback(null)}
-                          		alt={`Unit portrait of ${a.name}`}
-                          		loading="lazy"
-                          		fetchpriority="high"
-                          		style="width: 48px;
-                                            height: 48px;"
-                           	/>
-                        </div>
-                    </div>
-                {:else}
-                   	<div class="row align-items-center justify-content-end text-end">
-                        <div class="col-auto">
-                      		<img
-                          		src={a.icon}
-                                onmouseenter={() => onHoverCallback(a)}
-                                onmouseleave={() => onHoverCallback(null)}
-                          		alt={`Unit portrait of ${a.name}`}
-                          		loading="lazy"
-                          		fetchpriority="high"
-                          		style="width: 48px;
-                                            height: 48px;"
-                           	/>
-                        </div>
-                       	<div class="col-5">
-                           	<span class="unit-name">{a.name}</span>
-                       	</div>
-                       	<div class="col-2">
-                           	<span class="unit-amount">{a.amount}</span>
-                       	</div>
-                    </div>
-                {/if}
-            {:else}
-                <p>Something went wrong here</p>
-            {/if}
+        {#each army.units as unit}
+            {@const lost = unitLoss(unit)}
+            <div class="row align-items-center" class:flex-row-reverse={side === "left"} class:text-end={side === "left"}>
+                <div class="col-2 fs-5">
+                    <span>{displayedAmount(unit)}</span>
+                    {#if postBattle && !army.hideUnitAmounts && lost > 0}
+                        <span class="text-danger ms-1">(-{lost})</span>
+                    {/if}
+                </div>
+                <div class="col-5 fs-5">
+                    <span>{unit.name}</span>
+                </div>
+                <div class="col-auto">
+                    <img
+                        src={unit.icon}
+                        onmouseenter={() => onHoverCallback(unit)}
+                        onmouseleave={() => onHoverCallback(null)}
+                        alt={`Unit portrait of ${unit.name}`}
+                        loading="lazy"
+                        fetchpriority="high"
+                        width="48"
+                        height="48"
+                    />
+                </div>
+            </div>
         {/each}
         <div class="row">
            	<div class="col">
-               	<span class="unit-total fw-bold">{army.units.reduce((a, b) => a + b.amount, 0)}</span>
+                <span class="fs-5 fw-bold">{displayedTotal()}</span>
            	</div>
         </div>
     </div>
 </div>
-
-
-<style>
-    .unit-name, .unit-amount, .unit-total {
-        font-size: 1.2rem;
-    }
-
-    .border-start, .border-end {
-        border-width: 3px !important;
-    }
-</style>
