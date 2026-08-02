@@ -29,7 +29,7 @@
 </script>
 
 <div class="row mt-3 border-3" class:border-end={side === "left"} class:border-primary={side === "left"} class:border-danger={side === "right"} class:border-start={side === "right"}>
-    <div class="col-xl-4 col-md-6 col-sm-8 col-12" class:offset-xl-8={side === "left"} class:offset-md-6={side === "left"} class:offset-sm-4={side === "left"}>
+    <div class="col-xl-6 col-md-6 col-sm-8 col-12" class:offset-xl-6={side === "left"} class:offset-md-6={side === "left"} class:offset-sm-4={side === "left"}>
         {#each army.units as unit}
             {@const lost = unitLoss(unit)}
             <div class="row align-items-center" class:flex-row-reverse={side === "left"} class:text-end={side === "left"}>

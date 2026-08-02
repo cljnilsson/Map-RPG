@@ -14,7 +14,7 @@
         City: "/Banners/city.jpg",
         Indoors: "/Banners/indoors.jpg",
     };
-    let terrain: Terrain = $state("Plains");
+    let terrain: Terrain | undefined = $state(undefined);
     const strategyOptions: Strategy[] = ["Charge", "Hold the line", "Flank"];
 
     let strat: Strategy | undefined = $state(undefined);
@@ -130,37 +130,44 @@
     }
 
     function engage() {
-        if (!strat) return;
+        if (!strat || !terrain) return;
         combatResult = resolveCombat(army, army2, { terrain, attackerStrategy: strat });
     }
 </script>
 
-<div class="battle-wrapper page-surface my-3 mx-5 position-relative">
-    <div class="row">
-        <div class="col">
-            <div class="row justify-content-center">
-                <div
-                    class="col-md-10 col-lg-8 col-xl-6 battle-banner rounded-3 pb-5 text-white"
-                    style:background-image={`url("${terrainBanners[terrain]}")`}
-                >
-                    <h2 class="text-center">{combatResult ? "Post-battle" : "Battle"}</h2>
-                    <AvatarHeaders />
-                </div>
+<div class="battle-wrapper my-3 position-relative">
+    <div class="row justify-content-center mx-0">
+        <div class="col-md-10 col-lg-8 col-xl-6 battle-shell" class:page-surface={!terrain}>
+            <div
+                class="battle-banner rounded-3 pb-5"
+                class:text-white={terrain !== undefined}
+                style:background-image={terrain ? `url("${terrainBanners[terrain]}")` : undefined}
+            >
+                <h2 class="text-center">{combatResult ? "Post-battle" : "Battle"}</h2>
+                <AvatarHeaders />
             </div>
-            {#if !combatResult}
-                <div class="row">
-                    <div class="col text-center py-3">
-                        <div class="d-inline-flex align-items-center gap-2">
-                            <label for="terrain" class="fw-bold">Terrain:</label>
-                            <select id="terrain" class="form-select w-auto" bind:value={terrain}>
-                                {#each terrainOptions as option}
-                                    <option value={option}>{option}</option>
-                                {/each}
-                            </select>
+            <div
+                class="battle-content pt-3 p-3 rounded-3"
+                class:terrain-forest={terrain === "Forest"}
+                class:terrain-plains={terrain === "Plains"}
+                class:terrain-city={terrain === "City"}
+                class:terrain-indoors={terrain === "Indoors"}
+            >
+                {#if !combatResult}
+                    <div class="row">
+                        <div class="col text-center py-3">
+                            <div class="d-inline-flex align-items-center gap-2">
+                                <label for="terrain" class="fw-bold">Terrain:</label>
+                                <select id="terrain" class="form-select w-auto" bind:value={terrain}>
+                                    <option value={undefined} disabled>Select terrain</option>
+                                    {#each terrainOptions as option}
+                                        <option value={option}>{option}</option>
+                                    {/each}
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {/if}
+                {/if}
             <div class="row">
                 <div class="col-6 text-end">
                     <span><b>{army.name ?? `${PlayerController.name}'s army`}</b></span>
@@ -194,12 +201,13 @@
             {:else}
                 <StrategyPicker {strategyOptions} bind:strat />
                 <div class="row justify-content-center my-3">
-                    <div class="col-md-8 col-lg-6 col-xl-4">
+                    <div class="col-md-10 col-lg-8 col-xl-6">
                         <div class="card">
                             <div class="card-header">Battle modifiers</div>
                             <ul class="list-group list-group-flush text-start">
                                 <li class="list-group-item">
-                                    <b>{terrain}:</b> {describeTerrainModifier(terrain)}
+                                    <b>{terrain ?? "Choose terrain"}:</b>
+                                    {terrain ? describeTerrainModifier(terrain) : " Select terrain to see its modifier."}
                                 </li>
                                 <li class="list-group-item">
                                     <b>{strat ?? "Choose a strategy"}:</b>
@@ -213,16 +221,17 @@
                     <button
                         type="button"
                         class="btn btn-lg btn-primary"
-                        disabled={!strat}
+                        disabled={!strat || !terrain}
                         onclick={engage}>Engage</button>
                 </div>
             {/if}
+            </div>
         </div>
+    </div>
         {#if hovering}
             <InfoWindow hovering={hovering.unit} friendly={hovering?.from.friendly} />
         {/if}
     </div>
-</div>
 
 <style>
     .battle-banner {
@@ -230,5 +239,25 @@
         background-repeat: no-repeat;
         background-size: cover;
         min-height: 8rem;
+    }
+
+    .terrain-forest {
+        background-color: #405b3b;
+        color: #fff;
+    }
+
+    .terrain-plains {
+        background-color: #d8c987;
+        color: #2f2a1f;
+    }
+
+    .terrain-city {
+        background-color: #59636f;
+        color: #fff;
+    }
+
+    .terrain-indoors {
+        background-color: #4b3527;
+        color: #fff;
     }
 </style>
