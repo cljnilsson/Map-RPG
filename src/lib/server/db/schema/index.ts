@@ -1,4 +1,5 @@
 export * from "$lib/server/db/schema/auth";
+export * from "$lib/server/db/schema/battle";
 export * from "$lib/server/db/schema/character";
 export * from "$lib/server/db/schema/city";
 export * from "$lib/server/db/schema/quests";
