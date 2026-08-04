@@ -2,12 +2,6 @@
     import type { pos } from "$lib/utils/math";
     import Saver from "$lib/components/travel/saver.svelte";
     import Loader from "$lib/components/travel/loader.svelte";
-    import {
-        faPlus,
-        faMinus,
-        faCircle,
-    } from "@fortawesome/free-solid-svg-icons";
-    import { faCircle as regFaCircle } from "@fortawesome/free-regular-svg-icons";
     import WaypointViewerFull from "$lib/components/travel/partials/waypointViewer.svelte";
     import WaypointViewerCompact from "$lib/components/travel/partials/waypointViewerCompact.svelte";
     import PathEditor from "$lib/components/travel/edit.svelte";
@@ -135,22 +129,24 @@
         </div>
     {/if}
     {#if isCreating}
-        <IconButton onClick={onAddFresh} extraClasses="my-2" icon={faMinus} />
+        <IconButton onClick={onAddFresh} extraClasses="my-2" icon="/icons/font-awesome/minus.svg" label="Cancel new waypoint" />
     {:else}
-        <IconButton onClick={onAddFresh} extraClasses="my-2" icon={faPlus} />
+        <IconButton onClick={onAddFresh} extraClasses="my-2" icon="/icons/font-awesome/plus.svg" label="Add waypoint" />
     {/if}
     {#if WaypointController.waypoints.length > 0}
         {#if viewFull}
             <IconButton
                 onClick={() => (viewFull = !viewFull)}
                 extraClasses="my-2"
-                icon={faCircle}
+                icon="/icons/font-awesome/circle-solid.svg"
+                label="Use compact waypoint view"
             />
         {:else}
             <IconButton
                 onClick={() => (viewFull = !viewFull)}
                 extraClasses="my-2"
-                icon={regFaCircle}
+                icon="/icons/font-awesome/circle-regular.svg"
+                label="Use full waypoint view"
             />
         {/if}
     {/if}

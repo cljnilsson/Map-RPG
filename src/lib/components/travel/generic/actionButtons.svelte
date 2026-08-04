@@ -1,10 +1,5 @@
 <script lang="ts">
     import type { pos } from "$lib/utils/math";
-    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
-    import {
-        faPenToSquare,
-        faCircleMinus,
-    } from "@fortawesome/free-solid-svg-icons";
 
     type path = {
         from: pos;
@@ -30,8 +25,9 @@
             onEdit(w);
         }}
         class="icon-btn p-0"
+        aria-label="Edit path"
     >
-        <FontAwesomeIcon icon={faPenToSquare} class="icon" />
+        <img src="/icons/font-awesome/pen-to-square.svg" alt="" aria-hidden="true" class="icon" />
     </button>
     <button
         type="button"
@@ -39,8 +35,9 @@
             onRemove(w);
         }}
         class="icon-btn p-0"
+        aria-label="Remove path"
     >
-        <FontAwesomeIcon icon={faCircleMinus} class="icon" />
+        <img src="/icons/font-awesome/circle-minus.svg" alt="" aria-hidden="true" class="icon" />
     </button>
 </div>
 

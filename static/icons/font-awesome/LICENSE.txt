@@ -1,0 +1,5 @@
+Font Awesome Free icons
+Copyright (c) 2026 Fonticons, Inc. (https://fontawesome.com)
+
+These icons are licensed under the Creative Commons Attribution 4.0
+International License: https://creativecommons.org/licenses/by/4.0/
