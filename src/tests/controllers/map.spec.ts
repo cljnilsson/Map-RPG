@@ -210,6 +210,21 @@ describe("MapController", () => {
 		expect(MapController.submaps).not.toContainEqual(submap);
 	});
 
+	it("should change the selected box destination", () => {
+		const submap: MapWithClickBox = {
+			map: { name: "World One", imagePath: "world1.png", type: "world" },
+			clickBox: { x: 1, y: 1, originalX: 1, originalY: 1, width: 5, height: 5, rotation: 0 },
+		};
+
+		MapController.addSubmap(submap);
+		MapController.selectedBox = { ...submap };
+
+		expect(MapController.setSelectedBoxDestination("City One")).toBe(true);
+		expect(MapController.submaps[0].map).toBe(maps[0].map);
+		expect(MapController.selectedBox).toBe(MapController.submaps[0]);
+		expect(MapController.setSelectedBoxDestination("Unknown destination")).toBe(false);
+	});
+
 	it("should getSubMapByName", () => {
 		const submap: MapWithClickBox = {
 			map: { name: "Submap B", imagePath: "sub.png", type: "world" },

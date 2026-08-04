@@ -90,6 +90,26 @@ class MapController {
 		MapStore.currentMapState.contains = [...this.currentMapState.contains, newSubmap];
 	}
 
+	public setSelectedBoxDestination(destinationName: string): boolean {
+		const selectedBox = this.selectedBox;
+		const destination = this.getMapByName(destinationName);
+
+		if (!selectedBox || !destination) {
+			return false;
+		}
+
+		const sourceBox = this.currentMapState.contains.find((box) => box === selectedBox || box.clickBox === selectedBox.clickBox);
+		if (!sourceBox) {
+			return false;
+		}
+
+		sourceBox.map = destination.map;
+		MapStore.currentMapState.contains = [...MapStore.currentMapState.contains];
+		MapStore.selectedBox = sourceBox;
+
+		return true;
+	}
+
 	public removeSubmapByName(toRemove: string): boolean {
 		const len = this.currentMapState.contains.length;
 
