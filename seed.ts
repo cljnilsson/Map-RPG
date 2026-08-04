@@ -1,13 +1,14 @@
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
-import { type User, user } from "./src/lib/server/db/schema/auth";
+import { account, type User, user } from "./src/lib/server/db/schema/auth";
 import { unit } from "./src/lib/server/db/schema/unit";
 import { city } from "./src/lib/server/db/schema/city";
 import { stat } from "./src/lib/server/db/schema/stat";
 import { characters, stats } from "./src/lib/server/db/schema/character";
 import { resource } from "./src/lib/server/db/schema/resource";
 import { units, cityData, resources } from "./src/lib/server/db/schema/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
+import { hashPassword } from "@better-auth/utils/password";
 
 const sqlite = new Database("local.db"); // path to your SQLite file
 const db = drizzle(sqlite);
@@ -51,13 +52,75 @@ async function UnitExists(name: string): Promise<boolean> {
   return !!exists;
 }
 
-async function getFirstUserIfExists(): Promise<User | null> {
-  const exists = await db.select().from(user);
+const seedUserDetails = {
+  email: "admin@admin.com",
+  username: "cljnilsson",
+  password: "admin123",
+};
 
-  return exists.length > 0 ? exists[0] : null;
+async function createOrUpdateSeedUser(): Promise<User> {
+  let seedUser = await db
+    .select()
+    .from(user)
+    .where(eq(user.email, seedUserDetails.email))
+    .get();
+
+  if (!seedUser) {
+    const id = crypto.randomUUID();
+
+    await db.insert(user).values({
+      id,
+      email: seedUserDetails.email,
+      name: seedUserDetails.username,
+      emailVerified: true,
+    });
+
+    seedUser = await db.select().from(user).where(eq(user.id, id)).get();
+    if (!seedUser) {
+      throw new Error("Failed to create the seed user");
+    }
+    console.log(`✅ Created seed user ${seedUserDetails.email}`);
+  } else if (seedUser.name !== seedUserDetails.username) {
+    await db
+      .update(user)
+      .set({ name: seedUserDetails.username })
+      .where(eq(user.id, seedUser.id));
+    seedUser = { ...seedUser, name: seedUserDetails.username };
+  }
+
+  const password = await hashPassword(seedUserDetails.password);
+  const credentialAccount = await db
+    .select()
+    .from(account)
+    .where(
+      and(
+        eq(account.userId, seedUser.id),
+        eq(account.providerId, "credential"),
+      ),
+    )
+    .get();
+
+  if (credentialAccount) {
+    await db
+      .update(account)
+      .set({ password })
+      .where(eq(account.id, credentialAccount.id));
+  } else {
+    await db.insert(account).values({
+      id: crypto.randomUUID(),
+      accountId: seedUser.id,
+      providerId: "credential",
+      userId: seedUser.id,
+      password,
+    });
+  }
+
+  return seedUser;
 }
 
 async function seed() {
+  const seedUser = await createOrUpdateSeedUser();
+
   if (await StatExists("Strength")) {
     console.log("Stat table already seeded, skipping...");
   } else {
@@ -72,14 +135,6 @@ async function seed() {
       ]);
 
     console.log("✅ Seeded stat table");
-  }
-
-  const user = await getFirstUserIfExists();
-  if (!user) {
-    console.error(
-      "Cannot seed further because a user to link it to does not exist!",
-    );
-    return;
   }
 
   if (await CharacterExists("Alice")) {
@@ -97,8 +152,8 @@ async function seed() {
         health: 10,
         maxHealth: 100,
         xp: 5,
-        userId: user.id,
-      }, // Hardcoded userId for now
+        userId: seedUser.id,
+      },
     ]);
 
     console.log("✅ Seeded character table");
