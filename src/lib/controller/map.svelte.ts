@@ -157,7 +157,7 @@ class MapController {
 			return false;
 		}
 
-		const sourceBox = this.currentMapState.contains.find((box) => box === selectedBox || box.clickBox === selectedBox.clickBox);
+		const sourceBox = this.currentMapState.contains.find((box) => box === selectedBox || box.clickBox === selectedBox.clickBox || box.map.name === selectedBox.map.name);
 		if (!sourceBox) {
 			return false;
 		}
