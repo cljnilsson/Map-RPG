@@ -119,6 +119,8 @@ import { maps } from "$lib/tempData";
 import MapController from "$lib/controller/map.svelte";
 
 describe("MapController", () => {
+	const initialMapCount = maps.length;
+
 	beforeEach(() => {
 		// Reset store before each test
 		MapStore.editMode = false;
@@ -131,6 +133,7 @@ describe("MapController", () => {
 		};
 		MapStore.selectedBox = null;
 		MapStore.currentNavigationHover = null;
+		maps.splice(initialMapCount);
 	});
 
 	it("should get and set editMode", () => {
@@ -223,6 +226,23 @@ describe("MapController", () => {
 		expect(MapController.submaps[0].map).toBe(maps[0].map);
 		expect(MapController.selectedBox).toBe(MapController.submaps[0]);
 		expect(MapController.setSelectedBoxDestination("Unknown destination")).toBe(false);
+	});
+
+	it("should add a new map to the map pool", () => {
+		const newMap = MapController.createMap({
+			name: "New Forest",
+			imagePath: "/new-forest.webp",
+			type: "world",
+		});
+
+		expect(newMap?.map).toEqual({
+			name: "New Forest",
+			imagePath: "/new-forest.webp",
+			type: "world",
+		});
+		expect(newMap?.previous).toBe(MapController.currentMapState);
+		expect(MapController.getMapByName("New Forest")).toBe(newMap);
+		expect(MapController.createMap({ name: "New Forest", imagePath: "/other.webp", type: "world" })).toBeNull();
 	});
 
 	it("should getSubMapByName", () => {

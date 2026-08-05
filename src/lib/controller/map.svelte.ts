@@ -1,7 +1,15 @@
 import MapStore from "$lib/stores/map.svelte";
-import type { MapWithClickBox, CustomMap, CityMap } from "$lib/types/mapTypes";
+import type { BuildingMap, CityMap, CustomMap, MapWithClickBox, WorldMap } from "$lib/types/mapTypes";
 import { maps } from "$lib/tempData";
 import { isCityMap } from "$lib/typeguards/map";
+
+type NewMapType = "world" | "city" | "building";
+
+type NewMapDetails = {
+	name: string;
+	imagePath: string;
+	type: NewMapType;
+};
 
 class MapController {
 	// ---------------
@@ -88,6 +96,57 @@ class MapController {
 
 	public addSubmap(newSubmap: MapWithClickBox) {
 		MapStore.currentMapState.contains = [...this.currentMapState.contains, newSubmap];
+	}
+
+	public createMap(details: NewMapDetails): CustomMap | null {
+		const name = details.name.trim();
+		const imagePath = details.imagePath.trim();
+		if (!name || !imagePath || this.getMapByName(name)) {
+			return null;
+		}
+
+		let map: WorldMap | CityMap | BuildingMap;
+		if (details.type === "city") {
+			const nextCityId = this.cities.reduce((highestId, city) => Math.max(highestId, city.city.id), 0) + 1;
+			map = {
+				type: "city",
+				name,
+				imagePath,
+				city: {
+					id: nextCityId,
+					name,
+					owned: false,
+					unlocked: true,
+					workers: 0,
+					population: 0,
+					units: [],
+					resources: [],
+					plots: [],
+				},
+			};
+		} else if (details.type === "building") {
+			map = {
+				type: "building",
+				name,
+				imagePath,
+				unlocked: true,
+				upgrades: [],
+				npcs: [],
+			};
+		} else {
+			map = { type: "world", name, imagePath };
+		}
+
+		const newMap: CustomMap = {
+			map,
+			previous: this.currentMapState,
+			contains: [],
+			npcs: [],
+			objects: [],
+		};
+
+		maps.push(newMap);
+		return newMap;
 	}
 
 	public setSelectedBoxDestination(destinationName: string): boolean {
