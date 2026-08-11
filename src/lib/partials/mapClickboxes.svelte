@@ -53,7 +53,7 @@
 </script>
 
 {#if MapController.currentMapState}
-	{#each MapController.currentMapState.contains as rect(rect.map.name)}
+	{#each MapController.currentMapState.contains as rect, index (rect.map.name)}
 		{#if MapController.editMode}
 			<Draggable
 				locked={false}
@@ -66,7 +66,7 @@
 					if (!wasDragged) handleClick(rect);
 				}}
 			>
-				<MapClickBox {rect} selectedBox={MapController.selectedBox} onClickCallback={() => {}} />
+				<MapClickBox {rect} label={index + 1} selectedBox={MapController.selectedBox} onClickCallback={() => {}} />
 				{#if MapController.editMode && MapController.selectedBox?.map.name === rect.map.name}
 					<ResizeAnchors
 						bind:x={rect.clickBox.x}

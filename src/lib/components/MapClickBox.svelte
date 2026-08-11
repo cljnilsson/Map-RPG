@@ -3,10 +3,12 @@
 	import type { MapWithClickBox } from "$lib/types/mapTypes";
 
 	let {
+		label,
 		rect,
 		onClickCallback,
 		selectedBox
 	}: {
+		label?: number;
 		rect: MapWithClickBox;
 		onClickCallback?: (clicked: MapWithClickBox) => void;
 		selectedBox: MapWithClickBox | null;
@@ -55,7 +57,11 @@
         position: relative;
     "
 	aria-label={`Clickable area for ${rect.map.name}`}
-></button>
+>
+	{#if label !== undefined}
+		<span class="box-label" aria-hidden="true">{label}</span>
+	{/if}
+</button>
 
 <style>
 	.overlay-rect,
@@ -79,5 +85,17 @@
 	.overlay-rect-navigation {
 		border-color: yellow !important;
 		background-color: rgba(255, 255, 0, 0.2) !important;
+	}
+
+	.box-label {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+		font-size: 2rem;
+		font-weight: 700;
+		color: #fff;
+		text-shadow: 0 1px 3px #000;
 	}
 </style>

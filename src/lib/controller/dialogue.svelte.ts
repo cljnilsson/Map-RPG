@@ -19,7 +19,7 @@ export default class DialogueController {
 	private _canClose: boolean = $state(false);
 
 	constructor({ msgs, player, onEnd = () => this.defaultOnEnd(), current = 0, canClose = false }: DialogueArgs) {
-		this._msgs = msgs;
+		this._msgs = msgs.map((message) => (message.type === "choice" ? { ...message, choices: message.choices.map((choice) => ({ ...choice })) } : { ...message }));
 		this._player = player;
 		this._onEnd = onEnd;
 		this._current = current;
