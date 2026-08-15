@@ -4,7 +4,7 @@
 	// Credit to: https://github.com/romkor/svelte-portal/blob/master/src/Portal.svelte
 
 	export function portal(el: HTMLElement, target: string | HTMLElement = "body") {
-		let targetEl;
+		let targetEl: Element | null;
 		async function update(newTarget: string | HTMLElement) {
 			target = newTarget;
 			if (typeof target === "string") {
@@ -41,14 +41,7 @@
 			destroy
 		};
 	}
-</script>
-
-<script>
-	/**
-	 * DOM Element or CSS Selector
-	 * @type { HTMLElement|string}
-	 */
-	export let target = "body";
+	export let target: HTMLElement | string = "body";
 </script>
 
 <div use:portal={target} hidden>

@@ -62,7 +62,7 @@
 				editMode={MapController.editMode}
 				containerWrapper=".map-container"
 				onDragStart={() => MapController.selectedBox = rect}
-				onDragEnd={(wasDragged) => {
+				onDragEnd={(wasDragged: boolean) => {
 					if (!wasDragged) handleClick(rect);
 				}}
 			>

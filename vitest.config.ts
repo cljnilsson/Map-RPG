@@ -7,7 +7,6 @@ export default defineConfig({
   plugins: [svelte({ preprocess: vitePreprocess() }), svelteTesting()],
   resolve: {
     alias: {
-      $routes: new URL("./src/routes", import.meta.url).pathname,
       "$app/env": new URL("./src/tests/mocks/sveltekit-env.ts", import.meta.url).pathname,
       "$app/environment": new URL("./src/tests/mocks/sveltekit-env.ts", import.meta.url).pathname,
       "$app/paths": new URL("./src/tests/mocks/sveltekit-paths.ts", import.meta.url).pathname,

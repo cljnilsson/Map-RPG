@@ -1,8 +1,8 @@
 import { cleanup, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import LoginPage from "$routes/login/+page.svelte";
-import RegisterPage from "$routes/register/+page.svelte";
+import LoginPage from "#routes/login/+page.svelte";
+import RegisterPage from "#routes/register/+page.svelte";
 
 const authClientMocks = vi.hoisted(() => ({
 	signInEmail: vi.fn(async () => ({ data: null, error: null })),

@@ -25,7 +25,7 @@ let diceRef: DieCollection;
 
 async function roll() {
 	const result = await diceRef?.roll();
-	const total = result.reduce((newValue, currentValues) => currentValues + newValue);
+	const total = result.reduce((newValue: number, currentValues: number) => currentValues + newValue);
 	const success = total + mod >= toBeat;
 	console.log(total, total + mod, success);
 

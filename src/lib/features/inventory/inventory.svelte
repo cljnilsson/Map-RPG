@@ -43,7 +43,7 @@ $effect(() => {
 	</div>
 </div>
 <ItemGrid items={PlayerController.inventory} {size}>
-	{#snippet item(gridItem)}
+	{#snippet item(gridItem: InventoryItem)}
 		<Tooltip>
 			{#snippet onHoverTooltip()}
 				<h5 style={"color: " + q2c(gridItem.item) + ";"}>{gridItem.item.name}</h5>
