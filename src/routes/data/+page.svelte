@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
   import { onMount } from "svelte";
   //import type { PageServerData } from "./$types";
   import type { Character } from "#lib/server/db/schema/index.js";
@@ -110,9 +109,6 @@
     </div>
     <button type="button" onclick={onSave}>Save current data</button>
     <button type="button" onclick={testToggle}>toggle tutorial flag</button>
-    <form method="post" action="/api/logout" use:enhance>
-      <button type="button">Sign out</button>
-    </form>
   </div>
 {:else}
   <h5>No data available, you're probably not logged in</h5>

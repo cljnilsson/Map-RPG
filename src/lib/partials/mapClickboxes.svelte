@@ -32,12 +32,22 @@
 	function handlePlotClick(identifier: number, x: number, y: number, rotation: number) {
 		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
 		console.log("options:", getBuildingsByPlotType("default"));
-		goto(resolve(`map/${MapController.currentMapState.map.name}/${identifier}/build`));
+		goto(
+			resolve("/map/[city]/[identifier]/build", {
+				city: MapController.currentMapState.map.name,
+				identifier: String(identifier),
+			}),
+		);
 	}
 
 	function handleBuildingClick(identifier: number) {
 		console.log("clicked on building!");
-		goto(resolve(`map/${MapController.currentMapState.map.name}/${identifier}`));
+		goto(
+			resolve("/map/[city]/[identifier]", {
+				city: MapController.currentMapState.map.name,
+				identifier: String(identifier),
+			}),
+		);
 	}
 
 	function onBuildingEnter(e: KeyboardEvent, identifier: number) {
