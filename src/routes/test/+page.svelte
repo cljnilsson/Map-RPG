@@ -54,6 +54,7 @@
     <div class="row justify-content-center">
         <div class="col-auto">
             <Tooltip disable={inventoryWindow.visible}>
+                <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
                 <div class="demo" onclick={openSplitter}>click me</div>
                 {#snippet onHoverTooltip()}
                     <h3>Title</h3>
