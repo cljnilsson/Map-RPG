@@ -1,6 +1,6 @@
 <script lang="ts">
-    import CharacterStat from "$lib/components/character/CharacterStat.svelte";
-    import { PlayerController } from "$lib/controller/character.svelte";
+    import CharacterStat from "#lib/components/character/CharacterStat.svelte";
+    import { PlayerController } from "#lib/controller/character.svelte.js";
 </script>
 
 <div class="row">

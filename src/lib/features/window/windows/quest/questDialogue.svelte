@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { Quest } from "$lib/types/quest";
-    import {isMessageText, isMessageChoice} from "$lib/typeguards/message";   
+    import type { Quest } from "#lib/types/quest.js";
+    import {isMessageText, isMessageChoice} from "#lib/typeguards/message.js";   
 
     let {active} : {active: Quest} = $props();
 </script>

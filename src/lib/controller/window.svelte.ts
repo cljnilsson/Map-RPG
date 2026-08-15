@@ -1,5 +1,5 @@
-import type { WindowTypes } from "$lib/types/window";
-import ClassInstanceList from "$lib/utils/ClassInstanceList";
+import type { WindowTypes } from "#lib/types/window.js";
+import ClassInstanceList from "#lib/utils/ClassInstanceList.js";
 
 // Cannot use static $state
 let _latestWindowOpenedState: WindowController | null = $state(null);

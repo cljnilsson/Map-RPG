@@ -1,8 +1,8 @@
 <script lang="ts">
-import Window from "$lib/features/window/window.svelte";
-import WindowController from "$lib/controller/window.svelte";
-import DieCollection from "$lib/features/die/dieCollection.svelte";
-import { PlayerController } from "$lib/controller/character.svelte";
+import Window from "#lib/features/window/window.svelte";
+import WindowController from "#lib/controller/window.svelte.js";
+import DieCollection from "#lib/features/die/dieCollection.svelte";
+import { PlayerController } from "#lib/controller/character.svelte.js";
 
 let {
 	header,

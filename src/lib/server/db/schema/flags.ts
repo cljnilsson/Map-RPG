@@ -1,6 +1,6 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
-import { user } from "$lib/server/db/schema/auth";
+import { user } from "#lib/server/db/schema/auth.js";
 export const flags = sqliteTable("flags", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	userId: text("user_id")

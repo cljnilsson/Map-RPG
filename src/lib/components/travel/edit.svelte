@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { pos } from "$lib/utils/math";
-    import type { Path } from "$lib/types/waypoint";
-    import Dropdown from "$lib/components/travel/generic/dropdown.svelte";
-    import WaypointController from "$lib/controller/waypoints.svelte";
+    import type { pos } from "#lib/utils/math.js";
+    import type { Path } from "#lib/types/waypoint.js";
+    import Dropdown from "#lib/components/travel/generic/dropdown.svelte";
+    import WaypointController from "#lib/controller/waypoints.svelte.js";
 
     let {
         editingWaypoint = $bindable(),

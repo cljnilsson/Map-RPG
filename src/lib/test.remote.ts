@@ -1,6 +1,6 @@
 import * as v from "valibot";
-import { db } from "$lib/server/db";
-import { flags } from "$lib/server/db/schema";
+import { db } from "#lib/server/db/index.js";
+import { flags } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import { query } from "$app/server";
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import LoggerStore from "$lib/stores/logs.svelte";
-	import LogController from "$lib/controller/logs.svelte";
+	import LoggerStore from "#lib/stores/logs.svelte.js";
+	import LogController from "#lib/controller/logs.svelte.js";
 	import { fly } from "svelte/transition";
 	import { onMount } from "svelte";
-	import NotificationStore from "$lib/stores/notification.svelte";
+	import NotificationStore from "#lib/stores/notification.svelte.js";
 
 	let showNotification = $state(false);
 

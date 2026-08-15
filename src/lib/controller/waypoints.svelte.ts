@@ -1,8 +1,8 @@
-import type { pos } from "$lib/utils/math";
-import type { Path } from "$lib/types/waypoint";
-import { removePath } from "$lib/api/waypoint.remote";
-import type { WaypointPathCollection } from "$lib/types/waypoint";
-import { getWaypoints } from "$lib/api/waypoint.remote";
+import type { pos } from "#lib/utils/math.js";
+import type { Path } from "#lib/types/waypoint.js";
+import { removePath } from "#lib/api/waypoint.remote.js";
+import type { WaypointPathCollection } from "#lib/types/waypoint.js";
+import { getWaypoints } from "#lib/api/waypoint.remote.js";
 
 // Can be const because we'll only ever modify a key directly not the whole object
 const Store: {

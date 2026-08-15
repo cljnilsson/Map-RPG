@@ -1,7 +1,7 @@
 import { query } from "$app/server";
-import { resources } from "$lib/server/db/schema";
+import { resources } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import dayjs from "dayjs";
 
 const intervalSeconds = 60;

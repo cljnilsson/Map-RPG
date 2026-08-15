@@ -1,10 +1,10 @@
 <script lang="ts">
-	import QuestDetails from "$lib/features/window/windows/quest//questDetails.svelte";
-	import QuestSection from "$lib/features/window/windows/quest/questSection.svelte";
-	import Window from "$lib/features/window/window.svelte";
-	import WindowController from "$lib/controller/window.svelte";
-	import QuestController from "$lib/controller/quest.svelte";
-	import type { Quest } from "$lib/types/quest";
+	import QuestDetails from "#lib/features/window/windows/quest//questDetails.svelte";
+	import QuestSection from "#lib/features/window/windows/quest/questSection.svelte";
+	import Window from "#lib/features/window/window.svelte";
+	import WindowController from "#lib/controller/window.svelte.js";
+	import QuestController from "#lib/controller/quest.svelte.js";
+	import type { Quest } from "#lib/types/quest.js";
     import { onMount } from "svelte";
 
 	let mainQuests: Quest[] = $derived(QuestController.quests.filter((q) => q.mainQuest && q.status === "active"));

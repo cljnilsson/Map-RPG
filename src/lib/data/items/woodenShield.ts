@@ -1,4 +1,4 @@
-import type { CraftItem } from "$lib/types/item";
+import type { CraftItem } from "#lib/types/item.js";
 
 const woodenShield = {
 	type: "craft",

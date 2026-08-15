@@ -1,6 +1,6 @@
 <script lang="ts">
 	import dayjs from "dayjs";
-	import QueueStore from "$lib/stores/queueStore.svelte";
+	import QueueStore from "#lib/stores/queueStore.svelte.js";
 
 	let { available = $bindable(), unit = $bindable(), name, iconPath }: { unit: number; available: number; name: string, iconPath: string } = $props();
 	const min = 0;

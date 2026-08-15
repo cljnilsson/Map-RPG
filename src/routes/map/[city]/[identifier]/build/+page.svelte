@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { isCityMap } from "$lib/typeguards/map";
-	import MapController from "$lib/controller/map.svelte";
-	import { PlayerController } from "$lib/controller/character.svelte.js";
-	import { getBuildingsByPlotType } from "$lib/data/buildings";
-	import { dev } from "$app/environment";
-	import type { Building } from "$lib/types/building";
-	import ResourceCost from "$lib/components/resourceCost.svelte";
+	import { isCityMap } from "#lib/typeguards/map.js";
+	import MapController from "#lib/controller/map.svelte.js";
+	import { PlayerController } from "#lib/controller/character.svelte.js";
+	import { getBuildingsByPlotType } from "#lib/data/buildings.js";
+	import { dev } from '$app/env';
+	import type { Building } from "#lib/types/building.js";
+	import ResourceCost from "#lib/components/resourceCost.svelte";
 	import { goto } from "$app/navigation";
-	import { updateSpecificPlot } from "$lib/api/plot.remote.js";
+	import { updateSpecificPlot } from "#lib/api/plot.remote.js";
 	import { resolve } from "$app/paths";
 
 	const { data } = $props();
@@ -47,7 +47,7 @@
 </script>
 
 <div class="container page-surface mt-3 px-5">
-	<a href={resolve("/map")}>Back</a>
+	<a href={resolve('map')}>Back</a>
 	{#if dev}
 		<p>{MapController.currentMapState.map.name} ({isCityMap(MapController.currentMapState.map)}) slot: {data.plot}</p>
 	{/if}

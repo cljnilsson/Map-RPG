@@ -1,6 +1,6 @@
 <script lang="ts">
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import type { Quest } from "$lib/types/quest";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import type { Quest } from "#lib/types/quest.js";
 
 let { active }: { active: Quest } = $props();
 </script>

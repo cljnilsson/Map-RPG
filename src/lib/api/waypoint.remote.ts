@@ -1,10 +1,10 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { query, command } from "$app/server";
-import { waypoint, waypointNode, waypointPath } from "$lib/server/db/schema";
+import { waypoint, waypointNode, waypointPath } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import type { WaypointPathCollection, Path } from "$lib/types/waypoint";
-import type { pos } from "$lib/utils/math";
+import type { WaypointPathCollection, Path } from "#lib/types/waypoint.js";
+import type { pos } from "#lib/utils/math.js";
 
 async function getAllWaypoints(): Promise<WaypointPathCollection[]> {
 	const result = await db.query.waypoint.findMany({

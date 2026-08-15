@@ -1,11 +1,11 @@
 <script lang="ts">
-	import WindowController from "$lib/controller/window.svelte";
-	import DialogueController from "$lib/controller/dialogue.svelte";
-	import MapController from "$lib/controller/map.svelte";
-	import { isCityMap } from "$lib/typeguards/map";
-	import Icon from "$lib/features/miniMenu/ui-icon.svelte";
-	import type { WindowTypes } from "$lib/types/window";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+	import WindowController from "#lib/controller/window.svelte.js";
+	import DialogueController from "#lib/controller/dialogue.svelte.js";
+	import MapController from "#lib/controller/map.svelte.js";
+	import { isCityMap } from "#lib/typeguards/map.js";
+	import Icon from "#lib/features/miniMenu/ui-icon.svelte";
+	import type { WindowTypes } from "#lib/types/window.js";
+	import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 	let expanded = $state(true);
 

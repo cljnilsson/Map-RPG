@@ -1,9 +1,9 @@
 import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
-import { characters } from "$lib/server/db/schema/character";
-import { city } from "$lib/server/db/schema/city";
-import { resource } from "$lib/server/db/schema/resource";
-import { unit } from "$lib/server/db/schema/unit";
+import { characters } from "#lib/server/db/schema/character.js";
+import { city } from "#lib/server/db/schema/city.js";
+import { resource } from "#lib/server/db/schema/resource.js";
+import { unit } from "#lib/server/db/schema/unit.js";
 
 /*
 	GAME

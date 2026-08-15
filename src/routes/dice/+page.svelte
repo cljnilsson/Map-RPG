@@ -1,6 +1,6 @@
 <script lang="ts">
-import WindowController from "$lib/controller/window.svelte";
-import RollWindow from "$lib/features/window/windows/roll/roll.svelte";
+import WindowController from "#lib/controller/window.svelte.js";
+import RollWindow from "#lib/features/window/windows/roll/roll.svelte";
 
 let rollResult: number = $state(-1);
 

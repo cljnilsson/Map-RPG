@@ -1,11 +1,11 @@
 import { cleanup, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { CustomMap } from "$lib/types/mapTypes";
+import type { CustomMap } from "#lib/types/mapTypes.js";
 
 vi.mock("$app/environment", () => ({ dev: true }));
 
-vi.mock("$lib/tempData", () => {
+vi.mock("#lib/tempData.js", () => {
 	const world = {
 		map: { name: "World", imagePath: "/world.webp", type: "world" },
 		previous: null,
@@ -17,16 +17,20 @@ vi.mock("$lib/tempData", () => {
 	return { maps: [world], world };
 });
 
-import MapHeader from "$lib/partials/mapHeader.svelte";
-import MapController from "$lib/controller/map.svelte";
-import MapStore from "$lib/stores/map.svelte";
-import { maps } from "$lib/tempData";
+import MapHeader from "#lib/partials/mapHeader.svelte";
+import MapController from "#lib/controller/map.svelte.js";
+import MapStore from "#lib/stores/map.svelte.js";
+import { maps } from "#lib/tempData.js";
 
 const initialMapCount = maps.length;
 
 function resetMapState() {
 	const currentMap: CustomMap = {
-		map: { name: "Editor test map", imagePath: "/editor-test.webp", type: "world" },
+		map: {
+			name: "Editor test map",
+			imagePath: "/editor-test.webp",
+			type: "world",
+		},
 		previous: null,
 		contains: [],
 		npcs: [],

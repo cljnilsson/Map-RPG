@@ -1,5 +1,5 @@
-import type { Quest } from "$lib/types/quest";
-import type { InventoryItem } from "$lib/types/item";
+import type { Quest } from "#lib/types/quest.js";
+import type { InventoryItem } from "#lib/types/item.js";
 
 type GameObject = {
 	id: string;
@@ -25,7 +25,11 @@ type ContainerGameObject = GameObject & {
 	contains: InventoryItem[];
 	itemsTaken: InventoryItem[];
 	requiredItems: InventoryItem[];
-	requiredStat: { amount: number; stat: "str" | "int" | "vit" | "char" | "dex"; menuText: string }[]; // stat to be beat, it's an OR not AND
+	requiredStat: {
+		amount: number;
+		stat: "str" | "int" | "vit" | "char" | "dex";
+		menuText: string;
+	}[]; // stat to be beat, it's an OR not AND
 	failedRollAlready: boolean; // if required stat open has already been attempted
 	onOpenAttemptLogMessage?: string;
 	onOpenSuccessLogMessage?: string;

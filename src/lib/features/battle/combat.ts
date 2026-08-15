@@ -1,6 +1,11 @@
-import type { BattleReward, CombatArmy, CombatResult, CombatUnit, UnitLoss } from "$lib/types/battle";
+import type { BattleReward, CombatArmy, CombatResult, CombatUnit, UnitLoss } from "#lib/types/battle.js";
 
-export type { BattleReward, CombatArmy, CombatResult, UnitLoss } from "$lib/types/battle";
+export type {
+	BattleReward,
+	CombatArmy,
+	CombatResult,
+	UnitLoss,
+} from "#lib/types/battle.js";
 
 export type Terrain = "Forest" | "Plains" | "City" | "Indoors";
 export type Strategy = "Charge" | "Hold the line" | "Flank";
@@ -65,7 +70,10 @@ function lossesFromDamage(units: UnitProfile[], damage: number, strategy: Strate
 	return units.map((unit) => {
 		const share = (unit.unit.amount * unit.durability * durabilityModifier) / totalDurability;
 		const estimatedLosses = (damage * share) / (unit.durability * durabilityModifier);
-		return { name: unit.unit.name, lost: Math.min(unit.unit.amount, Math.round(estimatedLosses)) };
+		return {
+			name: unit.unit.name,
+			lost: Math.min(unit.unit.amount, Math.round(estimatedLosses)),
+		};
 	});
 }
 

@@ -1,4 +1,4 @@
-import type { Class } from "$lib/types/class";
+import type { Class } from "#lib/types/class.js";
 
 const Store = $state<{ classes: Class[] }>({
 	classes: [

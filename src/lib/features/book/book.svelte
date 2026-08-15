@@ -1,6 +1,6 @@
 <script lang="ts">
-	import BookPage from "$lib/features/book/bookPage.svelte";
-	import BookStore from "$lib/stores/book.svelte";
+	import BookPage from "#lib/features/book/bookPage.svelte";
+	import BookStore from "#lib/stores/book.svelte.js";
 </script>
 
 {#if BookStore.visible && BookStore.currentBook && BookStore.currentBook.length > 0}

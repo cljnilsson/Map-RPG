@@ -1,6 +1,6 @@
-import type { RegularItem, UsableItem } from "$lib/types/item";
-import BookStore from "$lib/stores/book.svelte";
-import LogController from "$lib/controller/logs.svelte";
+import type { RegularItem, UsableItem } from "#lib/types/item.js";
+import BookStore from "#lib/stores/book.svelte.js";
+import LogController from "#lib/controller/logs.svelte.js";
 
 export function createBookItem(item: RegularItem, pages: string[]): UsableItem {
 	if (pages.length === 0) {

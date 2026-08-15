@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { pos } from "$lib/utils/math";
-    import { saveWaypoint } from "$lib/api/waypoint.remote";
+    import type { pos } from "#lib/utils/math.js";
+    import { saveWaypoint } from "#lib/api/waypoint.remote.js";
 
     type path = {
         from: pos;

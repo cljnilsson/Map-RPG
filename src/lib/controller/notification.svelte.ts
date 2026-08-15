@@ -1,5 +1,5 @@
-import NotificationStore from "$lib/stores/notification.svelte";
-import LogController from "$lib/controller/logs.svelte";
+import NotificationStore from "#lib/stores/notification.svelte.js";
+import LogController from "#lib/controller/logs.svelte.js";
 
 class NotificationController {
 	public newNotification(msg: string, type: "warning" | "error" | "info" = "info") {

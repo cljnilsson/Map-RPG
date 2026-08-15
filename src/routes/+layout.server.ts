@@ -1,10 +1,10 @@
 import type { LayoutServerLoad } from "./$types";
-import { db } from "$lib/server/db"; // adjust path as needed
-import { flags } from "$lib/server/db/schema"; // adjust path as needed
+import { db } from "#lib/server/db/index.js"; // adjust path as needed
+import { flags } from "#lib/server/db/schema/index.js"; // adjust path as needed
 import { eq, and } from "drizzle-orm";
-import type { LayoutData } from "$lib/types/layoutData";
-import { auth } from "$lib/auth";
-import { getFlags } from "$lib/api/flags.remote";
+import type { LayoutData } from "#lib/types/layoutData.js";
+import { auth } from "#lib/auth.js";
+import { getFlags } from "#lib/api/flags.remote.js";
 
 async function ensureFlagExists(userId: string, flagName: string): Promise<void> {
 	const existingFlag = db

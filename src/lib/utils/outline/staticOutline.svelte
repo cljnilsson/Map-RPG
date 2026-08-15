@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Outline from "$lib/utils/outline/outline.svelte";
+	import Outline from "#lib/utils/outline/outline.svelte";
 	let {
 		src,
 		alt = "",

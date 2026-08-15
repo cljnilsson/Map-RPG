@@ -1,7 +1,7 @@
-//import type { Character } from "$lib/types/character";
-import type { Item, VendorItem, InventoryItem } from "$lib/types/item";
-import LogController from "$lib/controller/logs.svelte";
-import { addItem, removeItem } from "$lib/api/storage.remote";
+//import type { Character } from "#lib/types/character.js";
+import type { Item, VendorItem, InventoryItem } from "#lib/types/item.js";
+import LogController from "#lib/controller/logs.svelte.js";
+import { addItem, removeItem } from "#lib/api/storage.remote.js";
 
 const storageState: { storage: InventoryItem[] } = $state({ storage: [] });
 

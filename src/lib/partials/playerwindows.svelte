@@ -1,13 +1,13 @@
 <script lang="ts">
-	import MapController from "$lib/controller/map.svelte";
-	import UnitWindow from "$lib/features/window/windows/unit/unitWindow.svelte";
-	import NavigationWindow from "$lib/features/window/windows/navigator/navigator.svelte";
-	import LogWindow from "$lib/features/window/windows/logger/logger.svelte";
-	import ResourceWindow from "$lib/features/window/windows/resources/resources.svelte";
-	import EventWindow from "$lib/features/window/windows/events/events.svelte";
-	import QuestWindow from "$lib/features/window/windows/quest/quest.svelte";
-	import InventoryWindow from "$lib/features/window/windows/inventory/inventory.svelte";
-	import { isCityMap } from "$lib/typeguards/map";
+	import MapController from "#lib/controller/map.svelte.js";
+	import UnitWindow from "#lib/features/window/windows/unit/unitWindow.svelte";
+	import NavigationWindow from "#lib/features/window/windows/navigator/navigator.svelte";
+	import LogWindow from "#lib/features/window/windows/logger/logger.svelte";
+	import ResourceWindow from "#lib/features/window/windows/resources/resources.svelte";
+	import EventWindow from "#lib/features/window/windows/events/events.svelte";
+	import QuestWindow from "#lib/features/window/windows/quest/quest.svelte";
+	import InventoryWindow from "#lib/features/window/windows/inventory/inventory.svelte";
+	import { isCityMap } from "#lib/typeguards/map.js";
 </script>
 
 {#if isCityMap(MapController.currentMapState.map)}

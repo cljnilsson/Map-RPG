@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { costToNextLevel } from "$lib/utils/cost";
+import { costToNextLevel } from "#lib/utils/cost.js";
 
 describe("Cost requirements", () => {
 	it("gets the cost to specific levels", () => {

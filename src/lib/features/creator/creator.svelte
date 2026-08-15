@@ -1,17 +1,17 @@
 <script lang="ts">
-	import ImageUploader from "$lib/components/ImageUploader.svelte";
-	import CreatorStat from "$lib/features/creator/creatorStat.svelte";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
-	import { createCharacter } from "$lib/api/character.remote";
-	import ClassStore from "$lib/stores/classes.svelte";
-	import type { Class } from "$lib/types/class";
-	import type { Faith } from "$lib/types/faith";
+	import ImageUploader from "#lib/components/ImageUploader.svelte";
+	import CreatorStat from "#lib/features/creator/creatorStat.svelte";
+	import ClickableElement from "#lib/components/utils/clickableElement.svelte";
+	import { createCharacter } from "#lib/api/character.remote.js";
+	import ClassStore from "#lib/stores/classes.svelte.js";
+	import type { Class } from "#lib/types/class.js";
+	import type { Faith } from "#lib/types/faith.js";
 	import { faker } from '@faker-js/faker';
-   	import FaithStore from "$lib/stores/faith.svelte";
-    import FaithPicker from "$lib/features/creator/faithPicker.svelte";
-    import ClassPicker from "$lib/features/creator/classPicker.svelte";
-    import CharMenu from "$lib/features/creator/charMenu.svelte";
-    import { authClient } from "$lib/auth-client";
+   	import FaithStore from "#lib/stores/faith.svelte.js";
+    import FaithPicker from "#lib/features/creator/faithPicker.svelte";
+    import ClassPicker from "#lib/features/creator/classPicker.svelte";
+    import CharMenu from "#lib/features/creator/charMenu.svelte";
+    import { authClient } from "#lib/auth-client.js";
 
     const session = authClient.useSession();
     let isLoggedIn: boolean = $derived(!!$session.data?.user);

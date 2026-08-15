@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Line from "$lib/components/line.svelte";
-    import Point from "$lib/components/travel/point.svelte";
-    import WaypointController from "$lib/controller/waypoints.svelte";
+    import Line from "#lib/components/line.svelte";
+    import Point from "#lib/components/travel/point.svelte";
+    import WaypointController from "#lib/controller/waypoints.svelte.js";
 
     let {
         editMode,

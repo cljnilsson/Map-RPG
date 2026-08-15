@@ -1,12 +1,12 @@
 <script lang="ts">
-import Window from "$lib/features/window/window.svelte";
-import WindowController from "$lib/controller/window.svelte";
-import { q2c } from "$lib/utils/itemQuality";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import type { InventoryItem } from "$lib/types/item";
-import { PlayerController } from "$lib/controller/character.svelte";
-import ClickableElement from "$lib/components/utils/clickableElement.svelte";
-import ContainerStore from "$lib/stores/container.svelte";
+import Window from "#lib/features/window/window.svelte";
+import WindowController from "#lib/controller/window.svelte.js";
+import { q2c } from "#lib/utils/itemQuality.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import type { InventoryItem } from "#lib/types/item.js";
+import { PlayerController } from "#lib/controller/character.svelte.js";
+import ClickableElement from "#lib/components/utils/clickableElement.svelte";
+import ContainerStore from "#lib/stores/container.svelte.js";
 
 let baseHeight = 100;
 let perItemHeight = 64;

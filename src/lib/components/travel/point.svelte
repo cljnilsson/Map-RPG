@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Draggable from "$lib/utils/Draggable.svelte";
+    import Draggable from "#lib/utils/Draggable.svelte";
     let {
         x = $bindable(),
         y = $bindable(),

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Quest } from "$lib/types/quest";
+	import type { Quest } from "#lib/types/quest.js";
 
 	let { q, active = $bindable() }: { q: Quest; active: Quest | undefined } = $props();
 

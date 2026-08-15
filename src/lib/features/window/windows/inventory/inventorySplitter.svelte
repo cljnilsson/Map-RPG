@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Window from "$lib/features/window/window.svelte";
-	import WindowController from "$lib/controller/window.svelte";
+	import Window from "#lib/features/window/window.svelte";
+	import WindowController from "#lib/controller/window.svelte.js";
 
 	let { min = 1, max }: { min: number; max: number } = $props();
 

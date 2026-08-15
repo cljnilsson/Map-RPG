@@ -1,7 +1,7 @@
-import MapStore from "$lib/stores/map.svelte";
-import type { BuildingMap, CityMap, CustomMap, MapWithClickBox, WorldMap } from "$lib/types/mapTypes";
-import { maps } from "$lib/tempData";
-import { isCityMap } from "$lib/typeguards/map";
+import MapStore from "#lib/stores/map.svelte.js";
+import type { BuildingMap, CityMap, CustomMap, MapWithClickBox, WorldMap } from "#lib/types/mapTypes.js";
+import { maps } from "#lib/tempData.js";
+import { isCityMap } from "#lib/typeguards/map.js";
 
 type NewMapType = "world" | "city" | "building";
 

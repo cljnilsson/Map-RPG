@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import Die from "$lib/features/die/die.svelte";
+	import Die from "#lib/features/die/die.svelte";
 
 	let {
 		num,

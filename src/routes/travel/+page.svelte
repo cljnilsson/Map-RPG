@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { bezier, getControlPoint, type pos } from "$lib/utils/math";
-    import InfoPanel from "$lib/components/travel/infoPanel.svelte";
+    import { bezier, getControlPoint, type pos } from "#lib/utils/math.js";
+    import InfoPanel from "#lib/components/travel/infoPanel.svelte";
     import { onMount } from "svelte";
-    import WaypointController from "$lib/controller/waypoints.svelte";
-    import Travel from "$lib/components/travel/travel.svelte";
+    import WaypointController from "#lib/controller/waypoints.svelte.js";
+    import Travel from "#lib/components/travel/travel.svelte";
 
     let editMode: boolean = $state(false);
     let currentlyDragged: number | null = $state(null);

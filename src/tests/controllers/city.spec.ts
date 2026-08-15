@@ -1,14 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Mock } from "vitest";
-import { world } from "$lib/tempData"; // Should not reuse this in the long run
+import { world } from "#lib/tempData.js"; // Should not reuse this in the long run
 
-vi.mock("$lib/api/quests.remote.ts", () => {
+vi.mock("#lib/api/quests.remote.ts", () => {
 	return {
 		updateOneQuest: vi.fn(() => ({ success: true, failedQuests: [] })),
 	};
 });
 
-vi.mock("$lib/api/windows.remote.ts", () => {
+vi.mock("#lib/api/windows.remote.ts", () => {
 	return {
 		getWindowPositionsByCharacter: vi.fn(() => ({
 			success: true,
@@ -18,7 +18,7 @@ vi.mock("$lib/api/windows.remote.ts", () => {
 	};
 });
 
-vi.mock("$lib/api/character.remote.ts", () => {
+vi.mock("#lib/api/character.remote.ts", () => {
 	return {
 		getAllCharacters: vi.fn(() => []),
 		createCharacter: vi.fn(() => true),
@@ -33,7 +33,7 @@ describe("CityController", () => {
 });
 /*
 // Mock stores and dependencies
-vi.mock("$lib/stores/city.svelte", () => ({
+vi.mock("#lib/stores/city.svelte.js", () => ({
 	default: {
 		population: 0,
 		workers: 0,
@@ -42,31 +42,31 @@ vi.mock("$lib/stores/city.svelte", () => ({
 	}
 }));
 
-vi.mock("$lib/stores/map.svelte", () => ({
+vi.mock("#lib/stores/map.svelte.js", () => ({
 	default: {
 		currentMapState: world // ✅ you can safely reference the imported const here
 	}
 }));
 
-vi.mock("$lib/controller/logs.svelte", () => ({
+vi.mock("#lib/controller/logs.svelte.js", () => ({
 	LogController: {
 		newLog: vi.fn()
 	}
 }));
 
-vi.mock("$lib/typeguards/map", () => ({
+vi.mock("#lib/typeguards/map.js", () => ({
 	isCityMap: vi.fn()
 }));
 
-vi.mock("$lib/utils/cost", () => ({
+vi.mock("#lib/utils/cost.js", () => ({
 	costToNextLevel: vi.fn((amount: number, level: number) => amount * level)
 }));
 
-vi.mock("$lib/api/resources.remote", () => ({
+vi.mock("#lib/api/resources.remote.js", () => ({
 	postResources: vi.fn()
 }));
 
-vi.mock("$lib/utils/remoteAuthHelper", () => ({
+vi.mock("#lib/utils/remoteAuthHelper.js", () => ({
 	getUser: vi.fn(() => ({ id: 1 })),
 	matchingUserId: vi.fn(() => true)
 }));
@@ -75,13 +75,13 @@ const mockedIsCityMap = isCityMap as unknown as Mock<(map: MapType) => map is Ci
 const mockedCostToNextLevel = costToNextLevel as unknown as Mock<typeof costToNextLevel>;
 const mockedNewLog = LogController.newLog as unknown as Mock<typeof LogController.newLog>;
 
-import MapStore from "$lib/stores/map.svelte";
-import LogController from "$lib/controller/logs.svelte";
-import { isCityMap } from "$lib/typeguards/map";
-import { costToNextLevel } from "$lib/utils/cost";
-import { CityController } from "$lib/controller/city.svelte";
-import type { CityResource, Resource } from "$lib/types/resource";
-import type { CityMap, WorldMap, MapType } from "$lib/types/mapTypes";
+import MapStore from "#lib/stores/map.svelte.js";
+import LogController from "#lib/controller/logs.svelte.js";
+import { isCityMap } from "#lib/typeguards/map.js";
+import { costToNextLevel } from "#lib/utils/cost.js";
+import { CityController } from "#lib/controller/city.svelte.js";
+import type { CityResource, Resource } from "#lib/types/resource.js";
+import type { CityMap, WorldMap, MapType } from "#lib/types/mapTypes.js";
 
 describe("CityController", () => {
 	beforeEach(() => {

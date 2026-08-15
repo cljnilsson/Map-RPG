@@ -1,6 +1,6 @@
 import { sqliteTable, text, integer, check, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
-import { characters } from "$lib/server/db/schema/character";
+import { characters } from "#lib/server/db/schema/character.js";
 
 export const quests = sqliteTable(
 	"quests",

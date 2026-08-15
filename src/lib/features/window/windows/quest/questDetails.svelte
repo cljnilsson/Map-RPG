@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Quest } from "$lib/types/quest";
-	import QuestDialogue from "$lib/features/window/windows/quest/questDialogue.svelte";
-	import QuestRewards from "$lib/features/window/windows/quest/questRewards.svelte";
-	import QuestProgress from "$lib/features/window/windows/quest/questProgress.svelte";
+	import type { Quest } from "#lib/types/quest.js";
+	import QuestDialogue from "#lib/features/window/windows/quest/questDialogue.svelte";
+	import QuestRewards from "#lib/features/window/windows/quest/questRewards.svelte";
+	import QuestProgress from "#lib/features/window/windows/quest/questProgress.svelte";
 
 	let { active = $bindable() }: { active: Quest } = $props();
 

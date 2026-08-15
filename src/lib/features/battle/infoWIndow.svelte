@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { BattleUnit } from "$lib/types/battle";
+    import type { BattleUnit } from "#lib/types/battle.js";
 
     let {friendly = true, hovering}: {hovering: BattleUnit | null, friendly?: boolean} = $props();
 

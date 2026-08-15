@@ -1,4 +1,4 @@
-import type { MapType, CityMap, BuildingMap, WorldMap } from "$lib/types/mapTypes";
+import type { MapType, CityMap, BuildingMap, WorldMap } from "#lib/types/mapTypes.js";
 
 function isCityMap(map: MapType): map is CityMap {
 	return "type" in map && map.type === "city";

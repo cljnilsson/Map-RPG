@@ -1,17 +1,17 @@
-import healthPotion from "$lib/data/items/healthPotion";
-import resetPotion from "$lib/data/items/restorePotion";
-import oldBook from "$lib/data/items/oldBook";
-import axeHandle from "$lib/data/items/axeHandle";
-import bow from "$lib/data/items/bow";
-import longbow from "$lib/data/items/longbow";
-import recurvebow from "$lib/data/items/recurveBow";
-import masterworkLongbow from "$lib/data/items/masterworkLongbow";
-import woodenShield from "$lib/data/items/woodenShield";
-import reinforcedShield from "$lib/data/items/reinforcedShield";
-import axeHead from "$lib/data/items/axeHead";
-import ironBar from "$lib/data/items/ironBar";
-import tempItems from "$lib/data/items/testItems";
-import type { Item } from "$lib/types/item";
+import healthPotion from "#lib/data/items/healthPotion.js";
+import resetPotion from "#lib/data/items/restorePotion.js";
+import oldBook from "#lib/data/items/oldBook.js";
+import axeHandle from "#lib/data/items/axeHandle.js";
+import bow from "#lib/data/items/bow.js";
+import longbow from "#lib/data/items/longbow.js";
+import recurvebow from "#lib/data/items/recurveBow.js";
+import masterworkLongbow from "#lib/data/items/masterworkLongbow.js";
+import woodenShield from "#lib/data/items/woodenShield.js";
+import reinforcedShield from "#lib/data/items/reinforcedShield.js";
+import axeHead from "#lib/data/items/axeHead.js";
+import ironBar from "#lib/data/items/ironBar.js";
+import tempItems from "#lib/data/items/testItems.js";
+import type { Item } from "#lib/types/item.js";
 
 // Types are either Item, VendorItem or UsableItem all of which are subtypes of Item if not Item itself
 const itemRegistry = {

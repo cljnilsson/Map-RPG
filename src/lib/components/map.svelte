@@ -1,12 +1,12 @@
 <script lang="ts">
-	import MapClickBoxes from "$lib/partials/mapClickboxes.svelte";
-	import MapController from "$lib/controller/map.svelte";
-	import MiniMenu from "$lib/features/miniMenu/miniMenu.svelte";
-	import WindowMenu from "$lib/features/miniMenu/iconMenu.svelte";
+	import MapClickBoxes from "#lib/partials/mapClickboxes.svelte";
+	import MapController from "#lib/controller/map.svelte.js";
+	import MiniMenu from "#lib/features/miniMenu/miniMenu.svelte";
+	import WindowMenu from "#lib/features/miniMenu/iconMenu.svelte";
 	import { onMount } from "svelte";
-	import { isCityMap, isBuildingMap, isWorldMap } from "$lib/typeguards/map";
-	import NPCS from "$lib/components/npcs.svelte";
-	import GameObjects from "$lib/components/gameobjects.svelte";
+	import { isCityMap, isBuildingMap, isWorldMap } from "#lib/typeguards/map.js";
+	import NPCS from "#lib/components/npcs.svelte";
+	import GameObjects from "#lib/components/gameobjects.svelte";
 
 	let imgRef: HTMLImageElement;
 	// Probably not ideal for future proofing but it works for now

@@ -1,13 +1,13 @@
 <script lang="ts">
-import Window from "$lib/features/window/window.svelte";
-import WindowController from "$lib/controller/window.svelte";
-import NotificationController from "$lib/controller/notification.svelte";
-import type { VendorNPC } from "$lib/types/npc";
-import { q2c } from "$lib/utils/itemQuality";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import type { VendorItem } from "$lib/types/item";
-import { PlayerController } from "$lib/controller/character.svelte";
-import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+import Window from "#lib/features/window/window.svelte";
+import WindowController from "#lib/controller/window.svelte.js";
+import NotificationController from "#lib/controller/notification.svelte.js";
+import type { VendorNPC } from "#lib/types/npc.js";
+import { q2c } from "#lib/utils/itemQuality.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import type { VendorItem } from "#lib/types/item.js";
+import { PlayerController } from "#lib/controller/character.svelte.js";
+import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 let { vendor }: { vendor: VendorNPC | undefined } = $props();
 

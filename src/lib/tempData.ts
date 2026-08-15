@@ -1,6 +1,6 @@
-import type { CustomMap, WorldMap, CityMap, BuildingMap } from "$lib/types/mapTypes";
-import type { VendorNPC } from "$lib/types/npc";
-import { getItem } from "$lib/data/items";
+import type { CustomMap, WorldMap, CityMap, BuildingMap } from "#lib/types/mapTypes.js";
+import type { VendorNPC } from "#lib/types/npc.js";
+import { getItem } from "#lib/data/items.js";
 import { getGameobject } from "./data/gameObjects";
 
 const wo: WorldMap = {
@@ -69,11 +69,27 @@ export const world: CustomMap = {
 	contains: [
 		{
 			map: kingsLandingO,
-			clickBox: { x: 715, y: 2130, originalX: 715, originalY: 2130, width: 100, height: 80, rotation: 0 },
+			clickBox: {
+				x: 715,
+				y: 2130,
+				originalX: 715,
+				originalY: 2130,
+				width: 100,
+				height: 80,
+				rotation: 0,
+			},
 		},
 		{
 			map: winterfellO,
-			clickBox: { x: 500, y: 1000, originalX: 500, originalY: 1000, width: 120, height: 90, rotation: 0 },
+			clickBox: {
+				x: 500,
+				y: 1000,
+				originalX: 500,
+				originalY: 1000,
+				width: 120,
+				height: 90,
+				rotation: 0,
+			},
 		},
 	],
 	objects: [],
@@ -86,7 +102,15 @@ export const winterfell: CustomMap = {
 	contains: [
 		{
 			map: starkKeepO,
-			clickBox: { x: 730, y: 170, originalX: 730, originalY: 170, width: 465, height: 250, rotation: 340 },
+			clickBox: {
+				x: 730,
+				y: 170,
+				originalX: 730,
+				originalY: 170,
+				width: 465,
+				height: 250,
+				rotation: 340,
+			},
 		},
 	],
 	objects: [],

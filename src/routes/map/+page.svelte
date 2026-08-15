@@ -1,21 +1,21 @@
 <script lang="ts">
-  import GameMap from "$lib/components/map.svelte";
-  import MapHeader from "$lib/partials/mapHeader.svelte";
-  import { world, winterfell, kingsLanding } from "$lib/tempData";
-  import MapStore from "$lib/stores/map.svelte";
-  import PlayerWindows from "$lib/partials/playerwindows.svelte";
-  import GameWindows from "$lib/partials/gamewindows.svelte";
-  import WindowController from "$lib/controller/window.svelte";
+  import GameMap from "#lib/components/map.svelte";
+  import MapHeader from "#lib/partials/mapHeader.svelte";
+  import { world, winterfell, kingsLanding } from "#lib/tempData.js";
+  import MapStore from "#lib/stores/map.svelte.js";
+  import PlayerWindows from "#lib/partials/playerwindows.svelte";
+  import GameWindows from "#lib/partials/gamewindows.svelte";
+  import WindowController from "#lib/controller/window.svelte.js";
   import { onMount } from "svelte";
-  import { getWindowPositionsByCharacter } from "$lib/api/windows.remote";
-  import MapController from "$lib/controller/map.svelte";
-  import { PlayerController } from "$lib/controller/character.svelte";
-  import { isCityMap } from "$lib/typeguards/map";
-  import type { CityResource } from "$lib/types/resource";
-  import CityController from "$lib/controller/city.svelte";
-  import { getUnit, safeGetUnit } from "$lib/data/units";
-  import type { Unit } from "$lib/types/unit";
-  import {getCities} from "$lib/api/cities.remote";
+  import { getWindowPositionsByCharacter } from "#lib/api/windows.remote.js";
+  import MapController from "#lib/controller/map.svelte.js";
+  import { PlayerController } from "#lib/controller/character.svelte.js";
+  import { isCityMap } from "#lib/typeguards/map.js";
+  import type { CityResource } from "#lib/types/resource.js";
+  import CityController from "#lib/controller/city.svelte.js";
+  import { getUnit, safeGetUnit } from "#lib/data/units.js";
+  import type { Unit } from "#lib/types/unit.js";
+  import {getCities} from "#lib/api/cities.remote.js";
 
   type WindowPosition = {
     id: number;

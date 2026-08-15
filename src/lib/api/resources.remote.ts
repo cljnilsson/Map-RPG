@@ -1,9 +1,9 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { query, command } from "$app/server";
-import { resources } from "$lib/server/db/schema";
+import { resources } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { getUser } from "$lib/utils/remoteAuthHelper";
+import { getUser } from "#lib/utils/remoteAuthHelper.js";
 
 // For more full validation: https://valibot.dev/guides/introduction/
 

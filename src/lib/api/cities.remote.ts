@@ -1,10 +1,10 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { query, command } from "$app/server";
-import { cityData } from "$lib/server/db/schema";
+import { cityData } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { getUser } from "$lib/utils/remoteAuthHelper";
-import type { CityResource } from "$lib/types/resource";
+import { getUser } from "#lib/utils/remoteAuthHelper.js";
+import type { CityResource } from "#lib/types/resource.js";
 
 async function getAllCities() {
 	return await db.query.cityData.findMany({

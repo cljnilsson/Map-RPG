@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Message, TextMessage, CharSprite, ChoiceMessage, ChoiceOption } from "$lib/types/message";
+	import type { Message, TextMessage, CharSprite, ChoiceMessage, ChoiceOption } from "#lib/types/message.js";
 
 	let {
 		msgs = $bindable(),

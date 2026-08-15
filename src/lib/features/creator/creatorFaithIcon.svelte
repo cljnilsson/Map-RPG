@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Faith } from "$lib/types/faith";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+	import type { Faith } from "#lib/types/faith.js";
+	import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 	let { faith, selectedFaith = $bindable() }: { faith: Faith; selectedFaith: Faith | undefined } = $props();
 

@@ -1,5 +1,5 @@
-import type { UsableItem } from "$lib/types/item";
-import { createBookItem } from "$lib/controller/factories/usableItem";
+import type { UsableItem } from "#lib/types/item.js";
+import { createBookItem } from "#lib/controller/factories/usableItem.js";
 
 const oldBook = createBookItem(
 	{

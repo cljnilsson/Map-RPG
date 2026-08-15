@@ -1,7 +1,7 @@
 <script lang="ts">
     import { resolve } from "$app/paths";
-    import { authClient } from "$lib/auth-client";
-    import { PlayerController } from "$lib/controller/character.svelte";
+    import { authClient } from "#lib/auth-client.js";
+    import { PlayerController } from "#lib/controller/character.svelte.js";
 
     const session = authClient.useSession();
     let isLoggedIn: boolean = $derived(!!$session.data?.user);
@@ -51,16 +51,16 @@
 
     <h3>Game Info</h3>
     <p>
-        A simple first-party wiki exists at <a href={resolve("/wiki")}>link</a> but
-        for the most part the tutorial once implemented should tell you what you need
-        to know.
+        A simple first-party wiki exists at 
+        <a href={resolve('wiki')}>link</a>
+        but for the most part the tutorial once implemented should tell you what you need to know.
     </p>
 
     <h5>Sanity Check</h5>
     <p class="mb-0">Logged in: {isLoggedIn}</p>
     <p>Has character: {PlayerController.exists}</p>
     <div class="text-center">
-        <a href={resolve("/map")}>
+        <a href={resolve('map')}>
             <button
                 type="button"
                 class="btn btn-lg btn-primary"
@@ -69,7 +69,7 @@
                 Play!
             </button>
         </a>
-        <a href={resolve("/creator")}>
+        <a href={resolve('creator')}>
             <button
                 type="button"
                 class="btn btn-lg btn-primary"

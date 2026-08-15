@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Strategy } from "$lib/features/battle/combat";
+    import type { Strategy } from "#lib/features/battle/combat.js";
 
     let {strategyOptions, strat = $bindable()}: {strategyOptions: Strategy[], strat: Strategy | undefined} = $props();
 </script>

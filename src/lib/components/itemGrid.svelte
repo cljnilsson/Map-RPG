@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
 	import type { Snippet } from "svelte";
-	import type { InventoryItem } from "$lib/types/item";
-	import { q2c } from "$lib/utils/itemQuality";
+	import type { InventoryItem } from "#lib/types/item.js";
+	import { q2c } from "#lib/utils/itemQuality.js";
 
 	interface Props {
 		item: Snippet<[T]>;

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import MapController from "$lib/controller/map.svelte";
-	import Window from "$lib/features/window/window.svelte";
-	import type { MapWithClickBox } from "$lib/types/mapTypes";
-	import WindowController from "$lib/controller/window.svelte";
+	import MapController from "#lib/controller/map.svelte.js";
+	import Window from "#lib/features/window/window.svelte";
+	import type { MapWithClickBox } from "#lib/types/mapTypes.js";
+	import WindowController from "#lib/controller/window.svelte.js";
 
 	function handleHover(map: MapWithClickBox) {
 		console.log("Hovered over:", map.map.name);

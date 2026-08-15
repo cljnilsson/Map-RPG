@@ -1,9 +1,18 @@
 import { defineConfig } from "vitest/config";
-import { sveltekit } from "@sveltejs/kit/vite";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { svelteTesting } from "@testing-library/svelte/vite";
 
 export default defineConfig({
-  plugins: [sveltekit(), svelteTesting()],
+  plugins: [svelte({ preprocess: vitePreprocess() }), svelteTesting()],
+  resolve: {
+    alias: {
+      $routes: new URL("./src/routes", import.meta.url).pathname,
+      "$app/env": new URL("./src/tests/mocks/sveltekit-env.ts", import.meta.url).pathname,
+      "$app/environment": new URL("./src/tests/mocks/sveltekit-env.ts", import.meta.url).pathname,
+      "$app/paths": new URL("./src/tests/mocks/sveltekit-paths.ts", import.meta.url).pathname,
+    },
+  },
   test: {
     environment: "happy-dom",
     include: ["src/**/*.{test,spec}.{js,ts}"],

@@ -1,12 +1,12 @@
-import CityStore from "$lib/stores/city.svelte";
-import MapController from "$lib/controller/map.svelte";
-import type { Plot } from "$lib/types/city";
-import type { Unit } from "$lib/types/unit";
-import type { CityResource, Resource } from "$lib/types/resource";
-import LogController from "$lib/controller/logs.svelte";
-import { isCityMap } from "$lib/typeguards/map";
-import { costToNextLevel } from "$lib/utils/cost";
-import { postResources } from "$lib/api/resources.remote";
+import CityStore from "#lib/stores/city.svelte.js";
+import MapController from "#lib/controller/map.svelte.js";
+import type { Plot } from "#lib/types/city.js";
+import type { Unit } from "#lib/types/unit.js";
+import type { CityResource, Resource } from "#lib/types/resource.js";
+import LogController from "#lib/controller/logs.svelte.js";
+import { isCityMap } from "#lib/typeguards/map.js";
+import { costToNextLevel } from "#lib/utils/cost.js";
+import { postResources } from "#lib/api/resources.remote.js";
 
 class CityController {
 	// ---------------
@@ -107,7 +107,11 @@ class CityController {
 
 	private slimResources() {
 		return this.resources.map((r) => {
-			return { resourceId: r.resourceId, cityDataId: r.cityId, value: r.amount };
+			return {
+				resourceId: r.resourceId,
+				cityDataId: r.cityId,
+				value: r.amount,
+			};
 		});
 	}
 

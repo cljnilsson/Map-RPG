@@ -1,8 +1,8 @@
-import { PlayerController } from "$lib/controller/character.svelte";
+import { PlayerController } from "#lib/controller/character.svelte.js";
 import QuestController from "./quest.svelte";
-import { updateWindowPositionsByCharacter } from "$lib/api/windows.remote";
-import { updateOneQuest } from "$lib/api/quests.remote";
-import { saveCharacter } from "$lib/api/character.remote";
+import { updateWindowPositionsByCharacter } from "#lib/api/windows.remote.js";
+import { updateOneQuest } from "#lib/api/quests.remote.js";
+import { saveCharacter } from "#lib/api/character.remote.js";
 
 class SaveController {
 	// might rework it in the future so oldname and name are not needed but for now it is needed to have the name currently used in the database

@@ -1,6 +1,6 @@
-import type { NPC } from "$lib/types/npc";
-import type { GameObject } from "$lib/types/gameObject";
-import type { City } from "$lib/types/city";
+import type { NPC } from "#lib/types/npc.js";
+import type { GameObject } from "#lib/types/gameObject.js";
+import type { City } from "#lib/types/city.js";
 
 type MapType = {
 	name: string;

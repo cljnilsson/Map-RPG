@@ -11,7 +11,7 @@ describe("server resource clock", () => {
 		vi.useFakeTimers();
 		vi.setSystemTime(new Date("2026-01-01T00:00:00.000Z"));
 
-		const { createLiveClock } = await import("$lib/server/liveClock");
+		const { createLiveClock } = await import("#lib/server/liveClock.js");
 		const clock = createLiveClock();
 		const updates = clock.updates();
 

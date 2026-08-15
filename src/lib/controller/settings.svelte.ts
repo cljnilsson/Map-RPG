@@ -1,5 +1,5 @@
-import LogController from "$lib/controller/logs.svelte";
-import { getSettingForUser } from "$lib/api/settings.remote";
+import LogController from "#lib/controller/logs.svelte.js";
+import { getSettingForUser } from "#lib/api/settings.remote.js";
 
 class SettingsController {
 	private _keybindTooltips: boolean = $state(true);

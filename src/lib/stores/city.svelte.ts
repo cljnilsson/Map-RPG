@@ -1,5 +1,5 @@
-import type { CityResource } from "$lib/types/resource";
-import type { Unit } from "$lib/types/unit";
+import type { CityResource } from "#lib/types/resource.js";
+import type { Unit } from "#lib/types/unit.js";
 
 const Store = $state<{
 	population: number;

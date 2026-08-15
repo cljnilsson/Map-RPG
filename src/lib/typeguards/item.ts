@@ -1,4 +1,4 @@
-import type { Item, VendorItem, InventoryItem, UsableItem } from "$lib/types/item";
+import type { Item, VendorItem, InventoryItem, UsableItem } from "#lib/types/item.js";
 
 function isVendorItem(item: Item): item is VendorItem {
 	return (

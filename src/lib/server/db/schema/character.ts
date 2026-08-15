@@ -1,8 +1,8 @@
 import { sqliteTable, text, integer, index, check, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
-import { classValues } from "$lib/types/class";
-import { user, session, account } from "$lib/server/db/schema/auth";
-import { stat } from "$lib/server/db/schema/stat";
+import { classValues } from "#lib/types/class.js";
+import { user, session, account } from "#lib/server/db/schema/auth.js";
+import { stat } from "#lib/server/db/schema/stat.js";
 
 const genderValues = ["Male", "Female", "Unknown"] as const;
 

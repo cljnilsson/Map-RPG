@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { Snippet } from "svelte";
-import { portal } from "$lib/features/portal/portal.svelte";
+import { portal } from "#lib/features/portal/portal.svelte";
 
 let {
 	children,

@@ -1,17 +1,11 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json",
-	"compilerOptions": {
-		"allowJs": true,
-		"checkJs": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"sourceMap": true,
-		"strict": true,
-		"moduleResolution": "bundler",
-		"allowUmdGlobalAccess": true,
-		"types": ["@testing-library/jest-dom"]
-	},
-	"exclude": ["node_modules"]
+  "extends": "$app/tsconfig",
+  "compilerOptions": {
+    "sourceMap": true,
+    "strict": true,
+    "allowUmdGlobalAccess": true,
+    "types": ["@testing-library/jest-dom", "$app/types"]
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
 }

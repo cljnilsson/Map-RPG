@@ -2,13 +2,13 @@
   import { enhance } from "$app/forms";
   import { onMount } from "svelte";
   //import type { PageServerData } from "./$types";
-  import type { Character } from "$lib/server/db/schema";
-  import { getRequest } from "$lib/utils/request";
-  import SaveController from "$lib/controller/save.svelte";
-  import { getFlags } from "$lib/test.remote";
-  import CharacterStore from "$lib/stores/character.svelte";
-  import { authClient } from "$lib/auth-client";
-  import { updateOneFlag } from "$lib/api/flags.remote";
+  import type { Character } from "#lib/server/db/schema/index.js";
+  import { getRequest } from "#lib/utils/request.js";
+  import SaveController from "#lib/controller/save.svelte.js";
+  import { getFlags } from "#lib/test.remote.js";
+  import CharacterStore from "#lib/stores/character.svelte.js";
+  import { authClient } from "#lib/auth-client.js";
+  import { updateOneFlag } from "#lib/api/flags.remote.js";
 
   const { data: session, error } = await authClient.getSession();
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-import ClickableElement from "$lib/components/utils/clickableElement.svelte";
-import type { CraftItem } from "$lib/types/item";
+import ClickableElement from "#lib/components/utils/clickableElement.svelte";
+import type { CraftItem } from "#lib/types/item.js";
 
 let {
 	inspectItem = $bindable(),

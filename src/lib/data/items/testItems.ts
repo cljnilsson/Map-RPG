@@ -1,4 +1,4 @@
-import type { Item, VendorItem } from "$lib/types/item";
+import type { Item, VendorItem } from "#lib/types/item.js";
 
 const items = [
 	{

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { BattleArmy, BattleUnit, UnitLoss } from "$lib/types/battle";
+    import type { BattleArmy, BattleUnit, UnitLoss } from "#lib/types/battle.js";
 
     let {army, side, onUnitHover, losses = [], postBattle = false}: {
         side: "left" | "right";

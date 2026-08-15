@@ -1,14 +1,14 @@
-import { getResource } from "$lib/data/resources";
-import AdventureGuild from "$lib/features/buildings/adventure-guild/adventure-guild.svelte";
-import Bank from "$lib/features/buildings/bank/bank.svelte";
-import BeastPen from "$lib/features/buildings/beast-pen/beast-pen.svelte";
-import BlackMarket from "$lib/features/buildings/black-market/black-market.svelte";
-import Inn from "$lib/features/buildings/inn/inn.svelte";
-import Market from "$lib/features/buildings/market/market.svelte";
-import Shipyard from "$lib/features/buildings/shipyard/shipyard.svelte";
-import Storage from "$lib/features/buildings/storage/storage.svelte";
-import Woodwork from "$lib/features/buildings/woodwork/woodwork.svelte";
-import type { Building } from "$lib/types/building";
+import { getResource } from "#lib/data/resources.js";
+import AdventureGuild from "#lib/features/buildings/adventure-guild/adventure-guild.svelte";
+import Bank from "#lib/features/buildings/bank/bank.svelte";
+import BeastPen from "#lib/features/buildings/beast-pen/beast-pen.svelte";
+import BlackMarket from "#lib/features/buildings/black-market/black-market.svelte";
+import Inn from "#lib/features/buildings/inn/inn.svelte";
+import Market from "#lib/features/buildings/market/market.svelte";
+import Shipyard from "#lib/features/buildings/shipyard/shipyard.svelte";
+import Storage from "#lib/features/buildings/storage/storage.svelte";
+import Woodwork from "#lib/features/buildings/woodwork/woodwork.svelte";
+import type { Building } from "#lib/types/building.js";
 
 const buildingRegistry = {
 	"black-market": (): Building => ({

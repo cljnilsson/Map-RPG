@@ -1,9 +1,9 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
-import Dialogue from "$lib/features/dialogue/dialogue.svelte";
-import DialogueController from "$lib/controller/dialogue.svelte";
-import type { CharSprite, Message } from "$lib/types/message";
+import Dialogue from "#lib/features/dialogue/dialogue.svelte";
+import DialogueController from "#lib/controller/dialogue.svelte.js";
+import type { CharSprite, Message } from "#lib/types/message.js";
 
 const alice: CharSprite = { name: "Alice", image: "alice.png" };
 const bob: CharSprite = { name: "Bob", image: "bob.png" };
@@ -11,12 +11,22 @@ const you: CharSprite = { name: "You", image: "char.jpg" };
 
 const aliceMessages: Message[] = [
 	{ type: "text", text: "Bob just got here.", from: alice, next: 1 },
-	{ type: "text", text: "Looks like he is coming over.", from: alice, next: -1 },
+	{
+		type: "text",
+		text: "Looks like he is coming over.",
+		from: alice,
+		next: -1,
+	},
 ];
 
 const conversationMessages: Message[] = [
 	{ type: "text", text: "Hello, how are you?", from: alice, next: 1 },
-	{ type: "text", text: "I'm good, thanks! How about you?", from: bob, next: 2 },
+	{
+		type: "text",
+		text: "I'm good, thanks! How about you?",
+		from: bob,
+		next: 2,
+	},
 	{
 		type: "choice",
 		from: you,
@@ -28,7 +38,12 @@ const conversationMessages: Message[] = [
 		],
 	},
 	{ type: "text", text: "Good to hear", from: bob, next: -1 },
-	{ type: "text", text: "I hope things ease up for you soon.", from: bob, next: -1 },
+	{
+		type: "text",
+		text: "I hope things ease up for you soon.",
+		from: bob,
+		next: -1,
+	},
 ];
 
 function startDialogue(msgs: Message[]) {
@@ -84,8 +99,14 @@ describe("talking test dialogue", () => {
 
 		const responses = [
 			{ text: "I'm doing well!", reply: "Good to hear" },
-			{ text: "Pretty busy lately.", reply: "I hope things ease up for you soon." },
-			{ text: "Could be better.", reply: "I hope things ease up for you soon." },
+			{
+				text: "Pretty busy lately.",
+				reply: "I hope things ease up for you soon.",
+			},
+			{
+				text: "Could be better.",
+				reply: "I hope things ease up for you soon.",
+			},
 			{ text: "All good here.", reply: "I hope things ease up for you soon." },
 		];
 

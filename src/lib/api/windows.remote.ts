@@ -1,9 +1,9 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { command } from "$app/server";
-import { windowPositions } from "$lib/server/db/schema";
+import { windowPositions } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { getUser } from "$lib/utils/remoteAuthHelper";
+import { getUser } from "#lib/utils/remoteAuthHelper.js";
 
 async function getAllWindowPositions(characterId: number) {
 	const exists = await db.select().from(windowPositions).where(eq(windowPositions.characterId, characterId));

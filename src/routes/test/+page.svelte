@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-    import InventorySplitter from "$lib/features/window/windows/inventory/inventorySplitter.svelte";
-    import WindowController from "$lib/controller/window.svelte";
-    import Tick from "$lib/features/tick/tick.svelte";
+    import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+    import InventorySplitter from "#lib/features/window/windows/inventory/inventorySplitter.svelte";
+    import WindowController from "#lib/controller/window.svelte.js";
+    import Tick from "#lib/features/tick/tick.svelte";
 
     let inventoryWindow = WindowController.getByName("InventorySplitter");
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Message } from "$lib/types/message";
+	import type { Message } from "#lib/types/message.js";
 
 	let {
 		current = $bindable(),

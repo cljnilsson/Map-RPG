@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getControlPoint, type pos } from "$lib/utils/math";
+    import { getControlPoint, type pos } from "#lib/utils/math.js";
 
     let { angle, from, to }: { angle: number; from: pos; to: pos } = $props();
 </script>

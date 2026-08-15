@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { MapWithClickBox } from "$lib/types/mapTypes";
-    import MapController from "$lib/controller/map.svelte";
-    import { dev } from "$app/environment";
-    import Popup from "$lib/components/popup/popup.svelte";
+    import type { MapWithClickBox } from "#lib/types/mapTypes.js";
+    import MapController from "#lib/controller/map.svelte.js";
+    import { dev } from '$app/env';
+    import Popup from "#lib/components/popup/popup.svelte";
 
     let activePopup = $state<"box" | "map" | null>(null);
     let newMapName = $state("");
@@ -133,18 +133,24 @@
                 type="button"
                 class="btn btn-primary"
                 onclick={toggleEditMode}
-                >Edit Mode [<b>{MapController.editMode ? "on" : "off"}</b
-                >]</button
             >
+                Edit Mode [
+                <b>{MapController.editMode ? "on" : "off"}</b>
+                ]
+            </button>
+
             {#if MapController.editMode}
-                <button type="button" class="btn btn-primary" onclick={newZone}
-                    >New location</button
-                >
                 <button
                     type="button"
                     class="btn btn-primary"
-                    onclick={openNewMapForm}>New map</button
-                >
+                    onclick={newZone}
+                >New location</button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick={openNewMapForm}
+                >New map</button>
             {/if}
             {#if activePopup === "box" || activePopup === "map"}
                 <span>{activePopup}</span>
@@ -258,7 +264,7 @@
             {:else if MapController.editMode && activePopup === "map"}
                 <Popup
                     bind:activePopup
-                    {createNewMap}
+                    createNewMap={createNewMap}
                     title="Edit Map"
                     key="map"
                 >

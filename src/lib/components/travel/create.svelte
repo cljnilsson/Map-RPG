@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { pos } from "$lib/utils/math";
-    import WaypointController from "$lib/controller/waypoints.svelte";
+    import type { pos } from "#lib/utils/math.js";
+    import WaypointController from "#lib/controller/waypoints.svelte.js";
 
     let { newNode = $bindable() }: { newNode: pos } = $props();
 

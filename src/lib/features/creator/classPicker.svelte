@@ -1,7 +1,7 @@
 <script lang="ts">
- 	import type { Class } from "$lib/types/class";
-   	import CreatorClass from "$lib/features/creator/creatorClassIcon.svelte";
-    import ClassStore from "$lib/stores/classes.svelte";
+ 	import type { Class } from "#lib/types/class.js";
+   	import CreatorClass from "#lib/features/creator/creatorClassIcon.svelte";
+    import ClassStore from "#lib/stores/classes.svelte.js";
 
     let {selectedClass = $bindable()}: {selectedClass: Class | undefined} = $props();
 </script>

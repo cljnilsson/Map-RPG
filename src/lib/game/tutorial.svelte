@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Dialogue from "$lib/features/dialogue/dialogue.svelte";
-	import type { Message, CharSprite } from "$lib/types/message";
-	import Creator from "$lib/features/creator/creator.svelte";
-	import Highlight from "$lib/utils/Highlight.svelte";
+	import Dialogue from "#lib/features/dialogue/dialogue.svelte";
+	import type { Message, CharSprite } from "#lib/types/message.js";
+	import Creator from "#lib/features/creator/creator.svelte";
+	import Highlight from "#lib/utils/Highlight.svelte";
 	import { onMount } from "svelte";
-	import DialogueController from "$lib/controller/dialogue.svelte";
-    import { updateOneFlag } from "$lib/api/flags.remote";
+	import DialogueController from "#lib/controller/dialogue.svelte.js";
+    import { updateOneFlag } from "#lib/api/flags.remote.js";
 
 	let alice: CharSprite = { name: "Vik", image: "vik.png" };
 	let you: CharSprite = { name: "You", image: "char.jpg" };

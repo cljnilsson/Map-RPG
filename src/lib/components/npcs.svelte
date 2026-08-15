@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import MapStore from "$lib/stores/map.svelte";
-	import type { NPC } from "$lib/types/npc";
-	import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
-	import { isNPCQuestGiver, isNPCVendor } from "$lib/typeguards/npc";
-	import WindowController from "$lib/controller/window.svelte";
-	import VendorStore from "$lib/stores/vendor.svelte";
-	import QuestController from "$lib/controller/quest.svelte";
+	import MapStore from "#lib/stores/map.svelte.js";
+	import type { NPC } from "#lib/types/npc.js";
+	import HoverOutlineImage from "#lib/utils/outline/hoverOutline.svelte";
+	import { isNPCQuestGiver, isNPCVendor } from "#lib/typeguards/npc.js";
+	import WindowController from "#lib/controller/window.svelte.js";
+	import VendorStore from "#lib/stores/vendor.svelte.js";
+	import QuestController from "#lib/controller/quest.svelte.js";
 
 	const MAP_WIDTH = 2560;
 	const MAP_HEIGHT = 1440;

@@ -1,26 +1,26 @@
 <script lang="ts">
-	import { dev } from "$app/environment";
-	import { isCityMap } from "$lib/typeguards/map";
+	import { dev } from '$app/env';
+	import { isCityMap } from "#lib/typeguards/map.js";
 
-	import type { Resource } from "$lib/types/resource";
-	import type { MapType } from "$lib/types/mapTypes";
-	import type { Plot } from "$lib/types/city";
+	import type { Resource } from "#lib/types/resource.js";
+	import type { MapType } from "#lib/types/mapTypes.js";
+	import type { Plot } from "#lib/types/city.js";
 
-	import ResourceCost from "$lib/components/resourceCost.svelte";
-	import CityController from "$lib/controller/city.svelte.js";
-	import { safeGetBuilding } from "$lib/data/buildings";
+	import ResourceCost from "#lib/components/resourceCost.svelte";
+	import CityController from "#lib/controller/city.svelte.js";
+	import { safeGetBuilding } from "#lib/data/buildings.js";
 
-	import type { Building } from "$lib/types/building";
+	import type { Building } from "#lib/types/building.js";
 
 	import { onMount, tick } from "svelte";
 	import { resolve } from "$app/paths";
-	import MapController from "$lib/controller/map.svelte";
-	import { maps } from "$lib/tempData";
-	import {getCities} from "$lib/api/cities.remote";
+	import MapController from "#lib/controller/map.svelte.js";
+	import { maps } from "#lib/tempData.js";
+	import {getCities} from "#lib/api/cities.remote.js";
 
-	import { getUnit, safeGetUnit } from "$lib/data/units";
+	import { getUnit, safeGetUnit } from "#lib/data/units.js";
 
-	import type { Unit } from "$lib/types/unit";
+	import type { Unit } from "#lib/types/unit.js";
 
 	// Props
 	const { data } = $props();
@@ -34,8 +34,8 @@
 
 	let cityData: {
 		id: number | undefined;
-		// Can add other of the props later if needed but for now I only need the ID but I am future proofing it a bit with the approach
-	} = $state({ id: undefined });
+	// Can add other of the props later if needed but for now I only need the ID but I am future proofing it a bit with the approach
+	 } = $state({ id: undefined });
 
 	// ---- Actions ----
 	function upgrade(price: Resource[]) {
@@ -122,7 +122,7 @@
 </script>
 
 <div class="container page-surface mt-3 px-5">
-	<a href={resolve("/map")}><button type="button" class="back btn btn-primary">Back</button></a>
+	<a href={resolve('map')}><button type="button" class="back btn btn-primary">Back</button></a>
 
 	{#if dev}
 		<p>{currentMap?.name} (cityDataId: {cityData?.id}) slot: {data.plot}</p>

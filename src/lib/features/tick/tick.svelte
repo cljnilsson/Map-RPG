@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { now } from "$lib/api/server.remote";
+    import { now } from "#lib/api/live-clock.remote.js";
     import dayjs from "dayjs";
     import { Tween } from "svelte/motion";
 

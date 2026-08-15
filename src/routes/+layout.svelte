@@ -1,20 +1,20 @@
 <script lang="ts">
-    import CharacterStore from "$lib/stores/character.svelte";
+    import CharacterStore from "#lib/stores/character.svelte.js";
 
     import "./styles.scss";
-    import Nav from "$lib/partials/nav.svelte";
+    import Nav from "#lib/partials/nav.svelte";
     import { onMount, type Snippet } from "svelte";
-    import type { LayoutData } from "$lib/types/layoutData";
-    import Tutorial from "$lib/game/tutorial.svelte";
-    import Notification from "$lib/features/notification/notification.svelte";
-    import { getItem } from "$lib/data/items";
-    import { getAllCharacters } from "$lib/api/character.remote";
-    import { getCityResources } from "$lib/utils/resources";
-    import type { Character } from "$lib/server/db/schema";
+    import type { LayoutData } from "#lib/types/layoutData.js";
+    import Tutorial from "#lib/game/tutorial.svelte";
+    import Notification from "#lib/features/notification/notification.svelte";
+    import { getItem } from "#lib/data/items.js";
+    import { getAllCharacters } from "#lib/api/character.remote.js";
+    import { getCityResources } from "#lib/utils/resources.js";
+    import type { Character } from "#lib/server/db/schema/index.js";
     //import { source } from "sveltekit-sse";
-    import SettingsController from "$lib/controller/settings.svelte";
-    import { authClient } from "$lib/auth-client";
-    import { now } from "$lib/api/server.remote";
+    import SettingsController from "#lib/controller/settings.svelte.js";
+    import { authClient } from "#lib/auth-client.js";
+    import { now } from "#lib/api/live-clock.remote.js";
 
     let { children, data }: { children: Snippet<[]>; data: LayoutData } =
         $props();

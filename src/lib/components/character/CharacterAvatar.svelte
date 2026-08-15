@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {PlayerController} from "$lib/controller/character.svelte";
-	import { xpToNextLevel } from "$lib/utils/xp";
-	import ProgressBar from "$lib/components/progressBar.svelte";
+	import {PlayerController} from "#lib/controller/character.svelte.js";
+	import { xpToNextLevel } from "#lib/utils/xp.js";
+	import ProgressBar from "#lib/components/progressBar.svelte";
 
 	const {
 		height = 200,

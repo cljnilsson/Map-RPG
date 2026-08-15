@@ -1,9 +1,9 @@
 <script lang="ts">
-import type { VendorItem } from "$lib/types/item";
-import { getItem } from "$lib/data/items";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import { q2c } from "$lib/utils/itemQuality";
-import type { Building } from "$lib/types/building";
+import type { VendorItem } from "#lib/types/item.js";
+import { getItem } from "#lib/data/items.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import { q2c } from "#lib/utils/itemQuality.js";
+import type { Building } from "#lib/types/building.js";
 
 const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Window from "$lib/features/window/window.svelte";
-	import WindowController from "$lib/controller/window.svelte";
-    import Inventory from "$lib/features/inventory/inventory.svelte";
+	import Window from "#lib/features/window/window.svelte";
+	import WindowController from "#lib/controller/window.svelte.js";
+    import Inventory from "#lib/features/inventory/inventory.svelte";
 
 	let inventoryWindow = WindowController.getByName("Inventory");
 </script>

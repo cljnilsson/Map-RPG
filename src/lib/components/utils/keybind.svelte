@@ -1,8 +1,8 @@
 <script lang="ts">
-	import SettingsController from "$lib/controller/settings.svelte";
+	import SettingsController from "#lib/controller/settings.svelte.js";
 	import { onDestroy } from "svelte";
 	import { SvelteSet } from "svelte/reactivity";
-	import { browser } from "$app/environment";
+	import { browser } from '$app/env';
 
 	let {
 		keybind = $bindable(),
@@ -129,9 +129,7 @@
 
 <style>
 	.keybind-btn.listening {
-		/*border-color: #0d6efd;*/
 		box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-		/*color: #0d6efd;*/
 		font-weight: bold;
 	}
 </style>

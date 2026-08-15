@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { getItem } from "$lib/data/items";
-import { PlayerController } from "$lib/controller/character.svelte";
+import { getItem } from "#lib/data/items.js";
+import { PlayerController } from "#lib/controller/character.svelte.js";
 
-vi.mock("$lib/api/quests.remote.ts", () => {
+vi.mock("#lib/api/quests.remote.ts", () => {
 	return {
 		updateOneQuest: vi.fn(() => ({ success: true, failedQuests: [] })),
 	};
 });
 
-vi.mock("$lib/api/windows.remote.ts", () => {
+vi.mock("#lib/api/windows.remote.ts", () => {
 	return {
 		getWindowPositionsByCharacter: vi.fn(() => ({
 			success: true,
@@ -18,7 +18,7 @@ vi.mock("$lib/api/windows.remote.ts", () => {
 	};
 });
 
-vi.mock("$lib/api/character.remote.ts", () => {
+vi.mock("#lib/api/character.remote.ts", () => {
 	return {
 		getAllCharacters: vi.fn(() => []),
 		createCharacter: vi.fn(() => true),

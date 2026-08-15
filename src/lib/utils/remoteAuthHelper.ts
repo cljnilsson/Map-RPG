@@ -1,6 +1,6 @@
 import { getRequestEvent } from "$app/server";
 import { redirect } from "@sveltejs/kit";
-import { auth } from "$lib/auth";
+import { auth } from "#lib/auth.js";
 
 export async function matchingUserId(userId: string, caller: string = "") {
 	const { request } = getRequestEvent();

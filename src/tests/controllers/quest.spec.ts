@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import QuestController from "$lib/controller/quest.svelte";
-import type { Quest } from "$lib/types/quest";
+import QuestController from "#lib/controller/quest.svelte.js";
+import type { Quest } from "#lib/types/quest.js";
 
 // Mock QuestStore
-vi.mock("$lib/stores/quest.svelte", () => {
+vi.mock("#lib/stores/quest.svelte.js", () => {
 	return {
 		default: {
 			quests: [] as Quest[],
@@ -12,7 +12,7 @@ vi.mock("$lib/stores/quest.svelte", () => {
 });
 
 // Mock LogController
-vi.mock("$lib/controller/logs.svelte", () => {
+vi.mock("#lib/controller/logs.svelte.js", () => {
 	return {
 		default: {
 			newLogSimple: vi.fn(),
@@ -21,7 +21,7 @@ vi.mock("$lib/controller/logs.svelte", () => {
 });
 
 // Mock SaveController
-vi.mock("$lib/controller/save.svelte", () => {
+vi.mock("#lib/controller/save.svelte.js", () => {
 	return {
 		default: {
 			saveQuests: vi.fn(),
@@ -29,9 +29,9 @@ vi.mock("$lib/controller/save.svelte", () => {
 	};
 });
 
-import QuestStore from "$lib/stores/quest.svelte";
-import LogController from "$lib/controller/logs.svelte";
-import SaveController from "$lib/controller/save.svelte";
+import QuestStore from "#lib/stores/quest.svelte.js";
+import LogController from "#lib/controller/logs.svelte.js";
+import SaveController from "#lib/controller/save.svelte.js";
 
 describe("QuestController", () => {
 	const sampleQuest: Quest = {

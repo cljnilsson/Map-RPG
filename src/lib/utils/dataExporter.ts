@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
 import fs from "fs";
-import * as schema from "$lib/server/db/schema";
+import * as schema from "#lib/server/db/schema/index.js";
 import { SQLiteTable } from "drizzle-orm/sqlite-core";
 
 export default async function dumpDatabaseToJSON(dbPath: string, outputPath: string) {

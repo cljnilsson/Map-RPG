@@ -1,4 +1,4 @@
-import type { pos } from "$lib/utils/math";
+import type { pos } from "#lib/utils/math.js";
 
 export type Path = {
 	from: pos;

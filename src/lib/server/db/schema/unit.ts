@@ -1,5 +1,5 @@
 import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
-import { stat } from "$lib/server/db/schema/stat";
+import { stat } from "#lib/server/db/schema/stat.js";
 
 export const unit = sqliteTable("unit", {
 	id: integer("id").primaryKey({ autoIncrement: true }),

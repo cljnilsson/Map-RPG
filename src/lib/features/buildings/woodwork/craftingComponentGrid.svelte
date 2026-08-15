@@ -1,7 +1,7 @@
 <script lang="ts">
-import type { CraftItem } from "$lib/types/item";
-import { safeGetItem } from "$lib/data/items";
-import { safeGetResource } from "$lib/data/resources";
+import type { CraftItem } from "#lib/types/item.js";
+import { safeGetItem } from "#lib/data/items.js";
+import { safeGetResource } from "#lib/data/resources.js";
 let {
 	inspectItem,
 }: {

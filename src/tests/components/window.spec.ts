@@ -1,7 +1,7 @@
 import { expect, test, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/svelte";
-import Window from "$lib/features/window/window.svelte";
+import Window from "#lib/features/window/window.svelte";
 import { fireEvent } from "@testing-library/svelte";
 
 const renderOptions = {
@@ -14,7 +14,7 @@ const renderOptions = {
 	uniqueKey: "test-window",
 };
 
-vi.mock("$lib/api/windows.remote.ts", () => {
+vi.mock("#lib/api/windows.remote.ts", () => {
 	return {
 		getWindowPositionsByCharacter: vi.fn(() => ({
 			success: true,
@@ -24,13 +24,13 @@ vi.mock("$lib/api/windows.remote.ts", () => {
 	};
 });
 
-vi.mock("$lib/api/quests.remote.ts", () => {
+vi.mock("#lib/api/quests.remote.ts", () => {
 	return {
 		updateOneQuest: vi.fn(() => ({ success: true, failedQuests: [] })),
 	};
 });
 
-vi.mock("$lib/api/character.remote.ts", () => {
+vi.mock("#lib/api/character.remote.ts", () => {
 	return {
 		getAllCharacters: vi.fn(() => []),
 		createCharacter: vi.fn(() => true),

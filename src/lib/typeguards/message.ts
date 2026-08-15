@@ -1,4 +1,4 @@
-import type { IsolatedMessage, TextMessage, ChoiceMessage, Message } from "$lib/types/message";
+import type { IsolatedMessage, TextMessage, ChoiceMessage, Message } from "#lib/types/message.js";
 
 function isMessageText(msg: Message | IsolatedMessage): msg is TextMessage {
 	return "type" in msg && msg.type === "text";

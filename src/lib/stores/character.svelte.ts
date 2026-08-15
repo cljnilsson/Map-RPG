@@ -1,5 +1,5 @@
-import type { Character } from "$lib/types/character";
-import type { InventoryItem } from "$lib/types/item";
+import type { Character } from "#lib/types/character.js";
+import type { InventoryItem } from "#lib/types/item.js";
 
 const Store = $state<{
 	character: Character | null;

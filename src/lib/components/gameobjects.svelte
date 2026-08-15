@@ -1,20 +1,20 @@
 <script lang="ts">
-import ContainerStore from "$lib/stores/container.svelte";
+import ContainerStore from "#lib/stores/container.svelte.js";
 import { onMount } from "svelte";
-import MapController from "$lib/controller/map.svelte";
-import WindowController from "$lib/controller/window.svelte";
+import MapController from "#lib/controller/map.svelte.js";
+import WindowController from "#lib/controller/window.svelte.js";
 import {
 	isContainerGameObject,
 	isLootableQuestGameObject,
 	isQuestGameObject,
 	isLootableGameObject,
-} from "$lib/typeguards/gameObject";
-import type { GameObject } from "$lib/types/gameObject";
-import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
-import QuestController from "$lib/controller/quest.svelte";
-import { PlayerController } from "$lib/controller/character.svelte";
-import LogController from "$lib/controller/logs.svelte";
-import Tooltip from "$lib/features/tooltip/tooltipOnClick.svelte";
+} from "#lib/typeguards/gameObject.js";
+import type { GameObject } from "#lib/types/gameObject.js";
+import HoverOutlineImage from "#lib/utils/outline/hoverOutline.svelte";
+import QuestController from "#lib/controller/quest.svelte.js";
+import { PlayerController } from "#lib/controller/character.svelte.js";
+import LogController from "#lib/controller/logs.svelte.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnClick.svelte";
 
 let show = $state(false);
 

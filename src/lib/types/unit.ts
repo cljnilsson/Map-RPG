@@ -1,4 +1,4 @@
-import type { Resource } from "$lib/types/resource";
+import type { Resource } from "#lib/types/resource.js";
 
 type BaseUnit = {
 	id: string;

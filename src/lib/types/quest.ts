@@ -1,4 +1,4 @@
-import type { IsolatedMessage } from "$lib/types/message";
+import type { IsolatedMessage } from "#lib/types/message.js";
 
 type Quest = {
 	id: string;
@@ -7,7 +7,12 @@ type Quest = {
 	progress: number;
 	progressGoals: string[];
 	rewardResources: { name: string; amount: number; icon: string }[];
-	rewardItems: { name: string; amount: number; icon: string; description: string }[];
+	rewardItems: {
+		name: string;
+		amount: number;
+		icon: string;
+		description: string;
+	}[];
 	rewardMisc: string;
 	dialogue: IsolatedMessage[];
 	mainQuest: boolean;

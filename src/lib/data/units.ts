@@ -1,4 +1,4 @@
-import type { BaseUnit } from "$lib/types/unit";
+import type { BaseUnit } from "#lib/types/unit.js";
 
 const unitRegistry = {
 	Soldier: (): BaseUnit => ({

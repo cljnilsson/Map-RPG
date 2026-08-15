@@ -1,9 +1,9 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { query, command } from "$app/server";
-import { settings, type Settings } from "$lib/server/db/schema";
+import { settings, type Settings } from "#lib/server/db/schema/index.js";
 import { eq } from "drizzle-orm";
 import * as v from "valibot";
-import { matchingUserId, getUser } from "$lib/utils/remoteAuthHelper";
+import { matchingUserId, getUser } from "#lib/utils/remoteAuthHelper.js";
 
 async function getAllSettings() {
 	return await db.query.settings.findMany();

@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { MapWithClickBox } from "$lib/types/mapTypes";
-	import { maps } from "$lib/tempData";
-	import Draggable from "$lib/utils/Draggable.svelte";
-	import ResizeAnchors from "$lib/utils/ResizeAnchors.svelte";
-	import MapClickBox from "$lib/components/MapClickBox.svelte";
-	import PlotClickBox from "$lib/components/PlotClickBox.svelte";
-	import MapController from "$lib/controller/map.svelte";
-	import { isCityMap } from "$lib/typeguards/map";
-	import { safeGetBuilding, getBuildingsByPlotType } from "$lib/data/buildings";
+	import type { MapWithClickBox } from "#lib/types/mapTypes.js";
+	import { maps } from "#lib/tempData.js";
+	import Draggable from "#lib/utils/Draggable.svelte";
+	import ResizeAnchors from "#lib/utils/ResizeAnchors.svelte";
+	import MapClickBox from "#lib/components/MapClickBox.svelte";
+	import PlotClickBox from "#lib/components/PlotClickBox.svelte";
+	import MapController from "#lib/controller/map.svelte.js";
+	import { isCityMap } from "#lib/typeguards/map.js";
+	import { safeGetBuilding, getBuildingsByPlotType } from "#lib/data/buildings.js";
 	import { goto } from "$app/navigation";
-	import HoverOutlineImage from "$lib/utils/outline/hoverOutline.svelte";
+	import HoverOutlineImage from "#lib/utils/outline/hoverOutline.svelte";
 	import { resolve } from "$app/paths";
 
 	function toggleSelection(rect: MapWithClickBox) {
@@ -32,12 +32,12 @@
 	function handlePlotClick(identifier: number, x: number, y: number, rotation: number) {
 		console.log(`Plot ${identifier} clicked at`, x, y, rotation);
 		console.log("options:", getBuildingsByPlotType("default"));
-		goto(resolve(`/map/${MapController.currentMapState.map.name}/${identifier}/build`));
+		goto(resolve(`map/${MapController.currentMapState.map.name}/${identifier}/build`));
 	}
 
 	function handleBuildingClick(identifier: number) {
 		console.log("clicked on building!");
-		goto(resolve(`/map/${MapController.currentMapState.map.name}/${identifier}`))
+		goto(resolve(`map/${MapController.currentMapState.map.name}/${identifier}`));
 	}
 
 	function onBuildingEnter(e: KeyboardEvent, identifier: number) {
@@ -61,12 +61,18 @@
 				bind:y={rect.clickBox.y}
 				editMode={MapController.editMode}
 				containerWrapper=".map-container"
-				onDragStart={() => (MapController.selectedBox = rect)}
+				onDragStart={() => MapController.selectedBox = rect}
 				onDragEnd={(wasDragged) => {
 					if (!wasDragged) handleClick(rect);
 				}}
 			>
-				<MapClickBox {rect} label={index + 1} selectedBox={MapController.selectedBox} onClickCallback={() => {}} />
+				<MapClickBox
+					rect={rect}
+					label={index + 1}
+					selectedBox={MapController.selectedBox}
+					onClickCallback={() => {}}
+				/>
+
 				{#if MapController.editMode && MapController.selectedBox?.map.name === rect.map.name}
 					<ResizeAnchors
 						bind:x={rect.clickBox.x}
@@ -78,8 +84,14 @@
 				{/if}
 			</Draggable>
 		{:else}
-			<div style="position: absolute; left: {rect.clickBox.x}px; top: {rect.clickBox.y}px;">
-				<MapClickBox {rect} selectedBox={MapController.selectedBox} onClickCallback={handleClick} />
+			<div
+				style="position: absolute; left: {rect.clickBox.x}px; top: {rect.clickBox.y}px;"
+			>
+				<MapClickBox
+					rect={rect}
+					selectedBox={MapController.selectedBox}
+					onClickCallback={handleClick}
+				/>
 			</div>
 		{/if}
 	{/each}

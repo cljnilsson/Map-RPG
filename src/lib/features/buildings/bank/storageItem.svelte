@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { InventoryItem } from "$lib/types/item";
-	import { isUsableItem } from "$lib/typeguards/item";
-	import { PlayerController } from "$lib/controller/character.svelte";
-	import StorageController from "$lib/controller/storage.svelte";
+	import type { InventoryItem } from "#lib/types/item.js";
+	import { isUsableItem } from "#lib/typeguards/item.js";
+	import { PlayerController } from "#lib/controller/character.svelte.js";
+	import StorageController from "#lib/controller/storage.svelte.js";
 
 	let {
 		inventory = $bindable(),

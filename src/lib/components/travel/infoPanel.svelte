@@ -1,16 +1,16 @@
 <script lang="ts">
-    import type { pos } from "$lib/utils/math";
-    import Saver from "$lib/components/travel/saver.svelte";
-    import Loader from "$lib/components/travel/loader.svelte";
-    import WaypointViewerFull from "$lib/components/travel/partials/waypointViewer.svelte";
-    import WaypointViewerCompact from "$lib/components/travel/partials/waypointViewerCompact.svelte";
-    import PathEditor from "$lib/components/travel/edit.svelte";
-    import NodeCreator from "$lib/components/travel/create.svelte";
-    import PathHeader from "$lib/components/travel/partials/pathHeader.svelte";
-    import IconButton from "$lib/components/travel/generic/iconButton.svelte";
-    import Dropdown from "$lib/components/travel/generic/dropdown.svelte";
-    import type { WaypointPathCollection, Path } from "$lib/types/waypoint";
-    import WaypointController from "$lib/controller/waypoints.svelte";
+    import type { pos } from "#lib/utils/math.js";
+    import Saver from "#lib/components/travel/saver.svelte";
+    import Loader from "#lib/components/travel/loader.svelte";
+    import WaypointViewerFull from "#lib/components/travel/partials/waypointViewer.svelte";
+    import WaypointViewerCompact from "#lib/components/travel/partials/waypointViewerCompact.svelte";
+    import PathEditor from "#lib/components/travel/edit.svelte";
+    import NodeCreator from "#lib/components/travel/create.svelte";
+    import PathHeader from "#lib/components/travel/partials/pathHeader.svelte";
+    import IconButton from "#lib/components/travel/generic/iconButton.svelte";
+    import Dropdown from "#lib/components/travel/generic/dropdown.svelte";
+    import type { WaypointPathCollection, Path } from "#lib/types/waypoint.js";
+    import WaypointController from "#lib/controller/waypoints.svelte.js";
 
     let {
         currentlyDragged,

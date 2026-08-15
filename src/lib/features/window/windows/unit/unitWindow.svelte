@@ -1,10 +1,10 @@
 <script lang="ts">
-	import CityController from "$lib/controller/city.svelte";
-	import Window from "$lib/features/window/window.svelte";
-	import UnitDesignator from "$lib/features/window/windows/unit/unitDesignator.svelte";
+	import CityController from "#lib/controller/city.svelte.js";
+	import Window from "#lib/features/window/window.svelte";
+	import UnitDesignator from "#lib/features/window/windows/unit/unitDesignator.svelte";
 	import dayjs from "dayjs";
-	import WindowController from "$lib/controller/window.svelte";
-	import queue from "$lib/stores/queueStore.svelte";
+	import WindowController from "#lib/controller/window.svelte.js";
+	import queue from "#lib/stores/queueStore.svelte.js";
 
 	queue.queue = [...queue.queue, {
 		name: "Worker => soldier",

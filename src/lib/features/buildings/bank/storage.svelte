@@ -1,13 +1,13 @@
 <script lang="ts">
-import type { InventoryItem } from "$lib/types/item";
-import { safeGetItem } from "$lib/data/items";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import ItemGrid from "$lib/components/itemGrid.svelte";
+import type { InventoryItem } from "#lib/types/item.js";
+import { safeGetItem } from "#lib/data/items.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import ItemGrid from "#lib/components/itemGrid.svelte";
 import { onMount } from "svelte";
-import { getStorages, getStorage } from "$lib/api/storage.remote";
-import StorageController from "$lib/controller/storage.svelte";
-import { q2c } from "$lib/utils/itemQuality";
-import StorageItemComponent from "$lib/features/buildings/bank/storageItem.svelte";
+import { getStorages, getStorage } from "#lib/api/storage.remote.js";
+import StorageController from "#lib/controller/storage.svelte.js";
+import { q2c } from "#lib/utils/itemQuality.js";
+import StorageItemComponent from "#lib/features/buildings/bank/storageItem.svelte";
 
 let { cityDataId }: { cityDataId: number } = $props();
 

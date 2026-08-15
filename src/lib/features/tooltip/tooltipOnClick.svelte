@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { Snippet } from "svelte";
-import Tooltip from "$lib/features/tooltip/tooltip.svelte";
+import Tooltip from "#lib/features/tooltip/tooltip.svelte";
 let {
 	children,
 	onClickTooltip,

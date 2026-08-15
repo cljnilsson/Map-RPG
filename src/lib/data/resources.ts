@@ -1,4 +1,4 @@
-import type { BaseResource } from "$lib/types/resource";
+import type { BaseResource } from "#lib/types/resource.js";
 
 const resourceRegistry = {
 	Gold: (): BaseResource => ({

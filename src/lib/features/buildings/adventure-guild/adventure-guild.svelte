@@ -2,11 +2,11 @@
 	import { onMount } from "svelte";
 	import { scale, fade } from "svelte/transition";
 	import { flip } from "svelte/animate";
-	import HoverOutline from "$lib/utils/outline/hoverOutline.svelte";
-	import QuestController from "$lib/controller/quest.svelte";
-	import { getQuest } from "$lib/data/quests";
-	import type { Quest } from "$lib/types/quest";
-	import type { Building } from "$lib/types/building";
+	import HoverOutline from "#lib/utils/outline/hoverOutline.svelte";
+	import QuestController from "#lib/controller/quest.svelte.js";
+	import { getQuest } from "#lib/data/quests.js";
+	import type { Quest } from "#lib/types/quest.js";
+	import type { Building } from "#lib/types/building.js";
 
 	const { level, building }: {level: number, building: Omit<Building, "componentOnClick">} = $props();
 

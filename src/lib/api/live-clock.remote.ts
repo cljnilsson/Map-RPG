@@ -1,5 +1,5 @@
 import { query } from "$app/server";
-import { createLiveClock } from "$lib/server/liveClock";
+import { createLiveClock } from "#lib/server/liveClock.js";
 
 const clock = createLiveClock();
 

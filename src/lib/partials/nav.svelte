@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { LayoutData } from "$lib/types/layoutData";
+  import type { LayoutData } from "#lib/types/layoutData.js";
   import { resolve } from "$app/paths";
-  import { authClient } from "$lib/auth-client";
+  import { authClient } from "#lib/auth-client.js";
   import { onMount } from "svelte";
 
   let { data }: { data: LayoutData } = $props();
@@ -29,9 +29,9 @@
 </script>
 
 <nav class="text-center">
-  <a href={resolve("/")}>Overview</a>
-  <a href={resolve("/dice")}>Dice demo</a>
-  <a href={resolve("/talkingtest")}>Dialogue demo</a>
+  <a href={resolve('')}>Overview</a>
+  <a href={resolve('dice')}>Dice demo</a>
+  <a href={resolve('talkingtest')}>Dialogue demo</a>
   {#if isLoggedIn}
     <button
       type="button"
@@ -41,9 +41,9 @@
       Logout
     </button>
   {:else}
-    <a href={resolve("/login")}>Login</a>
+    <a href={resolve('login')}>Login</a>
   {/if}
-  <a href={resolve("/data")}>Data Visualizer</a>
+  <a href={resolve('data')}>Data Visualizer</a>
 </nav>
 
 <style lang="scss">

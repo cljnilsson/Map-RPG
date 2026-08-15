@@ -1,16 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import NotificationController from "$lib/controller/notification.svelte";
-import NotificationStore from "$lib/stores/notification.svelte";
-import LogController from "$lib/controller/logs.svelte";
+import NotificationController from "#lib/controller/notification.svelte.js";
+import NotificationStore from "#lib/stores/notification.svelte.js";
+import LogController from "#lib/controller/logs.svelte.js";
 
 // Mock the store and log controller
-vi.mock("$lib/stores/notification.svelte", () => ({
+vi.mock("#lib/stores/notification.svelte.js", () => ({
 	default: {
 		queue: [],
 	},
 }));
 
-vi.mock("$lib/controller/logs.svelte", () => {
+vi.mock("#lib/controller/logs.svelte.js", () => {
 	return {
 		default: {
 			newLogSimple: vi.fn(),

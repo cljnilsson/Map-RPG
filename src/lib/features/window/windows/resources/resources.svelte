@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Window from "$lib/features/window/window.svelte";
-	import WindowController from "$lib/controller/window.svelte";
-	import CityStore from "$lib/stores/city.svelte";
+	import Window from "#lib/features/window/window.svelte";
+	import WindowController from "#lib/controller/window.svelte.js";
+	import CityStore from "#lib/stores/city.svelte.js";
 
 	let resourceWindow = WindowController.getByName("Resources");
 </script>

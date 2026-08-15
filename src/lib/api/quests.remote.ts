@@ -1,9 +1,9 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { command } from "$app/server";
-import { quests } from "$lib/server/db/schema";
+import { quests } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { getUser } from "$lib/utils/remoteAuthHelper";
+import { getUser } from "#lib/utils/remoteAuthHelper.js";
 
 const QuestSchema = v.object({
 	key: v.pipe(v.string(), v.minLength(1)),

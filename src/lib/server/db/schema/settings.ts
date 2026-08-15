@@ -1,6 +1,6 @@
 import { sqliteTable, text, integer, check } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
-import { user } from "$lib/server/db/schema/auth";
+import { user } from "#lib/server/db/schema/auth.js";
 export const settings = sqliteTable(
 	"settings",
 	{

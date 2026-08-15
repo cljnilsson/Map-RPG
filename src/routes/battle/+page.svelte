@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { PlayerController } from "$lib/controller/character.svelte";
-    import Army from "$lib/features/battle/army.svelte";
-    import InfoWindow from "$lib/features/battle/infoWIndow.svelte";
-    import StrategyPicker from "$lib/features/battle/strategyPicker.svelte";
-    import AvatarHeaders from "$lib/features/battle/avatarHeader.svelte";
-    import { describeStrategyModifier, describeTerrainModifier, resolveCombat, type CombatResult, type Strategy, type Terrain } from "$lib/features/battle/combat";
-    import type { BattleArmy, BattleStatBase, BattleUnit } from "$lib/types/battle";
+    import { PlayerController } from "#lib/controller/character.svelte.js";
+    import Army from "#lib/features/battle/army.svelte";
+    import InfoWindow from "#lib/features/battle/infoWIndow.svelte";
+    import StrategyPicker from "#lib/features/battle/strategyPicker.svelte";
+    import AvatarHeaders from "#lib/features/battle/avatarHeader.svelte";
+    import { describeStrategyModifier, describeTerrainModifier, resolveCombat, type CombatResult, type Strategy, type Terrain } from "#lib/features/battle/combat.js";
+    import type { BattleArmy, BattleStatBase, BattleUnit } from "#lib/types/battle.js";
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();

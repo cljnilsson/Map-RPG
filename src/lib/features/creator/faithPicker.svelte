@@ -1,7 +1,7 @@
 <script lang="ts">
-   	import CreatorFaith from "$lib/features/creator/creatorFaithIcon.svelte";
-    import type { Faith } from "$lib/types/faith";
-   	import FaithStore from "$lib/stores/faith.svelte";
+   	import CreatorFaith from "#lib/features/creator/creatorFaithIcon.svelte";
+    import type { Faith } from "#lib/types/faith.js";
+   	import FaithStore from "#lib/stores/faith.svelte.js";
 
     let {selectedFaith = $bindable()}: {selectedFaith: Faith | undefined} = $props();
 </script>

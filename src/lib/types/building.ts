@@ -1,4 +1,4 @@
-import type { Resource } from "$lib/types/resource";
+import type { Resource } from "#lib/types/resource.js";
 import type { Component } from "svelte";
 
 type Building = {
@@ -10,7 +10,14 @@ type Building = {
 	cost: Resource[];
 	timeInSeconds: number;
 	plotType: "default" | "sacred" | "pristine" | "damaged";
-	componentOnClick: Component<{ level: number; building: Omit<Building, "componentOnClick">; cityName: string; cityDataId: number }> | undefined;
+	componentOnClick:
+		| Component<{
+				level: number;
+				building: Omit<Building, "componentOnClick">;
+				cityName: string;
+				cityDataId: number;
+		  }>
+		| undefined;
 };
 
 type BuildingData = Building & {

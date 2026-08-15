@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Building } from "$lib/types/building";
+	import type { Building } from "#lib/types/building.js";
 
 	const { level, building }: {level: number, building: Omit<Building, "componentOnClick">} = $props();
 	let base = 1000;

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { getAllBuildings } from "$lib/data/buildings";
-	import { getAllQuests } from "$lib/data/quests";
-	import { getAllItems } from "$lib/data/items";
-	import { getAllResources } from "$lib/data/resources";
-	import { getAllUnits } from "$lib/data/units";
-	import MapController from "$lib/controller/map.svelte";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+	import { getAllBuildings } from "#lib/data/buildings.js";
+	import { getAllQuests } from "#lib/data/quests.js";
+	import { getAllItems } from "#lib/data/items.js";
+	import { getAllResources } from "#lib/data/resources.js";
+	import { getAllUnits } from "#lib/data/units.js";
+	import MapController from "#lib/controller/map.svelte.js";
+	import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 	let mode: "none" | "buildings" | "quests" | "units" | "items" | "resources" | "cities" = $state("none");
 

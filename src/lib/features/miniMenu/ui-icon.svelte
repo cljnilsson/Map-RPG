@@ -1,8 +1,8 @@
 <script lang="ts">
-import ClickableElement from "$lib/components/utils/clickableElement.svelte";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
+import ClickableElement from "#lib/components/utils/clickableElement.svelte";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
 import type { Snippet } from "svelte";
-import StaticOutlineImage from "$lib/utils/outline/staticOutline.svelte";
+import StaticOutlineImage from "#lib/utils/outline/staticOutline.svelte";
 
 let {
 	iconPath,

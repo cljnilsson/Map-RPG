@@ -10,7 +10,7 @@ const authClientMocks = vi.hoisted(() => ({
 	signUpEmail: vi.fn(async () => ({ data: null, error: null })),
 }));
 
-vi.mock("$lib/auth-client", () => ({
+vi.mock("#lib/auth-client.js", () => ({
 	authClient: {
 		signIn: { email: authClientMocks.signInEmail },
 		signOut: authClientMocks.signOut,

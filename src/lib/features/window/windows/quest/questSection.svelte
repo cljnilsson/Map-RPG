@@ -1,6 +1,6 @@
 <script lang="ts">
-	import QuestItem from "$lib/features/window/windows/quest/questItem.svelte";
-	import type { Quest } from "$lib/types/quest";
+	import QuestItem from "#lib/features/window/windows/quest/questItem.svelte";
+	import type { Quest } from "#lib/types/quest.js";
 
 	let { quests, title, active = $bindable() }: { quests: Quest[]; title: string, active: Quest | undefined } = $props();
 

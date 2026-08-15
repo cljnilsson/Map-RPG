@@ -1,4 +1,4 @@
-import type { Log } from "$lib/types/logs";
+import type { Log } from "#lib/types/logs.js";
 
 const Store = $state<{
 	logs: Log[];

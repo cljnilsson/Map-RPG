@@ -1,6 +1,6 @@
-import LogStore from "$lib/stores/logs.svelte";
+import LogStore from "#lib/stores/logs.svelte.js";
 import { SvelteDate } from "svelte/reactivity";
-import type { LogChunk } from "$lib/types/logs";
+import type { LogChunk } from "#lib/types/logs.js";
 
 class LogController {
 	private static numberColor: string = "teal";
@@ -69,7 +69,13 @@ class LogController {
 			if (!this.validateLogChunk(chunk)) {
 				return; // unsure if it breaks the function or just the loop, check later
 			}
-			newArr = [...newArr, { text: chunk, color: typeof chunk === "string" ? "default" : LogController.numberColor }];
+			newArr = [
+				...newArr,
+				{
+					text: chunk,
+					color: typeof chunk === "string" ? "default" : LogController.numberColor,
+				},
+			];
 		}
 
 		this._newLog(newArr, color, type);

@@ -1,8 +1,8 @@
 <script lang="ts">
-import CityController from "$lib/controller/city.svelte";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import type { Resource, BaseResource } from "$lib/types/resource";
-import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+import CityController from "#lib/controller/city.svelte.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import type { Resource, BaseResource } from "#lib/types/resource.js";
+import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 let { selectedResource = $bindable() }: { selectedResource: Resource | BaseResource | undefined } = $props();
 </script>

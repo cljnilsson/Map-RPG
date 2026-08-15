@@ -1,11 +1,11 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { query, command } from "$app/server";
-import { loans, cityData } from "$lib/server/db/schema/schema";
-import { resource } from "$lib/server/db/schema/resource";
-import { city } from "$lib/server/db/schema/city";
+import { loans, cityData } from "#lib/server/db/schema/schema.js";
+import { resource } from "#lib/server/db/schema/resource.js";
+import { city } from "#lib/server/db/schema/city.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { getUser } from "$lib/utils/remoteAuthHelper";
+import { getUser } from "#lib/utils/remoteAuthHelper.js";
 
 async function getAllLoans() {
 	return await db.query.loans.findMany({

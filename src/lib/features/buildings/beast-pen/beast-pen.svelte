@@ -1,11 +1,11 @@
 <script lang="ts">
-	import CityController from "$lib/controller/city.svelte";
-	import Tooltip from "$lib/features/tooltip/tooltip.svelte";
-	import type { Resource } from "$lib/types/resource";
-	import type { Building } from "$lib/types/building";
-	import Tabs from "$lib/components/utils/tabs.svelte";
-	import Tab from "$lib/components/utils/tab.svelte";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+	import CityController from "#lib/controller/city.svelte.js";
+	import Tooltip from "#lib/features/tooltip/tooltip.svelte";
+	import type { Resource } from "#lib/types/resource.js";
+	import type { Building } from "#lib/types/building.js";
+	import Tabs from "#lib/components/utils/tabs.svelte";
+	import Tab from "#lib/components/utils/tab.svelte";
+	import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
 	const tabs = [

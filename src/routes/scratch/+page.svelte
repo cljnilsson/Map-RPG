@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Scratch from "$lib/components/scratch.svelte";
+    import Scratch from "#lib/components/scratch.svelte";
 </script>
 
 <div>

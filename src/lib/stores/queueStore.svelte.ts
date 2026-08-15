@@ -1,5 +1,5 @@
-import type { QueueItem } from "$lib/types/queueItem";
-import LogController from "$lib/controller/logs.svelte";
+import type { QueueItem } from "#lib/types/queueItem.js";
+import LogController from "#lib/controller/logs.svelte.js";
 import dayjs from "dayjs";
 
 const store = $state({

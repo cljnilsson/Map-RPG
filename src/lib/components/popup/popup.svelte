@@ -1,5 +1,5 @@
 <script lang="ts">
-    import MapController from "$lib/controller/map.svelte";
+    import MapController from "#lib/controller/map.svelte.js";
     let {
         children,
         activePopup = $bindable(),

@@ -1,7 +1,7 @@
 import { inArray, sql } from "drizzle-orm";
-import { db } from "$lib/server/db";
-import { unit } from "$lib/server/db/schema/unit";
-import { resource } from "$lib/server/db/schema/resource";
+import { db } from "#lib/server/db/index.js";
+import { unit } from "#lib/server/db/schema/unit.js";
+import { resource } from "#lib/server/db/schema/resource.js";
 
 let hasRun = false;
 

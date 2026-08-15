@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { MapWithClickBox } from "$lib/types/mapTypes";
+	import type { MapWithClickBox } from "#lib/types/mapTypes.js";
 
 	let {
 		x,

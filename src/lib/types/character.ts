@@ -1,4 +1,4 @@
-import type { ClassName } from "$lib/types/class";
+import type { ClassName } from "#lib/types/class.js";
 
 type Character = {
 	id: number;

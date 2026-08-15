@@ -1,7 +1,7 @@
 <script lang="ts">
-import type { CraftItem, Quality } from "$lib/types/item";
-import CraftingMenu from "$lib/features/buildings/woodwork/craftingMenu.svelte";
-import CraftingItem from "$lib/features/buildings/woodwork/craftingItem.svelte";
+import type { CraftItem, Quality } from "#lib/types/item.js";
+import CraftingMenu from "#lib/features/buildings/woodwork/craftingMenu.svelte";
+import CraftingItem from "#lib/features/buildings/woodwork/craftingItem.svelte";
 
 let {
 	inspectItem = $bindable(),

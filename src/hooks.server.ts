@@ -1,8 +1,8 @@
-import { dbCheckup } from "$lib/data/bootstrap"; // Runs health checkup for db
-import { auth } from "$lib/auth"; // path to your auth file
+import { dbCheckup } from "#lib/data/bootstrap.js"; // Runs health checkup for db
+import { auth } from "#lib/auth.js"; // path to your auth file
 import { svelteKitHandler } from "better-auth/svelte-kit";
-import { building } from "$app/environment";
-import { dev } from "$app/environment";
+import { building } from "$app/env";
+import { dev } from "$app/env";
 import type { RequestEvent } from "@sveltejs/kit";
 
 //dbCheckup();

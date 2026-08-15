@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveCombat, type CombatArmy } from "$lib/features/battle/combat";
+import { resolveCombat, type CombatArmy } from "#lib/features/battle/combat.js";
 
 const unit = (name: string, amount: number, power: number): CombatArmy["units"][number] => ({
 	name,

@@ -1,6 +1,6 @@
 import { sqliteTable, text, integer, index, check, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
-import { classValues } from "$lib/types/class";
+import { classValues } from "#lib/types/class.js";
 
 /*
 	AUTH

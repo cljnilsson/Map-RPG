@@ -1,9 +1,9 @@
 import { render } from "@testing-library/svelte";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import BookComponent from "$lib/features/book/book.svelte";
-import BookStore from "$lib/stores/book.svelte";
+import BookComponent from "#lib/features/book/book.svelte";
+import BookStore from "#lib/stores/book.svelte.js";
 
-vi.mock("$lib/stores/book.svelte", () => {
+vi.mock("#lib/stores/book.svelte.js", () => {
 	let visible = false;
 	let currentPage = 0;
 	let currentBook: string[] = [];

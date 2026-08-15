@@ -1,10 +1,10 @@
 <script lang="ts">
-import { PlayerController } from "$lib/controller/character.svelte";
-import InventoryItemComponent from "$lib/features/inventory/inventoryItem.svelte";
-import type { InventoryItem } from "$lib/types/item";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import { q2c } from "$lib/utils/itemQuality";
-import ItemGrid from "$lib/components/itemGrid.svelte";
+import { PlayerController } from "#lib/controller/character.svelte.js";
+import InventoryItemComponent from "#lib/features/inventory/inventoryItem.svelte";
+import type { InventoryItem } from "#lib/types/item.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import { q2c } from "#lib/utils/itemQuality.js";
+import ItemGrid from "#lib/components/itemGrid.svelte";
 
 let {
 	title = "",

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
-import { PlayerController } from "$lib/controller/character.svelte";
+import { PlayerController } from "#lib/controller/character.svelte.js";
 
-vi.mock("$lib/api/windows.remote.ts", () => {
+vi.mock("#lib/api/windows.remote.ts", () => {
 	return {
 		getWindowPositionsByCharacter: vi.fn(() => ({
 			success: true,
@@ -11,7 +11,7 @@ vi.mock("$lib/api/windows.remote.ts", () => {
 	};
 });
 
-vi.mock("$lib/api/character.remote.ts", () => {
+vi.mock("#lib/api/character.remote.ts", () => {
 	return {
 		getAllCharacters: vi.fn(() => []),
 		createCharacter: vi.fn(() => true),
@@ -19,7 +19,7 @@ vi.mock("$lib/api/character.remote.ts", () => {
 	};
 });
 
-vi.mock("$lib/api/quests.remote.ts", () => {
+vi.mock("#lib/api/quests.remote.ts", () => {
 	return {
 		updateOneQuest: vi.fn(() => ({ success: true, failedQuests: [] })),
 	};
@@ -27,8 +27,16 @@ vi.mock("$lib/api/quests.remote.ts", () => {
 
 describe("Money", () => {
 	it("Copper to visual", () => {
-		expect(PlayerController.copperToMoney(1000)).toEqual({ gold: 10, silver: 0, copper: 0 });
-		expect(PlayerController.copperToMoney(1051)).toEqual({ gold: 10, silver: 5, copper: 1 });
+		expect(PlayerController.copperToMoney(1000)).toEqual({
+			gold: 10,
+			silver: 0,
+			copper: 0,
+		});
+		expect(PlayerController.copperToMoney(1051)).toEqual({
+			gold: 10,
+			silver: 5,
+			copper: 1,
+		});
 	});
 
 	it("Visual to copper", () => {

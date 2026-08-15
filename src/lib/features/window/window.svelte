@@ -1,18 +1,18 @@
 <script lang="ts">
-import { Tween } from "svelte/motion";
-import { cubicOut } from "svelte/easing";
-import type { Snippet } from "svelte";
-import { onMount, onDestroy } from "svelte";
-import Title from "$lib/features/window/windowTitle.svelte";
-import Body from "$lib/features/window/windowBody.svelte";
-import Footer from "$lib/features/window/windowFooter.svelte";
-import DraggableHandle from "$lib/utils/DraggableHandle.svelte";
-import DialogueController from "$lib/controller/dialogue.svelte";
-import { browser } from "$app/environment";
-import SaveController from "$lib/controller/save.svelte";
-import { fade } from "svelte/transition";
-import { dev } from "$app/environment";
-import WindowController from "$lib/controller/window.svelte";
+	import { Tween } from "svelte/motion";
+	import { cubicOut } from "svelte/easing";
+	import type { Snippet } from "svelte";
+	import { onMount, onDestroy } from "svelte";
+	import Title from "#lib/features/window/windowTitle.svelte";
+	import Body from "#lib/features/window/windowBody.svelte";
+	import Footer from "#lib/features/window/windowFooter.svelte";
+	import DraggableHandle from "#lib/utils/DraggableHandle.svelte";
+	import DialogueController from "#lib/controller/dialogue.svelte.js";
+	import { browser } from '$app/env';
+	import SaveController from "#lib/controller/save.svelte.js";
+	import { fade } from "svelte/transition";
+	import { dev } from '$app/env';
+	import WindowController from "#lib/controller/window.svelte.js";
 
 let {
 	title,
@@ -54,65 +54,65 @@ let visibilityPriority = $derived(
 	WindowController.isWindowType(uniqueKey) ? WindowController.isOpenAt(WindowController.getByName(uniqueKey)) : -1,
 );
 
-let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
-let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
+	let lockIcon = $derived(locked ? "bi-unlock" : "bi-lock-fill");
+	let minimizeIcon = $derived(expanded ? "bi-dash" : "bi-plus");
 
-let containerElement: HTMLElement | null = $state(null);
-const isTest = import.meta.env.MODE === "test";
+	let containerElement: HTMLElement | null = $state(null);
+	const isTest = import.meta.env.MODE === "test";
 
-const tweenHeight = $derived(new Tween(height, { duration: 100, easing: cubicOut }));
+	const tweenHeight = $derived(new Tween(height, { duration: 100, easing: cubicOut }));
 
-function toggle() {
-	expanded = !expanded;
-	tweenHeight.set(expanded ? height : 0);
-}
-
-function handleKeydown(event: KeyboardEvent) {
-	if (event.key === toggleKey) {
-		visibility = !visibility;
-	}
-}
-
-function scaleToViewport(px: number, axis: "x" | "y") {
-	const viewportSize = axis === "x" ? window.innerWidth : window.innerHeight;
-	// Adjust the base resolution to match your dev screen — for example, 2560×1440
-	const base = axis === "x" ? 2560 : 1440;
-	return (px / base) * viewportSize;
-}
-
-function close() {
-	visibility = false;
-}
-
-async function saveNewPosition(newX: number, newY: number) {
-	SaveController.saveWindows(newX, newY, uniqueKey);
-}
-
-onMount(() => {
-	if (browser) {
-		x = scaleToViewport(x, "x");
-		y = scaleToViewport(y, "y");
-		//width = scaleToViewport(width, "x");
-		//height = scaleToViewport(height, "y");
-		//tweenHeight.set(height); // if window starts expanded
+	function toggle() {
+		expanded = !expanded;
+		tweenHeight.set(expanded ? height : 0);
 	}
 
-	if (toggleKey && window) {
-		window.addEventListener("keydown", handleKeydown);
-	}
-
-	if (initiallyLocked) {
-		locked = true;
-	}
-});
-
-onDestroy(() => {
-	if (browser) {
-		if (toggleKey) {
-			window.removeEventListener("keydown", handleKeydown);
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === toggleKey) {
+			visibility = !visibility;
 		}
 	}
-});
+
+	function scaleToViewport(px: number, axis: "x" | "y") {
+		const viewportSize = axis === "x" ? window.innerWidth : window.innerHeight;
+		// Adjust the base resolution to match your dev screen — for example, 2560×1440
+		const base = axis === "x" ? 2560 : 1440;
+		return px / base * viewportSize;
+	}
+
+	function close() {
+		visibility = false;
+	}
+
+	async function saveNewPosition(newX: number, newY: number) {
+		SaveController.saveWindows(newX, newY, uniqueKey);
+	}
+
+	onMount(() => {
+		if (browser) {
+			x = scaleToViewport(x, "x");
+			y = scaleToViewport(y, "y");
+			//width = scaleToViewport(width, "x");
+			//height = scaleToViewport(height, "y");
+			//tweenHeight.set(height); // if window starts expanded
+		}
+
+		if (toggleKey && window) {
+			window.addEventListener("keydown", handleKeydown);
+		}
+
+		if (initiallyLocked) {
+			locked = true;
+		}
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			if (toggleKey) {
+				window.removeEventListener("keydown", handleKeydown);
+			}
+		}
+	});
 </script>
 
 {#if visibility}
@@ -124,7 +124,14 @@ onDestroy(() => {
 		style="left: {x}px; top: {y}px; width: {width}px; z-index: {500 + visibilityPriority};"
 		class:d-none={DialogueController.inDialogue}
 	>
-		<DraggableHandle bind:dragging bind:x bind:y containerWrapper=".overlay-rect" {locked} onDragEnd={saveNewPosition}>
+		<DraggableHandle
+			bind:dragging
+			bind:x
+			bind:y
+			containerWrapper=".overlay-rect"
+			locked={locked}
+			onDragEnd={saveNewPosition}
+		>
 			<Title>
 				<div class="row align-items-center">
 					<div class="col">
@@ -139,10 +146,8 @@ onDestroy(() => {
 								    type="button"
 									class="btn btn-sm btn-outline-secondary"
 									aria-label="Lock/Unlock"
-									onclick={() => (locked = !locked)}
-								>
-									<i class="bi {lockIcon}"></i>
-								</button>
+									onclick={() => locked = !locked}
+								><i class="bi {lockIcon}"></i></button>
 							{/if}
 							{#if canMinimize}
 								<button type="button" class="btn btn-sm btn-outline-secondary" aria-label="Minimize" onclick={toggle}>
@@ -194,7 +199,7 @@ onDestroy(() => {
 
 	.content-wrapper {
 		overflow: hidden;
-		transition: height 0.3s ease; /* optional, helps with small glitches */
+		transition: height 0.3s ease;
 	}
 
 	.inner {

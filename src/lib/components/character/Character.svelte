@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { PlayerController} from "$lib/controller/character.svelte";
-	import CharacterAvatar from "$lib/components/character/CharacterAvatar.svelte";
-	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
+    import { PlayerController} from "#lib/controller/character.svelte.js";
+	import CharacterAvatar from "#lib/components/character/CharacterAvatar.svelte";
+	import CharacterStatCollection from "#lib/components/character/CharacterStatCollection.svelte";
 </script>
 
 <div class="row mt-5 justify-content-center">

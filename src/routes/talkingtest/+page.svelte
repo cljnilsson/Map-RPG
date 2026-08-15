@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Dialogue from "$lib/features/dialogue/dialogue.svelte";
-	import type { Message, CharSprite } from "$lib/types/message";
-	import DialogueController from "$lib/controller/dialogue.svelte";
+	import Dialogue from "#lib/features/dialogue/dialogue.svelte";
+	import type { Message, CharSprite } from "#lib/types/message.js";
+	import DialogueController from "#lib/controller/dialogue.svelte.js";
 
 	const alice: CharSprite = { name: "Alice", image: "alice.png" } as const;
 	const bob: CharSprite = { name: "Bob", image: "bob.png" } as const;

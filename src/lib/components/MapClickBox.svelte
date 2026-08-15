@@ -1,6 +1,6 @@
 <script lang="ts">
-	import MapController from "$lib/controller/map.svelte";
-	import type { MapWithClickBox } from "$lib/types/mapTypes";
+	import MapController from "#lib/controller/map.svelte.js";
+	import type { MapWithClickBox } from "#lib/types/mapTypes.js";
 
 	let {
 		label,

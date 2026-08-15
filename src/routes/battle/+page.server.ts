@@ -1,10 +1,10 @@
 import type { PageServerLoad } from "./$types";
 import { eq } from "drizzle-orm";
-import { auth } from "$lib/auth";
-import { db } from "$lib/server/db";
-import { characters, cityData, unit, units } from "$lib/server/db/schema";
-import { battleStat, battleUnitStats } from "$lib/server/db/schema/battle";
-import type { BattleArmy, BattleUnit } from "$lib/types/battle";
+import { auth } from "#lib/auth.js";
+import { db } from "#lib/server/db/index.js";
+import { characters, cityData, unit, units } from "#lib/server/db/schema/index.js";
+import { battleStat, battleUnitStats } from "#lib/server/db/schema/battle.js";
+import type { BattleArmy, BattleUnit } from "#lib/types/battle.js";
 
 export const load: PageServerLoad = async ({ request }) => {
 	const session = await auth.api.getSession({ headers: request.headers });
@@ -36,12 +36,21 @@ export const load: PageServerLoad = async ({ request }) => {
 	for (const row of rows) {
 		let battleUnit = unitsById.get(row.unitId);
 		if (!battleUnit) {
-			battleUnit = { name: row.unitName, icon: row.icon, amount: row.amount, stats: [] };
+			battleUnit = {
+				name: row.unitName,
+				icon: row.icon,
+				amount: row.amount,
+				stats: [],
+			};
 			unitsById.set(row.unitId, battleUnit);
 		}
 
 		if (row.statName && row.statDescription && row.statValue !== null) {
-			battleUnit.stats.push({ name: row.statName, description: row.statDescription, value: row.statValue });
+			battleUnit.stats.push({
+				name: row.statName,
+				description: row.statDescription,
+				value: row.statValue,
+			});
 		}
 	}
 

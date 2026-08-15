@@ -1,9 +1,9 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { command } from "$app/server";
-import { cityData, plot } from "$lib/server/db/schema";
+import { cityData, plot } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
-import { getUser } from "$lib/utils/remoteAuthHelper";
+import { getUser } from "#lib/utils/remoteAuthHelper.js";
 
 async function getOneCity(characterId: number, cityId: number) {
 	return db

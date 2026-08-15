@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { pos } from "$lib/utils/math";
+    import type { pos } from "#lib/utils/math.js";
 
     type path = {
         from: pos;

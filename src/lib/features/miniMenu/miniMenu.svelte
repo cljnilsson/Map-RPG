@@ -1,12 +1,12 @@
 <script lang="ts">
-	import DialogueController from "$lib/controller/dialogue.svelte";
+	import DialogueController from "#lib/controller/dialogue.svelte.js";
 	import { Tween } from "svelte/motion";
 	import { cubicOut } from "svelte/easing";
-	import CharacterAvatar from "$lib/components/character/CharacterAvatar.svelte";
-	import WindowController from "$lib/controller/window.svelte";
-	import MapController from "$lib/controller/map.svelte";
-	import CharacterStatCollection from "$lib/components/character/CharacterStatCollection.svelte";
-	import { isCityMap } from "$lib/typeguards/map";
+	import CharacterAvatar from "#lib/components/character/CharacterAvatar.svelte";
+	import WindowController from "#lib/controller/window.svelte.js";
+	import MapController from "#lib/controller/map.svelte.js";
+	import CharacterStatCollection from "#lib/components/character/CharacterStatCollection.svelte";
+	import { isCityMap } from "#lib/typeguards/map.js";
 	import { resolve } from "$app/paths";
 
 	const h = 140;
@@ -46,8 +46,8 @@
 	</div>
 	{#if isMenuExpanded}
 		<div class="px-2 py-3 border-top">
-			<a href={resolve("/settings")}><button type="button" class="btn btn-primary my-1">Settings</button></a>
-			<a href={resolve("/wiki")}><button type="button" class="btn btn-primary my-1">Wiki</button></a>
+			<a href={resolve('settings')}><button type="button" class="btn btn-primary my-1">Settings</button></a>
+			<a href={resolve('wiki')}><button type="button" class="btn btn-primary my-1">Wiki</button></a>
 		</div>
 	{/if}
 </div>

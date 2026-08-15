@@ -1,9 +1,9 @@
 import { expect, test, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/svelte";
-import Creator from "$lib/features/creator/creator.svelte";
-import CreatorStat from "$lib/features/creator/creatorStat.svelte";
+import Creator from "#lib/features/creator/creator.svelte";
+import CreatorStat from "#lib/features/creator/creatorStat.svelte";
 
-vi.mock("$lib/api/character.remote", () => {
+vi.mock("#lib/api/character.remote.js", () => {
 	return {
 		getCharacter: vi.fn(() => ({
 			name: "Mock Character", // Not used in the test at the time of writing thus it's not returning a full proper object (should be array also?)
@@ -11,7 +11,7 @@ vi.mock("$lib/api/character.remote", () => {
 	};
 });
 
-vi.mock("$lib/api/upload.remote", () => {
+vi.mock("#lib/api/upload.remote.js", () => {
 	return {
 		uploadOneImage: vi.fn(),
 	};

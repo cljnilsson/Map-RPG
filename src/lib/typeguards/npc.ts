@@ -1,4 +1,4 @@
-import type { NPC, VendorNPC, QuestGiverNPC } from "$lib/types/npc";
+import type { NPC, VendorNPC, QuestGiverNPC } from "#lib/types/npc.js";
 
 function isNPCVendor(npc: NPC): npc is VendorNPC {
 	return "items" in npc;

@@ -1,4 +1,4 @@
-import type { Faith } from "$lib/types/faith";
+import type { Faith } from "#lib/types/faith.js";
 
 const Store = $state<{ faith: Faith[] }>({
 	faith: [

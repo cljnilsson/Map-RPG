@@ -1,9 +1,9 @@
 <script lang="ts">
-import CityController from "$lib/controller/city.svelte";
-import Tooltip from "$lib/features/tooltip/tooltipOnHover.svelte";
-import type { Resource } from "$lib/types/resource";
-import LogController from "$lib/controller/logs.svelte";
-import type { Building } from "$lib/types/building";
+import CityController from "#lib/controller/city.svelte.js";
+import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
+import type { Resource } from "#lib/types/resource.js";
+import LogController from "#lib/controller/logs.svelte.js";
+import type { Building } from "#lib/types/building.js";
 
 const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
 let max = $state(5);

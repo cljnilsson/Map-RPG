@@ -1,8 +1,8 @@
 <script lang="ts">
-	import ResourceCost from "$lib/components/resourceCost.svelte";
-	import type { Building } from "$lib/types/building";
+	import ResourceCost from "#lib/components/resourceCost.svelte";
+	import type { Building } from "#lib/types/building.js";
 
-	import { safeGetBuilding } from "$lib/data/buildings";
+	import { safeGetBuilding } from "#lib/data/buildings.js";
 
     const { data } = $props();
     const building: Building | undefined = $derived(safeGetBuilding(data.building));

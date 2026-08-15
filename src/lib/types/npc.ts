@@ -1,5 +1,5 @@
-import type { VendorItem } from "$lib/types/item";
-import type { Quest } from "$lib/types/quest";
+import type { VendorItem } from "#lib/types/item.js";
+import type { Quest } from "#lib/types/quest.js";
 
 type NPC = {
 	health: number;

@@ -3,11 +3,11 @@ import Database from "better-sqlite3";
 // the below works in dev environment and saves one dependency but leave it for the end if I want to optimize
 //import { drizzle } from "drizzle-orm/bun-sqlite";
 //import { Database } from "bun:sqlite";
-import { env } from "$env/dynamic/private";
-import * as schema from "$lib/server/db/schema/index";
+import { DATABASE_URL } from "$app/env/private";
+import * as schema from "#lib/server/db/schema/index.js";
 
-if (!env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
-const client = new Database(env.DATABASE_URL);
+if (!DATABASE_URL) throw new Error("DATABASE_URL is not set");
+const client = new Database(DATABASE_URL);
 const db = drizzle(client, { schema });
 
 export { db };

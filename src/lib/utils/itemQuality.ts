@@ -1,4 +1,4 @@
-import type { Item } from "$lib/types/item";
+import type { Item } from "#lib/types/item.js";
 
 export function q2c(i: Item): string {
 	if (i?.quality === "common") {

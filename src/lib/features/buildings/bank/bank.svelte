@@ -1,18 +1,18 @@
 <script lang="ts">
-	import type { Building } from "$lib/types/building";
-	import Tabs from "$lib/components/utils/tabs.svelte";
-	import Tab from "$lib/components/utils/tab.svelte";
-	import Inventory from "$lib/features/inventory/inventory.svelte";
-	import type { BaseResource } from "$lib/types/resource";
-	import Storage from "$lib/features/buildings/bank/storage.svelte";
-	import ResourceSelection from "$lib/features/buildings/market/resourceSelection.svelte";
+	import type { Building } from "#lib/types/building.js";
+	import Tabs from "#lib/components/utils/tabs.svelte";
+	import Tab from "#lib/components/utils/tab.svelte";
+	import Inventory from "#lib/features/inventory/inventory.svelte";
+	import type { BaseResource } from "#lib/types/resource.js";
+	import Storage from "#lib/features/buildings/bank/storage.svelte";
+	import ResourceSelection from "#lib/features/buildings/market/resourceSelection.svelte";
 	import dayjs from "dayjs";
 	import { onMount } from "svelte";
-	import { getLoans, postLoan } from "$lib/api/loans.remote";
-	import { PlayerController } from "$lib/controller/character.svelte";
+	import { getLoans, postLoan } from "#lib/api/loans.remote.js";
+	import { PlayerController } from "#lib/controller/character.svelte.js";
 	import { SvelteDate } from "svelte/reactivity";
-	import { getResource, safeGetResource } from "$lib/data/resources";
-	import MapController from "$lib/controller/map.svelte";
+	import { getResource, safeGetResource } from "#lib/data/resources.js";
+	import MapController from "#lib/controller/map.svelte.js";
 
 	/*
 		TODO

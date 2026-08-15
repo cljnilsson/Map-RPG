@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BookPage from "$lib/features/book/bookPage.svelte";
+	import BookPage from "#lib/features/book/bookPage.svelte";
 
 	let {page}: { page: string } = $props();
 	let currentPage = $state(0);

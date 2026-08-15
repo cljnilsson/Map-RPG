@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type {Class} from "$lib/types/class";
-	import ClickableElement from "$lib/components/utils/clickableElement.svelte";
+	import type {Class} from "#lib/types/class.js";
+	import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 	let { gameClass, selectedClass = $bindable()}: { gameClass: Class; selectedClass: Class | undefined } = $props();
 

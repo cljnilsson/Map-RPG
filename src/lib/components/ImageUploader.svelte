@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {uploadOneImage} from "$lib/api/upload.remote";
+    import {uploadOneImage} from "#lib/api/upload.remote.js";
 	let { avatar = $bindable() }: { avatar: string } = $props();
 	let fileinput: HTMLInputElement;
 

@@ -1,5 +1,5 @@
-import { db } from "$lib/server/db";
-import { flags } from "$lib/server/db/schema";
+import { db } from "#lib/server/db/index.js";
+import { flags } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 
 // TODO ensure the values are valid before loading

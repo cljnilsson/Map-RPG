@@ -1,8 +1,8 @@
 <script lang="ts">
-	import DialogueButtons from "$lib/features/dialogue/dialogueButtons.svelte";
-	import DialogueBody from "$lib/features/dialogue/dialogueBody.svelte";
-	import DialogueController from "$lib/controller/dialogue.svelte";
-	import { dev } from "$app/environment";
+	import DialogueButtons from "#lib/features/dialogue/dialogueButtons.svelte";
+	import DialogueBody from "#lib/features/dialogue/dialogueBody.svelte";
+	import DialogueController from "#lib/controller/dialogue.svelte.js";
+	import { dev } from '$app/env';
 	import type { Snippet } from "svelte";
 
 	let { leftCol, maxWidth = 1300 }: { leftCol?: Snippet; maxWidth?: number } = $props();
@@ -95,10 +95,10 @@
 
 <style>
 	.wrapper {
-		padding-bottom: 0.5rem; /* Extra space for button overlap */
-		min-height: 10rem; /* attempt to have the box same size always */
+		padding-bottom: 0.5rem;
+		min-height: 10rem;
 		position: relative;
 		overflow: visible;
-		min-width: 300px; /* To ensure the buttons have space */
+		min-width: 300px;
 	}
 </style>

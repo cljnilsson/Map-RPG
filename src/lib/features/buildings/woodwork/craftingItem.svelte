@@ -1,6 +1,6 @@
 <script lang="ts">
-import type { CraftItem } from "$lib/types/item";
-import CraftingComponentGrid from "$lib/features/buildings/woodwork/craftingComponentGrid.svelte";
+import type { CraftItem } from "#lib/types/item.js";
+import CraftingComponentGrid from "#lib/features/buildings/woodwork/craftingComponentGrid.svelte";
 
 let {
 	inspectItem = $bindable(),

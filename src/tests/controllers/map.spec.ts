@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { MapWithClickBox, CustomMap, CityMap } from "$lib/types/mapTypes";
+import type { MapWithClickBox, CustomMap, CityMap } from "#lib/types/mapTypes.js";
 
 // --- MOCKS ---
 
@@ -51,7 +51,7 @@ const mockMaps: CustomMap[] = [
 ];
 
 // Mock MapStore
-vi.mock("$lib/stores/map.svelte", () => {
+vi.mock("#lib/stores/map.svelte.js", () => {
 	return {
 		default: {
 			editMode: false,
@@ -69,7 +69,7 @@ vi.mock("$lib/stores/map.svelte", () => {
 });
 
 // Mock maps data
-vi.mock("$lib/tempData", () => {
+vi.mock("#lib/tempData.js", () => {
 	return {
 		maps: [
 			{
@@ -108,15 +108,15 @@ vi.mock("$lib/tempData", () => {
 });
 
 // Mock typeguard
-vi.mock("$lib/typeguards/map", () => {
+vi.mock("#lib/typeguards/map.js", () => {
 	return {
 		isCityMap: (map: any) => map?.type === "city",
 	};
 });
 
-import MapStore from "$lib/stores/map.svelte";
-import { maps } from "$lib/tempData";
-import MapController from "$lib/controller/map.svelte";
+import MapStore from "#lib/stores/map.svelte.js";
+import { maps } from "#lib/tempData.js";
+import MapController from "#lib/controller/map.svelte.js";
 
 describe("MapController", () => {
 	const initialMapCount = maps.length;
@@ -162,7 +162,15 @@ describe("MapController", () => {
 
 		const box: MapWithClickBox = {
 			map: { name: "BoxMap", imagePath: "box.png", type: "world" },
-			clickBox: { x: 0, y: 0, originalX: 0, originalY: 0, width: 10, height: 10, rotation: 0 },
+			clickBox: {
+				x: 0,
+				y: 0,
+				originalX: 0,
+				originalY: 0,
+				width: 10,
+				height: 10,
+				rotation: 0,
+			},
 		};
 
 		MapController.selectedBox = box;
@@ -202,7 +210,15 @@ describe("MapController", () => {
 	it("should add and remove submaps", () => {
 		const submap: MapWithClickBox = {
 			map: { name: "Submap A", imagePath: "sub.png", type: "world" },
-			clickBox: { x: 1, y: 1, originalX: 1, originalY: 1, width: 5, height: 5, rotation: 0 },
+			clickBox: {
+				x: 1,
+				y: 1,
+				originalX: 1,
+				originalY: 1,
+				width: 5,
+				height: 5,
+				rotation: 0,
+			},
 		};
 
 		MapController.addSubmap(submap);
@@ -216,7 +232,15 @@ describe("MapController", () => {
 	it("should change the selected box destination", () => {
 		const submap: MapWithClickBox = {
 			map: { name: "World One", imagePath: "world1.png", type: "world" },
-			clickBox: { x: 1, y: 1, originalX: 1, originalY: 1, width: 5, height: 5, rotation: 0 },
+			clickBox: {
+				x: 1,
+				y: 1,
+				originalX: 1,
+				originalY: 1,
+				width: 5,
+				height: 5,
+				rotation: 0,
+			},
 		};
 
 		MapController.addSubmap(submap);
@@ -242,13 +266,27 @@ describe("MapController", () => {
 		});
 		expect(newMap?.previous).toBe(MapController.currentMapState);
 		expect(MapController.getMapByName("New Forest")).toBe(newMap);
-		expect(MapController.createMap({ name: "New Forest", imagePath: "/other.webp", type: "world" })).toBeNull();
+		expect(
+			MapController.createMap({
+				name: "New Forest",
+				imagePath: "/other.webp",
+				type: "world",
+			}),
+		).toBeNull();
 	});
 
 	it("should getSubMapByName", () => {
 		const submap: MapWithClickBox = {
 			map: { name: "Submap B", imagePath: "sub.png", type: "world" },
-			clickBox: { x: 2, y: 2, originalX: 2, originalY: 2, width: 5, height: 5, rotation: 0 },
+			clickBox: {
+				x: 2,
+				y: 2,
+				originalX: 2,
+				originalY: 2,
+				width: 5,
+				height: 5,
+				rotation: 0,
+			},
 		};
 
 		MapController.addSubmap(submap);
@@ -263,7 +301,15 @@ describe("MapController", () => {
 
 		const submap: MapWithClickBox = {
 			map: { name: "Submap C", imagePath: "sub.png", type: "world" },
-			clickBox: { x: 3, y: 3, originalX: 3, originalY: 3, width: 5, height: 5, rotation: 0 },
+			clickBox: {
+				x: 3,
+				y: 3,
+				originalX: 3,
+				originalY: 3,
+				width: 5,
+				height: 5,
+				rotation: 0,
+			},
 		};
 
 		MapController.addSubmap(submap);

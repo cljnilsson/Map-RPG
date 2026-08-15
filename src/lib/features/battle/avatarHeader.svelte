@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { PlayerController } from "$lib/controller/character.svelte";
+    import { PlayerController } from "#lib/controller/character.svelte.js";
     
     const width = 200;
     const height = 200;

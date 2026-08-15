@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "$lib/server/db/index";
+import { db } from "#lib/server/db/index.js";
 
 export const auth = betterAuth({
 	/*basePath: "/api/auth",*/

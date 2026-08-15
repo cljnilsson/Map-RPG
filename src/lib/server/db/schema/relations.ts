@@ -1,10 +1,10 @@
 import { relations } from "drizzle-orm";
-import { user } from "$lib/server/db/schema/auth";
-import { characters, items, stats } from "$lib/server/db/schema/character";
-import { city } from "$lib/server/db/schema/city";
-import { resource } from "$lib/server/db/schema/resource";
-import { unit } from "$lib/server/db/schema/unit";
-import { cityData, windowPositions, resources, storage, units, plot, loans } from "$lib/server/db/schema";
+import { user } from "#lib/server/db/schema/auth.js";
+import { characters, items, stats } from "#lib/server/db/schema/character.js";
+import { city } from "#lib/server/db/schema/city.js";
+import { resource } from "#lib/server/db/schema/resource.js";
+import { unit } from "#lib/server/db/schema/unit.js";
+import { cityData, windowPositions, resources, storage, units, plot, loans } from "#lib/server/db/schema/index.js";
 
 export const characterRelations = relations(characters, ({ one, many }) => ({
 	stats: many(stats),

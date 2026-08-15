@@ -1,6 +1,6 @@
-import type { GameObject, LootableGameObject, LootableQuestGameObject, ContainerGameObject } from "$lib/types/gameObject";
-import { getQuest } from "$lib/data/quests";
-import { getItem } from "$lib/data/items";
+import type { GameObject, LootableGameObject, LootableQuestGameObject, ContainerGameObject } from "#lib/types/gameObject.js";
+import { getQuest } from "#lib/data/quests.js";
+import { getItem } from "#lib/data/items.js";
 
 const gameobjectRegistry = {
 	"test-scroll-1": () =>

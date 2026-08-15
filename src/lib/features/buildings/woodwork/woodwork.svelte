@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Building } from "$lib/types/building";
-	import type { CraftItem, Quality } from "$lib/types/item";
-	import { safeGetItem } from "$lib/data/items";
+	import type { Building } from "#lib/types/building.js";
+	import type { CraftItem, Quality } from "#lib/types/item.js";
+	import { safeGetItem } from "#lib/data/items.js";
 	import { onMount } from "svelte";
-	import Crafting from "$lib/features/buildings/woodwork/crafting.svelte";
+	import Crafting from "#lib/features/buildings/woodwork/crafting.svelte";
 
 	const { level, building }: { level: number; building: Omit<Building, "componentOnClick"> } = $props();
 

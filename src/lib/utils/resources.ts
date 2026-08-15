@@ -1,6 +1,6 @@
-import CityController from "$lib/controller/city.svelte";
-import MapController from "$lib/controller/map.svelte";
-import type { CityMap } from "$lib/types/mapTypes";
+import CityController from "#lib/controller/city.svelte.js";
+import MapController from "#lib/controller/map.svelte.js";
+import type { CityMap } from "#lib/types/mapTypes.js";
 
 /** Get the single owned & unlocked city from maps */
 function getOwnedCity(): CityMap | null {

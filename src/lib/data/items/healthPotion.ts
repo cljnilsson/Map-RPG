@@ -1,5 +1,5 @@
-import type { UsableItem } from "$lib/types/item";
-import { PlayerController } from "$lib/controller/character.svelte";
+import type { UsableItem } from "#lib/types/item.js";
+import { PlayerController } from "#lib/controller/character.svelte.js";
 
 const lesserHealthPotion = {
 	type: "usable",

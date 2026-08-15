@@ -1,9 +1,9 @@
 <script lang="ts">
   import dayjs from "dayjs";
-  import LogController from "$lib/controller/logs.svelte";
-  import Window from "$lib/features/window/window.svelte";
-  import WindowController from "$lib/controller/window.svelte";
-  import { dev } from "$app/environment";
+  import LogController from "#lib/controller/logs.svelte.js";
+  import Window from "#lib/features/window/window.svelte";
+  import WindowController from "#lib/controller/window.svelte.js";
+  import { dev } from '$app/env';
   import { fly } from "svelte/transition";
 
   let currentLogs = $derived(
@@ -43,7 +43,7 @@
     <button
       type="button"
       class="btn btn-light mx-1"
-      onclick={() => (LogController.currentPage -= 1)}
+      onclick={() => LogController.currentPage -= 1}
       disabled={LogController.currentPage <= 1}
     >
       Previous
@@ -51,12 +51,10 @@
     <button
       type="button"
       class="btn btn-light mx-1"
-      onclick={() => (LogController.currentPage += 1)}
-      disabled={LogController.currentPage >=
-        Math.ceil(LogController.logs.length / 8)}
-    >
-      Next
-    </button>
+      onclick={() => LogController.currentPage += 1}
+      disabled={LogController.currentPage >= Math.ceil(LogController.logs.length / 8)}
+    >Next</button>
+
     {#if dev}
       <button
         type="button"

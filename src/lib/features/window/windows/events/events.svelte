@@ -1,8 +1,8 @@
 <script lang="ts">
-	//import MapStore from "$lib/stores/map.svelte";
-	import Window from "$lib/features/window/window.svelte";
-	//import type { MapWithClickBox } from "$lib/types/mapTypes";
-	import WindowController from "$lib/controller/window.svelte";
+	//import MapStore from "#lib/stores/map.svelte.js";
+	import Window from "#lib/features/window/window.svelte";
+	//import type { MapWithClickBox } from "#lib/types/mapTypes.js";
+	import WindowController from "#lib/controller/window.svelte.js";
 
 	let eventWindow = WindowController.getByName("Events");
 </script>

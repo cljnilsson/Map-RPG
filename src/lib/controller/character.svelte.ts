@@ -1,10 +1,10 @@
-//import type { Character } from "$lib/types/character";
-import type { Item, VendorItem, InventoryItem } from "$lib/types/item";
-import type { Character } from "$lib/types/character";
-import PlayerStore from "$lib/stores/character.svelte";
-import type { NPC } from "$lib/types/npc";
-import LogController from "$lib/controller/logs.svelte";
-import SaveController from "$lib/controller/save.svelte";
+//import type { Character } from "#lib/types/character.js";
+import type { Item, VendorItem, InventoryItem } from "#lib/types/item.js";
+import type { Character } from "#lib/types/character.js";
+import PlayerStore from "#lib/stores/character.svelte.js";
+import type { NPC } from "#lib/types/npc.js";
+import LogController from "#lib/controller/logs.svelte.js";
+import SaveController from "#lib/controller/save.svelte.js";
 
 export class CharacterController {}
 
@@ -179,7 +179,11 @@ export class PlayerController extends CharacterController {
 		return c + s * 10 + g * 100;
 	}
 
-	public static copperToMoney(totalCopper: number): { gold: number; silver: number; copper: number } {
+	public static copperToMoney(totalCopper: number): {
+		gold: number;
+		silver: number;
+		copper: number;
+	} {
 		if (totalCopper < 0) {
 			throw new Error("Total copper value cannot be negative");
 		}

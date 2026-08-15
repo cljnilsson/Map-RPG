@@ -1,5 +1,5 @@
 import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
-import { unit } from "$lib/server/db/schema/unit";
+import { unit } from "#lib/server/db/schema/unit.js";
 
 /** Stat definitions used only when resolving army battles. */
 export const battleStat = sqliteTable("battleStat", {
