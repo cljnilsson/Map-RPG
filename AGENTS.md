@@ -20,6 +20,17 @@ npx tsx ./seed.ts           # seed the first account with demo data
 
 `DATABASE_URL` is required for database commands and any server code that imports `src/lib/server/db/index.ts`. Do not run schema-changing or seed commands unless the task calls for them.
 
+## Context exclusions
+
+Do not read, search, inspect, or include files under:
+- node_modules/
+- dist/
+- build/
+- .next/
+- coverage/
+
+Treat these directories as excluded from the codebase unless I explicitly ask you to inspect them.
+
 ## Source layout
 
 - `src/routes/`: SvelteKit pages and route-specific server load/actions.
