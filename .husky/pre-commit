@@ -1,4 +1,5 @@
 bun run test:silent
+bun run test:e2e:silent
 bunx svelte-check
 bunx biome format ./src --write
 git add src

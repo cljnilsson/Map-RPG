@@ -18,6 +18,7 @@
     "test:ui": "vitest --ui",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:e2e:silent": "playwright test --quiet --reporter=dot",
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
