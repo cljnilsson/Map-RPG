@@ -34,13 +34,13 @@ describe("authentication pages", () => {
 		const user = userEvent.setup();
 		render(LoginPage);
 
-		await user.type(screen.getByLabelText("Email"), "admin@admin");
+		await user.type(screen.getByLabelText("Email"), "admin@admin.com");
 		await user.type(screen.getByLabelText("Password"), "admin123");
 		await user.click(screen.getByRole("button", { name: "Login" }));
 
 		expect(authClientMocks.signInEmail).toHaveBeenCalledWith(
 			{
-				email: "admin@admin",
+				email: "admin@admin.com",
 				password: "admin123",
 				rememberMe: true,
 			},
