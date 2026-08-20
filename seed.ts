@@ -103,16 +103,19 @@ async function createOrUpdateSeedUser(): Promise<User> {
   if (credentialAccount) {
     await db
       .update(account)
-      .set({ password })
+      .set({ password, issuer: "local:credential" })
       .where(eq(account.id, credentialAccount.id));
+    console.log(`✅ Updated credential account for ${seedUserDetails.email}`);
   } else {
     await db.insert(account).values({
       id: crypto.randomUUID(),
       accountId: seedUser.id,
       providerId: "credential",
+      issuer: "local:credential",
       userId: seedUser.id,
       password,
     });
+    console.log(`✅ Created credential account for ${seedUserDetails.email}`);
   }
 
   return seedUser;
