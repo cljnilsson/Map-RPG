@@ -1,0 +1,84 @@
+:is(html, .theme-preview)[data-bs-theme] {
+	--theme-surface: rgb(255 255 255 / 62%);
+	--theme-editor-surface: var(--bs-tertiary-bg);
+	--theme-control-shadow: rgb(35 45 60 / 14%);
+	--theme-primary-hover: color-mix(in srgb, var(--bs-primary), black 12%);
+	--theme-primary-contrast: #fff;
+	background-color: var(--bs-body-bg);
+	color-scheme: light;
+}
+
+:is(html, .theme-preview)[data-bs-theme="parchment"] {
+	--bs-body-bg: #f3e7d3;
+	--bs-body-color: #3e2d21;
+	--bs-emphasis-color: #2e1e14;
+	--bs-secondary-color: #6d5749;
+	--bs-tertiary-bg: #ead8be;
+	--bs-border-color: #a98263;
+	--bs-primary: #79513a;
+	--bs-primary-rgb: 121, 81, 58;
+	--bs-link-color: #69402b;
+	--bs-link-hover-color: #452616;
+	--theme-surface: rgb(243 231 211 / 78%);
+	--theme-primary-contrast: #fff;
+}
+
+:is(html, .theme-preview)[data-bs-theme="dark"] {
+	--bs-body-bg: #1c2026;
+	--bs-body-color: #e7eaed;
+	--bs-emphasis-color: #fff;
+	--bs-secondary-color: #aab4c0;
+	--bs-tertiary-bg: #2b3139;
+	--bs-border-color: #4a5562;
+	--bs-primary: #73b7ff;
+	--bs-primary-rgb: 115, 183, 255;
+	--bs-link-color: #91c9ff;
+	--bs-link-hover-color: #c2e1ff;
+	--theme-surface: rgb(28 32 38 / 82%);
+	--theme-editor-surface: #2b3139;
+	--theme-control-shadow: rgb(0 0 0 / 30%);
+	--theme-primary-contrast: #17202b;
+	color-scheme: dark;
+}
+
+:is(html, .theme-preview)[data-bs-theme="forest"] {
+	--bs-body-bg: #e7eee3;
+	--bs-body-color: #213525;
+	--bs-emphasis-color: #152419;
+	--bs-secondary-color: #536a58;
+	--bs-tertiary-bg: #d3e1ce;
+	--bs-border-color: #76917a;
+	--bs-primary: #356f43;
+	--bs-primary-rgb: 53, 111, 67;
+	--bs-link-color: #285f37;
+	--bs-link-hover-color: #163f22;
+	--theme-surface: rgb(231 238 227 / 78%);
+}
+
+:is(html, .theme-preview)[data-bs-theme="ocean"] {
+	--bs-body-bg: #e1f0f3;
+	--bs-body-color: #17343d;
+	--bs-emphasis-color: #10262d;
+	--bs-secondary-color: #4d6f78;
+	--bs-tertiary-bg: #cce4e8;
+	--bs-border-color: #6ca1ab;
+	--bs-primary: #197d91;
+	--bs-primary-rgb: 25, 125, 145;
+	--bs-link-color: #126d82;
+	--bs-link-hover-color: #094959;
+	--theme-surface: rgb(225 240 243 / 80%);
+}
+
+:is(html, .theme-preview)[data-bs-theme="royal"] {
+	--bs-body-bg: #eee8f5;
+	--bs-body-color: #302346;
+	--bs-emphasis-color: #211733;
+	--bs-secondary-color: #645578;
+	--bs-tertiary-bg: #dfd3eb;
+	--bs-border-color: #9782b2;
+	--bs-primary: #6844a0;
+	--bs-primary-rgb: 104, 68, 160;
+	--bs-link-color: #56358d;
+	--bs-link-hover-color: #38205f;
+	--theme-surface: rgb(238 232 245 / 80%);
+}

@@ -13,6 +13,7 @@
     import type { Character } from "#lib/server/db/schema/index.js";
     //import { source } from "sveltekit-sse";
     import SettingsController from "#lib/controller/settings.svelte.js";
+	import ThemeController from "#lib/controller/theme.svelte.js";
     import { authClient } from "#lib/auth-client.js";
     import { now } from "#lib/api/live-clock.remote.js";
 
@@ -140,6 +141,7 @@
     });
 
     onMount(() => {
+		ThemeController.initialize();
         //let unsubscribe: (() => void) | undefined;
         /*try {*/
         //const hr = source("/api/resources");
