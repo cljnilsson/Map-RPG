@@ -32,6 +32,7 @@ test("theme picker applies the selected Bootstrap theme", async ({ page }) => {
 test("visual theme picker applies the selected theme", async ({ page }) => {
 	await page.goto("/themetest");
 
-	await page.getByRole("button", { name: "Use Royal theme" }).click();
+	await page.getByRole("button", { name: "Royal" }).click();
+	await page.getByRole("button", { name: "Save Royal theme" }).click();
 	await expect(page.locator("html")).toHaveAttribute("data-bs-theme", "royal");
 });
