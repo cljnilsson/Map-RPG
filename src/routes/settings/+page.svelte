@@ -1,10 +1,18 @@
 <script lang="ts">
+import { onMount } from "svelte";
 import SettingsController from "#lib/controller/settings.svelte.js";
+import ThemeController from "#lib/controller/theme.svelte.js";
 import KeyBinder from "#lib/components/utils/keybind.svelte";
 import type { ToggleSetting, SettingChunk, KeybindSetting } from "#lib/types/settings.js";
+import { themeOptions, type ThemeName } from "#lib/themes.js";
 
 let currentlyListening: string | undefined = $state(undefined);
 let searchText: string = $state("");
+let selectedTheme = $state<ThemeName>(ThemeController.theme);
+
+onMount(() => {
+	selectedTheme = ThemeController.theme;
+});
 
 const uiToggles: ToggleSetting[] = [
 	{
@@ -50,7 +58,6 @@ const miscToggles: ToggleSetting[] = [
 		key: "offlineMode",
 		description: "Don't attempt to save data in the database",
 	},
-	{ name: "Dark Mode", key: "darkMode", description: "Enable dark mode" },
 ];
 
 const allKeybindSettings: KeybindSetting[] = [
@@ -112,7 +119,6 @@ function isToggleSetting(s: ToggleSetting | KeybindSetting): s is ToggleSetting 
 	return (
 		s.key === "keybindTooltips" ||
 		s.key === "offlineMode" ||
-		s.key === "darkMode" ||
 		s.key === "showInventory" ||
 		s.key === "showNavigation" ||
 		s.key === "showQuests" ||
@@ -127,6 +133,10 @@ function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): A
 
 	return settings.filter((setting) => setting.name.toLowerCase().includes(query));
 }
+
+function saveTheme() {
+	ThemeController.theme = selectedTheme;
+}
 </script>
 
 <div class="map-wrapper page-surface mt-3 container">
@@ -137,7 +147,60 @@ function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): A
 		</div>
 	</div>
 
-	{#each allSettings as c (c.title)}
+	<section class="settings-chunk">
+		<div class="row">
+			<div class="col">
+				<h5>Theme</h5>
+				<p class="text-body-secondary">Choose a palette, preview it, then save it for future visits.</p>
+			</div>
+		</div>
+		<div class="row g-3">
+			<div class="col-12 col-lg-5">
+				<fieldset class="theme-options d-grid gap-2">
+					<legend class="visually-hidden">Choose a theme</legend>
+					{#each themeOptions as theme (theme.value)}
+						<button
+							type="button"
+							class="theme-preview theme-option d-flex align-items-center gap-3 text-start"
+							data-bs-theme={theme.value}
+							aria-pressed={selectedTheme === theme.value}
+							onclick={() => (selectedTheme = theme.value)}
+						>
+							<span class="theme-option-name">{theme.label}</span>
+							<span class="theme-swatches" aria-hidden="true">
+								<span class="theme-swatch theme-swatch-body"></span>
+								<span class="theme-swatch theme-swatch-surface"></span>
+								<span class="theme-swatch theme-swatch-primary"></span>
+								<span class="theme-swatch theme-swatch-border"></span>
+								<span class="theme-swatch theme-swatch-text"></span>
+							</span>
+						</button>
+					{/each}
+				</fieldset>
+			</div>
+			<div class="col-12 col-lg-7">
+				<div class="theme-preview theme-sample card" data-bs-theme={selectedTheme}>
+					<div class="card-body p-3">
+						<div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+							<div>
+								<p class="small text-body-secondary text-uppercase mb-1">Previewing</p>
+								<h6 class="mb-0">{themeOptions.find((theme) => theme.value === selectedTheme)?.label}</h6>
+							</div>
+							<span class="badge text-bg-secondary">Preview</span>
+						</div>
+						<div class="theme-preview-panel rounded border p-3 mb-3">
+							<p class="fw-semibold mb-1">A small preview</p>
+							<p class="small text-body-secondary mb-3">The theme is not applied to the game until you save it.</p>
+							<button type="button" class="btn btn-primary btn-sm">Primary action</button>
+						</div>
+						<button type="button" class="btn btn-primary" onclick={saveTheme}>Save {themeOptions.find((theme) => theme.value === selectedTheme)?.label} theme</button>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		{#each allSettings as c (c.title)}
 		<div class="settings-chunk">
 			<div class="row">
 				<div class="col">
@@ -155,12 +218,13 @@ function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): A
 									class="form-check-input"
 									type="checkbox"
 									role="switch"
-									id={"flexSwitchCheck" + s.name}
+									id={`flexSwitchCheck${s.name}`}
 									bind:checked={SettingsController[s.key]}
+									aria-checked={SettingsController[s.key]}
 								/>
 								<label
 									class="form-check-label"
-									for={"flexSwitchCheck" + s.name}
+									for={`flexSwitchCheck${s.name}`}
 								>
 									{s.description}
 								</label>
@@ -179,8 +243,83 @@ function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): A
 {/each}
 </div>
 
-<style>
+<style lang="scss">
 	.settings-chunk + .settings-chunk {
 		margin-top: 1.5rem;
+	}
+
+	.theme-options {
+		min-width: 0;
+		padding: 0;
+		margin: 0;
+		border: 0;
+	}
+
+	.theme-option {
+		padding: 0.65rem 0.75rem;
+		color: var(--bs-body-color);
+		background: var(--theme-surface);
+		border: 1px solid var(--bs-border-color);
+		border-radius: var(--bs-border-radius);
+		transition: transform 160ms ease;
+		transform-origin: left center;
+
+		&:focus-visible {
+			outline: 3px solid rgb(var(--bs-primary-rgb) / 55%);
+			outline-offset: 3px;
+		}
+
+		&[aria-pressed="true"] {
+			transform: scale(1.025);
+		}
+	}
+
+	.theme-option-name {
+		min-width: 5.5rem;
+		font-weight: 600;
+	}
+
+	.theme-swatches {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		flex: 1;
+		overflow: hidden;
+		border: 1px solid var(--bs-border-color);
+		border-radius: var(--bs-border-radius-sm);
+
+		.theme-swatch {
+			height: 1rem;
+
+			&.theme-swatch-body {
+				background: var(--bs-body-bg);
+			}
+
+			&.theme-swatch-surface {
+				background: var(--theme-surface);
+			}
+
+			&.theme-swatch-primary {
+				background: var(--bs-primary);
+			}
+
+			&.theme-swatch-border {
+				background: var(--bs-border-color);
+			}
+
+			&.theme-swatch-text {
+				background: var(--bs-body-color);
+			}
+		}
+	}
+
+	.theme-sample {
+		color: var(--bs-body-color);
+		background: var(--theme-surface);
+		border-color: var(--bs-border-color);
+
+		.theme-preview-panel {
+			background: var(--bs-tertiary-bg);
+			border-color: var(--bs-border-color) !important;
+		}
 	}
 </style>

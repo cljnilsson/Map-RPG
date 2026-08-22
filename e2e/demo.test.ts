@@ -7,7 +7,7 @@ const routes = [
 	{ path: "/creator", heading: "Create your character!" },
 	{ path: "/wiki", heading: "Wiki" },
 	{ path: "/map", heading: "Login", expectedPath: "/login" },
-	{ path: "/themetest", heading: "Theme picker" },
+	{ path: "/settings", heading: "Settings" },
 ];
 
 for (const route of routes) {
@@ -22,15 +22,8 @@ for (const route of routes) {
 	});
 }
 
-test("theme picker applies the selected Bootstrap theme", async ({ page }) => {
-	await page.goto("/");
-
-	await page.getByLabel("Theme").selectOption("forest");
-	await expect(page.locator("html")).toHaveAttribute("data-bs-theme", "forest");
-});
-
 test("visual theme picker applies the selected theme", async ({ page }) => {
-	await page.goto("/themetest");
+	await page.goto("/settings");
 
 	await page.getByRole("button", { name: "Royal" }).click();
 	await page.getByRole("button", { name: "Save Royal theme" }).click();
