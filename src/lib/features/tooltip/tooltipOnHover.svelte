@@ -6,7 +6,8 @@ let {
 	children,
 	onHoverTooltip,
 	disable = false,
-}: { children: Snippet; onHoverTooltip: Snippet; disable?: boolean } = $props();
+	wide = false,
+}: { children: Snippet; onHoverTooltip: Snippet; disable?: boolean; wide?: boolean } = $props();
 
 let hovering: boolean = $state(false);
 let x = $state(0);
@@ -68,7 +69,7 @@ $effect(() => {
 });
 </script>
 
-<Tooltip bind:tooltipContainerEl bind:tooltipEl bind:x bind:y show={hovering && !disable} >
+<Tooltip bind:tooltipContainerEl bind:tooltipEl bind:x bind:y show={hovering && !disable} {wide}>
     {#snippet tooltip()}
        	{#if hovering && !disable}
  			{@render onHoverTooltip()}

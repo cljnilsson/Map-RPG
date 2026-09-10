@@ -1,5 +1,4 @@
 <script lang="ts">
-import { onMount } from "svelte";
 import SettingsController from "#lib/controller/settings.svelte.js";
 import ThemeController from "#lib/controller/theme.svelte.js";
 import KeyBinder from "#lib/components/utils/keybind.svelte";
@@ -9,10 +8,8 @@ import { themeOptions, type ThemeName } from "#lib/themes.js";
 let currentlyListening: string | undefined = $state(undefined);
 let searchText: string = $state("");
 let selectedTheme = $state<ThemeName>(ThemeController.theme);
-
-onMount(() => {
-	selectedTheme = ThemeController.theme;
-});
+let isSavingTheme = $state(false);
+let themeSaveError = $state("");
 
 const uiToggles: ToggleSetting[] = [
 	{
@@ -134,8 +131,16 @@ function doesNameMatchSearch(settings: Array<ToggleSetting | KeybindSetting>): A
 	return settings.filter((setting) => setting.name.toLowerCase().includes(query));
 }
 
-function saveTheme() {
-	ThemeController.theme = selectedTheme;
+async function saveTheme() {
+	isSavingTheme = true;
+	themeSaveError = "";
+
+	const saved = await ThemeController.save(selectedTheme);
+	if (!saved) {
+		themeSaveError = "Unable to save your theme. Please try again.";
+	}
+
+	isSavingTheme = false;
 }
 </script>
 
@@ -193,7 +198,12 @@ function saveTheme() {
 							<p class="small text-body-secondary mb-3">The theme is not applied to the game until you save it.</p>
 							<button type="button" class="btn btn-primary btn-sm">Primary action</button>
 						</div>
-						<button type="button" class="btn btn-primary" onclick={saveTheme}>Save {themeOptions.find((theme) => theme.value === selectedTheme)?.label} theme</button>
+						<button type="button" class="btn btn-primary" disabled={isSavingTheme} onclick={saveTheme}>
+							{isSavingTheme ? "Saving theme…" : `Save ${themeOptions.find((theme) => theme.value === selectedTheme)?.label} theme`}
+						</button>
+						{#if themeSaveError}
+							<p class="text-danger small mt-2 mb-0" role="alert">{themeSaveError}</p>
+						{/if}
 					</div>
 					</div>
 				</div>

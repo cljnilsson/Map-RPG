@@ -9,7 +9,12 @@ export const themeOptions = [
 export type ThemeName = (typeof themeOptions)[number]["value"];
 
 export const defaultTheme: ThemeName = "parchment";
+export const themeCookieName = "map-rpg-theme";
 
 export function isThemeName(value: string): value is ThemeName {
 	return themeOptions.some((theme) => theme.value === value);
+}
+
+export function themeFromCookie(value: string | undefined): ThemeName {
+	return value && isThemeName(value) ? value : defaultTheme;
 }

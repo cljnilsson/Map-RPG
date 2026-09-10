@@ -29,3 +29,10 @@ test("visual theme picker applies the selected theme", async ({ page }) => {
 	await page.getByRole("button", { name: "Save Royal theme" }).click();
 	await expect(page.locator("html")).toHaveAttribute("data-bs-theme", "royal");
 });
+
+test("saved theme is rendered from the cookie before hydration", async ({ context, page }) => {
+	await context.addCookies([{ name: "map-rpg-theme", value: "forest", url: "http://localhost:4174" }]);
+
+	const response = await page.goto("/");
+	expect(await response?.text()).toContain('data-bs-theme="forest"');
+});

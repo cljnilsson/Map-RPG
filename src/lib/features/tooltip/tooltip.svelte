@@ -6,6 +6,7 @@ let {
 	children,
 	tooltip,
 	show = false,
+	wide = false,
 	x = $bindable(),
 	y = $bindable(),
 	tooltipEl = $bindable(),
@@ -14,6 +15,7 @@ let {
 	children: Snippet;
 	tooltip: Snippet;
 	show: boolean;
+	wide?: boolean;
 	x: number;
 	y: number;
 	tooltipEl: HTMLDivElement | null;
@@ -24,7 +26,7 @@ let {
 <div class="tooltip-container" bind:this={tooltipContainerEl} role="tooltip">
 	{@render children()}
 	{#if show}
-    	<div class="c-tooltip" bind:this={tooltipEl} use:portal={"body"} style="top: {y}px; left: {x}px;">
+	    	<div class="c-tooltip" class:wide={wide} bind:this={tooltipEl} use:portal={"body"} style="top: {y}px; left: {x}px;">
     		{@render tooltip()}
     	</div>
 	{/if}
@@ -44,11 +46,15 @@ let {
 		padding: 4px;
 		color: #685247;
 		z-index: 9999;
-		max-width: 300px;
 		white-space: normal;
 		word-wrap: break-word;
 		min-width: 100px;
 		max-width: 300px;
 		pointer-events: none;
+
+		&.wide {
+			width: max-content;
+			max-width: calc(100vw - 50px);
+		}
 	}
 </style>

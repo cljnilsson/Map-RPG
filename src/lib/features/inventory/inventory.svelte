@@ -3,7 +3,7 @@ import { PlayerController } from "#lib/controller/character.svelte.js";
 import InventoryItemComponent from "#lib/features/inventory/inventoryItem.svelte";
 import type { InventoryItem } from "#lib/types/item.js";
 import Tooltip from "#lib/features/tooltip/tooltipOnHover.svelte";
-import { q2c } from "#lib/utils/itemQuality.js";
+import { q2c, q2g, qualityGemCount } from "#lib/utils/itemQuality.js";
 import ItemGrid from "#lib/components/itemGrid.svelte";
 
 let {
@@ -22,6 +22,7 @@ let {
 
 const rows = 8;
 const slots = 6 * rows;
+const gemSlots = Array.from({ length: 4 });
 
 let selectedItem: InventoryItem | null = $state(null);
 let searchString: string = $state("");
@@ -44,10 +45,18 @@ $effect(() => {
 </div>
 <ItemGrid items={PlayerController.inventory} {size}>
 	{#snippet item(gridItem: InventoryItem)}
-		<Tooltip>
+		<Tooltip wide>
 			{#snippet onHoverTooltip()}
-				<h5 style={"color: " + q2c(gridItem.item) + ";"}>{gridItem.item.name}</h5>
-				<p>{gridItem.item.description}</p>
+				<p class="visually-hidden">Item quality: {gridItem.item.quality}</p>
+				<div class="d-flex align-items-center gap-2 mb-2">
+					<h5 class="inventory-tooltip-title mb-0 text-nowrap" style={`color: ${q2c(gridItem.item)};`}>{gridItem.item.name}</h5>
+					<div class="d-flex gap-1" aria-hidden="true">
+						{#each gemSlots as _, index (index)}
+							<img src={index < qualityGemCount(gridItem.item) ? q2g(gridItem.item) : "/gems/emptyGem.png"} alt="" width="20" height="20" />
+						{/each}
+					</div>
+				</div>
+				<p class="inventory-tooltip-description">{gridItem.item.description}</p>
 			{/snippet}
 
 			<InventoryItemComponent
@@ -83,5 +92,13 @@ $effect(() => {
 		font-family: "Arial", sans-serif; /* Match font style to complement the coin images */
 		font-size: 24px; /* Adjust size to align visually with the coin images */
 		margin-right: 0.6rem;
+	}
+
+	.inventory-tooltip-description {
+		max-width: 300px;
+	}
+
+	.inventory-tooltip-title {
+		text-shadow: 0 1px 2px rgb(0 0 0 / 35%);
 	}
 </style>

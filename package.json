@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
-    "dev:bun": "bunx --bun vite dev",
+    "dev": "LAUNCH_EDITOR=zed vite dev",
+    "dev:bun": "bunx --bun LAUNCH_EDITOR=zed vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "husky",
@@ -26,36 +26,36 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.63.0",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@tauri-apps/cli": "^2.11.4",
     "@testing-library/jest-dom": "^6.10.0",
     "@testing-library/svelte": "^5.4.2",
-    "@testing-library/user-event": "^14.6.6",
+    "@testing-library/user-event": "^14.6.7",
     "@types/better-sqlite3": "^7.6.13",
     "@vitest/ui": "^4.1.11",
     "drizzle-kit": "^0.31.10",
     "husky": "^9.1.7",
-    "svelte": "^5.56.10",
+    "svelte": "^5.57.0",
     "svelte-check": "^4.7.6",
     "typescript": "~6.0.3",
     "vite": "^8.2.1",
     "vitest": "^4.1.11",
-    "happy-dom": "^20.11.6"
+    "happy-dom": "^20.14.3"
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "better-auth": "^1.7.1",
+    "better-auth": "^1.7.3",
     "better-sqlite3": "^13.0.3",
     "dayjs": "^1.11.23",
     "drizzle-orm": "^0.45.2",
     "map-game": ".",
-    "sass": "^1.103.1",
+    "sass": "^1.104.0",
     "sv": "^0.17.0",
-    "valibot": "^1.4.2"
+    "valibot": "^1.5.0"
   },
   "overrides": {
     "vite": "8.2.1"

@@ -1,17 +1,33 @@
-import { dbCheckup } from "#lib/data/bootstrap.js"; // Runs health checkup for db
 import { auth } from "#lib/auth.js"; // path to your auth file
 import { svelteKitHandler } from "better-auth/svelte-kit";
-import { building } from "$app/env";
-import { dev } from "$app/env";
+import { building, dev } from "$app/env";
 import type { RequestEvent } from "@sveltejs/kit";
+import { themeCookieName, themeFromCookie } from "#lib/themes.js";
 
 //dbCheckup();
 
-export async function handle({ event, resolve }: { event: RequestEvent; resolve: (event: RequestEvent) => Response | Promise<Response> }): Promise<Response> {
+export async function handle({
+	event,
+	resolve,
+}: {
+	event: RequestEvent;
+	resolve: (event: RequestEvent, options?: { transformPageChunk?: ({ html }: { html: string }) => string }) => Response | Promise<Response>;
+}): Promise<Response> {
 	if (dev && event.url.pathname === "/.well-known/appspecific/com.chrome.devtools.json") {
 		return new Response(undefined, { status: 404 });
 	}
-	return svelteKitHandler({ event, resolve, auth, building });
+
+	const theme = themeFromCookie(event.cookies.get(themeCookieName));
+
+	return svelteKitHandler({
+		event,
+		resolve: (requestEvent) =>
+			resolve(requestEvent, {
+				transformPageChunk: ({ html }) => html.replace("%map-rpg-theme%", theme),
+			}),
+		auth,
+		building,
+	});
 }
 
 /*export const handle: Handle = async ({ event, resolve }) => {

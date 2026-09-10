@@ -1,36 +1,48 @@
+import { browser } from "$app/env";
 import { defaultTheme, isThemeName, type ThemeName } from "#lib/themes.js";
 
-const storageKey = "map-rpg-theme";
-const isBrowser = typeof window !== "undefined";
+function initialTheme(): ThemeName {
+	if (!browser) {
+		return defaultTheme;
+	}
+
+	const documentTheme = document.documentElement.dataset.bsTheme;
+	return documentTheme && isThemeName(documentTheme) ? documentTheme : defaultTheme;
+}
 
 class ThemeController {
-	private _theme = $state<ThemeName>(defaultTheme);
+	private _theme = $state<ThemeName>(initialTheme());
 
 	get theme(): ThemeName {
 		return this._theme;
 	}
 
-	set theme(value: ThemeName) {
-		this._theme = value;
-		this.apply();
-
-		if (isBrowser) {
-			localStorage.setItem(storageKey, value);
-		}
-	}
-
-	initialize() {
-		if (!isBrowser) {
-			return;
+	async save(value: ThemeName): Promise<boolean> {
+		if (!browser) {
+			return false;
 		}
 
-		const storedTheme = localStorage.getItem(storageKey);
-		this._theme = storedTheme && isThemeName(storedTheme) ? storedTheme : defaultTheme;
-		this.apply();
+		try {
+			const response = await fetch("/api/theme", {
+				method: "POST",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify({ theme: value }),
+			});
+
+			if (!response.ok) {
+				return false;
+			}
+
+			this._theme = value;
+			this.apply();
+			return true;
+		} catch {
+			return false;
+		}
 	}
 
 	private apply() {
-		if (isBrowser) {
+		if (browser) {
 			document.documentElement.dataset.bsTheme = this._theme;
 		}
 	}
