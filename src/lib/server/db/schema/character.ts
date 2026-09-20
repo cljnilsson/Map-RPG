@@ -14,6 +14,7 @@ export const characters = sqliteTable("characters", {
 	name: text("name").notNull(),
 	age: integer("age").notNull().default(18),
 	level: integer("level").notNull().default(1),
+	unspentSkillPoints: integer("unspent_skill_points").notNull().default(0),
 	xp: integer("exp").notNull().default(0),
 	health: integer("health").notNull().default(100),
 	maxHealth: integer("maxHealth").notNull().default(100),

@@ -124,6 +124,14 @@ async function createOrUpdateSeedUser(): Promise<User> {
 async function seed() {
   const seedUser = await createOrUpdateSeedUser();
 
+  const updatedAlice = await db.update(characters)
+    .set({ unspentSkillPoints: 3 })
+    .where(and(eq(characters.userId, seedUser.id), eq(characters.name, "Alice")))
+    .returning({ id: characters.id });
+  if (updatedAlice.length > 0) {
+    console.log("✅ Updated Alice to 3 unspent skill points");
+  }
+
   if (await StatExists("Strength")) {
     console.log("Stat table already seeded, skipping...");
   } else {
@@ -146,6 +154,7 @@ async function seed() {
     await db.insert(characters).values([
       {
         name: "Alice",
+        unspentSkillPoints: 3,
         age: 22,
         gender: "Female",
         race: "Human",
@@ -160,6 +169,7 @@ async function seed() {
     ]);
 
     console.log("✅ Seeded character table");
+    console.log("✅ Created Alice with 3 unspent skill points");
 
     await db.insert(stats).values([
       { value: 5, statId: 1, characterId: 1 }, // Hardcoded characterId for now

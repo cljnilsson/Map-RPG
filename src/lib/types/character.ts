@@ -14,6 +14,7 @@ type Character = {
 	gender: "Male" | "Female" | "Unknown";
 	xp: number;
 	level: number;
+	unspentSkillPoints: number;
 	conditions: string[];
 	money: {
 		gold: number;

@@ -39,6 +39,9 @@
       // This works but updates slightly too late, either hide windows until API is called in the future or do it server side.
       for (const pos of slimmedPositions) {
         switch (pos.windowsKey) {
+          case "SkillPoints":
+            WindowController.getByName("SkillPoints").position = { x: pos.x, y: pos.y };
+            break;
           case "Quests":
             WindowController.getByName("Quests").position = {
               x: pos.x,

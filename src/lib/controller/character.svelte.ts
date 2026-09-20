@@ -1,6 +1,7 @@
 //import type { Character } from "#lib/types/character.js";
 import type { Item, VendorItem, InventoryItem } from "#lib/types/item.js";
 import type { Character } from "#lib/types/character.js";
+import { allocateSkillPoints } from "#lib/api/character.remote.js";
 import PlayerStore from "#lib/stores/character.svelte.js";
 import type { NPC } from "#lib/types/npc.js";
 import LogController from "#lib/controller/logs.svelte.js";
@@ -37,6 +38,13 @@ export class PlayerController extends CharacterController {
 
 	public static get stats() {
 		return PlayerController.safeGetCharacter().stats;
+	}
+
+	public static async allocateSkillPoints(allocation: Character["stats"]) {
+		const character = PlayerController.safeGetCharacter();
+		const result = await allocateSkillPoints({ characterId: character.id, allocation });
+		character.stats = result.stats;
+		character.unspentSkillPoints = result.unspentSkillPoints;
 	}
 
 	public static get imagePath() {
@@ -127,6 +135,10 @@ export class PlayerController extends CharacterController {
 
 	public static get level(): number {
 		return PlayerController.safeGetCharacter().level;
+	}
+
+	public static get unspentSkillPoints(): number {
+		return PlayerController.safeGetCharacter().unspentSkillPoints;
 	}
 
 	public static get xp(): number {

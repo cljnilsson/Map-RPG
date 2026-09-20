@@ -8,6 +8,13 @@
       "when": 1787172749472,
       "tag": "0000_add-account-issuer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789901489710,
+      "tag": "0001_character-skill-points",
+      "breakpoints": true
     }
   ]
 }

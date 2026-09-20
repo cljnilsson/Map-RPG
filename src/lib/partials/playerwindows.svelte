@@ -7,6 +7,7 @@
 	import EventWindow from "#lib/features/window/windows/events/events.svelte";
 	import QuestWindow from "#lib/features/window/windows/quest/quest.svelte";
 	import InventoryWindow from "#lib/features/window/windows/inventory/inventory.svelte";
+	import SkillPointsWindow from "#lib/features/window/windows/skillPoints/skillPoints.svelte";
 	import { isCityMap } from "#lib/typeguards/map.js";
 </script>
 
@@ -21,5 +22,6 @@
 	<NavigationWindow />
 {/if}
 <InventoryWindow />
+<SkillPointsWindow />
 <QuestWindow />
 <LogWindow />

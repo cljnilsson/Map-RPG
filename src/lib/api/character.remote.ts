@@ -4,6 +4,7 @@ import { characters, stats, stat, items } from "#lib/server/db/schema/index.js";
 import { eq, and } from "drizzle-orm";
 import * as v from "valibot";
 import { getUser } from "#lib/utils/remoteAuthHelper.js";
+import { allocatePoints } from "#lib/server/skillPoints.js";
 
 async function getCharacters(userId: string) {
 	return await db.query.characters.findMany({
@@ -231,3 +232,15 @@ async function save({ oldName, name, stats, xp, health, maxHealth, level, invent
 export const getAllCharacters = query(get);
 export const createCharacter = command(CreateCharacterSchema, create);
 export const saveCharacter = command(SaveCharacterSchema, save);
+
+const SkillPointAmount = v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(Number.MAX_SAFE_INTEGER));
+export const allocateSkillPoints = command(
+	v.object({
+		characterId: v.pipe(v.number(), v.integer(), v.minValue(1)),
+		allocation: v.object({ str: SkillPointAmount, dex: SkillPointAmount, int: SkillPointAmount, vit: SkillPointAmount, char: SkillPointAmount }),
+	}),
+	async ({ characterId, allocation }) => {
+		const user = await getUser();
+		return allocatePoints(db, user.id, characterId, allocation);
+	},
+);

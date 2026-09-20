@@ -55,6 +55,7 @@
         conditions: [],
         xp: character.xp,
         level: character.level,
+        unspentSkillPoints: character.unspentSkillPoints,
         faith: character.faith,
         class: character.class,
         imagePath: character.imagePath,

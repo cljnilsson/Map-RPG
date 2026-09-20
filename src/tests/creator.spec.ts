@@ -39,7 +39,7 @@ test("Stat '+' buttons are disabled when no points are left", () => {
 		},
 	});
 
-	const plusButtons = screen.getAllByRole("button", { name: "+" });
+	const plusButtons = screen.getAllByRole("button", { name: /^Increase / });
 	expect(plusButtons.length).toBe(1); // One for each stat
 	plusButtons.forEach((btn) => expect(btn).toBeDisabled());
 });
@@ -61,7 +61,7 @@ test("Stat '-' buttons are enabled and work", async () => {
 		},
 	});
 
-	const minusButtons = screen.getAllByRole("button", { name: "-" });
+	const minusButtons = screen.getAllByRole("button", { name: /^Decrease / });
 	expect(minusButtons.length).toBe(1);
 
 	// Get the "Vit" row and its current value

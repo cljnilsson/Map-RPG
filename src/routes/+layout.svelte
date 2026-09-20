@@ -66,6 +66,7 @@
                 xp: character.xp,
                 imagePath: character.imagePath,
                 level: character.level,
+                unspentSkillPoints: character.unspentSkillPoints,
                 stats: {
                     str: character.stats.filter((v) => v.name === "Strength")[0]
                         .value,

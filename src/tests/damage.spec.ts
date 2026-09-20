@@ -43,6 +43,7 @@ vi.mock("#lib/stores/character.svelte.js", () => {
 				gender: "Unknown",
 				xp: 0,
 				level: 1,
+				unspentSkillPoints: 0,
 				conditions: [],
 				money: {
 					gold: 1,

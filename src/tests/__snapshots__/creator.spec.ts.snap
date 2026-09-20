@@ -133,7 +133,7 @@ exports[`Creator renders with correct elements 1`] = `
                 class="c-stats"
               >
                 <div
-                  class="row justify-content-center align-items-center my-2 stat-Str"
+                  class="row justify-content-center align-items-center my-2 stat-Str text-dark"
                 >
                   <div
                     class="col-xl-2 col-md-4"
@@ -142,7 +142,7 @@ exports[`Creator renders with correct elements 1`] = `
                   </div>
                    
                   <div
-                    class="col-auto"
+                    class="col-auto fw-semibold"
                   >
                     6
                   </div>
@@ -151,7 +151,8 @@ exports[`Creator renders with correct elements 1`] = `
                     class="col-xl-2 col-md-6 text-center"
                   >
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Increase Str"
+                      class="btn btn-outline-dark "
                       disabled=""
                       type="button"
                     >
@@ -159,7 +160,8 @@ exports[`Creator renders with correct elements 1`] = `
                     </button>
                      
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Decrease Str"
+                      class="btn btn-outline-dark "
                       type="button"
                     >
                       -
@@ -169,7 +171,7 @@ exports[`Creator renders with correct elements 1`] = `
                 <!---->
                  
                 <div
-                  class="row justify-content-center align-items-center my-2 stat-Dex"
+                  class="row justify-content-center align-items-center my-2 stat-Dex text-dark"
                 >
                   <div
                     class="col-xl-2 col-md-4"
@@ -178,7 +180,7 @@ exports[`Creator renders with correct elements 1`] = `
                   </div>
                    
                   <div
-                    class="col-auto"
+                    class="col-auto fw-semibold"
                   >
                     6
                   </div>
@@ -187,7 +189,8 @@ exports[`Creator renders with correct elements 1`] = `
                     class="col-xl-2 col-md-6 text-center"
                   >
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Increase Dex"
+                      class="btn btn-outline-dark "
                       disabled=""
                       type="button"
                     >
@@ -195,7 +198,8 @@ exports[`Creator renders with correct elements 1`] = `
                     </button>
                      
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Decrease Dex"
+                      class="btn btn-outline-dark "
                       type="button"
                     >
                       -
@@ -205,7 +209,7 @@ exports[`Creator renders with correct elements 1`] = `
                 <!---->
                  
                 <div
-                  class="row justify-content-center align-items-center my-2 stat-Int"
+                  class="row justify-content-center align-items-center my-2 stat-Int text-dark"
                 >
                   <div
                     class="col-xl-2 col-md-4"
@@ -214,7 +218,7 @@ exports[`Creator renders with correct elements 1`] = `
                   </div>
                    
                   <div
-                    class="col-auto"
+                    class="col-auto fw-semibold"
                   >
                     6
                   </div>
@@ -223,7 +227,8 @@ exports[`Creator renders with correct elements 1`] = `
                     class="col-xl-2 col-md-6 text-center"
                   >
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Increase Int"
+                      class="btn btn-outline-dark "
                       disabled=""
                       type="button"
                     >
@@ -231,7 +236,8 @@ exports[`Creator renders with correct elements 1`] = `
                     </button>
                      
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Decrease Int"
+                      class="btn btn-outline-dark "
                       type="button"
                     >
                       -
@@ -241,7 +247,7 @@ exports[`Creator renders with correct elements 1`] = `
                 <!---->
                  
                 <div
-                  class="row justify-content-center align-items-center my-2 stat-Vit"
+                  class="row justify-content-center align-items-center my-2 stat-Vit text-dark"
                 >
                   <div
                     class="col-xl-2 col-md-4"
@@ -250,7 +256,7 @@ exports[`Creator renders with correct elements 1`] = `
                   </div>
                    
                   <div
-                    class="col-auto"
+                    class="col-auto fw-semibold"
                   >
                     6
                   </div>
@@ -259,7 +265,8 @@ exports[`Creator renders with correct elements 1`] = `
                     class="col-xl-2 col-md-6 text-center"
                   >
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Increase Vit"
+                      class="btn btn-outline-dark "
                       disabled=""
                       type="button"
                     >
@@ -267,7 +274,8 @@ exports[`Creator renders with correct elements 1`] = `
                     </button>
                      
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Decrease Vit"
+                      class="btn btn-outline-dark "
                       type="button"
                     >
                       -
@@ -277,7 +285,7 @@ exports[`Creator renders with correct elements 1`] = `
                 <!---->
                  
                 <div
-                  class="row justify-content-center align-items-center my-2 stat-Charisma"
+                  class="row justify-content-center align-items-center my-2 stat-Charisma text-dark"
                 >
                   <div
                     class="col-xl-2 col-md-4"
@@ -286,7 +294,7 @@ exports[`Creator renders with correct elements 1`] = `
                   </div>
                    
                   <div
-                    class="col-auto"
+                    class="col-auto fw-semibold"
                   >
                     6
                   </div>
@@ -295,7 +303,8 @@ exports[`Creator renders with correct elements 1`] = `
                     class="col-xl-2 col-md-6 text-center"
                   >
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Increase Charisma"
+                      class="btn btn-outline-dark "
                       disabled=""
                       type="button"
                     >
@@ -303,7 +312,8 @@ exports[`Creator renders with correct elements 1`] = `
                     </button>
                      
                     <button
-                      class="btn btn-outline-dark"
+                      aria-label="Decrease Charisma"
+                      class="btn btn-outline-dark "
                       type="button"
                     >
                       -

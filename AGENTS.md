@@ -64,6 +64,7 @@ Treat these directories as excluded from the codebase unless I explicitly ask yo
 
 - The database is SQLite via Drizzle and `better-sqlite3`; the database module throws if `DATABASE_URL` is absent.
 - When changing a schema, update the schema files and run the appropriate Drizzle workflow only when authorised. Never hand-edit a live database file.
+- A requested schema change includes applying its migration to the project's configured development database. Generating migration files alone is not completion: run the migration, verify the database has the new schema, and check that the affected application queries work before handing off. If migration fails, resolve it or explicitly report the blocker; do not leave the application using an unapplied schema. This does not authorize changes to production or unrelated databases, or running seeds unless requested.
 - Preserve the existing better-auth integration in `src/lib/auth.ts`, `src/lib/auth-client.ts`, and `src/hooks.server.ts`. Treat auth and user-owned data as sensitive.
 
 ## Quality checks

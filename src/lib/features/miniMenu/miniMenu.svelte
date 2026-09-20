@@ -4,9 +4,8 @@
 	import { cubicOut } from "svelte/easing";
 	import CharacterAvatar from "#lib/components/character/CharacterAvatar.svelte";
 	import WindowController from "#lib/controller/window.svelte.js";
-	import MapController from "#lib/controller/map.svelte.js";
+	import { PlayerController } from "#lib/controller/character.svelte.js";
 	import CharacterStatCollection from "#lib/components/character/CharacterStatCollection.svelte";
-	import { isCityMap } from "#lib/typeguards/map.js";
 	import { resolve } from "$app/paths";
 
 	const h = 140;
@@ -36,7 +35,21 @@
 >
 	<div class="row mb-3 g-0">
 		<div class="col-auto px-2">
-			<CharacterAvatar width={100} height={100} onClickCallback={onAvatarClick} />
+			<CharacterAvatar width={100} height={100} onClickCallback={onAvatarClick}>
+				{#snippet overlay()}
+					{#if PlayerController.unspentSkillPoints > 0}
+						<button
+							type="button"
+							class="btn btn-primary btn-sm position-absolute top-0 start-0 m-1 shadow"
+							aria-label={`Spend ${PlayerController.unspentSkillPoints} unspent skill points`}
+							onclick={() => {
+								const skillWindow = WindowController.getByName("SkillPoints");
+								skillWindow.visible = !skillWindow.visible;
+							}}
+						>{PlayerController.unspentSkillPoints} SP</button>
+					{/if}
+				{/snippet}
+			</CharacterAvatar>
 		</div>
 	</div>
 	<div class="row border-top">

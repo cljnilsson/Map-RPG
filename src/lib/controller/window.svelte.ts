@@ -107,7 +107,9 @@ export default class WindowController extends ClassInstanceList {
 	}
 
 	public static isWindowType(key: string): key is WindowTypes {
-		return ["Logger", "Navigator", "UnitManagement", "Resources", "Events", "Quests", "Inventory", "Vendor", "Roll", "Container", "InventorySplitter"].includes(key); // reuse windowtypes here
+		return ["Logger", "Navigator", "UnitManagement", "Resources", "Events", "Quests", "Inventory", "Vendor", "Roll", "Container", "InventorySplitter", "SkillPoints"].includes(
+			key,
+		); // reuse windowtypes here
 	}
 }
 
@@ -122,6 +124,7 @@ new WindowController(false, 300, 450, "Vendor");
 new WindowController(false, 800, 450, "Roll");
 new WindowController(false, 300, 400, "Container");
 new WindowController(false, 0, 0, "InventorySplitter");
+new WindowController(false, 600, 300, "SkillPoints");
 
 // Setting to initial visible values
 _openWindows = WindowController.all.filter((w): w is WindowController => w instanceof WindowController && w.visible);
