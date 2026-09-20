@@ -64,16 +64,37 @@ test("limits allocations to available points and saves only the chosen increases
 	expect(WindowController.getByName("SkillPoints").visible).toBe(false);
 });
 
-test("discards unsaved allocations when reopened", async () => {
+test.each(["toggle", "close"])("discards unsaved allocations when closed via %s", async (method) => {
 	player.unspentSkillPoints = 3;
 	render(MiniMenu);
 	render(SkillPoints);
 	const toggle = screen.getByRole("button", { name: "Spend 3 unspent skill points" });
 	await fireEvent.click(toggle);
 	await fireEvent.click(screen.getByRole("button", { name: "Increase Strength" }));
-	await fireEvent.click(toggle);
+	await fireEvent.click(method === "toggle" ? toggle : screen.getByRole("button", { name: /^Close$/ }));
 	await fireEvent.click(toggle);
 	expect(screen.getByRole("button", { name: "Save points" })).toBeDisabled();
+	expect(screen.getByRole("button", { name: "Revert" })).toBeDisabled();
+	expect(screen.getByRole("button", { name: "Decrease Strength" })).toBeDisabled();
+	expect(player.allocateSkillPoints).not.toHaveBeenCalled();
+});
+
+test("reverts pending allocations without saving or closing the window", async () => {
+	player.unspentSkillPoints = 3;
+	WindowController.getByName("SkillPoints").visible = true;
+	render(SkillPoints);
+	const revert = screen.getByRole("button", { name: "Revert" });
+	expect(revert).toBeDisabled();
+	await fireEvent.click(screen.getByRole("button", { name: "Increase Strength" }));
+	await fireEvent.click(screen.getByRole("button", { name: "Increase Dexterity" }));
+	expect(revert).toBeEnabled();
+	await fireEvent.click(revert);
+	expect(revert).toBeDisabled();
+	expect(screen.getByRole("button", { name: "Save points" })).toBeDisabled();
+	expect(screen.getByRole("button", { name: "Decrease Strength" })).toBeDisabled();
+	expect(screen.getByRole("button", { name: "Decrease Dexterity" })).toBeDisabled();
+	expect(screen.getByText(/Points remaining/)).toHaveTextContent("Points remaining: 3");
+	expect(WindowController.getByName("SkillPoints").visible).toBe(true);
 	expect(player.allocateSkillPoints).not.toHaveBeenCalled();
 });
 

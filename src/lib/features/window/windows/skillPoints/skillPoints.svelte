@@ -17,14 +17,20 @@
 	const spent = $derived(keys.reduce((sum, key) => sum + draft[key] - baseline[key], 0));
 	const remaining = $derived(available - spent);
 
+	function revert() {
+		draft = { ...baseline };
+		error = "";
+	}
+
 	$effect(() => {
 		if (skillWindow.visible) {
 			untrack(() => {
 				baseline = { ...PlayerController.stats };
-				draft = { ...baseline };
 				available = PlayerController.unspentSkillPoints;
-				error = "";
+				revert();
 			});
+		} else {
+			untrack(revert);
 		}
 	});
 
@@ -56,7 +62,10 @@
 			{#each keys as key (key)}
 				<CreatorStat size="sm" darkMode name={labels[key]} min={baseline[key]} max={baseline[key] + available} total={spent} totalMax={available} totalLeft={remaining} bind:stat={draft[key]} />
 			{/each}
-			<button type="button" class="btn btn-primary mt-2" disabled={spent <= 0 || remaining < 0} onclick={save}>{saving ? "Saving…" : "Save points"}</button>
+			<div class="d-flex gap-2 mt-2">
+				<button type="button" class="btn btn-primary" disabled={spent <= 0 || remaining < 0} onclick={save}>{saving ? "Saving…" : "Save points"}</button>
+				<button type="button" class="btn btn-outline-light" disabled={spent <= 0} onclick={revert}>Revert</button>
+			</div>
 		</fieldset>
 		{#if error}<p class="text-danger mt-2" role="alert">{error}</p>{/if}
 	{/snippet}
