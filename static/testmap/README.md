@@ -9,9 +9,11 @@ Isolated assets for `/testmap`. Generated with the built-in image-generation too
 Smaller locations reuse SVG viewBox crops of these illustrations. No extra downloaded assets or dependencies are used.
 Data: `src/lib/data/testmap.ts`. UI: `src/routes/testmap/+page.svelte`. Location types: `src/lib/types/testmap.ts`.
 
-Try Eldermere → Alderwick → The Gilded Lantern → The private study. Select a marker or list entry, then choose **Explore location**. Breadcrumbs jump to any ancestor; the back arrow goes up one level. Zoom before dragging to pan, or use the directional buttons that appear when zoomed. All controls are keyboard-accessible native buttons. Labels can be toggled. State is local to the page and resets on reload; no map controller, gameplay state, or database is changed by the prototype.
+Try Eldermere → Alderwick → The Gilded Lantern → The private study → Dining hall → North corridor → Dining hall. Select a marker or list entry, then choose **Explore location**. Breadcrumbs jump to a previous visit; the back arrow returns to the previous map in your actual travel history. Zoom before dragging to pan, or use the directional buttons that appear when zoomed. All controls are keyboard-accessible native buttons. Labels can be toggled. Navigation state is local to the page and resets on reload; atlas travel does not change the original map controller or database. The game UI below uses live character actions as described below.
 
-There is no fixed nesting limit: each location has its own children and image/viewBox. This demo has four levels. Leaf locations intentionally show an arrival state rather than a nonfunctional enter button. This is navigation only, not a map editor.
+Locations form a graph, not an ownership tree. `atlasLocations` defines each location once, keyed by ID. Each location has `links: { id, destinationId, x, y }[]`; coordinates belong to the link on its source map, not to the destination. Multiple links can target the same location, including multiple doors on one map. Link IDs are unique within each source map. Links are directional: add a reverse link explicitly when needed. The Dining hall is a single shared definition reached from both the study and North corridor, with links back to both.
+
+Breadcrumbs represent a sequence of visits, so loops and repeated locations are supported. Visited state and remembered camera positions are shared by location ID; selected markers use link IDs. Locations with no outgoing links show an arrival state. There is no fixed nesting limit. This is navigation only, not a map editor.
 
 ## Game UI
 

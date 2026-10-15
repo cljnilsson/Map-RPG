@@ -68,7 +68,8 @@
 <style>
 	#mini-menu {
 		backdrop-filter: blur(20px);
-		background-color: rgba(255, 255, 255, 0.5);
+		background-color: var(--theme-surface);
+		color: var(--bs-body-color);
 	}
 	button {
 		max-width: 100px;

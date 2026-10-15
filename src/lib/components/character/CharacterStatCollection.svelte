@@ -26,7 +26,8 @@
 
 <style>
 	.char-bg {
-		background: rgba(235, 235, 235, 0.6);
+		background: var(--bs-tertiary-bg);
+		color: var(--bs-body-color);
 		padding: 0.75rem;
 		&.left {
 			border-top-left-radius: 10px;

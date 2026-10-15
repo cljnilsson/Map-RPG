@@ -8,6 +8,11 @@
 	import ClickableElement from "#lib/components/utils/clickableElement.svelte";
 
 	let expanded = $state(true);
+	// Omit to retain the full menu on the original map.
+	let { availableWindows, unavailableWindows = {} }: {
+		availableWindows?: WindowTypes[];
+		unavailableWindows?: Partial<Record<WindowTypes, string>>;
+	} = $props();
 
 	function toggleWindow(name: WindowTypes) {
 		const win = WindowController.getByName(name);
@@ -30,25 +35,28 @@
 </script>
 
 <div
-	id="mini-menu"
+	id="window-menu"
 	class="position-fixed bottom-0 end-0 m-3 rounded border shadow p-2 d-flex align-items-center"
 	style="z-index: 1050;"
 	class:d-none={DialogueController.inDialogue}
 >
 	{#if expanded}
 		{#each menuItems as { iconPath, name, label, cityOnly } (name)}
+			{#if !availableWindows || availableWindows.includes(name)}
 
 			<Icon
 				{iconPath}
-				alt=""
+				alt={label}
 				onClickCallback={() => toggleWindow(name)}
-				disabled={cityOnly ? !isCityMap(MapController.currentMapState.map) : false}
-				currentlyActive={WindowController.getByName(name).visible}
+				disabled={!!unavailableWindows[name] || (cityOnly && !isCityMap(MapController.currentMapState.map))}
+				currentlyActive={!unavailableWindows[name] && WindowController.getByName(name).visible}
 			>
 				{#snippet tooltipHtml()}
 					<h5 class="mb-0">{label}</h5>
+					{#if unavailableWindows[name]}<p class="mb-0 mt-1">{unavailableWindows[name]}</p>{/if}
 				{/snippet}
 			</Icon>
+			{/if}
 		{/each}
 	{/if}
 
@@ -61,9 +69,10 @@
 </div>
 
 <style>
-	#mini-menu {
+	#window-menu {
 		backdrop-filter: blur(20px);
-		background-color: rgba(255, 255, 255, 0.5);
+		background-color: var(--theme-surface);
+		color: var(--bs-body-color);
 	}
 
 	i {

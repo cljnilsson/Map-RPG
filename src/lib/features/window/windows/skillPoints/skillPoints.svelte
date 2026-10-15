@@ -5,6 +5,7 @@
 	import CreatorStat from "#lib/features/creator/creatorStat.svelte";
 	import type { Character } from "#lib/types/character.js";
 	import { untrack } from "svelte";
+	import ThemeController from "#lib/controller/theme.svelte.js";
 
 	const skillWindow = WindowController.getByName("SkillPoints");
 	const labels = { str: "Strength", dex: "Dexterity", int: "Intelligence", vit: "Vitality", char: "Charisma" };
@@ -60,11 +61,11 @@
 		<fieldset disabled={saving}>
 			<legend class="visually-hidden">Allocate skill points</legend>
 			{#each keys as key (key)}
-				<CreatorStat size="sm" darkMode name={labels[key]} min={baseline[key]} max={baseline[key] + available} total={spent} totalMax={available} totalLeft={remaining} bind:stat={draft[key]} />
+				<CreatorStat size="sm" darkMode={ThemeController.theme === "dark"} name={labels[key]} min={baseline[key]} max={baseline[key] + available} total={spent} totalMax={available} totalLeft={remaining} bind:stat={draft[key]} />
 			{/each}
 			<div class="d-flex gap-2 mt-2">
 				<button type="button" class="btn btn-primary" disabled={spent <= 0 || remaining < 0} onclick={save}>{saving ? "Saving…" : "Save points"}</button>
-				<button type="button" class="btn btn-outline-light" disabled={spent <= 0} onclick={revert}>Revert</button>
+				<button type="button" class="btn btn-outline-secondary" disabled={spent <= 0} onclick={revert}>Revert</button>
 			</div>
 		</fieldset>
 		{#if error}<p class="text-danger mt-2" role="alert">{error}</p>{/if}

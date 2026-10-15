@@ -190,10 +190,10 @@ let visibilityPriority = $derived(
 <style>
 	.overlay-rect {
 		position: fixed;
-		border: 2px solid black;
+		border: 2px solid var(--bs-border-color);
 		border-radius: 10px;
-		background-color: rgba(0, 0, 0, 0.6);
-		color: white;
+		background-color: var(--theme-editor-surface);
+		color: var(--bs-body-color);
 		overflow: hidden;
 	}
 
@@ -207,6 +207,6 @@ let visibilityPriority = $derived(
 	}
 
 	.dragging {
-		border-color: rgb(103, 176, 255);
+		border-color: var(--bs-primary);
 	}
 </style>

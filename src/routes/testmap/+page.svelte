@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { atlas } from "#lib/data/testmap.js";
+	import { atlas, atlasLocations } from "#lib/data/testmap.js";
 	import type { AtlasLocation } from "#lib/types/testmap.js";
 	import { fade } from "svelte/transition";
 	import { onMount } from "svelte";
@@ -10,7 +10,8 @@
 	let views = $state<Record<string, View>>({ [atlas.id]: { zoom: 1, x: 0, y: 0, selected: null } });
 	const current = $derived(trail[trail.length - 1]);
 	const view = $derived(views[current.id]);
-	const selected = $derived(current.children.find((place) => place.id === view.selected));
+	const destinations = $derived(current.links.map((link) => ({ link, place: atlasLocations[link.destinationId] })));
+	const selected = $derived(destinations.find(({ link }) => link.id === view.selected)?.place);
 	const detail = $derived(selected ?? current);
 	let visited = $state<string[]>([atlas.id]);
 	let labels = $state(true);
@@ -81,33 +82,26 @@
 <svelte:head><title>The Atlas · Map navigation experiment</title><meta name="description" content="An isolated, illustrated map-navigation prototype for Map-RPG." /></svelte:head>
 
 <main class="atlas-shell">
-	<header class="atlas-header d-flex align-items-center justify-content-between gap-3 flex-wrap">
-		<div class="d-flex align-items-center gap-3">
-			<div class="brand-mark" aria-hidden="true"><i class="bi bi-compass"></i></div>
-			<div><p class="eyebrow mb-1">A world within a world</p><h1>The Atlas<span class="edition"> / exploration study</span></h1></div>
-		</div>
-		<span class="prototype-badge"><span></span> Navigation prototype</span>
-	</header>
 
 	<div class="atlas-workspace">
 		<div class="trail-bar d-flex align-items-center gap-3">
-			<button class="atlas-button back-button" type="button" disabled={trail.length === 1} onclick={() => goTo(trail.length - 2)} aria-label="Back to parent map"><i class="bi bi-arrow-left" aria-hidden="true"></i></button>
+			<button class="atlas-button back-button" type="button" disabled={trail.length === 1} onclick={() => goTo(trail.length - 2)} aria-label="Back to previous map"><i class="bi bi-arrow-left" aria-hidden="true"></i></button>
 			<nav aria-label="Map hierarchy"><ol class="d-flex align-items-center flex-wrap gap-2 m-0 p-0">
-				{#each trail as place, index (place.id)}
+				{#each trail as place, index (index)}
 					<li class="d-flex align-items-center gap-2">
 						{#if index > 0}<i class="bi bi-chevron-right" aria-hidden="true"></i>{/if}
 						<button type="button" class:current={index === trail.length - 1} aria-current={index === trail.length - 1 ? "location" : undefined} onclick={() => goTo(index)}>{place.name}</button>
 					</li>
 				{/each}
 			</ol></nav>
-			<span class="depth-label ms-auto">Layer {String(trail.length).padStart(2, "0")}</span>
+			<span class="depth-label ms-auto">Stop {String(trail.length).padStart(2, "0")}</span>
 		</div>
 
 		<div class="atlas-layout">
 			<section class="map-section" aria-label="Interactive map">
 				<div class="map-heading d-flex justify-content-between align-items-end gap-2">
-					<div><p class="eyebrow mb-1">{current.kind} atlas</p><h2 bind:this={heading} tabindex="-1">{current.name}</h2></div>
-					<span class="map-count">{current.children.length ? `${current.children.length} places to explore` : "You have arrived"}</span>
+					<div><p class="eyebrow mb-1">{current.kind} atlas</p><h1 bind:this={heading} tabindex="-1">{current.name}</h1></div>
+					<span class="map-count">{current.links.length ? `${current.links.length} paths to explore` : "You have arrived"}</span>
 				</div>
 				<div class="map-frame">
 					<fieldset class="map-viewport" aria-label={`${current.name} map locations`} class:dragging={dragging} class:zoomed={view.zoom > 1} bind:this={viewport} bind:clientWidth={viewportWidth} bind:clientHeight={viewportHeight}
@@ -117,12 +111,12 @@
 								<svg class="map-art" viewBox={current.viewBox ?? "0 0 1536 1024"} preserveAspectRatio="xMidYMid slice" role="img" aria-label={`Illustrated map of ${current.name}`}>
 									<image href={current.image} width="1536" height="1024" onerror={() => { imageError = true; }} />
 								</svg>
-								{#each current.children as place (place.id)}
-									<button type="button" class="map-pin" class:selected={selected?.id === place.id} style:left={`${place.x}%`} style:top={`${place.y}%`}
-										style:transform={`translate(-50%, -50%) scale(${1 / view.zoom})`} aria-label={`Inspect ${place.name}, ${place.kind}`} aria-pressed={selected?.id === place.id}
-										onclick={() => { view.selected = place.id; }}>
+								{#each destinations as { link, place } (link.id)}
+									<button type="button" class="map-pin" class:selected={view.selected === link.id} style:left={`${link.x}%`} style:top={`${link.y}%`}
+										style:transform={`translate(-50%, -50%) scale(${1 / view.zoom})`} aria-label={`Inspect ${place.name}, ${place.kind}`} aria-pressed={view.selected === link.id}
+										onclick={() => { view.selected = link.id; }}>
 										<span class="pin-emblem"><i class={`bi bi-${place.icon}`} aria-hidden="true"></i></span>
-										<span class="pin-label" class:label-hidden={!labels && selected?.id !== place.id}>{place.name}</span>
+										<span class="pin-label" class:label-hidden={!labels && view.selected !== link.id}>{place.name}</span>
 										{#if visited.includes(place.id)}<span class="visited-dot" aria-hidden="true"></span>{/if}
 									</button>
 								{/each}
@@ -157,19 +151,18 @@
 					<h3>{detail.name}</h3><p class="description">{detail.description}</p>
 					<div class="features d-flex flex-wrap gap-2">{#each detail.features as feature (feature)}<span>{feature}</span>{/each}</div>
 					{#if selected}<button class="enter-button btn w-100" type="button" onclick={() => { if (selected) enter(selected); }}>Explore location <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
-					{:else if current.children.length}<p class="selection-hint"><i class="bi bi-cursor" aria-hidden="true"></i> Choose a marker or a place below.</p>
+					{:else if current.links.length}<p class="selection-hint"><i class="bi bi-cursor" aria-hidden="true"></i> Choose a marker or a place below.</p>
 					{:else}<div class="arrival-note"><i class="bi bi-check2-circle" aria-hidden="true"></i> A little world of its own.<small>This is the end of this demo branch. Any location can contain another map.</small></div><button type="button" class="enter-button btn w-100" onclick={() => goTo(trail.length - 2)}>Return to {trail[trail.length - 2]?.name}</button>{/if}
 				</div>
-				{#if current.children.length}<div class="places-list"><p class="eyebrow">In this area <span>{current.children.length}</span></p>
-					{#each current.children as place, index (place.id)}<button type="button" class="place-row" class:active={selected?.id === place.id} aria-pressed={selected?.id === place.id} onclick={() => { view.selected = place.id; }}>
+				{#if current.links.length}<div class="places-list"><p class="eyebrow">Connected places <span>{current.links.length}</span></p>
+					{#each destinations as { link, place }, index (link.id)}<button type="button" class="place-row" class:active={view.selected === link.id} aria-pressed={view.selected === link.id} onclick={() => { view.selected = link.id; }}>
 						<span class="place-number">{String(index + 1).padStart(2, "0")}</span><span class="place-name">{place.name}<small>{place.kind}</small></span><i class={`bi bi-${visited.includes(place.id) ? "check2" : "arrow-up-right"}`} aria-hidden="true"></i>
 					</button>{/each}
 				</div>{/if}
 			</aside>
 		</div>
 	</div>
-	<GameHud location={current.name} />
-	<footer class="prototype-footer d-flex justify-content-between gap-3 flex-wrap"><span><i class="bi bi-bezier2" aria-hidden="true"></i> Demo geography · City resources and units not connected</span><span>Live character tools · Saved actions affect your character</span></footer>
+	<GameHud />
 </main>
 
 <style lang="scss">
@@ -177,15 +170,11 @@
 		--ink: #253c35; --muted: #75766a; --paper: #f1ecdf; --gold: #c6a66c;
 		max-width: 1680px; margin: 0 auto; padding: 2rem clamp(1rem, 3vw, 3rem); color: var(--ink);
 		font-family: system-ui, sans-serif;
-		h1, h2, h3 { font-family: "IM Fell English", Georgia, serif; }
+		h1, h3 { font-family: "IM Fell English", Georgia, serif; }
 		button { transition: background-color 150ms, color 150ms, box-shadow 150ms; }
 		button:focus-visible { outline: 3px solid #e1a843; outline-offset: 4px; }
 	}
-	.atlas-header { margin-bottom: 1.6rem; color: #f5ecd6; text-shadow: 0 1px 5px #142b26; h1 { font-size: 2.5rem; margin: 0; } .eyebrow { color: #e6d4b0; } }
-	.brand-mark { font-size: 2.6rem; color: #e4c590; }
-	.edition { font: italic 1rem Georgia, serif; color: #e6d4b0; margin-left: .6rem; }
 	.eyebrow { font-size: .64rem; text-transform: uppercase; letter-spacing: .18em; font-weight: 700; color: var(--muted); }
-	.prototype-badge { font-size: .7rem; background: #142c26df; border: 1px solid #c6a66c60; border-radius: 30px; padding: .6rem 1rem; span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #c6a66c; margin-right: .5rem; } }
 	.atlas-workspace { background: var(--paper); border: 1px solid #d1c8b3; border-radius: 12px; box-shadow: 0 24px 70px #08171360; overflow: hidden; }
 	.trail-bar { min-height: 65px; padding: .7rem 1.4rem; border-bottom: 1px solid #d8d0bd; background: #e9e3d5; nav button { background: transparent; border: 0; color: #6b7367; font-size: .78rem; padding: .35rem .1rem; &.current { color: #243f34; font-weight: 700; } &:hover { color: #966b29; } } li > i { font-size: .55rem; color: #8d9382; } }
 	.depth-label { font-size: .62rem; text-transform: uppercase; letter-spacing: .13em; white-space: nowrap; color: #7e8073; }
@@ -193,7 +182,7 @@
 	.back-button { border-color: #ccc4af; &:hover:not(:disabled) { background: #fff8; } }
 	.atlas-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; }
 	.map-section { min-width: 0; padding: 1.5rem; }
-	.map-heading { margin-bottom: 1.15rem; h2 { margin: 0; font-size: 2rem; outline: none; } }
+	.map-heading { margin-bottom: 1.15rem; h1 { margin: 0; font-size: 2rem; outline: none; } }
 	.map-count { font-size: .68rem; color: var(--muted); padding-bottom: .25rem; }
 	.map-frame { position: relative; border: 5px solid #ded5bf; outline: 1px solid #c5bca6; border-radius: 3px; background: #d5ceb9; }
 	.map-viewport { position: relative; width: 100%; min-width: 0; padding: 0; margin: 0; border: 0; aspect-ratio: 3 / 2; overflow: hidden; isolation: isolate; &.zoomed { cursor: grab; touch-action: none; } &.dragging { cursor: grabbing; } }
@@ -224,10 +213,9 @@
 	.place-row { width: 100%; display: flex; text-align: left; align-items: center; gap: .8rem; background: transparent; color: #e0e6d9; border: 1px solid transparent; border-bottom-color: #ffffff10; padding: .85rem .4rem; border-radius: 3px; &:hover, &.active { background: #ffffff09; border-color: #c9ad7650; } > i { margin-left: auto; color: #b9a273; font-size: .8rem; } }
 	.place-number { color: #82927b; font-size: .6rem; }
 	.place-name { font-size: .76rem; small { display: block; font-size: .6rem; color: #9eae96; margin-top: .2rem; } }
-	.prototype-footer { padding: 1.1rem .2rem 0; font-size: .65rem; color: #f0e4c9; text-shadow: 0 1px 4px #0a201b; i { margin-right: .5rem; } }
 	.image-error { position: absolute; inset: 0; display: grid; place-items: center; padding: 2rem; background: #e8dfc7; }
 	@media (min-width: 1500px) { .atlas-layout { grid-template-columns: minmax(0, 1fr) 330px; } }
-	@media (max-width: 1000px) { .atlas-layout { grid-template-columns: minmax(0, 1fr) 260px; } .map-section { padding: 1rem; } .detail-content, .places-list { padding: 1rem; } .edition, .depth-label { display: none; } }
-	@media (max-width: 760px) { .atlas-layout { grid-template-columns: 1fr; } .atlas-header h1 { font-size: 2rem; } .atlas-shell { padding: 1rem .7rem; } .prototype-badge { font-size: .6rem; } .map-heading h2 { font-size: 1.7rem; } .map-count { font-size: .6rem; } .map-section { padding: .8rem; } .trail-bar { padding: .6rem .8rem; } .detail-art { height: 80px; } .map-pin .pin-label { font-size: .6rem; padding: .2rem .35rem; } .map-tools { bottom: 8px; left: 8px; } .compass { top: 8px; right: 8px; } }
+	@media (max-width: 1000px) { .atlas-layout { grid-template-columns: minmax(0, 1fr) 260px; } .map-section { padding: 1rem; } .detail-content, .places-list { padding: 1rem; } .depth-label { display: none; } }
+	@media (max-width: 760px) { .atlas-layout { grid-template-columns: 1fr; } .atlas-shell { padding: 1rem .7rem; } .map-heading h1 { font-size: 1.7rem; } .map-count { font-size: .6rem; } .map-section { padding: .8rem; } .trail-bar { padding: .6rem .8rem; } .detail-art { height: 80px; } .map-pin .pin-label { font-size: .6rem; padding: .2rem .35rem; } .map-tools { bottom: 8px; left: 8px; } .compass { top: 8px; right: 8px; } }
 	@media (prefers-reduced-motion: reduce) { .atlas-shell button, .map-pin .pin-emblem { transition: none; } }
 </style>
